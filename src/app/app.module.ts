@@ -7,13 +7,15 @@ import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomepagebannerComponent } from './components/homepagebanner/homepagebanner.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SearchbarComponent } from './components/searchbar/searchbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    HomepagebannerComponent
+    HomepagebannerComponent,
+    SearchbarComponent
   ],
   imports: [
     BrowserModule,
