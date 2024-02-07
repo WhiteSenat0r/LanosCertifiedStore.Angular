@@ -1,0 +1,10 @@
+ .image-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.image-block img {
+    max-width: 90%;
+    height: auto;
+}
+ 
