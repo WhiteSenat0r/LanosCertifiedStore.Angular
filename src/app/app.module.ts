@@ -9,6 +9,7 @@ import { HomepagebannerComponent } from './components/homepagebanner/homepageban
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import {CatalogpageComponent} from "./components/catalogpage/catalogpage.component";
+import { TilehomepageComponent } from './components/tilehomepage/tilehomepage.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {CatalogpageComponent} from "./components/catalogpage/catalogpage.compone
     HeaderComponent,
     HomepagebannerComponent,
     SearchbarComponent,
-    CatalogpageComponent
+    CatalogpageComponent,
+    TilehomepageComponent
   ],
   imports: [
     BrowserModule,
