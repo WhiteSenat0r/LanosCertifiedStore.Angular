@@ -12,6 +12,8 @@ import {CatalogpageComponent} from "./components/catalogpage/catalogpage.compone
 import { TilehomepageComponent } from './components/tilehomepage/tilehomepage.component';
 import { CardsComponent } from './components/cards/cards.component';
 import { CarinfopageComponent } from './components/carinfopage/carinfopage.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,14 +24,20 @@ import { CarinfopageComponent } from './components/carinfopage/carinfopage.compo
     SearchbarComponent,
     CatalogpageComponent,
     TilehomepageComponent,
+<<<<<<< Updated upstream
     CardsComponent
     CarinfopageComponent
 
+=======
+    CarinfopageComponent,
+    FooterComponent
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
