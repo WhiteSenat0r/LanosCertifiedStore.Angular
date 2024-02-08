@@ -10,6 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import {CatalogpageComponent} from "./components/catalogpage/catalogpage.component";
 import { TilehomepageComponent } from './components/tilehomepage/tilehomepage.component';
+import { CarinfopageComponent } from './components/carinfopage/carinfopage.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TilehomepageComponent } from './components/tilehomepage/tilehomepage.co
     HomepagebannerComponent,
     SearchbarComponent,
     CatalogpageComponent,
-    TilehomepageComponent
+    TilehomepageComponent,
+    CarinfopageComponent
   ],
   imports: [
     BrowserModule,
