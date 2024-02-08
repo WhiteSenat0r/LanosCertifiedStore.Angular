@@ -4,6 +4,7 @@ import { HomepagebannerComponent } from './components/homepagebanner/homepageban
 import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { CatalogpageComponent} from "./components/catalogpage/catalogpage.component";
 import { TilehomepageComponent } from './components/tilehomepage/tilehomepage.component';
+import { CardsComponent } from './components/cards/cards.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,11 @@ const routes: Routes = [
   {
     path: 'tile',
     component : TilehomepageComponent,
-  }
+  },
+  {
+    path: 'cards',
+    component : CardsComponent,
+  },
 ];
 
 @NgModule({
