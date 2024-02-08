@@ -11,6 +11,7 @@ import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import {CatalogpageComponent} from "./components/catalogpage/catalogpage.component";
 import { TilehomepageComponent } from './components/tilehomepage/tilehomepage.component';
 import { CardsComponent } from './components/cards/cards.component';
+import { CarinfopageComponent } from './components/carinfopage/carinfopage.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,8 @@ import { CardsComponent } from './components/cards/cards.component';
     CatalogpageComponent,
     TilehomepageComponent,
     CardsComponent
+    CarinfopageComponent
+
   ],
   imports: [
     BrowserModule,
