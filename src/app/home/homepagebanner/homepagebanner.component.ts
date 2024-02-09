@@ -8,6 +8,6 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./homepagebanner.component.css']
 })
 export class HomepagebannerComponent {
-userIcon = faUser
-likeIcon = faHeart
+  userIcon = faUser
+  likeIcon = faHeart
 }
