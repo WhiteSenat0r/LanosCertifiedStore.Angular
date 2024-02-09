@@ -14,6 +14,7 @@ import { CardsComponent } from './components/cards/cards.component';
 import { CarinfopageComponent } from './components/carinfopage/carinfopage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './components/footer/footer.component';
+import { AddcarformComponent } from './components/addcarform/addcarform.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +25,11 @@ import { FooterComponent } from './components/footer/footer.component';
     SearchbarComponent,
     CatalogpageComponent,
     TilehomepageComponent,
-<<<<<<< Updated upstream
-    CardsComponent
-    CarinfopageComponent
-
-=======
+    CardsComponent,
     CarinfopageComponent,
-    FooterComponent
->>>>>>> Stashed changes
+    AddcarformComponent,
+    CarinfopageComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
