@@ -5,6 +5,8 @@ import { SearchbarComponent } from './components/searchbar/searchbar.component';
 import { CatalogpageComponent} from "./components/catalogpage/catalogpage.component";
 import { TilehomepageComponent } from './components/tilehomepage/tilehomepage.component';
 import { CardsComponent } from './components/cards/cards.component';
+import { CarinfopageComponent } from './components/carinfopage/carinfopage.component';
+import { AddcarformComponent } from './components/addcarform/addcarform.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,10 @@ const routes: Routes = [
   {
     path: 'cards',
     component : CardsComponent,
+  },
+  {
+    path: 'addcar',
+    component : AddcarformComponent,
   },
 ];
 
