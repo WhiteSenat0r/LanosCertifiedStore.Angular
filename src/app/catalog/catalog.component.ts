@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-catalogpage',
-  templateUrl: './catalogpage.component.html',
-  styleUrls: ['./catalogpage.component.css']
+  selector: 'app-catalog',
+  templateUrl: './catalog.component.html',
+  styleUrls: ['./catalog.component.css']
 })
-export class CatalogpageComponent {
+export class CatalogComponent {
   showDropdown: boolean = false;
 
   toggleDropdown() {
