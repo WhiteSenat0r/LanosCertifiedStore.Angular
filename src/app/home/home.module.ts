@@ -5,6 +5,7 @@ import { CardsComponent } from './cards/cards.component';
 import { HomepagebannerComponent } from './homepagebanner/homepagebanner.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { HomeComponent } from './home.component';
 
 
 
@@ -13,13 +14,15 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     TilehomepageComponent,
     CardsComponent,
     HomepagebannerComponent,
-    SearchbarComponent
+    SearchbarComponent,
+    HomeComponent
   ],
   exports: [
     CardsComponent,
     HomepagebannerComponent,
     SearchbarComponent,
-    TilehomepageComponent
+    TilehomepageComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
