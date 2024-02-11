@@ -9,15 +9,20 @@ import {Brand} from "../../shared/models/brand";
   styleUrls: ['./type-select-item.component.css']
 })
 export class TypeSelectItemComponent {
-  selectedOption = '';
+  selectedOption: Type | null = null;
+
   isDropdownVisible = true;
 
-
-  types: Type[] = [{id: 1, name: "1type"},
+  types: Type[] = [
+    {id: 1, name: "1type"},
     {id: 2, name: "2 type"},
     {id: 3, name: "3 type"}];
 
   toggleDropdown() {
     this.isDropdownVisible = !this.isDropdownVisible
+  }
+
+  selectOption(option: Type) {
+    this.selectedOption = option;
   }
 }
