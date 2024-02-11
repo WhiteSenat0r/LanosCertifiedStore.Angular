@@ -6,6 +6,8 @@ import { HomepagebannerComponent } from './homepagebanner/homepagebanner.compone
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import { HomeComponent } from './home.component';
+import {RouterLink, RouterModule} from "@angular/router";
+import {CatalogRoutingModule} from "../catalog/catalog-routing.module";
 
 
 
@@ -24,9 +26,10 @@ import { HomeComponent } from './home.component';
     TilehomepageComponent,
     HomeComponent
   ],
-  imports: [
-    CommonModule,
-    FontAwesomeModule
-  ]
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        RouterLink,
+    ]
 })
 export class HomeModule { }
