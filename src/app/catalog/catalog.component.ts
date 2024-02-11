@@ -1,18 +1,48 @@
-import { Component } from '@angular/core';
-import {Type} from "../shared/models/type";
-import {Brand} from "../shared/models/brand";
+import { Component, OnInit } from '@angular/core';
+import { Type } from "../shared/models/type";
+import { Brand } from "../shared/models/brand";
+import { CatalogService } from './catalog.service';
+import { Vehicle } from '../shared/models/vehicle';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css']
 })
-export class CatalogComponent {
-  showDropdown: boolean = false;
+export class CatalogComponent implements OnInit {
+  types: Type[] = [];
+  vehicles: Vehicle[] = [];
 
+  constructor(private catalogService: CatalogService) { };
 
+  ngOnInit(): void {
+    this.getTypes();
+    this.getVehicles();
+  }
 
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown
+  getVehicles() {
+    this.catalogService.getVehicles().subscribe({
+      next: (response: any) => {
+        this.vehicles = response.items.map((item: any) => ({
+          id: item.id,
+          description: item.description,
+          vehicleType: item.type,
+          vehicleBrand: item.brand,
+          vehicleModel: item.model,
+          vehicleColor: item.color,
+          displacement: item.displacement,
+          prices: item.prices
+        }));
+      },
+      error: error => console.error(),
+      complete: () => console.log("Vehicles were successfully added"),
+    });
+  }
+
+  getTypes() {
+    this.catalogService.getTypes().subscribe({
+      next: response => this.types = response,
+      error: error => console.error()
+    })
   }
 }
