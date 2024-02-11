@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {brands} from "@fortawesome/fontawesome-svg-core/import.macro";
 import {Type} from "../../shared/models/type";
 import {Brand} from "../../shared/models/brand";
@@ -11,12 +11,9 @@ import {Brand} from "../../shared/models/brand";
 export class TypeSelectItemComponent {
   selectedOption: Type | null = null;
 
-  isDropdownVisible = true;
+  isDropdownVisible = false;
 
-  types: Type[] = [
-    {id: 1, name: "1type"},
-    {id: 2, name: "2 type"},
-    {id: 3, name: "3 type"}];
+  @Input() types: Type[] = [];
 
   toggleDropdown() {
     this.isDropdownVisible = !this.isDropdownVisible
