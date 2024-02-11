@@ -1,0 +1,54 @@
+.button{
+  display: inline-block;
+  padding: 8px 20px ;
+  background-color: transparent;
+
+  border-width: thick;
+  border-radius: 10px;
+  width: 200px;
+
+  cursor: pointer;
+  margin-right: 100px;
+
+  position: relative;
+}
+
+.button .dropdown{
+  display: none;
+  position: absolute;
+  width: 200px;
+  box-shadow: 5px 5px 4px #ccc;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  top: 120%;
+  left: 0;
+  border: 1px solid #cccccc;
+}
+
+.button:focus .dropdown {
+  display: block;
+}
+
+.button .dropdown ul {
+  list-style: none;
+}
+
+ul li{
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
+
+
+}
+
+ul a{
+  display: block;
+  text-decoration: none;
+  color: #000000;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: left;
+}
+
+ul a:hover{
+  background-color: rgba(255, 224, 0, 0.3);
+}

@@ -1,0 +1,22 @@
+<div class="type-select-item">
+  <button class="button">
+    <div (click)="toggleDropdown()" style="display: flex; width: 100%; justify-content: space-between">
+      {{ selectedOption || "Category..." }}
+      <span *ngIf="selectedOption == ''">стрілка</span>
+      <span *ngIf="selectedOption" style="display: block; padding: 2px" (click)="selectedOption = ''">x</span>
+    </div>
+
+    <div class="dropdown" [ngStyle]="{'display': isDropdownVisible ? 'block' : 'none'}">
+      <ul>
+        <li *ngFor="let type of types">
+          <a (click)="selectedOption=type.name; toggleDropdown()" >
+            {{ type.name }}
+          </a></li>
+      </ul>
+    </div>
+  </button>
+
+</div>
+
+
+
