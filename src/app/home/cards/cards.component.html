@@ -1,73 +1,16 @@
-<div class="p-2 w-10/12 h-dvh mx-auto grid grid-cols-3 gap-6">
-  <!-- Карточка 1 -->
-  <div class="bg-white rounded-lg overflow-hidden shadow-md">
-    <img src="./assets/images/cars/car3.png" alt="Фото 1" class="w-full h-2/3 object-cover">
+<div class="p-2 w-10/12 h-dvh mx-auto grid grid-cols-3 gap-6 mb-4">
+  <div *ngFor="let card of cards" class="bg-white rounded-lg overflow-hidden shadow-md"
+       (mouseenter)="card.isHovered = true" (mouseleave)="card.isHovered = false">
+    <img src="{{card.imageUrl}}" alt="{{card.title}}" class="w-full h-2/3 object-cover"
+         [ngClass]="{'hovered': card.isHovered}">
     <div class="p-4">
-      <h3 class="text-xl font-semibold mb-2">Заголовок 1</h3>
-      <div class="text-gray-700"><strong class="nowrap">379 500 грн</strong>
+      <h3 class="text-xl font-semibold mb-2">{{card.title}}</h3>
+      <div class="text-gray-700">
+        <strong class="nowrap">{{card.priceUAH}}</strong>
         <span class="dot"> · </span>
-        <span class="nowrap">10 000 $</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Карточка 2 -->
-  <div class="bg-white rounded-lg overflow-hidden shadow-md">
-    <img src="./assets/images/cars/car3.png" alt="Фото 2" class="w-full h-2/3 object-cover">
-    <div class="p-4">
-      <h3 class="text-xl font-semibold mb-2">Заголовок 2</h3>
-      <div class="text-gray-700"><strong class="nowrap">379 500 грн</strong>
-        <span class="dot"> · </span>
-        <span class="nowrap">10 000 $</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Карточка 3 -->
-  <div class="bg-white rounded-lg overflow-hidden shadow-md">
-    <img src="./assets/images/cars/car3.png" alt="Фото 3" class="w-full h-2/3 object-cover">
-    <div class="p-4">
-      <h3 class="text-xl font-semibold mb-2">Заголовок 3</h3>
-      <div class="text-gray-700"><strong class="nowrap">379 500 грн</strong>
-        <span class="dot"> · </span>
-        <span class="nowrap">10 000 $</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Карточка 4 -->
-  <div class="bg-white rounded-lg overflow-hidden shadow-md">
-    <img src="./assets/images/cars/car3.png" alt="Фото 4" class="w-full h-2/3 object-cover">
-    <div class="p-4">
-      <h3 class="text-xl font-semibold mb-2">Заголовок 4</h3>
-      <div class="text-gray-700"><strong class="nowrap">379 500 грн</strong>
-        <span class="dot"> · </span>
-        <span class="nowrap">10 000 $</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Карточка 5 -->
-  <div class="bg-white rounded-lg overflow-hidden shadow-md">
-    <img src="./assets/images/cars/car3.png" alt="Фото 5" class="w-full h-2/3 object-cover">
-    <div class="p-4">
-      <h3 class="text-xl font-semibold mb-2">Заголовок 5</h3>
-      <div class="text-gray-700"><strong class="nowrap">379 500 грн</strong>
-        <span class="dot"> · </span>
-        <span class="nowrap">10 000 $</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Карточка 6 -->
-  <div class="bg-white rounded-lg overflow-hidden shadow-md">
-    <img ssrc="./assets/images/cars/car3.png" alt="Фото 6" class="w-full h-2/3 object-cover">
-    <div class="p-4">
-      <h3 class="text-xl font-semibold mb-2">Заголовок 6</h3>
-      <div class="text-gray-700"><strong class="nowrap">379 500 грн</strong>
-        <span class="dot"> · </span>
-        <span class="nowrap">10 000 $</span>
+        <span class="nowrap">{{card.priceUSD}}</span>
       </div>
     </div>
   </div>
 </div>
+<button (click)="loadMore()" class="mt-4 mx-auto block px-14 py-2 bg-transparent border border-black text-black rounded-full hover:bg-gray-300 hover:text-white hover:border-transparent transition duration-300 ease-in-out">Переглянути ще</button>
