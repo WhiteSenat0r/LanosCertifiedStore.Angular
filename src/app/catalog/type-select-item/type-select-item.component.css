@@ -6,6 +6,7 @@
   border-width: thick;
   border-radius: 10px;
   width: 200px;
+  height: 60px;
 
   cursor: pointer;
   margin-right: 100px;
@@ -40,7 +41,7 @@ ul li{
 
 }
 
-ul a{
+ul .ourItem{
   display: block;
   text-decoration: none;
   color: #000000;
@@ -49,6 +50,27 @@ ul a{
   text-align: left;
 }
 
-ul a:hover{
+ul .ourItem:hover{
   background-color: rgba(255, 224, 0, 0.3);
+}
+
+.checkmark{
+  width: 30px;
+  height: 30px;
+  border: 2px solid black;
+  display: block;
+  position: relative;
+  border-radius: 16px;
+}
+
+.show-checkmark{
+  content: '';
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  top: 50%;
+  left: 50%;
+  background-color: black;
+  border-radius: 50%; /* Make it a circle */
+  transform: translate(-50%, -50%);
 }

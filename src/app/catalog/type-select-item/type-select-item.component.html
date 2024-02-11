@@ -1,17 +1,26 @@
 <div class="type-select-item">
   <button class="button">
-    <div (click)="toggleDropdown()" style="display: flex; width: 100%; justify-content: space-between">
-      {{ selectedOption || "Category..." }}
-      <span *ngIf="selectedOption == ''">стрілка</span>
-      <span *ngIf="selectedOption" style="display: block; padding: 2px" (click)="selectedOption = ''">x</span>
+    <div (click)="toggleDropdown()" class="d-flex justify-content-between align-items-center">
+      {{ selectedOption?.name || "Category..." }}
+      <i *ngIf="selectedOption == null" class="fa fa-2x fa-solid fa-angle-down"></i>
+      <svg *ngIf="selectedOption" (click)="selectedOption = null" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+      </svg>
     </div>
 
     <div class="dropdown" [ngStyle]="{'display': isDropdownVisible ? 'block' : 'none'}">
       <ul>
-        <li *ngFor="let type of types">
-          <a (click)="selectedOption=type.name; toggleDropdown()" >
-            {{ type.name }}
-          </a></li>
+        <li *ngFor="let option of types">
+          <div class="ourItem d-flex justify-content-between" (click)="selectOption(option); toggleDropdown()">
+            <a>
+              {{ option.name }}
+            </a>
+            <div class="checkmark">
+              <div [ngClass]="{'show-checkmark': option === selectedOption}"></div>
+            </div>
+          </div>
+
+        </li>
       </ul>
     </div>
   </button>
