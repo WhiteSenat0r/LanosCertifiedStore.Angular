@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Type} from "../shared/models/type";
+import {Brand} from "../shared/models/brand";
 
 @Component({
   selector: 'app-catalog',
@@ -7,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class CatalogComponent {
   showDropdown: boolean = false;
+
+
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown
