@@ -7,13 +7,15 @@ import { ToggleCardGroupingComponent } from './toggle-card-grouping/toggle-card-
 import { TypeSelectItemComponent } from './type-select-item/type-select-item.component';
 import { SharedModule } from "../shared/shared.module";
 import { HttpClientModule } from '@angular/common/http';
+import { CarItemComponentComponent } from './car-item-component/car-item-component.component';
 
 @NgModule({
   declarations: [
     CatalogComponent,
     CarDetailsComponent,
     ToggleCardGroupingComponent,
-    TypeSelectItemComponent
+    TypeSelectItemComponent,
+    CarItemComponentComponent
   ],
   imports: [
     CatalogRoutingModule,
