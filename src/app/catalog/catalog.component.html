@@ -15,24 +15,7 @@
 
   <!-- Категорії -->
   <div class="w-3/12">
-    <div class="flex flex-col">
-
-      <!-- Badges -->
-      <div class="flex flex-row gap-1 mb-4">
-        <button class="button flex flex-row
-            ml-2 rounded-full p-4 h-6 w-fit flex overflow-hidden items-center border border-black text-black
-            hover:bg-gray-200 transition-colors duration-300
-            focus:bg-black focus:text-white">
-          <span class="block text-sm whitespace-nowrap">Усі</span>
-        </button>
-        <button class="button
-            ml-2 rounded-full p-4 h-6 w-fit flex overflow-hidden items-center border border-black text-black
-            hover:bg-gray-200 transition-colors duration-300
-            focus:bg-black focus:text-white">
-          <span class="text-sm whitespace-nowrap">Вживанні</span>
-        </button>
-
-      </div>
+    <div class="flex flex-col mt-4">
       <app-type-select-item [types]="types"></app-type-select-item>
     </div>
   </div>
@@ -42,9 +25,6 @@
     <div class="ml-auto mr-4">
       <app-toggle-card-grouping></app-toggle-card-grouping>
     </div>
-
-    
-
     <!-- Car Item Component -->
     <div class="flex mb-3 " *ngFor="let vehicle of vehicles">
       <div class="w-2/5 relative">
@@ -99,13 +79,11 @@
           </div>
         </div>
       </div>
+  
+  
     </div>
-    
-
-
+  
   </div>
-
-</div>
 
 
 
