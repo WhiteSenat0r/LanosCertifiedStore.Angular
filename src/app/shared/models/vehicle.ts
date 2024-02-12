@@ -4,10 +4,10 @@ export interface Vehicle{
     id: string;
 
     description: string;
-    vehicleType: string;
-    vehicleBrand: string;
-    vehicleModel: string;
-    vehicleColor: string;
+    type: string;
+    brand: string;
+    model: string;
+    color: string;
 
     displacement: number;
     prices: Price[]

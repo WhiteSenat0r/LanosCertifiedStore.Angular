@@ -23,16 +23,7 @@ export class CatalogComponent implements OnInit {
   getVehicles() {
     this.catalogService.getVehicles().subscribe({
       next: (response: any) => {
-        this.vehicles = response.items.map((item: any) => ({
-          id: item.id,
-          description: item.description,
-          vehicleType: item.type,
-          vehicleBrand: item.brand,
-          vehicleModel: item.model,
-          vehicleColor: item.color,
-          displacement: item.displacement,
-          prices: item.prices
-        }));
+        this.vehicles = response.items;
       },
       error: error => console.error(),
       complete: () => console.log("Vehicles were successfully added"),
