@@ -1,6 +1,6 @@
 <div class="flex flex-col">
   <div>
-    <span>Сільгоптехніка</span>
+    <span>Сільгоcптехніка</span>
     <span> > </span>
     <span> Пошук </span>
   </div>
@@ -11,26 +11,40 @@
   </div>
 </div>
 
-<div class="flex flex-row">
+<div class="d-flex flex-row justify-content-between mb-2 mr-4">
+  <div>
 
+  </div>
+  <app-toggle-card-grouping></app-toggle-card-grouping>
+</div>
+
+<div class="flex flex-row">
   <!-- Категорії -->
   <div class="w-3/12">
-    <div class="flex flex-col mt-4">
-      <app-type-select-item [types]="types" (selectedOptionChange)="handleSelectedTypeChange($event)"></app-type-select-item>
+    <div class="flex flex-col gap-4">
+      <app-option-select-item 
+      [options]="types" 
+      (selectedOptionChange)="handleSelectedOptionChange($event)"
+      (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
+
+      <app-option-select-item 
+      [options]="brands" 
+      (selectedOptionChange)="handleSelectedOptionChange($event)"
+      (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
+     
     </div>
   </div>
 
-  <!-- Категорії -->
-  <div class="flex flex-col w-9/12">
-    <div class="ml-auto mr-4">
-      <app-toggle-card-grouping></app-toggle-card-grouping>
-    </div>
+  <!-- Toggle and Options show -->
+    
+
     <!-- Car Item Component -->
-    <div class="flex mb-3 " *ngFor="let vehicle of vehicles">
-      <app-car-item-component [vehicle]="vehicle"></app-car-item-component>
-    </div>
-  
-  
+    <div class="container">
+      <div class="row row-cols-3 g-3 mb-4">
+        <div class="col" *ngFor="let vehicle of vehicles; let i = index">
+          <app-car-item-component [vehicle]="vehicle"></app-car-item-component>
+        </div>
+      </div>
     </div>
   
   </div>

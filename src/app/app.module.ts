@@ -8,6 +8,7 @@ import {CoreModule} from "./core/core.module";
 import {HomeModule} from "./home/home.module";
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { AddcarformModule } from './addcarform/addcarform.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     CoreModule,
     HomeModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    AddcarformModule
   ],
   providers: [],
   bootstrap: [AppComponent]
