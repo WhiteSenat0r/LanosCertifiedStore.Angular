@@ -12,6 +12,8 @@ import { Vehicle } from '../shared/models/vehicle';
 export class CatalogComponent implements OnInit {
   types: Type[] = [];
   vehicles: Vehicle[] = [];
+  
+  typeNameSelected: string = '';
 
   constructor(private catalogService: CatalogService) { };
 
@@ -21,7 +23,8 @@ export class CatalogComponent implements OnInit {
   }
 
   getVehicles() {
-    this.catalogService.getVehicles().subscribe({
+
+    this.catalogService.getVehicles(this.typeNameSelected).subscribe({
       next: (response: any) => {
         this.vehicles = response.items;
       },
@@ -35,5 +38,13 @@ export class CatalogComponent implements OnInit {
       next: response => this.types = response,
       error: error => console.error()
     })
+  }
+
+  handleSelectedTypeChange(selectedType: Type | null) {
+    if(selectedType != null)
+    {
+      this.typeNameSelected = selectedType.name;
+      this.getVehicles();
+    }
   }
 }

@@ -1,7 +1,7 @@
-import {Component, ElementRef, HostListener, Input} from '@angular/core';
-import {brands} from "@fortawesome/fontawesome-svg-core/import.macro";
-import {Type} from "../../shared/models/type";
-import {Brand} from "../../shared/models/brand";
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { brands } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { Type } from "../../shared/models/type";
+import { Brand } from "../../shared/models/brand";
 
 @Component({
   selector: 'app-type-select-item',
@@ -15,7 +15,9 @@ export class TypeSelectItemComponent {
 
   @Input() types: Type[] = [];
 
-  constructor(private elementRef: ElementRef) {}
+  @Output() selectedOptionChange: EventEmitter<Type | null> = new EventEmitter<Type | null>();
+
+  constructor(private elementRef: ElementRef) { }
 
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -24,13 +26,14 @@ export class TypeSelectItemComponent {
     }
   }
 
-  
+
 
   toggleDropdown() {
     this.isDropdownVisible = !this.isDropdownVisible
   }
 
-  selectOption(option: Type) {
+  selectOption(option: Type | null) {
     this.selectedOption = option;
+    this.selectedOptionChange.emit(this.selectedOption)
   }
 }
