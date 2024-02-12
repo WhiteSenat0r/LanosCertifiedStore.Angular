@@ -4,18 +4,18 @@ import { CatalogComponent } from "./catalog.component";
 import { CarDetailsComponent } from './car-details/car-details.component';
 import { CatalogRoutingModule } from "./catalog-routing.module";
 import { ToggleCardGroupingComponent } from './toggle-card-grouping/toggle-card-grouping.component';
-import { TypeSelectItemComponent } from './type-select-item/type-select-item.component';
 import { SharedModule } from "../shared/shared.module";
 import { HttpClientModule } from '@angular/common/http';
 import { CarItemComponentComponent } from './car-item-component/car-item-component.component';
+import { OptionSelectItemComponent } from './option-select-item/option-select-item.component';
 
 @NgModule({
   declarations: [
     CatalogComponent,
     CarDetailsComponent,
     ToggleCardGroupingComponent,
-    TypeSelectItemComponent,
-    CarItemComponentComponent
+    CarItemComponentComponent,
+    OptionSelectItemComponent,
   ],
   imports: [
     CatalogRoutingModule,

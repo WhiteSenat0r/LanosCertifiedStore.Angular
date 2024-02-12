@@ -13,14 +13,15 @@ export class CatalogService {
 
   constructor(private http: HttpClient) {}
 
-  
 
-  getVehicles(typeName: string)
+  getVehicles(typeName: string, brandName: string, modelName: string)
   {
     let params = new HttpParams();
 
     //if we got typeId. Just not to write excessively in url
     if(typeName != '') params = params.append('Type', typeName)
+    if(brandName != '') params = params.append('Brand', brandName)
+    if(modelName != '') params = params.append('Model', modelName)
 
     return this.http.get<Pagination<Vehicle[]>>(this.baseUrl + 'Vehicles',{params})
   }
@@ -40,5 +41,9 @@ export class CatalogService {
 
   getBrands(){ 
     return this.http.get<Brand[]>(this.baseUrl + 'Brands');
+  }
+  
+  getModels(){ 
+    return this.http.get<Brand[]>(this.baseUrl + 'Models');
   }
 }
