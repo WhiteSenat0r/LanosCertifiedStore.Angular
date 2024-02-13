@@ -9,6 +9,7 @@ const routes: Routes = [
   {path: 'catalog', loadChildren: () => import('./catalog/catalog.module').then(m => m.CatalogModule)},
   {path: '**', redirectTo:'', pathMatch:'full'},
   {path: 'addcar', component: AddcarformComponent},
+  {path: 'addcarform', component: AddcarformComponent},
 ];
 
 @NgModule({
