@@ -1,4 +1,4 @@
-<div class="flex flex-col">
+<div class="flex flex-col" style="height: 50px;">
   <div>
     <span>Сільгоcптехніка</span>
     <span> > </span>
@@ -6,49 +6,50 @@
   </div>
 
   <div class="text-lg font-bold">
-    <span>Пошук агротехніки - </span>
-    <span>1171 пропозиція</span>
+    <span *ngIf="totalCountItems" >Search of cars - 
+      <span *ngIf="totalCountItems > 1">{{totalCountItems}} propositions</span>
+      <span *ngIf="totalCountItems == 1">{{totalCountItems}} proposition</span>
+    </span>
+    <span *ngIf="totalCountItems == 0">There is no proposition. Try another time!!!</span>
   </div>
 </div>
 
-<div class="d-flex flex-row justify-content-between mb-2 mr-4">
-  <div>
-
-  </div>
-  <app-toggle-card-grouping></app-toggle-card-grouping>
+<div class="d-flex flex-row justify-content-end mb-2 mr-4">
+  <app-change-view-grid (selectedSortTypeChange)="handleSelectedViewChange($event)"></app-change-view-grid>
+  <app-sort-select-type [types]="sortTypes"
+    (selectedSortTypeChange)="handleSelectedSortTypeChange($event)"></app-sort-select-type>
 </div>
 
-<div class="flex flex-row">
-  <!-- Категорії -->
-  <div class="w-3/12">
+<div class="row">
+  <section class="col-3">
     <div class="flex flex-col gap-4">
-      <app-option-select-item 
-      [options]="types" 
-      (selectedOptionChange)="handleSelectedOptionChange($event)"
-      (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
+      <app-option-select-item [options]="types" (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
 
-      <app-option-select-item 
-      [options]="brands" 
-      (selectedOptionChange)="handleSelectedOptionChange($event)"
-      (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
-     
+      <app-option-select-item [options]="brands" (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
+
+      <app-option-select-item [options]="colors" (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
     </div>
-  </div>
+  </section>
 
-  <!-- Toggle and Options show -->
-    
-
-    <!-- Car Item Component -->
-    <div class="container">
-      <div class="row row-cols-3 g-3 mb-4">
-        <div class="col" *ngFor="let vehicle of vehicles; let i = index">
-          <app-car-item-component [vehicle]="vehicle"></app-car-item-component>
+  <section class="col-9">
+    <div class="mb-4">
+      <div class="container">
+        <div class="row g-3 mb-4" [ngClass]="'row-cols-' + columnCount">
+          <div class="col" *ngFor="let vehicle of vehicles">
+            <app-car-item-component [vehicle]="vehicle"></app-car-item-component>
+          </div>
         </div>
       </div>
     </div>
-  
-  </div>
 
-
-
-
+    <div *ngIf="totalCountItems" class="d-flex justify-content-center mb-10">
+      <pagination [boundaryLinks]="true" [totalItems]="totalCountItems" [itemsPerPage]="catalogParams.pageSize - 9"
+        [maxSize]="5" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+        class="my-pagination">
+      </pagination>
+    </div>
+  </section>
+</div>

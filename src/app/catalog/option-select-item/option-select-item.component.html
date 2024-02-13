@@ -1,9 +1,11 @@
+
 <div class="option-select-item mr-8">
     <button class="button w-full h-25"
         [ngStyle]="{'border-color': isDropdownVisible ? '#000000' : 'rgb(170, 168, 190)'}">
         <div (click)="toggleDropdown()" class="d-flex justify-content-between align-items-center inputElement">
+            <!--Angular loading component specific work via 'костиль' (options.length > 0 ? options[0].name : '')-->
             <span
-                [innerHTML]="selectedOption?.name ? selectedOption?.name : '<span class=\'text-secondary\'>' + options[0].name + '</span>'"></span>
+                [innerHTML]="selectedOption?.name ? selectedOption.name : '<span class=\'text-secondary\'>' + (options.length > 0 ? options[0].name : '') + '</span>'"></span> 
             <i *ngIf="selectedOption == null" class="fa fa-solid fa-lg fa-angle-down fa-fw text-secondary ml-4"></i>
             <svg *ngIf="selectedOption" (click)="clearSelectedOption()" class="w-5 h-5"
                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

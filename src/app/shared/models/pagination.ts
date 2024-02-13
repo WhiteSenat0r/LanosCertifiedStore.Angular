@@ -2,7 +2,8 @@ import { Vehicle } from "./vehicle";
 
 export interface Pagination<T>{
     pageIndex: number;
-    count: number;
+    totalItemsQuantity: number;
+    currentPageItemsQuantity: number;
 
     data: T
   }
