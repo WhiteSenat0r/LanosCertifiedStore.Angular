@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Type } from "../shared/models/type";
 import { Brand } from "../shared/models/brand";
 import { CatalogService } from './catalog.service';
 import { Vehicle } from '../shared/models/vehicle';
 import { Model } from '../shared/models/model';
+import { CatalogParams } from '../shared/models/catalogParams';
+import { Color } from '../shared/models/color';
 
 @Component({
   selector: 'app-catalog',
@@ -13,13 +15,22 @@ import { Model } from '../shared/models/model';
 export class CatalogComponent implements OnInit {
   types: Type[] = [];
   brands: Brand[] = [];
+  colors: Color[] = [];
   models: Model[] = [];
-
   vehicles: Vehicle[] = [];
 
-  typeNameSelected: string = '';
-  modelNameSelected: string = '';
-  brandNameSelected: string = '';
+
+  //custom for pagination
+  columnCount: number = 3;
+
+  catalogParams = new CatalogParams();
+  totalCountItems: number = 0;
+
+  sortTypes = [
+    {name: 'No sorting', value: ''},
+    {name: 'Low to high', value: "price-asc"},
+    {name: 'High to low', value: "price-desk"}
+  ]
 
   constructor(private catalogService: CatalogService) { };
 
@@ -27,21 +38,34 @@ export class CatalogComponent implements OnInit {
     this.getTypes();
     this.getVehicles();
     this.getBrands();
+    this.getColors();
   }
 
   getVehicles() {
-    this.catalogService.getVehicles(this.typeNameSelected, this.brandNameSelected, this.modelNameSelected).subscribe({
+    this.catalogService.getVehicles(this.catalogParams).subscribe({
       next: (response: any) => {
         this.vehicles = response.items;
+
+        this.catalogParams.pageNumber = response.pageIndex;
+        this.catalogParams.pageSize = response.currentPageItemsQuantity;
+        this.totalCountItems = response.totalItemsQuantity;
+
+        console.log(response);
       },
-      error: error => console.error(),
-      complete: () => console.log("Vehicles were successfully added"),
+      error: error => console.error()
     });
   }
 
   getTypes() {
     this.catalogService.getTypes().subscribe({
       next: response => this.types = [{id: '0', name: 'Types'}, ...response],
+      error: error => console.error()
+    })
+  }
+
+  getColors() {
+    this.catalogService.getColors().subscribe({
+      next: response => this.colors = [{id: '0', name: 'Colors'}, ...response],
       error: error => console.error()
     })
   }
@@ -53,12 +77,12 @@ export class CatalogComponent implements OnInit {
     })
   }
 
-  getModels() {
-    this.catalogService.getModels().subscribe({
-      next: response => this.brands = [{id: '0', name: 'Models'}, ...response],
-      error: error => console.error()
-    })
-  }
+  // getModels() {
+  //   this.catalogService.getModels().subscribe({
+  //     next: response => this.brands = [{id: '0', name: 'Models'}, ...response],
+  //     error: error => console.error()
+  //   })
+  // }
 
   handleSelectedOptionChange(event: any | null) {
     if (event) 
@@ -68,9 +92,11 @@ export class CatalogComponent implements OnInit {
 
       if(typeOfOption == 'Types')
       {
-        this.typeNameSelected = selectedOption;
+        this.catalogParams.typeName = selectedOption;
       } else if (typeOfOption == 'Brands'){
-        this.brandNameSelected = selectedOption;
+        this.catalogParams.brandName = selectedOption;
+      } else if (typeOfOption == 'Colors'){
+        this.catalogParams.colorName = selectedOption;
       }
 
       this.getVehicles();
@@ -83,13 +109,27 @@ export class CatalogComponent implements OnInit {
     {
       if(event == 'Types')
       {
-        this.typeNameSelected = ''
-      }else if(event == 'Brands')
+        this.catalogParams.typeName = ''
+      } else if(event == 'Brands')
       {
-        this.brandNameSelected = ''
+        this.catalogParams.brandName = ''
+      } else if(event == 'Colors'){
+        this.catalogParams.colorName = ''
       }
 
       this.getVehicles();
     }
+  }
+
+  handleSelectedSortTypeChange(event : any | null)
+  {
+    this.catalogParams.sort = event.type.value;
+    this.getVehicles();
+  }
+
+  handleSelectedViewChange(event: any | null)
+  {
+    this.columnCount = event;
+    console.log(event + ' ' + this.columnCount);
   }
 }
