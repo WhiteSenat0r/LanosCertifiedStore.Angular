@@ -1,0 +1,85 @@
+.changer {
+    display: block;
+    
+    padding: 1px;
+    background-color: transparent;
+    position: relative;
+}
+
+.changer .showType{
+    cursor: pointer;
+}
+
+.changer .dropdown {
+    display: none;
+    position: absolute;
+    box-shadow: 0px 0px 12px #ccc;
+    background-color: #f9f9f9;
+    top: 120%;
+    right: -5px;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    z-index: 2;
+}
+
+.changer:focus .dropdown {
+    display: block;
+}
+
+.changer .dropdown ul {
+    list-style: none;
+}
+
+ul li {
+    border-bottom: 2px solid #cccccc;
+    cursor: pointer;
+}
+
+ul li:last-child {
+    border-bottom: none;
+}
+
+ul .ourType {
+    display: block;
+    text-decoration: none;
+    color: #000000;
+
+    padding: 10px 10px 10px 12px;
+    text-align: left;
+}
+
+
+
+ul .ourType:hover {
+    background-color: rgba(128, 128, 128, 0.16);
+}
+
+/*
+WHY ? 
+ul .ourType:last-child{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+} */
+
+.checkmark {
+    background-color: white;
+    width: 25px;
+    height: 25px;
+    border: 1px solid rgb(87, 87, 87);
+    display: block;
+    position: relative;
+    border-radius: 16px;
+}
+
+.show-checkmark {
+    content: '';
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    top: 50%;
+    left: 50%;
+    background-color: black;
+    border-radius: 50%;
+    /* Make it a circle */
+    transform: translate(-50%, -50%);
+}

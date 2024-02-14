@@ -1,15 +1,16 @@
-<div class="w-2/5 relative">
-    <img class="w-full h-full object-cover" src="assets/images/car.png" alt="Car photo">
-    <div class="absolute top-3 right-3 px-1">
-        <button>
-            <img class="h-8 w-auto opacity-75" src="assets/images/Logo.svg" alt="Your Company">
-        </button>
+<div class="h-122 rounded-lg">
+    <div class="relative">
+        <img class="w-full h-full object-cover" src="assets/images/car.png" alt="Car photo">
+        <div class="absolute top-3 right-3 px-1">
+            <button>
+                <img class="h-8 w-auto opacity-75" src="assets/images/Logo.svg" alt="Your Company">
+            </button>
+        </div>
     </div>
-</div>
-<div class="w-3/5 m-1">
-    <div class="flex">
-        <div class="flex flex-col mx-1">
-            <div class="flex flex-row mb-2 justify-between mr-2">
+
+    <div class="my-1">
+        <div class="flex flex-col">
+            <div class="d-flex flex-row  mb-2 justify-content-between  mr-2">
                 <div class="font-bold">
                     <span>{{vehicle?.brand}} </span>
                     <span>{{vehicle?.model}} </span>
@@ -26,25 +27,21 @@
             <div class="flex flex-row gap-1 mb-2">
                 <div class="font-bold">284 625 грн</div>
             </div>
-            <div class="flex flex-row gap-1 mb-2">
-                <div>Color: {{vehicle?.color}} |</div>
-                <div>Displacement: {{vehicle?.displacement}}</div>
+            <div class="flex flex-row gap-1 mb-2" style="white-space: nowrap; overflow: hidden;">
+                <span class="d-inline-block text-truncate" style="max-width: 300px;">Color: {{ vehicle?.color}} |
+                    displacement:{{vehicle?.displacement }}</span>
             </div>
-            <div class="mb-2">
-                <span class="text-sm">here add description</span>
-            </div>
-
-            <div class="mb-2"><strong>Дата: 2024-10-11</strong></div>
+            <div style="white-space: nowrap; overflow: hidden;" class="mb-2"><strong>Дата: 2024-10-11</strong></div>
 
             <div class="flex flex-row gap-1 mb-2">
                 <button routerLink="/catalog/{{vehicle?.id}}"
                     class="button
-              ml-2 rounded-full p-3 h-5 w-fit flex overflow-hidden items-center border border-black hover:bg-gray-200 transition-colors duration-300">
+                  mr-2 rounded-lg p-3 h-5 w-fit flex overflow-hidden items-center border border-black hover:bg-gray-200 transition-colors duration-300">
                     <span class="text-sm text-black whitespace-nowrap">Details</span>
                 </button>
                 <button
                     class="button
-              ml-2 rounded-full p-3 h-5 w-fit flex overflow-hidden items-center border border-black hover:bg-gray-200 transition-colors duration-300">
+                  mr-2 rounded-lg p-3 h-5 w-fit flex overflow-hidden items-center border border-black hover:bg-gray-200 transition-colors duration-300">
                     <span class="text-sm text-black whitespace-nowrap">Add to wish List</span>
                 </button>
             </div>
