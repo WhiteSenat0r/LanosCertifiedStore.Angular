@@ -9,6 +9,7 @@ import { CarItemComponentComponent } from './car-item-component/car-item-compone
 import { OptionSelectItemComponent } from './option-select-item/option-select-item.component';
 import { SortSelectTypeComponent } from './sort-select-type/sort-select-type.component';
 import { ChangeViewGridComponent } from './change-view-grid/change-view-grid.component';
+import { OptionSelectInputItemComponent } from './option-select-input-item/option-select-input-item.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ChangeViewGridComponent } from './change-view-grid/change-view-grid.com
     OptionSelectItemComponent,
     SortSelectTypeComponent,
     ChangeViewGridComponent,
+    OptionSelectInputItemComponent,
   ],
   imports: [
     CatalogRoutingModule,

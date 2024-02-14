@@ -26,10 +26,13 @@ export class OptionSelectItemComponent {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isDropdownVisible = false;
     }
+
+    
   }
 
   toggleDropdown() {
     this.isDropdownVisible = !this.isDropdownVisible
+    console.log(this.options);
   }
 
   selectOption(option: any | null) {

@@ -4,6 +4,14 @@
     flex-direction: column;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
 .app-footer {
     margin-top: auto;
 }
+
