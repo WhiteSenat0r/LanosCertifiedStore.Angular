@@ -8,7 +8,12 @@ import {CoreModule} from "./core/core.module";
 import {HomeModule} from "./home/home.module";
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+
+
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 import { AddcarformModule } from './addcarform/addcarform.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +26,11 @@ import { AddcarformModule } from './addcarform/addcarform.module';
     HomeModule,
     AppRoutingModule,
     HttpClientModule,
+
+    ModalModule,
+
     AddcarformModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

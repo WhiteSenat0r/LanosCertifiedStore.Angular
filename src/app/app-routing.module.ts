@@ -6,7 +6,11 @@ import { AddcarformComponent } from './addcarform/addcarform.component';
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'catalog', loadChildren: () => import('./catalog/catalog.module').then(m => m.CatalogModule)},
+
+  {path: 'addcar', component: AddcarformComponent},
+
   {path: 'addcarform', component: AddcarformComponent},
+
   {path: '**', redirectTo:'', pathMatch:'full'},
 ];
 
