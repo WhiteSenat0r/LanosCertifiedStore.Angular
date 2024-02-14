@@ -62,7 +62,7 @@ export class AddcarformComponent implements OnInit {
 
   getDisplacement() {
     this.addcarformService.getDisplacement().subscribe({
-      next: response =>  this.displacements = response,
+      next: response => this.displacements = response,
       error: error => console.error(error),
       complete: () => console.log("GetData Displacements"),
     })
