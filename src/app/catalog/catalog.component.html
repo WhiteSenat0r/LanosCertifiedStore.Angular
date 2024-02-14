@@ -29,9 +29,12 @@
       <app-option-select-item [options]="brands" (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
 
-      <app-option-select-item [options]="colors" (selectedOptionChange)="handleSelectedOptionChange($event)"
-        (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
-    </div>
+      
+      <app-option-select-input-item class="one" [options]="filteredColors" (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)" (inputValue)="handleInputColorValue($event)">
+      </app-option-select-input-item>
+        
+      </div>
   </section>
 
   <section class="col-9">
