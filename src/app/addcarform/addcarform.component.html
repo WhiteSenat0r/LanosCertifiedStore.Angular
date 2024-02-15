@@ -2,60 +2,66 @@
   <h1 class="pr-6 pt-6 font-weight-medium text-black display-4">Додайте безкоштовно свою пропозицію</h1>
   <div class="container mx-auto mt-8">
     <div class="p-6 rounded-lg shadow">
-      <form>
+      <form (ngSubmit)="onSubmit(form)" #form="ngForm">
         <div class=" mb-4 w-40 h-40 border border-gray-500 rounded-2xl flex items-center justify-center">
           <input type="file" required="" id="uploadPhoto" multiple="" accept=".jpg,.webp,.jpeg,.png" class="hidden">
           <img src="../../../assets/images/photo.png" alt="" class="w-8 h-8">
           <label for="uploadPhoto" class="text-md font-medium text-gray-700 cursor-pointer ml-2">Додати
             фото</label>
         </div>
-        <div class="mb-4">
-          <label for="brand" class="form-label text-sm font-weight-medium text-gray-700">Марка</label>
-          <div class="position-relative">
-            <select id="brand" name="brand" class="mt-1 mb-4 form-select border border-gray-300 rounded-2xl shadow-sm"
-              style="width: 300px;">
-              <option *ngFor="let brand of brands">{{ brand.name }}</option>
-            </select>
-            <button type="button" class="position-absolute top-50 end-0 translate-middle-y btn btn-warning"
-              data-bs-toggle="modal" data-bs-target="#brandModal">
-              Створити свій варіант
-            </button>
-          </div>
-        </div>
 
-        <!-- Modal for Brand -->
-        <div class="modal fade" id="brandModal" tabindex="-1" aria-labelledby="brandModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="brandModalLabel">Додати марку</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="row">
+          <!-- Бренд -->
+          <div class="col-md-6 mb-4">
+            <label for="brand" class="form-label text-sm font-weight-medium text-gray-700">Бренд</label>
+            <div class="d-flex align-items-center">
+              <select id="brand" name="brand" class="form-select border border-gray-300 rounded-2xl shadow-sm"
+                style="width: 100%;" [(ngModel)]="selectedBrandId" (change)="onBrandChange()">
+                <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
+              </select>
+              <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
+                data-bs-target="#brandModal">
+                <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Modal for Brand -->
+          <div class="modal fade" id="brandModal" tabindex="-1" aria-labelledby="brandModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="brandModalLabel">Додати марку</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="text" class="form-control mb-3" placeholder="Введіть нову марку" #newBrandInput>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
+                  <button type="button" class="btn btn-warning"
+                    (click)="addBrand(newBrandInput.value)">Підтвердити</button>
+                </div>
               </div>
-              <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть нову марку">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning">Підтвердити</button>
-              </div>
+            </div>
+          </div>
+
+          <!-- Модель -->
+          <div class="col-md-6 mb-4">
+            <label for="model" class="form-label text-sm font-weight-medium text-gray-700">Модель</label>
+            <div class="d-flex align-items-center">
+              <select id="model" name="model" class="form-select border border-gray-300 rounded-2xl shadow-sm"
+                style="width: 100%;" [(ngModel)]="selectedModelId">
+                <option *ngFor="let model of models" [value]="model.id">{{ model.name }}</option>
+              </select>
+              <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
+                data-bs-target="#modelModal">
+                <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Поле "Модель" -->
-        <div class="mb-4">
-          <label for="model" class="form-label text-sm font-weight-medium text-gray-700">Модель</label>
-          <div class="position-relative">
-            <select id="model" name="model" class="mt-1 mb-4 form-select border border-gray-300 rounded-2xl shadow-sm"
-              style="width: 300px;">
-              <option *ngFor="let model of models">{{ model.name }}</option>
-            </select>
-            <button type="button" class="position-absolute top-50 end-0 translate-middle-y btn btn-warning"
-              data-bs-toggle="modal" data-bs-target="#modelModal">
-              Створити свій варіант
-            </button>
-          </div>
-        </div>
         <!-- Modal for Model -->
         <div class="modal fade" id="modelModal" tabindex="-1" aria-labelledby="modelModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -65,62 +71,71 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть нову модель">
+                <input type="text" class="form-control mb-3" placeholder="Введіть нову модель" #newModelInput>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning">Підтвердити</button>
+                <button type="button" class="btn btn-warning"
+                  (click)="addModel(newModelInput.value)">Підтвердити</button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Поле "Тип" -->
-        <div class="mb-4">
-          <label for="type" class="form-label text-sm font-weight-medium text-gray-700">Тип</label>
-          <div class="position-relative">
-            <select id="type" name="type" class="mt-1 mb-4 form-select border border-gray-300 rounded-2xl shadow-sm"
-              style="width: 300px;">
-              <option *ngFor="let type of types">{{ type.name }}</option>
-            </select>
-            <button type="button" class="position-absolute top-50 end-0 translate-middle-y btn btn-warning"
-              data-bs-toggle="modal" data-bs-target="#typeModal">
-              Створити свій варіант
-            </button>
+
+        <!-- Тип -->
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <label for="type" class="form-label text-sm font-weight-medium text-gray-700">Тип</label>
+            <div class="d-flex align-items-center">
+              <select id="type" name="type" class="form-select border border-gray-300 rounded-2xl shadow-sm"
+                style="width: 100%;">
+                <option *ngFor="let type of types">{{ type.name }}</option>
+              </select>
+              <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
+                data-bs-target="#typeModal">
+                <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
+              </button>
+            </div>
           </div>
-        </div>
-        <!-- Modal for Type -->
-        <div class="modal fade" id="typeModal" tabindex="-1" aria-labelledby="typeModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="typeModalLabel">Додати тип</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+          <!-- Modal for Type -->
+          <div class="modal fade" id="typeModal" tabindex="-1" aria-labelledby="typeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="typeModalLabel">Додати тип</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="text" class="form-control mb-3" placeholder="Введіть новий тип" #newTypeInput>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
+                  <button type="button" class="btn btn-warning"
+                    (click)="addType(newTypeInput.value)">Підтвердити</button>
+                </div>
               </div>
-              <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть новий тип">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning">Підтвердити</button>
-              </div>
+            </div>
+          </div>
+
+          <!-- Колір -->
+          <div class="col-md-6 mb-4">
+            <label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
+            <div class="d-flex align-items-center">
+              <select id="color" name="color" class="form-select border border-gray-300 rounded-2xl shadow-sm"
+                style="width: 100%;">
+                <option *ngFor="let color of colors">{{ color.name }}</option>
+              </select>
+              <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
+                data-bs-target="#colorModal">
+                <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="mb-4">
-          <label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
-          <div class="position-relative">
-            <select id="color" name="color" class="mt-1 mb-4 form-select border border-gray-300 rounded-2xl shadow-sm"
-              style="width: 300px;">
-              <option *ngFor="let color of colors">{{ color.name }}</option>
-            </select>
-            <button type="button" class="position-absolute top-50 end-0 translate-middle-y btn btn-warning"
-              data-bs-toggle="modal" data-bs-target="#colorModal">
-              Створити свій варіант
-            </button>
-          </div>
-        </div>
+
         <!-- Modal for Color -->
         <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -130,57 +145,69 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть новий колір">
+                <input type="text" class="form-control mb-3" placeholder="Введіть новий колір" #newColorInput>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning">Підтвердити</button>
+                <button type="button" class="btn btn-warning"
+                  (click)="addColor(newColorInput.value)">Підтвердити</button>
               </div>
             </div>
           </div>
         </div>
 
-
-        <div class="mb-4">
-          <label for="displacement" class="form-label text-sm font-weight-medium text-gray-700">Об'єм двигуна</label>
-          <div class="position-relative">
-            <select id="displacement" name="displacement"
-              class="mt-1 mb-4 form-select border border-gray-300 rounded-2xl shadow-sm" style="width: 300px;">
-              <option *ngFor="let displacement of displacements">{{ displacement.name }}</option>
-            </select>
-            <button type="button" class="position-absolute top-50 end-0 translate-middle-y btn btn-warning"
-              data-bs-toggle="modal" data-bs-target="#engineModal">
-              Створити свій варіант
-            </button>
+        <!-- Об'єм двигуна -->
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <label for="displacement" class="form-label text-sm font-weight-medium text-gray-700">Об'єм двигуна</label>
+            <div class="d-flex align-items-center">
+              <select id="displacement" name="displacement"
+                class="form-select border border-gray-300 rounded-2xl shadow-sm" style="width: 100%;">
+                <option *ngFor="let displacement of displacements">{{ displacement.value }}</option>
+              </select>
+              <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
+                data-bs-target="#engineModal">
+                <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
+              </button>
+            </div>
           </div>
-        </div>        
 
-        <!-- Modal for Engine -->
-        <div class="modal fade" id="engineModal" tabindex="-1" aria-labelledby="engineModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="engineModalLabel">Додати об'єм двигуна</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть новий об'єм двигуна">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning">Підтвердити</button>
+          <!-- Modal for Engine -->
+          <div class="modal fade" id="engineModal" tabindex="-1" aria-labelledby="engineModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="engineModalLabel">Додати об'єм двигуна</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <input type="text" class="form-control mb-3" placeholder="Введіть новий об'єм двигуна"
+                    #newDisplacementInput>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
+                  <button type="button" class="btn btn-warning"
+                    (click)="addDisplacement(newDisplacementInput.value)">Підтвердити</button>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- Ціна -->
+          <div class="col-md-6 mb-4">
+            <label for="price" class="form-label text-sm font-weight-medium text-gray-700">Ціна</label>
+            <input type="number" id="price" name="price"
+              class="form-control border border-gray-300 rounded-2xl shadow-sm" style="width: 100%;"
+              [(ngModel)]="formData.prices" required>
+          </div>
         </div>
 
-        <!-- Поле "Ціна" -->
+        <!-- Опис -->
         <div class="mb-4">
-          <label for="price" class="form-label text-sm font-weight-medium text-gray-700">Ціна</label>
-          <div class="position-relative">
-            <input type="text" id="price" name="price"
-              class="mt-1 mb-4 form-control border border-gray-300 rounded-2xl shadow-sm" style="width: 300px;">
-          </div>
+          <label for="description" class="form-label text-sm font-weight-medium text-gray-700">Опис</label>
+          <textarea id="description" name="description"
+            class="form-control border border-gray-300 rounded-2xl shadow-sm"
+            style="resize: vertical; width: 100%;"></textarea>
         </div>
 
         <button type="submit" class="btn btn-warning">Підтвердити</button>
