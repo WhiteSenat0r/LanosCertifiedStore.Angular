@@ -5,8 +5,7 @@ import { Type } from '../shared/models/type';
 import { Color } from '../shared/models/color';
 import { Displacement } from '../shared/models/displacement';
 import { AddcarformService } from './addcarform.service';
-import { Vehicle } from '../shared/models/vehicle';
-import { Price } from '../shared/models/price';
+import { CreateVehicle } from '../shared/models/createvehicle';
 
 
 @Component({
@@ -150,23 +149,16 @@ export class AddcarformComponent implements OnInit {
   onSubmit(form: any) {
     const formData = form.value;
   
-    const newPrice: Price = {
-      id: '',
-      issueDate: '',
-      value: formData.price
-    };
-  
-    const newVehicle: Vehicle = {
-      id: '',
+    const newVehicle: CreateVehicle = {
       description: formData.description,
-      brand: formData.brand,
-      model: formData.model,
-      color: formData.color,
-      type: formData.type,
-      displacement: formData.displacement,
-      prices: [newPrice]
+      brand: formData.brand, 
+      model: formData.model, 
+      color: formData.color, 
+      type: formData.type, 
+      displacement: formData.displacement, 
+      prices: formData.price 
     };
-  
+    
     console.log('Дані, які будуть відправлені на сервер:', newVehicle);
   
     this.addcarformService.addVehicle(newVehicle).subscribe({
@@ -177,5 +169,5 @@ export class AddcarformComponent implements OnInit {
       error: error => console.error('Error adding vehicle:', error)
     });
   }
-  
+    
 }
