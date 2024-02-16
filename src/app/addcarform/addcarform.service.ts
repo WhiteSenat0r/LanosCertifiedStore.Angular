@@ -5,7 +5,7 @@ import { Brand } from '../shared/models/brand';
 import { Color } from '../shared/models/color';
 import { Model } from "../shared/models/model";
 import { Displacement } from "../shared/models/displacement";
-import { Vehicle } from "../shared/models/vehicle";
+import { CreateVehicle } from "../shared/models/createvehicle";
 
 @Injectable({
     providedIn: 'root'
@@ -62,8 +62,17 @@ export class AddcarformService {
     }
       
 
-    addVehicle(newVehicle: Vehicle) {
-        return this.http.post(this.baseUrl + 'Vehicles', newVehicle);
+    addVehicle(newVehicle: CreateVehicle) {
+        const actionVehicleDto = {
+                        description: newVehicle.description,
+            brandId: newVehicle.brand,
+            modelId: newVehicle.model,
+            colorId: newVehicle.color,
+            typeId: newVehicle.type,
+            displacementId: newVehicle.displacement,
+            price: newVehicle.prices
+        };
+        return this.http.post(this.baseUrl + 'Vehicles', actionVehicleDto);
     }
     
 }

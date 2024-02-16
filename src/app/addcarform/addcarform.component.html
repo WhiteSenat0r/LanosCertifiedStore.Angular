@@ -25,7 +25,6 @@
               </button>
             </div>
           </div>
-
           <!-- Modal for Brand -->
           <div class="modal fade" id="brandModal" tabindex="-1" aria-labelledby="brandModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -61,7 +60,6 @@
             </div>
           </div>
         </div>
-
         <!-- Modal for Model -->
         <div class="modal fade" id="modelModal" tabindex="-1" aria-labelledby="modelModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -89,8 +87,8 @@
             <label for="type" class="form-label text-sm font-weight-medium text-gray-700">Тип</label>
             <div class="d-flex align-items-center">
               <select id="type" name="type" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                style="width: 100%;">
-                <option *ngFor="let type of types">{{ type.name }}</option>
+                style="width: 100%;" [(ngModel)]="formData.type">
+                <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
               </select>
               <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
                 data-bs-target="#typeModal">
@@ -98,7 +96,6 @@
               </button>
             </div>
           </div>
-
           <!-- Modal for Type -->
           <div class="modal fade" id="typeModal" tabindex="-1" aria-labelledby="typeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -124,8 +121,8 @@
             <label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
             <div class="d-flex align-items-center">
               <select id="color" name="color" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                style="width: 100%;">
-                <option *ngFor="let color of colors">{{ color.name }}</option>
+                style="width: 100%;" [(ngModel)]="formData.color">
+                <option *ngFor="let color of colors" [value]="color.id">{{ color.name }}</option>
               </select>
               <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
                 data-bs-target="#colorModal">
@@ -134,8 +131,6 @@
             </div>
           </div>
         </div>
-
-
         <!-- Modal for Color -->
         <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -162,8 +157,10 @@
             <label for="displacement" class="form-label text-sm font-weight-medium text-gray-700">Об'єм двигуна</label>
             <div class="d-flex align-items-center">
               <select id="displacement" name="displacement"
-                class="form-select border border-gray-300 rounded-2xl shadow-sm" style="width: 100%;">
-                <option *ngFor="let displacement of displacements">{{ displacement.value }}</option>
+                class="form-select border border-gray-300 rounded-2xl shadow-sm" style="width: 100%;"
+                [(ngModel)]="formData.displacement">
+                <option *ngFor="let displacement of displacements" [value]="displacement.id">{{ displacement.value }}
+                </option>
               </select>
               <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
                 data-bs-target="#engineModal">
@@ -171,7 +168,6 @@
               </button>
             </div>
           </div>
-
           <!-- Modal for Engine -->
           <div class="modal fade" id="engineModal" tabindex="-1" aria-labelledby="engineModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -205,9 +201,8 @@
         <!-- Опис -->
         <div class="mb-4">
           <label for="description" class="form-label text-sm font-weight-medium text-gray-700">Опис</label>
-          <textarea id="description" name="description"
-            class="form-control border border-gray-300 rounded-2xl shadow-sm"
-            style="resize: vertical; width: 100%;"></textarea>
+          <textarea id="description" name="description" class="form-control border border-gray-300 rounded-2xl shadow-sm"
+            style="resize: vertical; width: 100%;" [(ngModel)]="formData.description"></textarea>
         </div>
 
         <button type="submit" class="btn btn-warning">Підтвердити</button>
