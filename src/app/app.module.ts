@@ -9,6 +9,9 @@ import {HomeModule} from "./home/home.module";
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 
@@ -29,6 +32,8 @@ import { AddcarformModule } from './addcarform/addcarform.module';
 
     ModalModule,
 
+    MatDatepickerModule,
+    MatNativeDateModule,
     AddcarformModule
 
   ],

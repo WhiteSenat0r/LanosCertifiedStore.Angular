@@ -10,7 +10,7 @@
 
     <div class="my-1">
         <div class="flex flex-col">
-            <div class="d-flex flex-row  mb-2 justify-content-between  mr-2">
+            <div class="d-flex flex-row mb-2 justify-content-between">
                 <div class="font-bold">
                     <span>{{vehicle?.brand}} </span>
                     <span>{{vehicle?.model}} </span>
@@ -24,15 +24,14 @@
                     </svg>
                 </div>
             </div>
-            <div class="flex flex-row gap-1 mb-2">
-                <div class="flex flex-row gap-1 mb-2" *ngIf="vehicle">
-                    <div class="font-bold">{{vehicle.prices[0].value}} грн</div>
-                </div>
+            <div class="mb-1" *ngIf="vehicle">
+                <div class="font-bold">{{vehicle.prices[0].value}} грн</div>
             </div>
-            <div class="flex flex-row gap-1 mb-2" style="white-space: nowrap; overflow: hidden;">
+            <div class="flex flex-row mb-1" style="white-space: nowrap; overflow: hidden;">
                 <span class="d-inline-block text-truncate" style="max-width: 300px;">Color: {{ vehicle?.color}} |
                     displacement:{{vehicle?.displacement }}</span>
             </div>
+
             <div style="white-space: nowrap; overflow: hidden;" class="mb-2"><strong>Дата: 2024-10-11</strong></div>
 
             <div class="flex flex-row gap-1 mb-2">

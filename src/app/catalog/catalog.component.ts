@@ -56,7 +56,7 @@ handleInputColorValue(input: string) {
         this.vehicles = response.items;
 
         this.catalogParams.pageNumber = response.pageIndex;
-        this.totalCountItems = response.totalItemsQuantity;
+        this.totalCountItems = response.totalFilteredItemsQuantity;
       },
       error: (error) => console.error(error),
     });
@@ -109,6 +109,8 @@ handleInputColorValue(input: string) {
         this.catalogParams.brandName = selectedOption;
       } else if (typeOfOption == 'Colors') {
         this.catalogParams.colorName = selectedOption;
+      } else if (typeOfOption == 'Models') {
+        this.catalogParams.modelName = selectedOption;
       }
 
       this.getVehicles();
@@ -123,6 +125,8 @@ handleInputColorValue(input: string) {
         this.catalogParams.brandName = '';
       } else if (event == 'Colors') {
         this.catalogParams.colorName = '';
+      } else if (event == 'Models') {
+        this.catalogParams.modelName = '';
       }
 
       this.getVehicles();
@@ -136,7 +140,6 @@ handleInputColorValue(input: string) {
 
   handleSelectedViewChange(event: any | null) {
     this.columnCount = event;
-    console.log(event + ' ' + this.columnCount);
   }
 
   onPageChanged(event: any)
@@ -150,8 +153,31 @@ handleInputColorValue(input: string) {
 
   changeElCountPerPage(event: any)
   {
-    this.catalogParams.pageSize = event.target.value;
+    if(event.target.value != '')
+    {
+      this.catalogParams.pageSize = event.target.value;
+    }
+    else{
+      this.catalogParams.pageSize = 100;
+    }
+    
     this.getVehicles();
-    console.log('changed to new = ' + this.catalogParams.pageSize);
+  }
+
+  changePriceUpperLimit(event: any)
+  {
+    this.catalogParams.upperPriceLimit = parseInt(event.target.value);
+    this.getVehicles();
+  }
+
+  changePriceLowerLimit(event: any)
+  {
+    this.catalogParams.lowerPriceLimit = parseInt(event.target.value);
+    this.getVehicles();
+  }
+
+  onMinimalDateEnter(event: any): void {
+    this.catalogParams.minimalPriceDate = new Date(event.target.value);
+    this.getVehicles();
   }
 }
