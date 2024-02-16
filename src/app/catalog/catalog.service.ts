@@ -16,14 +16,30 @@ export class CatalogService {
   constructor(private http: HttpClient) {}
 
 
+  formatDate(date: Date) {
+    const year = date.getFullYear(); 
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); 
+    const day = ('0' + date.getDate()).slice(-2); 
+    return year + '-' + month + '-' + day;
+  }
+
   getVehicles(catalogParams: CatalogParams)
   {
     let params = new HttpParams();
 
     if(catalogParams.typeName != '') params = params.append('Type', catalogParams.typeName)
     if(catalogParams.brandName != '') params = params.append('Brand', catalogParams.brandName)
-    if(catalogParams.colorName != '') params = params.append('Color', catalogParams.colorName)
+    if(catalogParams.modelName != '') params = params.append('Color', catalogParams.modelName)
+    //if(catalogParams.colorName != '') params = params.append('Model', catalogParams.colorName)
     if(catalogParams.sort != '') params = params.append('SortingType', catalogParams.sort)
+    
+    if(catalogParams.minimalPriceDate)
+    {
+        params = params.append('MinimalPriceDate', this.formatDate(catalogParams.minimalPriceDate));
+        params = params.append('LowerPriceLimit', catalogParams.lowerPriceLimit);
+        params = params.append('UpperPriceLimit', catalogParams.upperPriceLimit); 
+    }
+
 
     //pagination
     params = params.append('pageIndex', catalogParams.pageNumber);

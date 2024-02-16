@@ -48,3 +48,13 @@
   /* Specify the border properties along with box-shadow */
   border-style: solid;
 }
+
+.form-fields-container mat-form-field{
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+

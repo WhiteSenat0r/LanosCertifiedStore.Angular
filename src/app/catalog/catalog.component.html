@@ -1,27 +1,44 @@
-<div class="flex flex-col" style="height: 50px;">
+<div class="flex flex-col" style="height: 25px">
   <div>
     <span>Сільгоcптехніка</span>
     <span> > </span>
     <span> Пошук </span>
   </div>
-
-  <div class="text-lg font-bold">
-    <span *ngIf="totalCountItems" >Search of cars - 
-      <span *ngIf="totalCountItems > 1">{{totalCountItems}} propositions</span>
-      <span *ngIf="totalCountItems == 1">{{totalCountItems}} proposition</span>
-    </span>
-    <span *ngIf="totalCountItems == 0">There is no proposition. Try another time!!!</span>
-  </div>
+</div>
+<div class="text-lg font-bold mt-2">
+  <span *ngIf="totalCountItems"
+    >Пошук машини -
+    <span *ngIf="totalCountItems > 1"
+      >{{ totalCountItems }} пропозицій</span
+    >
+    <span *ngIf="totalCountItems == 1"
+      >{{ totalCountItems }} пропозиція</span
+    >
+  </span>
+  <span *ngIf="totalCountItems == 0"
+    >Не має жодних пропозицій з таким запитом. Спробуйте наступного разу!!!</span
+  >
 </div>
 
+<!--Change view and Chips-->
 <div class="d-flex flex-row justify-content-end mb-2 mr-4">
-  <input style="width: 200px;" class="pageSizeInput h-10 p-3 rounded-lg" type="text" placeholder="Number of elements..." (keyup.enter)="changeElCountPerPage($event)"/>
-  <app-change-view-grid (selectedSortTypeChange)="handleSelectedViewChange($event)"></app-change-view-grid>
-  <app-sort-select-type [types]="sortTypes"
-    (selectedSortTypeChange)="handleSelectedSortTypeChange($event)"></app-sort-select-type>
+  
+  <app-sort-select-type
+    [types]="sortTypes"
+    (selectedSortTypeChange)="handleSelectedSortTypeChange($event)"
+  ></app-sort-select-type>
+  <app-change-view-grid
+    (selectedSortTypeChange)="handleSelectedViewChange($event)"
+  ></app-change-view-grid>
+
 </div>
 
+
+<mat-divider class="my-2"></mat-divider>
+
+<!--Main-->
 <div class="row">
+  <!--Filters-->
   <section class="col-3">
     <div class="flex flex-col gap-4">
       <app-option-select-item [options]="types" (selectedOptionChange)="handleSelectedOptionChange($event)"
@@ -30,29 +47,70 @@
       <app-option-select-item [options]="brands" (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
 
-      
-      <app-option-select-input-item class="one" [options]="filteredColors" (selectedOptionChange)="handleSelectedOptionChange($event)"
-        (selectedOptionAll)="handleSelectedOptionUndo($event)" (inputValue)="handleInputColorValue($event)">
-      </app-option-select-input-item>
-        
+      <div class="form-fields-container mr-8">
+        <mat-form-field subscriptSizing="dynamic">
+          <input
+            matInput
+            placeholder="Lower Price"
+            (keyup.enter)="changePriceLowerLimit($event)"
+          />
+        </mat-form-field>
+        <mat-form-field subscriptSizing="dynamic">
+          <input
+            matInput
+            placeholder="Upper Price"
+            (keyup.enter)="changePriceUpperLimit($event)"
+          />
+        </mat-form-field>
       </div>
+
+      <div class="mr-8">
+        <mat-form-field class="w-full">
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            (keyup.enter)="onMinimalDateEnter($event)"
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
   </section>
 
+  
+  <!--Car items and paginations-->
   <section class="col-9">
     <div class="mb-4">
       <div class="container">
         <div class="row g-3 mb-4" [ngClass]="'row-cols-' + columnCount">
           <div class="col" *ngFor="let vehicle of vehicles">
-            <app-car-item-component [vehicle]="vehicle"></app-car-item-component>
+            <app-car-item-component
+              [vehicle]="vehicle"
+            ></app-car-item-component>
           </div>
         </div>
       </div>
     </div>
 
     <div *ngIf="totalCountItems" class="d-flex justify-content-center mb-10">
-      <pagination [boundaryLinks]="true" [totalItems]="totalCountItems" [itemsPerPage]="catalogParams.pageSize"
-        [maxSize]="5" (pageChanged)="onPageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
-        class="my-pagination">
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="totalCountItems"
+        [itemsPerPage]="catalogParams.pageSize"
+        [maxSize]="5"
+        (pageChanged)="onPageChanged($event)"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;"
+        class="my-pagination"
+      >
       </pagination>
     </div>
   </section>
