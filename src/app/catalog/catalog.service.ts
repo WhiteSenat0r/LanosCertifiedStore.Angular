@@ -27,7 +27,8 @@ export class CatalogService {
 
     //pagination
     params = params.append('pageIndex', catalogParams.pageNumber);
-    params = params.append('currentPageItemsQuantity', catalogParams.pageSize);
+
+    params = params.append('ItemQuantity', catalogParams.pageSize);
 
     return this.http.get<Pagination<Vehicle[]>>(this.baseUrl + 'Vehicles',{params})
   }

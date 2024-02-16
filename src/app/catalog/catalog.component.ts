@@ -38,7 +38,7 @@ handleInputColorValue(input: string) {
   sortTypes = [
     { name: 'No sorting', value: '' },
     { name: 'Low to high', value: 'price-asc' },
-    { name: 'High to low', value: 'price-desk' },
+    { name: 'High to low', value: 'price-desc' },
   ];
 
   constructor(private catalogService: CatalogService) {}
@@ -56,10 +56,9 @@ handleInputColorValue(input: string) {
         this.vehicles = response.items;
 
         this.catalogParams.pageNumber = response.pageIndex;
-        this.catalogParams.pageSize = response.currentPageItemsQuantity;
         this.totalCountItems = response.totalItemsQuantity;
       },
-      error: (error) => console.error(),
+      error: (error) => console.error(error),
     });
   }
 
@@ -67,7 +66,7 @@ handleInputColorValue(input: string) {
     this.catalogService.getTypes().subscribe({
       next: (response) =>
         (this.types = [{ id: '0', name: 'Types' }, ...response]),
-      error: (error) => console.error(),
+      error: (error) => console.error(error),
     });
   }
 
@@ -138,5 +137,21 @@ handleInputColorValue(input: string) {
   handleSelectedViewChange(event: any | null) {
     this.columnCount = event;
     console.log(event + ' ' + this.columnCount);
+  }
+
+  onPageChanged(event: any)
+  {
+    if(this.catalogParams.pageNumber !== event.page)
+    {
+      this.catalogParams.pageNumber = event.page;
+      this.getVehicles();
+    }
+  }
+
+  changeElCountPerPage(event: any)
+  {
+    this.catalogParams.pageSize = event.target.value;
+    this.getVehicles();
+    console.log('changed to new = ' + this.catalogParams.pageSize);
   }
 }

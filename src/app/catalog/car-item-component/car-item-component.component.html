@@ -25,7 +25,9 @@
                 </div>
             </div>
             <div class="flex flex-row gap-1 mb-2">
-                <div class="font-bold">284 625 грн</div>
+                <div class="flex flex-row gap-1 mb-2" *ngIf="vehicle">
+                    <div class="font-bold">{{vehicle.prices[0].value}} грн</div>
+                </div>
             </div>
             <div class="flex flex-row gap-1 mb-2" style="white-space: nowrap; overflow: hidden;">
                 <span class="d-inline-block text-truncate" style="max-width: 300px;">Color: {{ vehicle?.color}} |

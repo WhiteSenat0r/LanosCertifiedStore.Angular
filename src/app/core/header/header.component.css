@@ -10,7 +10,6 @@
   outline: none;
   box-shadow: none;
   /* Specify the border properties along with box-shadow */
-  border-width: 2px;
   border-style: solid;
 }
 
