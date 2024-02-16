@@ -2,7 +2,7 @@
   <h1 class="pr-6 pt-6 font-weight-medium text-black display-4">Додайте безкоштовно свою пропозицію</h1>
   <div class="container mx-auto mt-8">
     <div class="p-6 rounded-lg shadow">
-      <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+      <form [formGroup]="addCarForm" (ngSubmit)="onSubmit(addCarForm)">
         <div class=" mb-4 w-40 h-40 border border-gray-500 rounded-2xl flex items-center justify-center">
           <input type="file" required="" id="uploadPhoto" multiple="" accept=".jpg,.webp,.jpeg,.png" class="hidden">
           <img src="../../../assets/images/photo.png" alt="" class="w-8 h-8">
@@ -16,7 +16,7 @@
             <label for="brand" class="form-label text-sm font-weight-medium text-gray-700">Бренд</label>
             <div class="d-flex align-items-center">
               <select id="brand" name="brand" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                style="width: 100%;" [(ngModel)]="selectedBrandId" (change)="onBrandChange()">
+                style="width: 100%;" formControlName="brand" [(ngModel)]="selectedBrandId" (change)="onBrandChange()">
                 <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
               </select>
               <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
@@ -24,6 +24,11 @@
                 <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
               </button>
             </div>
+            <div *ngIf="addCarForm?.get('brand')?.errors?.['required'] && addCarForm?.get('brand')?.touched"
+              class="text-danger">
+              <span>Бренд є обов'язковим для заповнення.</span>
+            </div>
+
           </div>
           <!-- Modal for Brand -->
           <div class="modal fade" id="brandModal" tabindex="-1" aria-labelledby="brandModalLabel" aria-hidden="true">
@@ -45,18 +50,22 @@
             </div>
           </div>
 
-          <!-- Модель -->
+<!-- Модель -->
           <div class="col-md-6 mb-4">
             <label for="model" class="form-label text-sm font-weight-medium text-gray-700">Модель</label>
             <div class="d-flex align-items-center">
               <select id="model" name="model" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                style="width: 100%;" [(ngModel)]="selectedModelId">
+                style="width: 100%;" formControlName="model" [ngModel]="selectedModelId">
                 <option *ngFor="let model of models" [value]="model.id">{{ model.name }}</option>
               </select>
               <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
                 data-bs-target="#modelModal">
                 <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
               </button>
+            </div>
+            <div *ngIf="addCarForm?.get('model')?.errors?.['required'] && addCarForm?.get('model')?.touched"
+              class="text-danger">
+              <span>Модель є обов'язковою для заповнення.</span>
             </div>
           </div>
         </div>
@@ -79,21 +88,23 @@
             </div>
           </div>
         </div>
-
-
-        <!-- Тип -->
+<!-- Тип -->
         <div class="row">
           <div class="col-md-6 mb-4">
             <label for="type" class="form-label text-sm font-weight-medium text-gray-700">Тип</label>
             <div class="d-flex align-items-center">
               <select id="type" name="type" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                style="width: 100%;" [(ngModel)]="formData.type">
+                style="width: 100%;" formControlName="type">
                 <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
               </select>
               <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
                 data-bs-target="#typeModal">
                 <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
               </button>
+            </div>
+            <div *ngIf="addCarForm?.get('type')?.errors?.['required'] && addCarForm?.get('type')?.touched"
+              class="text-danger">
+              <span>Тип є обов'язковим для заповнення.</span>
             </div>
           </div>
           <!-- Modal for Type -->
@@ -115,19 +126,22 @@
               </div>
             </div>
           </div>
-
-          <!-- Колір -->
+<!-- Колір -->
           <div class="col-md-6 mb-4">
             <label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
             <div class="d-flex align-items-center">
               <select id="color" name="color" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                style="width: 100%;" [(ngModel)]="formData.color">
+                style="width: 100%;" formControlName="color">
                 <option *ngFor="let color of colors" [value]="color.id">{{ color.name }}</option>
               </select>
               <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
                 data-bs-target="#colorModal">
                 <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
               </button>
+            </div>
+            <div *ngIf="addCarForm?.get('color')?.errors?.['required'] && addCarForm?.get('color')?.touched"
+              class="text-danger">
+              <span>Колір є обов'язковим для заповнення.</span>
             </div>
           </div>
         </div>
@@ -151,14 +165,14 @@
           </div>
         </div>
 
-        <!-- Об'єм двигуна -->
+        <!-- Engine -->
         <div class="row">
           <div class="col-md-6 mb-4">
             <label for="displacement" class="form-label text-sm font-weight-medium text-gray-700">Об'єм двигуна</label>
             <div class="d-flex align-items-center">
               <select id="displacement" name="displacement"
                 class="form-select border border-gray-300 rounded-2xl shadow-sm" style="width: 100%;"
-                [(ngModel)]="formData.displacement">
+                formControlName="displacement">
                 <option *ngFor="let displacement of displacements" [value]="displacement.id">{{ displacement.value }}
                 </option>
               </select>
@@ -166,6 +180,11 @@
                 data-bs-target="#engineModal">
                 <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
               </button>
+            </div>
+            <div
+              *ngIf="addCarForm?.get('displacement')?.errors?.['required'] && addCarForm?.get('displacement')?.touched"
+              class="text-danger">
+              <span>Об'єм двигуна є обов'язковим для заповнення.</span>
             </div>
           </div>
           <!-- Modal for Engine -->
@@ -182,7 +201,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                  <button type="button" class="btn btn-warning"
+<button type="button" class="btn btn-warning"
                     (click)="addDisplacement(newDisplacementInput.value)">Підтвердити</button>
                 </div>
               </div>
@@ -194,17 +213,24 @@
             <label for="price" class="form-label text-sm font-weight-medium text-gray-700">Ціна</label>
             <input type="number" id="price" name="price"
               class="form-control border border-gray-300 rounded-2xl shadow-sm" style="width: 100%;"
-              [(ngModel)]="formData.prices" required>
+              formControlName="price" required>
+          </div>
+          <div *ngIf="addCarForm?.get('price')?.errors?.['required'] && addCarForm?.get('price')?.touched"
+            class="text-danger">
+            <span>Ціна є обов'язковою для заповнення.</span>
           </div>
         </div>
 
         <!-- Опис -->
         <div class="mb-4">
           <label for="description" class="form-label text-sm font-weight-medium text-gray-700">Опис</label>
-          <textarea id="description" name="description" class="form-control border border-gray-300 rounded-2xl shadow-sm"
-            style="resize: vertical; width: 100%;" [(ngModel)]="formData.description"></textarea>
+          <textarea id="description" name="description"
+            class="form-control border border-gray-300 rounded-2xl shadow-sm" style="resize: vertical; width: 100%;"
+            formControlName="description"></textarea>
         </div>
-
+        <div *ngIf="addCarForm?.get('description')?.errors?.['maxlength']" class="text-danger">
+          <span>Максимальна довжина опису - 500 символів.</span>
+        </div>
         <button type="submit" class="btn btn-warning">Підтвердити</button>
       </form>
     </div>

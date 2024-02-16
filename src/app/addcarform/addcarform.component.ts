@@ -6,7 +6,7 @@ import { Color } from '../shared/models/color';
 import { Displacement } from '../shared/models/displacement';
 import { AddcarformService } from './addcarform.service';
 import { CreateVehicle } from '../shared/models/createvehicle';
-
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-addcarform',
@@ -15,6 +15,8 @@ import { CreateVehicle } from '../shared/models/createvehicle';
 })
 export class AddcarformComponent implements OnInit {
 
+  addCarForm: FormGroup;
+
   models: Model[] = [];
   brands: Brand[] = [];
   types: Type[] = [];
@@ -22,9 +24,21 @@ export class AddcarformComponent implements OnInit {
   displacements: Displacement[] = [];
   selectedBrandId: string = '';
   selectedModelId: string = '';
-  formData: any = {};
+  isBrandSelected: boolean = false;
 
-  constructor(private addcarformService: AddcarformService) { }
+  constructor(private addcarformService: AddcarformService) {
+
+    this.addCarForm = new FormGroup({
+      brand: new FormControl('', Validators.required),
+      model: new FormControl('', Validators.required),
+      type: new FormControl('', Validators.required),
+      color: new FormControl('', Validators.required),
+      displacement: new FormControl('', Validators.required),
+      price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+      description: new FormControl('', Validators.required)
+    });
+
+  }
 
   originalModels: Model[] = [];
 
@@ -114,7 +128,8 @@ export class AddcarformComponent implements OnInit {
     });
   }
 
-  addDisplacement(newDisplacementValue: string) {
+
+addDisplacement(newDisplacementValue: string) {
     this.addcarformService.addDisplacement(newDisplacementValue).subscribe({
       next: response => {
         console.log('Displacement added successfully:', response);
@@ -146,21 +161,28 @@ export class AddcarformComponent implements OnInit {
     }
   }
 
-  onSubmit(form: any) {
-    const formData = form.value;
-  
+  onSubmit(form: FormGroup) {
+
+    if (form.invalid) {
+      console.log('Форма недійсна. Будь ласка, заповніть всі обов\'язкові поля.');
+      form.markAllAsTouched();
+      return;
+
+    } 
+
+    const addCarForm = form.value;
     const newVehicle: CreateVehicle = {
-      description: formData.description,
-      brand: formData.brand, 
-      model: formData.model, 
-      color: formData.color, 
-      type: formData.type, 
-      displacement: formData.displacement, 
-      prices: formData.price 
+      description: addCarForm.description,
+      brand: addCarForm.brand,
+      model: addCarForm.model,
+      color: addCarForm.color,
+      type: addCarForm.type,
+      displacement: addCarForm.displacement,
+      prices: addCarForm.price
     };
-    
+
     console.log('Дані, які будуть відправлені на сервер:', newVehicle);
-  
+
     this.addcarformService.addVehicle(newVehicle).subscribe({
       next: response => {
         console.log('Vehicle added successfully:', response);
@@ -169,5 +191,5 @@ export class AddcarformComponent implements OnInit {
       error: error => console.error('Error adding vehicle:', error)
     });
   }
-    
+
 }
