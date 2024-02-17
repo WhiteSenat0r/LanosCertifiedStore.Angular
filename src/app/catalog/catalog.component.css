@@ -1,32 +1,16 @@
-.my-pagination::ng-deep .page-item.active .page-link {
-  z-index: 1;
-  color: #ffffff;
-  background-color: black !important;
-  border-color: #c5c5c5;
-  cursor: default;
+input{
+  border: 2px solid #acabab;
+  border-radius: 12px;
+  width: 50%;
 }
 
-.my-pagination::ng-deep .page-item:not(.active) .page-link {
-  z-index: 1;
-  color: #000000;
-  background-color: #ffffff !important;
-  border-color: #c5c5c5;
+input:hover{
+  border-color: rgb(117, 117, 117);
 }
 
-.my-pagination::ng-deep .page-item:not(.active):hover .page-link {
-  z-index: 1;
-  color: #333333;
-  background-color: #808080 !important;
-  border-color: #363636;
-}
-
-.my-pagination::ng-deep .pagination .page-item .page-link {
-  border-radius: 10%;
-  margin: 4px;
-}
-
-.my-pagination::ng-deep .page-item:focus .page-link {
-  box-shadow: none !important;
+input:focus{
+  border-color: rgb(0, 0, 0);
+  box-shadow: none;
 }
 
 .pageSizeInput {
@@ -56,5 +40,55 @@
     width: 100%;
     margin-bottom: 10px;
 }
+
+.chipGroup .chip{
+  padding: 6px 12px;
+  font-size: medium;
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+  border-radius: 18px;
+  transition: 0.15s;
+  cursor: pointer;
+}
+
+.chipGroup .chip:hover{
+  background-color: rgb(204, 202, 202);
+}
+
+
+.chipGroup .cancelChip{
+  border-color: rgb(221, 163, 163);
+  transition: 0.25s ease;
+}
+
+.chipGroup .cancelChip:hover{
+  background-color: rgb(228, 128, 128);
+  color: white;
+}
+
+
+.checkmark {
+  background-color: white;
+  width: 25px;
+  height: 25px;
+  border: 1px solid rgb(87, 87, 87);
+  display: block;
+  position: relative;
+  border-radius: 16px;
+}
+
+.show-checkmark {
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  top: 50%;
+  left: 50%;
+  background-color: rgb(61, 61, 61);
+  border-radius: 100%;
+  /* Make it a circle */
+  transform: translate(-50%, -50%);
+}
+
 
 

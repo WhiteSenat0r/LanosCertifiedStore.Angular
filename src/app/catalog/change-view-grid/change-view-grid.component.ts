@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-change-view-grid',
@@ -6,30 +6,25 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from
   styleUrls: ['./change-view-grid.component.css']
 })
 export class ChangeViewGridComponent {
-  selectedViewArr: number[] = [2,3,4];
-
-  selectedView: any | null = this.selectedViewArr[1];
-
-  isDropdownVisible = false;
+  twoBactive = false;
+  threeBactive = true;
   
-  @Output() selectedSortTypeChange: EventEmitter<any | null> =
+  @Output() selectedViewTypeChange: EventEmitter<any | null> =
     new EventEmitter<any | null>();
 
-  constructor(private elementRef: ElementRef) { }
+  OnGTSButton()
+  {
+      this.twoBactive = true;
+      this.threeBactive = false;
+      this.selectedViewTypeChange.emit(2);
+  }     
 
-  @HostListener('document:click', ['$event'])
-  onClick(event: MouseEvent) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.isDropdownVisible = false;
-    }
+  OnGTRButton()
+  {
+      this.threeBactive = true;
+      this.twoBactive = false;
+      this.selectedViewTypeChange.emit(3);
   }
 
-  toggleDropdown() {
-    this.isDropdownVisible = !this.isDropdownVisible
-  }
 
-  selectType(view: any | null) {
-    this.selectedView = view;
-    this.selectedSortTypeChange.emit(view)
-  }
 }

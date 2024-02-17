@@ -1,25 +1,41 @@
 .button {
-    display: block;
-    padding: 8px 10px 8px 12px;
-    background-color: white;
-
-
-    border-width: 2px;
-    border-radius: 10px;
-
-    cursor: pointer;
     margin-right: 100px;
-
     position: relative;
 }
 
 .inputElement {
-    height: 25px;
+    height: 42px;
+    border: 2px solid #acabab;
+    border-radius: 10px;
+
+    width: 100%;
+
+    padding: 0px 10px 0px 2px;
 }
 
-.button:hover {
-    border-color: #000000;
+.inputElement:hover {
+    border-color: rgb(124, 122, 122);
 }
+
+.inputElement:focus {
+    border-color: rgb(124, 122, 122);
+}
+
+
+.inputElement input{
+    height: 100%;
+    border-color: transparent;
+    border-radius: 20px;
+    width: 80%;
+
+    cursor: pointer;
+}
+
+.inputElement input:focus{
+    box-shadow: none;
+}
+
+
 
 .button .dropdown {
     display: none;
@@ -80,14 +96,13 @@ ul .ourItem:hover {
 }
 
 .show-checkmark {
-    content: '';
     position: absolute;
     height: 16px;
     width: 16px;
     top: 50%;
     left: 50%;
-    background-color: black;
-    border-radius: 50%;
+    background-color: rgb(61, 61, 61);
+    border-radius: 100%;
     /* Make it a circle */
     transform: translate(-50%, -50%);
 }

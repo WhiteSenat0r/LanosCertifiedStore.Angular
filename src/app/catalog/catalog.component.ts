@@ -13,32 +13,21 @@ import { Color } from '../shared/models/color';
   styleUrls: ['./catalog.component.css'],
 })
 export class CatalogComponent implements OnInit {
-handleInputColorValue(input: string) {
-  this.filteredColors = this.colors.filter((color) =>
-      color.name
-        .toLowerCase()
-        .includes(input.toLowerCase())
-    );
-    this.filteredColors.unshift({ id: '0', name: 'Colors' });
-}
-  filteredColors: Color[] = [];
-
   types: Type[] = [];
   brands: Brand[] = [];
   colors: Color[] = [];
   models: Model[] = [];
   vehicles: Vehicle[] = [];
 
-  //custom for pagination
   columnCount: number = 3;
 
   catalogParams = new CatalogParams();
   totalCountItems: number = 0;
 
   sortTypes = [
-    { name: 'No sorting', value: '' },
-    { name: 'Low to high', value: 'price-asc' },
-    { name: 'High to low', value: 'price-desc' },
+    { name: 'Нормальне сортування', value: '' },
+    { name: 'За зростанням', value: 'price-asc' },
+    { name: 'За спаданням', value: 'price-desc' },
   ];
 
   constructor(private catalogService: CatalogService) {}
@@ -65,29 +54,24 @@ handleInputColorValue(input: string) {
   getTypes() {
     this.catalogService.getTypes().subscribe({
       next: (response) =>
-        (this.types = [{ id: '0', name: 'Types' }, ...response]),
+        (this.types = [{ id: '0', name: 'Типи' }, ...response]),
       error: (error) => console.error(error),
     });
   }
 
   getColors() {
     this.catalogService.getColors().subscribe({
-      next: (response) => {
-        this.colors = [{ id: '0', name: 'Colors' }, ...response];
-        if(this.filteredColors.length === 0)
-        {
-          this.filteredColors = this.colors;
-        }
-      },
-      error: (error) => console.error(),
+      next: (response) =>
+        (this.colors = [{ id: '0', name: 'Кольори' }, ...response]),
+      error: (error) => console.error(error),
     });
   }
 
   getBrands() {
     this.catalogService.getBrands().subscribe({
       next: (response) =>
-        (this.brands = [{ id: '0', name: 'Brands' }, ...response]),
-      error: (error) => console.error(),
+        (this.brands = [{ id: '0', name: 'Бренди' }, ...response]),
+      error: (error) => console.error(error),
     });
   }
 
@@ -103,13 +87,14 @@ handleInputColorValue(input: string) {
       const selectedOption = event.option;
       const typeOfOption = event.type;
 
-      if (typeOfOption == 'Types') {
+      if (typeOfOption == 'Типи') {
         this.catalogParams.typeName = selectedOption;
-      } else if (typeOfOption == 'Brands') {
+      } else if (typeOfOption == 'Бренди') {
         this.catalogParams.brandName = selectedOption;
-      } else if (typeOfOption == 'Colors') {
+      } else if (typeOfOption == 'Кольори') {
+        console.log(true);
         this.catalogParams.colorName = selectedOption;
-      } else if (typeOfOption == 'Models') {
+      } else if (typeOfOption == 'Моделі') {
         this.catalogParams.modelName = selectedOption;
       }
 
@@ -119,13 +104,13 @@ handleInputColorValue(input: string) {
 
   handleSelectedOptionUndo(event: null) {
     if (event) {
-      if (event == 'Types') {
+      if (event == 'Типи') {
         this.catalogParams.typeName = '';
-      } else if (event == 'Brands') {
+      } else if (event == 'Бренди') {
         this.catalogParams.brandName = '';
-      } else if (event == 'Colors') {
+      } else if (event == 'Кольори') {
         this.catalogParams.colorName = '';
-      } else if (event == 'Models') {
+      } else if (event == 'Моделі') {
         this.catalogParams.modelName = '';
       }
 
@@ -140,15 +125,6 @@ handleInputColorValue(input: string) {
 
   handleSelectedViewChange(event: any | null) {
     this.columnCount = event;
-  }
-
-  onPageChanged(event: any)
-  {
-    if(this.catalogParams.pageNumber !== event.page)
-    {
-      this.catalogParams.pageNumber = event.page;
-      this.getVehicles();
-    }
   }
 
   changeElCountPerPage(event: any)
@@ -178,6 +154,17 @@ handleInputColorValue(input: string) {
 
   onMinimalDateEnter(event: any): void {
     this.catalogParams.minimalPriceDate = new Date(event.target.value);
+    this.getVehicles();
+  }
+
+  handlePageNumberChange(pageNumber : any){
+    this.catalogParams.pageNumber = pageNumber;
+    this.getVehicles();
+  }
+
+  handlePageSizeChange(pageSize: any)
+  {
+    this.catalogParams.pageSize = pageSize;
     this.getVehicles();
   }
 }

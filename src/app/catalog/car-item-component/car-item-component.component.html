@@ -1,7 +1,7 @@
 <div class="h-122 rounded-lg">
     <div class="relative">
         <img class="w-full h-full object-cover" src="assets/images/car.png" alt="Car photo">
-        <div class="absolute top-3 right-3 px-1">
+        <div class="absolute top-3 right-3">
             <button>
                 <img class="h-8 w-auto opacity-75" src="assets/images/Logo.svg" alt="Your Company">
             </button>
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="mb-1" *ngIf="vehicle">
-                <div class="font-bold">{{vehicle.prices[0].value}} грн</div>
+                <div class="font-bold">{{vehicle.prices[0].value | currency:'USD'}}</div>
             </div>
             <div class="flex flex-row mb-1" style="white-space: nowrap; overflow: hidden;">
                 <span class="d-inline-block text-truncate" style="max-width: 300px;">Color: {{ vehicle?.color}} |

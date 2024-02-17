@@ -1,0 +1,26 @@
+<div *ngIf="totalCountItems" class="d-flex justify-content-between mb-10">
+  <div></div>
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="totalCountItems"
+    [itemsPerPage]="itemsPerPage"
+    [maxSize]="5"
+    (pageChanged)="onPageChanged($event)"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+    class="my-pagination"
+  >
+  </pagination>
+  <div class="mb-1">
+    <span
+      >Показувати по:
+      <select (change)="onOptionSelected($event)">
+        <option *ngFor="let option of optionsArr" [value]="option">
+          {{ option }} оголошень
+        </option>
+      </select></span
+    >
+  </div>
+</div>
