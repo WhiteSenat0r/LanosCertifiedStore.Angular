@@ -29,8 +29,8 @@ export class CatalogService {
 
     if(catalogParams.typeName != '') params = params.append('Type', catalogParams.typeName)
     if(catalogParams.brandName != '') params = params.append('Brand', catalogParams.brandName)
-    if(catalogParams.modelName != '') params = params.append('Color', catalogParams.modelName)
-    //if(catalogParams.colorName != '') params = params.append('Model', catalogParams.colorName)
+    if(catalogParams.modelName != '') params = params.append('Model', catalogParams.modelName)
+    if(catalogParams.colorName != '') params = params.append('Color', catalogParams.colorName)
     if(catalogParams.sort != '') params = params.append('SortingType', catalogParams.sort)
     
     if(catalogParams.minimalPriceDate)

@@ -8,31 +8,33 @@
 <div class="text-lg font-bold mt-2">
   <span *ngIf="totalCountItems"
     >Пошук машини -
-    <span *ngIf="totalCountItems > 1"
-      >{{ totalCountItems }} пропозицій</span
-    >
-    <span *ngIf="totalCountItems == 1"
-      >{{ totalCountItems }} пропозиція</span
-    >
+    <span *ngIf="totalCountItems > 1">{{ totalCountItems }} пропозицій</span>
+    <span *ngIf="totalCountItems == 1">{{ totalCountItems }} пропозиція</span>
   </span>
   <span *ngIf="totalCountItems == 0"
-    >Не має жодних пропозицій з таким запитом. Спробуйте наступного разу!!!</span
+    >Не має жодних пропозицій з таким запитом. Спробуйте наступного
+    разу!!!</span
   >
 </div>
 
 <!--Change view and Chips-->
-<div class="d-flex flex-row justify-content-end mb-2 mr-4">
-  
+<div class="d-flex flex-row gap-2 mb-2">
+  <div class="d-flex flex-row gap-2 mr-auto mt-4 chipGroup">
+    <span class="chip cancelChip">Скасувати</span>
+    <span class="chip">type</span>
+    <span class="chip">brand</span>
+    <span class="chip">model</span>
+    <span class="chip">color</span>
+  </div>
   <app-sort-select-type
+    class="mr-2 mt-auto"
     [types]="sortTypes"
     (selectedSortTypeChange)="handleSelectedSortTypeChange($event)"
   ></app-sort-select-type>
-  <app-change-view-grid
-    (selectedSortTypeChange)="handleSelectedViewChange($event)"
+  <app-change-view-grid class="mt-auto"
+    (selectedViewTypeChange)="handleSelectedViewChange($event)"
   ></app-change-view-grid>
-
 </div>
-
 
 <mat-divider class="my-2"></mat-divider>
 
@@ -41,27 +43,38 @@
   <!--Filters-->
   <section class="col-3">
     <div class="flex flex-col gap-4">
-      <app-option-select-item [options]="types" (selectedOptionChange)="handleSelectedOptionChange($event)"
-        (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
+      <app-option-select-item
+        [options]="types"
+        (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)"
+      ></app-option-select-item>
 
-      <app-option-select-item [options]="brands" (selectedOptionChange)="handleSelectedOptionChange($event)"
-        (selectedOptionAll)="handleSelectedOptionUndo($event)"></app-option-select-item>
+      <app-option-select-item
+        [options]="brands"
+        (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)"
+      ></app-option-select-item>
 
-      <div class="form-fields-container mr-8">
-        <mat-form-field subscriptSizing="dynamic">
+      <app-option-select-item
+        [options]="colors"
+        (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)"
+      ></app-option-select-item>
+
+      <div class="d-flex flex-col gap-[6px]">
+        <span>Вартість</span>
+        <div class="d-flex flex-row gap-2 mr-8">
           <input
-            matInput
-            placeholder="Lower Price"
+            placeholder="Від"
+            type="text"
             (keyup.enter)="changePriceLowerLimit($event)"
           />
-        </mat-form-field>
-        <mat-form-field subscriptSizing="dynamic">
           <input
-            matInput
-            placeholder="Upper Price"
+            placeholder="До"
+            type="text"
             (keyup.enter)="changePriceUpperLimit($event)"
           />
-        </mat-form-field>
+        </div>
       </div>
 
       <div class="mr-8">
@@ -72,7 +85,11 @@
             [matDatepicker]="picker"
             (keyup.enter)="onMinimalDateEnter($event)"
           />
-          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-hint
+            >{{ catalogParams.minimalPriceDate.getMonth() }}<span>/</span
+            >{{ catalogParams.minimalPriceDate.getDay() }}<span>/</span
+            >{{ catalogParams.minimalPriceDate.getFullYear() }}</mat-hint
+          >
           <mat-datepicker-toggle
             matIconSuffix
             [for]="picker"
@@ -83,35 +100,22 @@
     </div>
   </section>
 
-  
   <!--Car items and paginations-->
   <section class="col-9">
     <div class="mb-4">
-      <div class="container">
-        <div class="row g-3 mb-4" [ngClass]="'row-cols-' + columnCount">
-          <div class="col" *ngFor="let vehicle of vehicles">
-            <app-car-item-component
-              [vehicle]="vehicle"
-            ></app-car-item-component>
-          </div>
+      <div class="row" [ngClass]="'row-cols-' + columnCount">
+        <div class="col" *ngFor="let vehicle of vehicles">
+          <app-car-item-component [vehicle]="vehicle"></app-car-item-component>
         </div>
       </div>
     </div>
 
-    <div *ngIf="totalCountItems" class="d-flex justify-content-center mb-10">
-      <pagination
-        [boundaryLinks]="true"
-        [totalItems]="totalCountItems"
-        [itemsPerPage]="catalogParams.pageSize"
-        [maxSize]="5"
-        (pageChanged)="onPageChanged($event)"
-        previousText="&lsaquo;"
-        nextText="&rsaquo;"
-        firstText="&laquo;"
-        lastText="&raquo;"
-        class="my-pagination"
-      >
-      </pagination>
-    </div>
+    <app-pagination
+      [totalCountItems]="totalCountItems"
+      [pageNumber]="catalogParams.pageNumber"
+      [itemsPerPage]="catalogParams.pageSize"
+      (pageNumberChange)="handlePageNumberChange($event)"
+      (pageSizeChange)="handlePageSizeChange($event)"
+    ></app-pagination>
   </section>
 </div>

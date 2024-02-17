@@ -16,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     OptionSelectItemComponent,
     SortSelectTypeComponent,
     ChangeViewGridComponent,
+    PaginationComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +40,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatInputModule,
     MatFormFieldModule,
     MatDividerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatIconModule
+    
   ]
 })
 export class CatalogModule { }

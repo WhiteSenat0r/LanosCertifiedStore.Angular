@@ -1,0 +1,50 @@
+.my-pagination::ng-deep .page-item.active .page-link {
+  z-index: 1;
+  color: #ffffff;
+  background-color: black !important;
+  border-color: #c5c5c5;
+  cursor: default;
+  box-shadow: none;
+}
+
+.my-pagination::ng-deep .page-item:not(.active) .page-link {
+  z-index: 1;
+  color: #000000;
+  background-color: #ffffff !important;
+  border-color: #c5c5c5;
+  box-shadow: none;
+}
+
+.my-pagination::ng-deep .page-item:not(.active):hover .page-link {
+  z-index: 1;
+  color: #333333;
+  background-color: #808080 !important;
+  border-color: #363636;
+  box-shadow: none;
+}
+
+.my-pagination::ng-deep .pagination .page-item .page-link {
+  border-radius: 10%;
+  margin: 4px;
+}
+
+select {
+  border: none;
+  border-bottom: 2px dashed black;
+  box-shadow: none;
+  height: 35px;
+  padding-left: 5px;
+  padding-right: 30px;
+}
+
+select:hover {
+  border-bottom: 2px solid black;
+}
+
+select {
+  border-radius: 0;
+}
+
+option {
+  border-radius: 0; 
+}

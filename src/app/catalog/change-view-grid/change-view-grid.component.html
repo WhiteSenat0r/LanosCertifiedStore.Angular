@@ -1,22 +1,26 @@
-<div class="sort-select-type changer" style="width: 120px;">
-    <div class="d-flex justify-content-end gap-1">
-        <i class="fa fa-solid fa-lg fa-angle-down text-black" style="margin-top: 14px; margin-right: 1px;"></i>
-        <span (click)="toggleDropdown()" class="showType text-black">
-            Change view
-        </span>
-    </div>
-    <div class="dropdown" [ngStyle]="{'display': isDropdownVisible ? 'block' : 'none'}">
-        <ul>
-            <li *ngFor="let view of selectedViewArr">
-                <div class="ourType d-flex justify-content-between" style="width: 180px;" (click)="selectType(view); toggleDropdown()">
-                    <a>
-                        {{ view }}
-                    </a>
-                    <div class="checkmark">
-                        <div [ngClass]="{'show-checkmark': view === selectedView}"></div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
+<div class="d-flex flex-row" aria-label="Change View">
+  <button
+    class="twoB"
+    [ngStyle]="{ 'background-color': twoBactive ? 'black' : 'white' }"
+    (click)="OnGTSButton()"
+  >
+    <mat-icon
+      class="custom-icon-color"
+      [ngStyle]="{ color: twoBactive ? 'white' : 'black' }"
+      class="twoI"
+      >grid_view</mat-icon
+    >
+  </button>
+  <button
+    class="threeB"
+    [ngStyle]="{ 'background-color': twoBactive ? 'white' : 'black' }"
+    (click)="OnGTRButton()"
+  >
+    <mat-icon
+      class="custom-icon-color"
+      [ngStyle]="{ color: twoBactive ? 'black' : 'white' }"
+      class="threeI"
+      >grid_on</mat-icon
+    >
+  </button>
 </div>

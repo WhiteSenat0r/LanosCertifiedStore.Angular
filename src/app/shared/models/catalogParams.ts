@@ -11,5 +11,5 @@ export class CatalogParams{
 
 
     pageNumber = 1;
-    pageSize = 100;
+    pageSize = 10;
 }

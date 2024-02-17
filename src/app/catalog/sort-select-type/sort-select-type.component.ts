@@ -6,7 +6,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from
   styleUrls: ['./sort-select-type.component.css']
 })
 export class SortSelectTypeComponent {
-  selectedType: any | null = {name: 'No sorting', value: ''};
+  selectedType: any | null = {name: 'Нормальне сортування', value: ''};
 
   isDropdownVisible = false;
 
