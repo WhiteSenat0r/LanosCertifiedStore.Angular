@@ -6,6 +6,7 @@ import { Brand } from '../shared/models/brand';
 import { Pagination } from '../shared/models/pagination';
 import { CatalogParams } from '../shared/models/catalogParams';
 import { Color } from '../shared/models/color';
+import { Model } from '../shared/models/model';
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +68,7 @@ export class CatalogService {
   }
   
   getModels(){ 
-    return this.http.get<Brand[]>(this.baseUrl + 'Models');
+    return this.http.get<Model[]>(this.baseUrl + 'Models');
   }
 
   getColors(){

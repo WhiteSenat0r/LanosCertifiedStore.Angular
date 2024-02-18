@@ -19,19 +19,52 @@
 
 <!--Change view and Chips-->
 <div class="d-flex flex-row gap-2 mb-2">
+  <!--Chips-->
   <div class="d-flex flex-row gap-2 mr-auto mt-4 chipGroup">
-    <span class="chip cancelChip">Скасувати</span>
-    <span class="chip">type</span>
-    <span class="chip">brand</span>
-    <span class="chip">model</span>
-    <span class="chip">color</span>
+    <span
+      *ngIf="
+        catalogParams.typeName != '' ||
+        catalogParams.brandName != '' ||
+        catalogParams.colorName != '' ||
+        catalogParams.modelName != ''
+      "
+      (click)="onCancelClick()"
+      class="chip cancelChip"
+      >Скасувати</span
+    >
+    <span
+      *ngIf="catalogParams.typeName != ''"
+      class="chip"
+      (click)="onChipClick('type')"
+      >{{ catalogParams.typeName }}</span
+    >
+    <span
+      *ngIf="catalogParams.brandName != ''"
+      class="chip"
+      (click)="onChipClick('brand')"
+      >{{ catalogParams.brandName }}</span
+    >
+    <span
+      *ngIf="catalogParams.modelName != ''"
+      class="chip"
+      (click)="onChipClick('model')"
+      >{{ catalogParams.modelName }}</span
+    >
+    <span
+      *ngIf="catalogParams.colorName != ''"
+      class="chip"
+      (click)="onChipClick('color')"
+      >{{ catalogParams.colorName }}</span
+    >
   </div>
+  <!--Change View and Sorting-->
   <app-sort-select-type
     class="mr-2 mt-auto"
     [types]="sortTypes"
     (selectedSortTypeChange)="handleSelectedSortTypeChange($event)"
   ></app-sort-select-type>
-  <app-change-view-grid class="mt-auto"
+  <app-change-view-grid
+    class="mt-auto"
     (selectedViewTypeChange)="handleSelectedViewChange($event)"
   ></app-change-view-grid>
 </div>
@@ -55,47 +88,73 @@
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-item>
 
+      <app-option-select-model *ngIf="testFuntionalityVariable"
+        [options]="models"
+        (selectedOptionChange)="handleSelectedOptionChange($event)"
+        (selectedOptionAll)="handleSelectedOptionUndo($event)"
+      ></app-option-select-model>
+
       <app-option-select-item
         [options]="colors"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-item>
 
-      <div class="d-flex flex-col gap-[6px]">
-        <span>Вартість</span>
-        <div class="d-flex flex-row gap-2 mr-8">
+      
+
+      <div class="double-slider-box d-flex flex-col gap-[6px] mr-8">
+        <span class="range-title">Вартість</span>
+        <div class="input-box d-flex flex-row gap-2">
+          <div class="input-wrap">
+            <input
+              placeholder="{{ catalogParams.lowerPriceLimit }}"
+              type="text"
+              name="price_input_min"
+              #price_input_min
+              (keyup.enter)="changePriceLowerLimit($event)"
+            />
+          </div>
+          <div class="input-wrap">
+            <input
+              placeholder="{{ catalogParams.upperPriceLimit }}"
+              type="text"
+              name="price_input_max"
+              #price_input_max
+              (keyup.enter)="changePriceUpperLimit($event)"
+            />
+          </div>
+        </div>
+
+        <div class="range-slider">
+          <span class="slider-track" #slider_track></span>
           <input
-            placeholder="Від"
-            type="text"
-            (keyup.enter)="changePriceLowerLimit($event)"
+            type="range"
+            name="min_val"
+            class="min_val"
+            min="{{ 0 }}"
+            max="{{ 100000 }}"
+            value="{{ catalogParams.lowerPriceLimit }}"
+            #min_val
+            (input)="slideMin()"
           />
           <input
-            placeholder="До"
-            type="text"
-            (keyup.enter)="changePriceUpperLimit($event)"
+            type="range"
+            name="max_val"
+            class="max_val"
+            min="{{ 0 }}"
+            max="{{ 100000 }}"
+            value="{{ catalogParams.upperPriceLimit }}"
+            #max_val
+            (input)="slideMax()"
           />
         </div>
       </div>
 
       <div class="mr-8">
-        <mat-form-field class="w-full">
-          <mat-label>Choose a date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            (keyup.enter)="onMinimalDateEnter($event)"
-          />
-          <mat-hint
-            >{{ catalogParams.minimalPriceDate.getMonth() }}<span>/</span
-            >{{ catalogParams.minimalPriceDate.getDay() }}<span>/</span
-            >{{ catalogParams.minimalPriceDate.getFullYear() }}</mat-hint
-          >
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        <app-date-picker
+          [minimalPriceDate]="catalogParams.minimalPriceDate"
+          (minimalPriceDateChange)="handleMinimalDateChange($event)"
+        ></app-date-picker>
       </div>
     </div>
   </section>

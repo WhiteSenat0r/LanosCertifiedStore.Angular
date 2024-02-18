@@ -7,7 +7,7 @@ export class CatalogParams{
 
     upperPriceLimit = 100000;
     lowerPriceLimit = 0;
-    minimalPriceDate = new Date(2001,0,1);
+    minimalPriceDate = new Date(2001,1,1);
 
 
     pageNumber = 1;

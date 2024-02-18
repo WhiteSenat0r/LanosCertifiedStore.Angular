@@ -40,8 +40,8 @@ export class HomeComponent implements OnInit {
 
   getVehicles() {
     this.homeservice.getVehicles().subscribe({
-      next: response =>  {
-        this.vehicles = response;
+      next: (response: any) =>  {
+        this.vehicles = response.items;
         console.log('Vehicles in component:', this.vehicles);
       },
       error: error => console.error(error),

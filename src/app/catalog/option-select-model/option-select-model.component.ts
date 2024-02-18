@@ -11,11 +11,11 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-option-select-item',
-  templateUrl: './option-select-item.component.html',
-  styleUrls: ['./option-select-item.component.css'],
+  selector: 'app-option-select-model',
+  templateUrl: './option-select-model.component.html',
+  styleUrls: ['./option-select-model.component.css']
 })
-export class OptionSelectItemComponent implements OnChanges {
+export class OptionSelectModelComponent implements OnChanges {
   @ViewChild('inputInside') inputInside!: ElementRef;
   @ViewChild('inputButton') inputButton!: ElementRef;
 
