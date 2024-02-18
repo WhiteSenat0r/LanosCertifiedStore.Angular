@@ -8,7 +8,6 @@
     <button
       class="d-flex justify-content-between align-items-center inputElement"
       (click)="toggleFocus()"
-      (click)="toggleDropdown()"
       #inputButton
     >
       <input
@@ -37,7 +36,7 @@
 
     <div
       class="dropdown w-full"
-      [ngStyle]="{ display: isDropdownVisible ? 'block' : 'none' }"
+      [ngStyle]="{ 'display': isDropdownVisible ? 'block' : 'none' }"
     >
       <ul>
         <li *ngFor="let option of filteredOptions">

@@ -18,6 +18,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { PaginationComponent } from './pagination/pagination.component';
+import { DatePickerComponent } from './date-picker/date-picker.component';
+import { OptionSelectModelComponent } from './option-select-model/option-select-model.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     SortSelectTypeComponent,
     ChangeViewGridComponent,
     PaginationComponent,
+    DatePickerComponent,
+    OptionSelectModelComponent,
   ],
   imports: [
     CommonModule,
