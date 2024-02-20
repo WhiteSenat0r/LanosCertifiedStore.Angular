@@ -7,6 +7,7 @@ import { Model } from '../shared/models/model';
 import { CatalogParams } from '../shared/models/catalogParams';
 import { Color } from '../shared/models/color';
 import { Subject, debounceTime } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
@@ -81,11 +82,17 @@ export class CatalogComponent implements OnInit, AfterViewInit {
     { name: 'За спаданням', value: 'price-desc' },
   ];
 
-  constructor(private catalogService: CatalogService) {  }
+  constructor(private catalogService: CatalogService, private route: ActivatedRoute) {  }
 
   updateVehicles$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      console.log(params['modelName']);
+      console.log(params['brandName']);
+    });
+
+
     this.getTypes();
     this.getVehicles();
     this.getBrands();
@@ -178,6 +185,7 @@ export class CatalogComponent implements OnInit, AfterViewInit {
         this.catalogParams.typeName = '';
       } else if (event == 'Бренди') {
         this.catalogParams.brandName = '';
+        this.catalogParams.modelName = '';
         this.testFuntionalityVariable = false;
       } else if (event == 'Кольори') {
         this.catalogParams.colorName = '';
@@ -262,6 +270,9 @@ export class CatalogComponent implements OnInit, AfterViewInit {
 
   onCancelClick() {
     this.catalogParams = new CatalogParams();
+    this.priceInputMax.nativeElement.value = this.catalogParams.upperPriceLimit;
+    this.priceInputMin.nativeElement.value = this.catalogParams.lowerPriceLimit;
+    this.testFuntionalityVariable = false;
     this.getTypes();
     this.getBrands();
     this.getColors();

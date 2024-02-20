@@ -20,6 +20,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { PaginationComponent } from './pagination/pagination.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { OptionSelectModelComponent } from './option-select-model/option-select-model.component';
+import { MainCarouselComponent } from './car-details/main-carousel/main-carousel.component';
+import { MultiplyItemsCarouselComponent } from './car-details/multiply-items-carousel/multiply-items-carousel.component';
+import { TableItemsComponent } from './car-details/table-items/table-items.component';
+import { DescriptionComponent } from './car-details/description/description.component';
+import { CharacteristicsComponent } from './car-details/characteristics/characteristics.component';
+
+//ngx-bootstrap
 
 @NgModule({
   declarations: [
@@ -32,6 +39,11 @@ import { OptionSelectModelComponent } from './option-select-model/option-select-
     PaginationComponent,
     DatePickerComponent,
     OptionSelectModelComponent,
+    MainCarouselComponent,
+    MultiplyItemsCarouselComponent,
+    TableItemsComponent,
+    DescriptionComponent,
+    CharacteristicsComponent,
   ],
   imports: [
     CommonModule,
@@ -45,7 +57,9 @@ import { OptionSelectModelComponent } from './option-select-model/option-select-
     MatFormFieldModule,
     MatDividerModule,
     MatAutocompleteModule,
-    MatIconModule
+    MatIconModule,
+
+    //ngx-bootstrap
     
   ]
 })
