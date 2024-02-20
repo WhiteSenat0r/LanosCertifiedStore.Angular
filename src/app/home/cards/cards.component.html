@@ -1,14 +1,13 @@
 <div class="p-2 w-10/12 h-dvh mx-auto grid grid-cols-3 gap-6 mb-4">
-  <div *ngIf="vehicles && vehicles.length">
-    <div *ngFor="let vehicle of vehicles" class="bg-white rounded-lg overflow-hidden shadow-md">
-      <img src="../../../assets/images/cars/car2.png" alt="{{ vehicle.model }}" class="w-full h-2/3 object-cover">
-      <div class="p-4">
-        <h3 class="text-xl font-semibold mb-2">{{ vehicle.model }}</h3>
-        <div class="text-gray-700">
-          <strong class="nowrap">{{ vehicle.prices[0].value }}</strong> 
-        </div>
+  <div *ngFor="let vehicle of vehicles.slice(0, 6)" class="bg-white rounded-lg overflow-hidden shadow-md">
+    <img src="../../../assets/images/cars/car2.png" alt="{{vehicle.brand}}" class="w-full h-2/3 object-cover">
+    <div class="p-4">
+      <h3 class="text-xl font-semibold mb-2">{{vehicle.brand}}</h3>
+      <div class="text-gray-700 flex justify-between">
+        <strong class="nowrap">{{vehicle.model}}</strong>
+        <strong class="nowrap">{{vehicle.prices[0].value}} UAN</strong>
       </div>
     </div>
   </div>
 </div>
-
+<button  class="mt-4 mx-auto block px-14 py-2 bg-transparent border border-black text-black rounded-full hover:bg-gray-300 hover:text-white hover:border-transparent transition duration-300 ease-in-out">Переглянути ще</button>

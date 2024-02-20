@@ -35,32 +35,7 @@ export class AddcarformService {
     getDisplacement() {
         return this.http.get<Displacement[]>(this.baseUrl + 'Displacements');
     }
-
-    addBrand(newBrandName: string) {
-        const params = new HttpParams().set('name', newBrandName);
-        return this.http.post(this.baseUrl + 'Brands', null, { params });
-    }
-
-    addModel(newModelName: string, brandId: string) {
-        const params = new HttpParams().set('name', newModelName).set('brandId', brandId);
-        return this.http.post(this.baseUrl + 'Models', null, { params });
-    }
-
-    addType(newTypeName: string) {
-        const params = new HttpParams().set('name', newTypeName);
-        return this.http.post(this.baseUrl + 'Types', null, { params });
-    }
-
-    addDisplacement(newDisplacementValue: string) {
-        const params = new HttpParams().set('value', newDisplacementValue);
-        return this.http.post(this.baseUrl + 'Displacements', null, { params });
-    }
-
-    addColor(newColorName: string) {
-        const params = new HttpParams().set('name', newColorName);
-        return this.http.post(this.baseUrl + 'Colors', null, { params });
-    }
-      
+    
 
     addVehicle(newVehicle: CreateVehicle) {
         const actionVehicleDto = {
