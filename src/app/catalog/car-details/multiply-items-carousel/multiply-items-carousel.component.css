@@ -1,0 +1,16 @@
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: grey !important; /* ваш колір */
+}
+
+/* Змінює колір кнопок при фокусі */
+.carousel-control-prev:focus,
+.carousel-control-next:focus {
+  background-color: grey !important; /* ваш колір */
+}
+
+/* Змінює колір кнопок під час натискання */
+.carousel-control-prev:active,
+.carousel-control-next:active {
+  background-color: grey !important; /* ваш колір */
+}
