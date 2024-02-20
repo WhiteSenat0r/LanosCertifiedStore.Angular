@@ -1,11 +1,11 @@
-/* .modal-dialog {
-    margin: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .p-6 {
-    width: 80%;
-  }
-   */
+/* Збільшуємо розмір шрифту та змінюємо колір тексту */
+datalist option {
+  font-size: 16px;
+  color: #fafc86;
+}
+
+/* Змінюємо фон та колір тексту для активного елемента */
+datalist option:checked {
+  background-color: #007bff;
+  color: #fff;
+}
