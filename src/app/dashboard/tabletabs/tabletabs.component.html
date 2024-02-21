@@ -1,0 +1,69 @@
+<!-- tabletabs.component.html -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" >
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Модель</th>
+                        <th>Бренд</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let model of models">
+                        <td>{{ model.name }}</td>
+                        <td>{{ model.vehicleBrand }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Колір</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let color of colors">
+                        <td>{{ color.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" >
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Тип</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let type of types">
+                        <td>{{ type.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" aria-disabled="true">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Авто</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td>{{ vehicle.description }}</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </a>
+    </li>
+</ul>

@@ -18,10 +18,20 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AddcarformModule } from './addcarform/addcarform.module';
+import { RegisterComponent } from './accounts/register/register.component';
+import { LoginComponent } from './accounts/login/login.component';
+import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { TabletabsComponent } from './dashboard/tabletabs/tabletabs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    RegisterComponent,
+    LoginComponent,
+    SidebarComponent,
+    DashboardComponent,
+    TabletabsComponent,
   ],
   imports: [
     BrowserModule,
