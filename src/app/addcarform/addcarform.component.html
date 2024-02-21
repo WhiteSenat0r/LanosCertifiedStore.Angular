@@ -35,15 +35,15 @@
         <div class="row mb-3">
           <!-- Колір -->
           <div class="col-md-6">
-            <<label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
-              <select id="color" name="color" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                style="width: 100%;" formControlName="color">
-                <option *ngFor="let color of colors" [value]="color.id">{{ color.name }}</option>
-              </select>
-              <div *ngIf="addCarForm?.get('color')?.errors?.['required'] && addCarForm?.get('color')?.touched"
-                class="text-danger">
-                <span>Колір є обов'язковим для заповнення.</span>
-              </div>
+            <label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
+            <select id="color" name="color" class="form-select border border-gray-300 rounded-2xl shadow-sm"
+              style="width: 100%;" formControlName="color">
+              <option *ngFor="let color of colors" [value]="color.id">{{ color.name }}</option>
+            </select>
+            <div *ngIf="addCarForm?.get('color')?.errors?.['required'] && addCarForm?.get('color')?.touched"
+              class="text-danger">
+              <span>Колір є обов'язковим для заповнення.</span>
+            </div>
           </div>
           <!-- Тип -->
           <div class="col-md-6">

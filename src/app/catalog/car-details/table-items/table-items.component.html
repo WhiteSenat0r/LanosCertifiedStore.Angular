@@ -1,6 +1,6 @@
 <div class="container" *ngIf="modelsOfBrand && modelsOfBrand.length > 0">
   <div [ngClass]="'row row-cols-' + [3] + ' mb-3'">
-    <div class="col" style="width: 20%;" *ngFor="let model of modelsOfBrand">
+    <div class="col my-2" style="width: 20%;" *ngFor="let model of modelsOfBrand">
       <span (click)="OnModelClick(model)">{{model.vehicleBrand}} {{ model.name }}</span>
     </div>
   </div>
