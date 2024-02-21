@@ -8,28 +8,11 @@ import { AddcarformService } from './addcarform.service';
 import { CreateVehicle } from '../shared/models/createvehicle';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {NgFor, AsyncPipe} from '@angular/common';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-addcarform',
   templateUrl: './addcarform.component.html',
   styleUrls: ['./addcarform.component.css'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    NgFor,
-    AsyncPipe,
-  ],
 })
 export class AddcarformComponent implements OnInit {
 
