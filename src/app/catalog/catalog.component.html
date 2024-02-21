@@ -88,7 +88,8 @@
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-item>
 
-      <app-option-select-model *ngIf="testFuntionalityVariable"
+      <app-option-select-model
+        *ngIf="testFuntionalityVariable"
         [options]="models"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
@@ -100,55 +101,12 @@
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-item>
 
-      
-
-      <div class="double-slider-box d-flex flex-col gap-[6px] mr-8">
-        <span class="range-title">Вартість</span>
-        <div class="input-box d-flex flex-row gap-2">
-          <div class="input-wrap">
-            <input
-              placeholder="{{ catalogParams.lowerPriceLimit }}"
-              type="text"
-              name="price_input_min"
-              #price_input_min
-              (keyup.enter)="changePriceLowerLimit($event)"
-            />
-          </div>
-          <div class="input-wrap">
-            <input
-              placeholder="{{ catalogParams.upperPriceLimit }}"
-              type="text"
-              name="price_input_max"
-              #price_input_max
-              (keyup.enter)="changePriceUpperLimit($event)"
-            />
-          </div>
-        </div>
-
-        <div class="range-slider">
-          <span class="slider-track" #slider_track></span>
-          <input
-            type="range"
-            name="min_val"
-            class="min_val"
-            min="{{ 0 }}"
-            max="{{ 100000 }}"
-            value="{{ catalogParams.lowerPriceLimit }}"
-            #min_val
-            (input)="slideMin()"
-          />
-          <input
-            type="range"
-            name="max_val"
-            class="max_val"
-            min="{{ 0 }}"
-            max="{{ 100000 }}"
-            value="{{ catalogParams.upperPriceLimit }}"
-            #max_val
-            (input)="slideMax()"
-          />
-        </div>
-      </div>
+      <app-price-select
+        [lowerPriceLimit]="catalogParams.lowerPriceLimit"
+        [upperPriceLimit]="catalogParams.upperPriceLimit"
+        (selectedNewLowerPrice)="handleChangeLowerPriceLimit($event)"
+        (selectedNewUpperPrice)="handleChangeUpperPriceLimit($event)"
+      ></app-price-select>
 
       <div class="mr-8">
         <app-date-picker

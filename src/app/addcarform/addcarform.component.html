@@ -35,7 +35,7 @@
         <div class="row mb-3">
           <!-- Колір -->
           <div class="col-md-6">
-            <!-- <label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
+            <label for="color" class="form-label text-sm font-weight-medium text-gray-700">Колір</label>
             <select id="color" name="color" class="form-select border border-gray-300 rounded-2xl shadow-sm"
               style="width: 100%;" formControlName="color">
               <option *ngFor="let color of colors" [value]="color.id">{{ color.name }}</option>
@@ -43,13 +43,8 @@
             <div *ngIf="addCarForm?.get('color')?.errors?.['required'] && addCarForm?.get('color')?.touched"
               class="text-danger">
               <span>Колір є обов'язковим для заповнення.</span>
-            </div> -->
+            </div>
 
-<mat-form-field>
-  <mat-label>Колір</mat-label>
-  <input type="text"/>
-  <mat-option *ngFor = "let item of colors"
-</mat-form-field>
 
           </div>
           <!-- Тип -->

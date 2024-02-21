@@ -20,16 +20,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   selector: 'app-addcarform',
   templateUrl: './addcarform.component.html',
   styleUrls: ['./addcarform.component.css'],
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    NgFor,
-    AsyncPipe,
-  ],
 })
 export class AddcarformComponent implements OnInit {
 

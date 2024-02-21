@@ -1,0 +1,49 @@
+<div class="double-slider-box d-flex flex-col gap-[6px] mr-8">
+    <span class="range-title">Вартість</span>
+    <div class="input-box d-flex flex-row gap-2">
+      <div class="input-wrap">
+        <input
+          placeholder="{{ lowerPriceLimit }}"
+          type="text"
+          name="price_input_min"
+          value="{{lowerPriceLimit}}"
+          #price_input_min
+          (keyup.enter)="changePriceLowerLimit($event)"
+        />
+      </div>
+      <div class="input-wrap">
+        <input
+          placeholder="{{ upperPriceLimit }}"
+          type="text"
+          name="price_input_max"
+          value="{{upperPriceLimit}}"
+          #price_input_max
+          (keyup.enter)="changePriceUpperLimit($event)"
+        />
+      </div>
+    </div>
+
+    <div class="range-slider">
+      <span class="slider-track" #slider_track></span>
+      <input
+        type="range"
+        name="min_val"
+        class="min_val"
+        min="{{ 0 }}"
+        max="{{ 100000 }}"
+        value="{{ lowerPriceLimit }}"
+        #min_val
+        (input)="slideMin()"
+      />
+      <input
+        type="range"
+        name="max_val"
+        class="max_val"
+        min="{{ 0 }}"
+        max="{{ 100000 }}"
+        value="{{ upperPriceLimit }}"
+        #max_val
+        (input)="slideMax()"
+      />
+    </div>
+  </div>

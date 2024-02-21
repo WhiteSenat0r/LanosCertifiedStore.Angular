@@ -14,54 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css'],
 })
-export class CatalogComponent implements OnInit, AfterViewInit {
-  @ViewChild('min_val') minVal!: ElementRef;
-  @ViewChild('max_val') maxVal!: ElementRef;
-  @ViewChild('price_input_min') priceInputMin!: ElementRef;
-  @ViewChild('price_input_max') priceInputMax!: ElementRef;
-
-  minGap: number = 7500;
-  sliderMinValue: number = 0;
-  sliderMaxValue: number = 0;
-
-  @ViewChild('slider_track') sliderRange!: ElementRef;
-  sliderRangeElement: any;
-
-  slideMin() {
-    let gap =
-      parseInt(this.maxVal.nativeElement.value) -
-      parseInt(this.minVal.nativeElement.value);
-
-    if(gap <= this.minGap)
-    {
-      this.minVal.nativeElement.value = parseInt(this.maxVal.nativeElement.value) - this.minGap;
-    }
-    this.priceInputMin.nativeElement.value = parseInt(this.minVal.nativeElement.value);
-    this.catalogParams.lowerPriceLimit = this.priceInputMin.nativeElement.value;
-    this.setArea();
-    this.updateVehicles$.next();
-  }
-
-  slideMax() {
-    let gap =
-      parseInt(this.maxVal.nativeElement.value) -
-      parseInt(this.minVal.nativeElement.value);
-
-    if(gap <= this.minGap)
-    {
-      this.maxVal.nativeElement.value = parseInt(this.minVal.nativeElement.value) + this.minGap;
-    }
-    this.priceInputMax.nativeElement.value = parseInt(this.maxVal.nativeElement.value);
-    this.catalogParams.upperPriceLimit = this.priceInputMax.nativeElement.value;
-    this.setArea();
-    this.updateVehicles$.next();
-  }
-
-  setArea()
-  {
-    this.sliderRangeElement.style.left = ((this.catalogParams.lowerPriceLimit / this.sliderMaxValue) * 100).toString() + "%";
-    this.sliderRangeElement.style.right = (100 - (this.catalogParams.upperPriceLimit / this.sliderMaxValue) * 100).toString() + "%";
-  }
+export class CatalogComponent implements OnInit {
 
   types: Type[] = [];
   brands: Brand[] = [];
@@ -88,10 +41,9 @@ export class CatalogComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      console.log(params['modelName']);
-      console.log(params['brandName']);
+      //console.log(params['modelName']);
+      //console.log(params['brandName']);
     });
-
 
     this.getTypes();
     this.getVehicles();
@@ -104,13 +56,6 @@ export class CatalogComponent implements OnInit, AfterViewInit {
     .subscribe(() => {
       this.getVehicles(); 
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.sliderMinValue = this.catalogParams.lowerPriceLimit;
-    this.sliderMaxValue = this.catalogParams.upperPriceLimit;
-    this.sliderRangeElement = this.sliderRange.nativeElement;
-    this.setArea();
   }
 
   getVehicles() {
@@ -216,16 +161,20 @@ export class CatalogComponent implements OnInit, AfterViewInit {
     this.getVehicles();
   }
 
-  changePriceUpperLimit(event: any) {
-    this.catalogParams.upperPriceLimit = parseInt(event.target.value);
-    this.setArea();
-    this.updateVehicles$.next();
+  handleChangeLowerPriceLimit(price: number | null) {
+    if(price)
+    {
+      this.catalogParams.lowerPriceLimit = price;
+      this.updateVehicles$.next();
+    }
   }
 
-  changePriceLowerLimit(event: any) {
-    this.catalogParams.lowerPriceLimit = parseInt(event.target.value);
-    this.setArea();
-    this.updateVehicles$.next();
+  handleChangeUpperPriceLimit(price: number | null) {
+    if(price)
+    {
+      this.catalogParams.upperPriceLimit = price;
+      this.updateVehicles$.next();
+    }
   }
 
   handleMinimalDateChange(minimalPriceDate: Date): void {
@@ -270,13 +219,10 @@ export class CatalogComponent implements OnInit, AfterViewInit {
 
   onCancelClick() {
     this.catalogParams = new CatalogParams();
-    this.priceInputMax.nativeElement.value = this.catalogParams.upperPriceLimit;
-    this.priceInputMin.nativeElement.value = this.catalogParams.lowerPriceLimit;
     this.testFuntionalityVariable = false;
     this.getTypes();
     this.getBrands();
     this.getColors();
     this.getVehicles();
-    this.setArea();
   }
 }

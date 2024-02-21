@@ -25,6 +25,7 @@ import { MultiplyItemsCarouselComponent } from './car-details/multiply-items-car
 import { TableItemsComponent } from './car-details/table-items/table-items.component';
 import { DescriptionComponent } from './car-details/description/description.component';
 import { CharacteristicsComponent } from './car-details/characteristics/characteristics.component';
+import { PriceSelectComponent } from './price-select/price-select.component';
 
 //ngx-bootstrap
 
@@ -44,6 +45,7 @@ import { CharacteristicsComponent } from './car-details/characteristics/characte
     TableItemsComponent,
     DescriptionComponent,
     CharacteristicsComponent,
+    PriceSelectComponent,
   ],
   imports: [
     CommonModule,
