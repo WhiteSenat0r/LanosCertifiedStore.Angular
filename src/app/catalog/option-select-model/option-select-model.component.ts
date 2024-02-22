@@ -16,6 +16,8 @@ import {
   styleUrls: ['./option-select-model.component.css']
 })
 export class OptionSelectModelComponent implements OnChanges {
+  @Input() selectedOptionCheck?: string;
+
   @ViewChild('inputInside') inputInside!: ElementRef;
   @ViewChild('inputButton') inputButton!: ElementRef;
 
@@ -40,9 +42,15 @@ export class OptionSelectModelComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if ('options' in changes) {
       this.updateFilteredOptions();
-      if(this.inputInside)
-      {
-        this.inputInside.nativeElement.value = '';
+      if (this.inputInside) {
+        if (this.selectedOptionCheck) {
+          this.inputInside.nativeElement.value = this.selectedOptionCheck;
+          this.filterOptions();
+          this.selectedOption = this.filteredOptions[0];
+        }
+        else{
+          this.inputInside.nativeElement.value = '';
+        }
       }
       this.selectedOption = null;
     }
@@ -84,6 +92,7 @@ export class OptionSelectModelComponent implements OnChanges {
 
   toggleFocus() {
     this.inputInside.nativeElement.focus();
+    this.inputButton.nativeElement.focus();
     this.toggleDropdown();
   }
 

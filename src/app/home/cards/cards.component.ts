@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Vehicle } from "../../shared/models/vehicle";
 
 @Component({
@@ -6,8 +6,20 @@ import { Vehicle } from "../../shared/models/vehicle";
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.css']
 })
-export class CardsComponent {
+export class CardsComponent{
   @Input() vehicles: Vehicle[] = [];
 
- constructor () {}
+  countOfSearch: number = 0;
+
+  @Output() lookMoreEvent: EventEmitter<boolean | null> = new EventEmitter<boolean | null>();
+  onButtonClick() {
+    if(this.countOfSearch <= 2)
+    {
+      this.lookMoreEvent.emit(false)
+      this.countOfSearch += 1;
+    }
+    else{
+      this.lookMoreEvent.emit(true)
+    }
+  }
 }

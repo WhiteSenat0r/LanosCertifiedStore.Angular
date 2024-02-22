@@ -28,7 +28,7 @@ import { CharacteristicsComponent } from './car-details/characteristics/characte
 import { PriceSelectComponent } from './price-select/price-select.component';
 
 //ngx-bootstrap
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 @NgModule({
   declarations: [
     CatalogComponent,
@@ -62,7 +62,7 @@ import { PriceSelectComponent } from './price-select/price-select.component';
     MatIconModule,
 
     //ngx-bootstrap
-    
+    BsDatepickerModule
   ]
 })
 export class CatalogModule { }

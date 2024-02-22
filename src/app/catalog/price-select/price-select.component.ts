@@ -50,7 +50,13 @@ export class PriceSelectComponent implements AfterViewInit, OnChanges {
     if('lowerPriceLimit' || 'upperPriceLimit' in changes)
     {
       if(this.sliderRangeElement)
+      {
         this.setArea();
+        this.priceInputMin.nativeElement.value = this.lowerPriceLimit;
+        this.priceInputMax.nativeElement.value = this.upperPriceLimit;
+      }
+        
+      
     }
   }
 

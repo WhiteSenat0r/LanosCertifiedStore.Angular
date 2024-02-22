@@ -1,0 +1,49 @@
+::ng-deep .myInputDatePicker {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #acabab;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+::ng-deep .myInputDatePicker:hover, .myInputDatePicker:focus {
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid #535353;
+    box-shadow: none;
+  }
+
+::ng-deep .bs-datepicker {
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+::ng-deep .theme-green .bs-datepicker-head {
+    background-color: black;
+}
+
+
+::ng-deep .bs-datepicker-head button {
+  background-color: black;
+  color: white;
+}
+
+::ng-deep .bs-datepicker-head button:hover {
+  background-color: white;
+  color: black;
+}
+
+::ng-deep .bs-datepicker-container {
+  border-radius: 20px;
+}
+
+::ng-deep .theme-green .bs-datepicker-body table td.ng-star-inserted span{
+    color: black;
+}
+
+
+::ng-deep .theme-green .bs-datepicker-body table td.ng-star-inserted span.selected{
+    background-color: black;
+    color: white;
+}
