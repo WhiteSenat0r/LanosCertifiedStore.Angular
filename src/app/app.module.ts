@@ -24,6 +24,11 @@ import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TabletabsComponent } from './dashboard/tabletabs/tabletabs.component';
 
+import { AdminsearchbarComponent } from './dashboard/adminsearchbar/adminsearchbar.component';
+import { ColortabletabsComponent } from './dashboard/colortabletabs/colortabletabs.component';
+import { BrandtabletabsComponent } from './dashboard/brandtabletabs/brandtabletabs.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +37,9 @@ import { TabletabsComponent } from './dashboard/tabletabs/tabletabs.component';
     SidebarComponent,
     DashboardComponent,
     TabletabsComponent,
+    AdminsearchbarComponent,
+    ColortabletabsComponent,
+    BrandtabletabsComponent,
   ],
   imports: [
     BrowserModule,

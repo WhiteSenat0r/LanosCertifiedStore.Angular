@@ -81,7 +81,7 @@ export class CatalogComponent implements OnInit {
   getColors() {
     this.catalogService.getColors().subscribe({
       next: (response) =>
-        (this.colors = [{ id: '0', name: 'Кольори' }, ...response]),
+        (this.colors = [{ id: '0', name: 'Кольори', HexValue: "" }, ...response]),
       error: (error) => console.error(error),
     });
   }
