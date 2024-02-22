@@ -1,40 +1,42 @@
 <div class="container mt-4">
-    <h2 class="mb-2 fs-2 text-semibold">Тип</h2>
+    <h2 class="mb-2 fs-2 text-semibold">Колір</h2>
     <hr class="">
     <app-adminsearchbar></app-adminsearchbar>
 
     <div class="rounded p-3 shadow-xl mb-2">
         <div class="mb-2">
             <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
-                data-bs-target="#typeModal">
+                data-bs-target="#colorModal">
                 <span class="d-flex align-items-center ">
                     <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
-                    <p class="ml-2"> Створити новий тип</p>
+                    <p class="ml-2"> Створити новий колір</p>
                 </span>
             </button>
         </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="text-center text-semibold">Тип</th>
+                    <th class="text-center text-semibold">Колір</th>
+                    <th class="text-center text-semibold">HEX</th>
                     <th class="text-center text-semibold">Операції</th>
                 </tr>
             </thead>
             <tbody>
                 <ng-container
-                    *ngFor="let item of types.slice((currentPage-1)*pageSize, currentPage*pageSize); let i = index">
+                    *ngFor="let item of colors.slice((currentPage-1)*pageSize, currentPage*pageSize); let i = index">
                     <tr>
                         <td>{{ item.name }}</td>
+                        <td>{{ item.HexValue }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-outline-secondary mr-1 btn-add ms-2" data-bs-toggle="modal"
-                                data-bs-target="#typeModalUpdate">
+                                data-bs-target="#colorModalUpdate">
                                 Редагувати
                             </button>
-                            <div class="modal fade" id="typeModalUpdate" tabindex="-1" aria-labelledby="typeModalUpdateLabel" aria-hidden="true">
+                            <div class="modal fade" id="colorModalUpdate" tabindex="-1" aria-labelledby="colorModalUpdateLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="typeModalUpdateLabel">Редагувати тип</h5>
+                                            <h5 class="modal-title" id="colorModalUpdateLabel">Редагувати тип</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -42,12 +44,12 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                                            <button type="button" class="btn btn-warning" (click)="updateType(item.id, item.name)">Підтвердити</button>
+                                            <button type="button" class="btn btn-warning" >Підтвердити</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-sm btn-outline-dark" (click)="deleteType(item.id)">Видалити</button>
+                            <button class="btn btn-sm btn-outline-dark" (click)="deleteColor(item.id)">Видалити</button>
                         </td>
                     </tr>
                 </ng-container>
@@ -72,20 +74,25 @@
         </li>
     </ul>
 </nav>
-<div class="modal fade" id="typeModal" tabindex="-1" aria-labelledby="typeModalLabel" aria-hidden="true">
+<div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="typeModalLabel">Додати тип</h5>
+                <h5 class="modal-title" id="colorModalLabel">Додати колір</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть новий тип" #newTypeInput>
+                <input type="text" class="form-control mb-3" placeholder="Введіть новий колір" ngModel="newColorName">
+                <!-- Input field for color name -->
+                <input type="text" class="form-control mb-3" placeholder="Введіть HEX значення" ngModel="newHexValue">
+                <!-- Input field for HEX value -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning" (click)="addType(newTypeInput.value)">Підтвердити</button>
+                <button type="button" class="btn btn-warning" (click)="addColor(newColorName, newHexValue)">Підтвердити</button>
             </div>
         </div>
     </div>
 </div>
+
+

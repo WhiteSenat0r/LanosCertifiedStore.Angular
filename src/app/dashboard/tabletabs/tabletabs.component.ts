@@ -3,7 +3,7 @@ import { Model } from '../../shared/models/model';
 import { Brand } from '../../shared/models/brand';
 import { Type } from '../../shared/models/type';
 import { Color } from '../../shared/models/color';
-import { DashboardService } from '../dashboard.service'; 
+import { DashboardService } from '../dashboard.service';
 
 
 @Component({
@@ -13,37 +13,18 @@ import { DashboardService } from '../dashboard.service';
 })
 export class TabletabsComponent implements OnInit {
 
-  models: Model[] = [];
-  brands: Brand[] = [];
   types: Type[] = [];
-  colors: Color[] = [];
-  selectedBrandId: string = '';
-  selectedModelId: string = '';
-  isBrandSelected: boolean = false;
-  isFormCleared: boolean = false;
+
+  currentPage: number = 1;
+  pageSize: number = 8;
 
   constructor(private dashboardService: DashboardService,) {
 
-    
   }
   originalModels: Model[] = [];
 
   ngOnInit(): void {
-    this.getModel();
     this.getTypes();
-    this.getBrands();
-    this.getColor();
-  }
-
-  getModel() {
-    this.dashboardService.getModel().subscribe({
-      next: response => {
-        this.models = response;
-        this.originalModels = [...response];
-      },
-      error: error => console.error(error),
-      complete: () => console.log("GetData Models"),
-    })
   }
 
   getTypes() {
@@ -53,37 +34,59 @@ export class TabletabsComponent implements OnInit {
       complete: () => console.log("GetData Types"),
     })
   }
-
-  getBrands() {
-    this.dashboardService.getBrands().subscribe({
-      next: response => this.brands = response,
-      error: error => console.error(error),
-      complete: () => console.log("GetData Brands"),
-    })
+  get totalPages(): number {
+    return Math.ceil(this.types.length / this.pageSize);
   }
 
-  getColor() {
-    this.dashboardService.getColor().subscribe({
-      next: response => this.colors = response,
-      error: error => console.error(error),
-      complete: () => console.log("GetData Color"),
-    })
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-
-  onBrandChange() {
-    const selectedBrand = this.brands.find(brand => brand.id === this.selectedBrandId);
-    if (selectedBrand) {
-      console.log('Choose brand:', selectedBrand);
-      this.models = [...this.originalModels];
-
-      this.models = this.models.filter(model => model.vehicleBrand === selectedBrand.name);
-    } else {
-      console.log('No found');
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
     }
   }
 
-  
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  setCurrentPage(page: number) {
+    this.currentPage = page;
+  }
+
+  addType(newTypeName: string) {
+    this.dashboardService.addType(newTypeName).subscribe({
+      next: response => {
+        console.log('Type added successfully:', response);
+        this.getTypes();
+      },
+      error: error => console.error('Error adding type:', error)
+    });
+  }
+
+  deleteType(typeId: string) {
+    this.dashboardService.deleteType(typeId).subscribe({
+      next: response => {
+        console.log('Type deleted successfully:', response);
+        this.getTypes();
+      },
+      error: error => console.error('Error deleting type:', error)
+    });
+  }
+
+  updateType(typeId: string, updatedName: string): void {
+    this.dashboardService.updateType(typeId, updatedName)
+      .subscribe(() => {
+        // Після успішного оновлення, оновити дані типів
+        this.getTypes();
+        // Закрити модальне вікно або виконати інші дії
+      });
+  }
+
 }
 
 
