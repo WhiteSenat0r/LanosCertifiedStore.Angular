@@ -1,15 +1,14 @@
-<mat-form-field class="w-full">
-  <mat-label>Choose a date</mat-label>
+<div
+  class="col-xs-12 col-12 p-1 col-md-4 form-group mb-3 w-full"
+  bsDatepicker
+  [bsConfig]="{ adaptivePosition: true }"
+  (bsValueChange)="onMinimalDatePick($event)"
+>
   <input
-    matInput
-    [matDatepicker]="picker"
-    (keyup.enter)="onMinimalDateEnter($event)"
+    type="text"
+    [readOnly]="true"
+    placeholder="Оберіть дату..."
+    class="form-control myInputDatePicker"
+    value="{{ InputShow }}"
   />
-  <mat-hint
-    >{{ minimalPriceDate.getMonth() + 1}}<span>/</span
-    >{{ minimalPriceDate.getDate() }}<span>/</span
-    >{{ minimalPriceDate.getFullYear() }}</mat-hint
-  >
-  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+</div>

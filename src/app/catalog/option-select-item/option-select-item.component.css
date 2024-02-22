@@ -1,6 +1,7 @@
 .button {
     margin-right: 100px;
     position: relative;
+    
 }
 
 .inputElement {
@@ -10,6 +11,7 @@
 
     width: 100%;
 
+    cursor: text;
     padding: 0px 10px 0px 2px;
 }
 
@@ -28,14 +30,16 @@
     border-radius: 20px;
     width: 80%;
 
-    cursor:pointer;
+    cursor:text;
 }
 
 .inputElement input:focus{
     box-shadow: none;
 }
 
-
+.iconButtons{
+    cursor: pointer;
+}
 
 .button .dropdown {
     display: none;

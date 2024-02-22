@@ -1,6 +1,7 @@
 /* Chips */
 
 .chipGroup .chip{
+  display: inline-block;
   padding: 6px 12px;
   font-size: medium;
   background-color: transparent;

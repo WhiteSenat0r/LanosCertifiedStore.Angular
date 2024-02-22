@@ -7,8 +7,8 @@ import { LoginComponent } from './accounts/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'catalog', loadChildren: () => import('./catalog/catalog.module').then(m => m.CatalogModule)},
+  {path: '', component: HomeComponent, data: { breadcrumb: { label: 'Головна сторінка', info: 'home'} }},
+  {path: 'catalog', loadChildren: () => import('./catalog/catalog.module').then(m => m.CatalogModule), data: { breadcrumb: 'Каталог' } },
 
   {path: 'addcar', component: AddcarformComponent},
 
@@ -17,7 +17,6 @@ const routes: Routes = [
   {path: 'accounts/login', component: LoginComponent},
 
   {path: 'dashboard', component: DashboardComponent},
-
   {path: '**', redirectTo:'', pathMatch:'full'},
 ];
 

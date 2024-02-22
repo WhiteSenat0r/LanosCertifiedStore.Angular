@@ -3,14 +3,50 @@
     <div
       class="carousel-item"
       data-bs-interval="false"
-      *ngFor="let pair of carouselPairs; let i = index"
+      *ngFor="let pair of carouselVehiclesPairs; let i = index"
       [class.active]="i === 0"
     >
       <div class="row">
-        <div class="col-md-4 mx-2px" *ngFor="let item of pair">
-          <div class="card" style="height: 280px">
-            <div class="card-body">
-              {{ item.alt }}
+        <div class="col-md-4 mx-2px my-4" *ngFor="let vehicle of pair">
+          <div
+            *ngIf="vehicle"
+            class="card-container bg-white rounded-lg overflow-hidden shadow-md"
+            (click)="changeVehicle(vehicle.id)"
+            style="height: 280px"
+          >
+            <div class="image-container">
+              <img
+                src="../../../assets/images/cars/car2.png"
+                alt="{{ vehicle.brand }}"
+                class="card-image"
+              />
+              <div class="absolute top-3 right-3">
+                <button>
+                  <img
+                    class="h-12 w-auto opacity-75"
+                    src="assets/images/Logo.svg"
+                    alt="Your Company"
+                  />
+                </button>
+              </div>
+            </div>
+
+            <div class="p-4">
+              <h3 class="text-xl font-semibold mb-2" style="white-space: nowrap;">
+                {{ vehicle.type }} {{ vehicle.model }} {{ vehicle.brand }}
+              </h3>
+              <span
+                ><strong class="nowrap"
+                  >{{
+                    (vehicle.prices[0].value | currency : "USD")
+                      ?.slice(1, -3)
+                      ?.replace(",", " ")
+                  }}
+                  {{
+                    (vehicle.prices[0].value | currency : "USD")?.slice(0, 1)
+                  }}</strong
+                ></span
+              >
             </div>
           </div>
         </div>
@@ -36,3 +72,45 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+
+<!-- <div
+    *ngFor="let vehicle of vehicles"
+    class="bg-white rounded-lg overflow-hidden shadow-md card-container"
+    routerLink="/catalog/{{vehicle?.id}}"
+    >
+    <div class="image-container">
+      <img
+        src="../../../assets/images/cars/car2.png"
+        alt="{{ vehicle.brand }}"
+        class="card-image"
+      />
+      <div class="absolute top-3 right-3">
+        <button>
+          <img
+            class="h-12 w-auto opacity-75"
+            src="assets/images/Logo.svg"
+            alt="Your Company"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="p-4">
+      <h3 class="text-xl font-semibold mb-2">
+        {{ vehicle.type }} {{ vehicle.model }} {{ vehicle.brand }}
+        {{ vehicle.color }}
+      </h3>
+      <span
+        ><strong class="nowrap"
+          >{{
+            (vehicle.prices[0].value | currency : "USD")
+              ?.slice(1, -3)
+              ?.replace(",", " ")
+          }}
+          {{
+            (vehicle.prices[0].value | currency : "USD")?.slice(0, 1)
+          }}</strong
+        ></span
+      >
+    </div>
+  </div> -->

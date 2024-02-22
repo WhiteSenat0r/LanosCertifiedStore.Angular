@@ -3,20 +3,18 @@
     <div class="input-box d-flex flex-row gap-2">
       <div class="input-wrap">
         <input
-          placeholder="{{ lowerPriceLimit }}"
+          placeholder="Від"
           type="text"
           name="price_input_min"
-          value="{{lowerPriceLimit}}"
           #price_input_min
           (keyup.enter)="changePriceLowerLimit($event)"
         />
       </div>
       <div class="input-wrap">
         <input
-          placeholder="{{ upperPriceLimit }}"
+          placeholder="До"
           type="text"
           name="price_input_max"
-          value="{{upperPriceLimit}}"
           #price_input_max
           (keyup.enter)="changePriceUpperLimit($event)"
         />

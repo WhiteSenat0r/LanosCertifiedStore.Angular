@@ -1,0 +1,18 @@
+::ng-deep label.xng-breadcrumb-trail{
+    /* color: #ffc107; */
+    color: black;
+}
+
+::ng-deep .xng-breadcrumb-link{
+    color: rgb(161, 159, 159) !important;
+}
+
+::ng-deep .xng-breadcrumb-separator {
+    color: rgb(161, 159, 159) !important;;
+}
+
+::ng-deep .xng-breadcrumb-root {
+    display: inline-block;
+    border-radius: 12px;
+    background-color: transparent;
+  }

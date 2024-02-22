@@ -4,6 +4,7 @@
 }
 
 .inputElement {
+    cursor: text;
     height: 42px;
     border: 2px solid #acabab;
     border-radius: 10px;
@@ -21,6 +22,9 @@
     border-color: rgb(124, 122, 122);
 }
 
+.iconButtons{
+    cursor: pointer;
+}
 
 .inputElement input{
     height: 100%;
