@@ -1,10 +1,12 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   HostListener,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -16,6 +18,8 @@ import {
   styleUrls: ['./option-select-item.component.css'],
 })
 export class OptionSelectItemComponent implements OnChanges {
+  @Input() selectedOptionCheck?: string;
+
   @ViewChild('inputInside') inputInside!: ElementRef;
   @ViewChild('inputButton') inputButton!: ElementRef;
 
@@ -35,14 +39,21 @@ export class OptionSelectItemComponent implements OnChanges {
     any | null
   >();
 
-  constructor(private elementRef: ElementRef) {
-  }
+  constructor(private elementRef: ElementRef) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     if ('options' in changes) {
       this.updateFilteredOptions();
-      if(this.inputInside)
-      {
-        this.inputInside.nativeElement.value = '';
+      if (this.inputInside) {
+        if (this.selectedOptionCheck) {
+          this.inputInside.nativeElement.value = this.selectedOptionCheck;
+          this.filterOptions();
+          this.selectedOption = this.filteredOptions[0];
+        }
+        else{
+          this.inputInside.nativeElement.value = '';
+        }
+        
       }
       this.selectedOption = null;
     }
@@ -84,6 +95,7 @@ export class OptionSelectItemComponent implements OnChanges {
 
   toggleFocus() {
     this.inputInside.nativeElement.focus();
+    this.inputButton.nativeElement.focus();
     this.toggleDropdown();
   }
 

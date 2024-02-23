@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Vehicle } from 'src/app/shared/models/vehicle';
 
 @Component({
   selector: 'app-multiply-items-carousel',
@@ -6,22 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./multiply-items-carousel.component.css']
 })
 export class MultiplyItemsCarouselComponent {
-  carouselItems = [
-    { image: 'assets/images/car12.png', alt: 'one' },
-    { image: 'assets/images/car11.png', alt: 'two' },
-    { image: 'assets/images/car13.png', alt: 'three' },
-    { image: 'assets/images/car14.png', alt: 'four' },
-    { image: 'assets/images/car11.png', alt: 'five' },
-    { image: 'assets/images/car.png', alt: 'six' },
-    // Add more items as needed
-  ];
+  @Input() vehicles!: Vehicle[];
+  @Output() changeVehicleTap: EventEmitter<any | null> = new EventEmitter<any | null>();
 
-  // Convert carouselItems into pairs of items
-  get carouselPairs() {
+  get carouselVehiclesPairs() {
     const pairs = [];
-    for (let i = 0; i < this.carouselItems.length; i += 3) {
-      pairs.push([this.carouselItems[i], this.carouselItems[i + 1], this.carouselItems[i + 2]]);
+    for (let i = 0; i < this.vehicles?.length; i += 3) {
+      pairs.push([this.vehicles[i], this.vehicles[i + 1], this.vehicles[i + 2]]);
     }
     return pairs;
+  }
+
+  changeVehicle(vehicleId: string)
+  {
+    this.changeVehicleTap.emit(vehicleId);
   }
 }

@@ -6,15 +6,25 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from
   styleUrls: ['./date-picker.component.css']
 })
 export class DatePickerComponent {
-  @Input() minimalPriceDate: Date = new Date(2001, 1, 1);
+  @Input() minimalPriceDate!: Date;
   @Output() minimalPriceDateChange: EventEmitter<any | null> = new EventEmitter<any | null>();
 
-  onMinimalDateEnter(event: any)
+  onMinimalDatePick(event: Date)
   {
-    const enteredDate: Date = new Date(event.target.value);
+    const enteredDate: Date = new Date(event);
     this.minimalPriceDateChange.emit(enteredDate);
+  }
 
-    console.log(this.minimalPriceDate);
-    console.log(this.minimalPriceDate.getDate());
+  get InputShow() {
+    if (this.minimalPriceDate) {
+      const dateString = this.minimalPriceDate.getDate() +
+        '/' +
+        (this.minimalPriceDate.getMonth() + 1) +
+        '/' +
+        this.minimalPriceDate.getFullYear();
+      return dateString === '1/2/2001' ? '' : dateString;
+    } else {
+      return '';
+    }
   }
 }

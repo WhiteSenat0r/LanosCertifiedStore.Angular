@@ -6,7 +6,7 @@ import { Vehicle } from '../shared/models/vehicle';
 import { Model } from '../shared/models/model';
 import { CatalogParams } from '../shared/models/catalogParams';
 import { Color } from '../shared/models/color';
-import { Subject, debounceTime } from 'rxjs';
+import { Subject, debounceTime, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css'],
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent implements OnInit{
 
   types: Type[] = [];
   brands: Brand[] = [];
@@ -37,12 +37,29 @@ export class CatalogComponent implements OnInit {
 
   constructor(private catalogService: CatalogService, private route: ActivatedRoute) {  }
 
-  updateVehicles$ = new Subject<void>();
+  updateLowerPrice$ = new Subject<number>();
+  updateUpperPrice$ = new Subject<number>();
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      //console.log(params['modelName']);
-      //console.log(params['brandName']);
+    window.scrollTo(0, 0);
+    this.route.queryParams.subscribe(params => {
+      if(params['brandName'] !== undefined)
+      {
+        this.catalogParams.brandName = params['brandName'];
+      }
+      if(params['modelName'] !== undefined)
+      {
+        this.catalogParams.modelName = params['modelName'];
+      }
+      if(this.catalogParams.brandName !== '')
+      {
+        this.testFuntionalityVariable = true;
+        this.getModels();
+      }
+      if(params['typeName'] !== undefined)
+      {
+        this.catalogParams.typeName = params['typeName'];
+      }
     });
 
     this.getTypes();
@@ -50,11 +67,24 @@ export class CatalogComponent implements OnInit {
     this.getBrands();
     this.getColors();
 
-    this.updateVehicles$.pipe(
-      debounceTime(500)
+    this.updateLowerPrice$.pipe(
+      debounceTime(500),
+      tap((price: number) => {
+        this.catalogParams.lowerPriceLimit = price;
+      })
     )
     .subscribe(() => {
-      this.getVehicles(); 
+      this.getVehicles();
+    });
+
+    this.updateUpperPrice$.pipe(
+      debounceTime(500),
+      tap((price: number) => {
+        this.catalogParams.upperPriceLimit = price;
+      })
+    )
+    .subscribe(() => {
+      this.getVehicles();
     });
   }
 
@@ -162,18 +192,16 @@ export class CatalogComponent implements OnInit {
   }
 
   handleChangeLowerPriceLimit(price: number | null) {
-    if(price)
+    if(price !== null)
     {
-      this.catalogParams.lowerPriceLimit = price;
-      this.updateVehicles$.next();
+      this.updateLowerPrice$.next(price);
     }
   }
 
   handleChangeUpperPriceLimit(price: number | null) {
-    if(price)
+    if(price !== null)
     {
-      this.catalogParams.upperPriceLimit = price;
-      this.updateVehicles$.next();
+      this.updateUpperPrice$.next(price);
     }
   }
 
@@ -211,6 +239,16 @@ export class CatalogComponent implements OnInit {
       if (name === 'color') {
         this.catalogParams.colorName = '';
         this.getColors();
+      }
+      if (name === 'lowerPriceLimit') {
+        this.catalogParams.lowerPriceLimit = 0;
+        
+      }
+      if (name === 'upperPriceLimit') {
+        this.catalogParams.upperPriceLimit = 100000;
+      }
+      if (name === 'minimalPriceDate') {
+        this.catalogParams.minimalPriceDate = new Date(2001,1,1);
       }
 
       this.getVehicles();

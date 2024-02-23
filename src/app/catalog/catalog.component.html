@@ -1,13 +1,6 @@
-<div class="flex flex-col" style="height: 25px">
-  <div>
-    <span>Сільгоcптехніка</span>
-    <span> > </span>
-    <span> Пошук </span>
-  </div>
-</div>
-<div class="text-lg font-bold mt-2">
+<div class="text-lg font-bold">
   <span *ngIf="totalCountItems"
-    >Пошук машини -
+    >Пошук машин -
     <span *ngIf="totalCountItems > 1">{{ totalCountItems }} пропозицій</span>
     <span *ngIf="totalCountItems == 1">{{ totalCountItems }} пропозиція</span>
   </span>
@@ -20,41 +13,77 @@
 <!--Change view and Chips-->
 <div class="d-flex flex-row gap-2 mb-2">
   <!--Chips-->
-  <div class="d-flex flex-row gap-2 mr-auto mt-4 chipGroup">
+  <div class="d-flex flex-row flex-wrap gap-2 mr-auto mt-4 chipGroup">
     <span
       *ngIf="
         catalogParams.typeName != '' ||
         catalogParams.brandName != '' ||
         catalogParams.colorName != '' ||
-        catalogParams.modelName != ''
+        catalogParams.modelName != '' ||
+        catalogParams.lowerPriceLimit != 0 ||
+        catalogParams.upperPriceLimit != 100000 ||
+        catalogParams.minimalPriceDate.toString() != 'Thu Feb 01 2001 00:00:00 GMT+0200 (Eastern European Standard Time)'
       "
       (click)="onCancelClick()"
       class="chip cancelChip"
       >Скасувати</span
     >
     <span
-      *ngIf="catalogParams.typeName != ''"
+      *ngIf="catalogParams.typeName !== ''"
       class="chip"
       (click)="onChipClick('type')"
       >{{ catalogParams.typeName }}</span
     >
     <span
-      *ngIf="catalogParams.brandName != ''"
+      *ngIf="catalogParams.brandName !== ''"
       class="chip"
       (click)="onChipClick('brand')"
       >{{ catalogParams.brandName }}</span
     >
     <span
-      *ngIf="catalogParams.modelName != ''"
+      *ngIf="catalogParams.modelName !== ''"
       class="chip"
       (click)="onChipClick('model')"
       >{{ catalogParams.modelName }}</span
     >
     <span
-      *ngIf="catalogParams.colorName != ''"
+      *ngIf="catalogParams.colorName !== ''"
       class="chip"
       (click)="onChipClick('color')"
       >{{ catalogParams.colorName }}</span
+    >
+    <span
+      *ngIf="catalogParams.lowerPriceLimit != 0"
+      class="chip"
+      (click)="onChipClick('lowerPriceLimit')"
+      >Від
+      {{
+        (catalogParams.lowerPriceLimit | currency : "USD")?.slice(0, -3)
+      }}</span
+    >
+    <span
+      *ngIf="catalogParams.upperPriceLimit != 100000"
+      class="chip"
+      (click)="onChipClick('upperPriceLimit')"
+      >До
+      {{
+        (catalogParams.upperPriceLimit | currency : "USD")?.slice(0, -3)
+      }}</span
+    >
+    <span
+      *ngIf="
+        catalogParams.minimalPriceDate.toString() !==
+        'Thu Feb 01 2001 00:00:00 GMT+0200 (Eastern European Standard Time)'
+      "
+      class="chip"
+      (click)="onChipClick('minimalPriceDate')"
+      >Від {{
+        (catalogParams.minimalPriceDate.getMonth() + 1).toString() +
+          "/" +
+          catalogParams.minimalPriceDate.getDate().toString() +
+          "/" +
+          catalogParams.minimalPriceDate.getFullYear().toString()
+      }}</span
     >
   </div>
   <!--Change View and Sorting-->
@@ -78,12 +107,14 @@
     <div class="flex flex-col gap-4">
       <app-option-select-item
         [options]="types"
+        [selectedOptionCheck]="catalogParams.typeName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-item>
 
       <app-option-select-item
         [options]="brands"
+        [selectedOptionCheck]="catalogParams.brandName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-item>
@@ -91,12 +122,14 @@
       <app-option-select-model
         *ngIf="testFuntionalityVariable"
         [options]="models"
+        [selectedOptionCheck]="catalogParams.modelName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-model>
 
       <app-option-select-item
         [options]="colors"
+        [selectedOptionCheck]="catalogParams.colorName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
         (selectedOptionAll)="handleSelectedOptionUndo($event)"
       ></app-option-select-item>
