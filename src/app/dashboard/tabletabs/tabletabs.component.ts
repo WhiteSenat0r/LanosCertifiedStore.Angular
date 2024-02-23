@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Model } from '../../shared/models/model';
-import { Brand } from '../../shared/models/brand';
 import { Type } from '../../shared/models/type';
-import { Color } from '../../shared/models/color';
 import { DashboardService } from '../dashboard.service';
-
 
 @Component({
   selector: 'app-tabletabs',
@@ -14,13 +11,12 @@ import { DashboardService } from '../dashboard.service';
 export class TabletabsComponent implements OnInit {
 
   types: Type[] = [];
-
   currentPage: number = 1;
   pageSize: number = 8;
+  currentTypeId: string = "";
 
-  constructor(private dashboardService: DashboardService,) {
+  constructor(private dashboardService: DashboardService) { }
 
-  }
   originalModels: Model[] = [];
 
   ngOnInit(): void {
@@ -34,6 +30,7 @@ export class TabletabsComponent implements OnInit {
       complete: () => console.log("GetData Types"),
     })
   }
+
   get totalPages(): number {
     return Math.ceil(this.types.length / this.pageSize);
   }
@@ -78,15 +75,28 @@ export class TabletabsComponent implements OnInit {
     });
   }
 
-  updateType(typeId: string, updatedName: string): void {
-    this.dashboardService.updateType(typeId, updatedName)
-      .subscribe(() => {
-        // Після успішного оновлення, оновити дані типів
-        this.getTypes();
-        // Закрити модальне вікно або виконати інші дії
-      });
+ setEditedType(itemId: string) {
+    this.currentTypeId = itemId;
+  } 
+
+  updateType(newName: string) {
+    if (!newName.trim()) {
+      console.error('Updated name cannot be empty');
+      return;
+    }
+
+    console.log('Updating type with id:', this.currentTypeId);
+    console.log('New name:', newName);
+
+    this.dashboardService.updateType(this.currentTypeId, newName).subscribe({
+      next: response => {
+        console.log('Type updated successfully:', response);
+        this.getTypes(); 
+      },
+      error: error => {
+        console.error('Error updating type:', error);
+      }
+    });
   }
 
 }
-
-

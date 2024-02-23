@@ -1,36 +1,41 @@
 <div class="container mt-4">
-    <h2 class="mb-2 fs-2 text-semibold">Тип</h2>
+    <h2 class="mb-2 fs-2 text-semibold">Модель</h2>
     <hr class="border border-dark border-1 my-2 opacity-100">
     <app-adminsearchbar></app-adminsearchbar>
 
     <div class="rounded p-3 shadow-xl mb-2">
         <div class="mb-2">
             <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
-                data-bs-target="#typeModal">
+                data-bs-target="#modalModal">
                 <span class="d-flex align-items-center ">
                     <i class="fa-solid fa-plus" style="color: #2a2d32;"></i>
-                    <p class="ml-2"> Створити новий тип</p>
+                    <p class="ml-2"> Створити нову модель</p>
                 </span>
             </button>
         </div>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="text-center text-semibold">Тип</th>
+                    <th class="text-center text-semibold">Модель</th>
+                    <th class="text-center text-semibold">Бренд</th>
                     <th class="text-center text-semibold">Операції</th>
                 </tr>
             </thead>
             <tbody>
-                <ng-container
-                    *ngFor="let item of types.slice((currentPage-1)*pageSize, currentPage*pageSize); let i = index">
+                <ng-container *ngFor="let item of models.slice((currentPage-1)*pageSize, currentPage*pageSize); let i = index">
                     <tr>
                         <td>{{ item.name }}</td>
+                        <td>{{ item.vehicleBrand }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-outline-secondary mr-1 btn-add ms-2" data-bs-toggle="modal"
-                                data-bs-target="#typeModalUpdate" (click)="setEditedType(item.id)">
+                                data-bs-target="#brandModalUpdate">
                                 Редагувати
                             </button>
-                            <button class="btn btn-sm btn-outline-dark" (click)="deleteType(item.id)">Видалити</button>
+                            <div class="modal fade" id="deleteBrand" tabindex="-1"
+                                aria-labelledby="colorModalUpdateLabel" aria-hidden="true">
+                                <!-- Модальне вікно редагування типу -->
+                            </div>
+                            <button class="btn btn-sm btn-outline-dark" (click)="deleteModel(item.id)">Видалити</button>
                         </td>
                     </tr>
                 </ng-container>
@@ -55,37 +60,30 @@
         </li>
     </ul>
 </nav>
-<div class="modal fade" id="typeModal" tabindex="-1" aria-labelledby="typeModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="modalModal" tabindex="-1" aria-labelledby="modelModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="typeModalLabel">Додати тип</h5>
+                <h5 class="modal-title" id="modelModalLabel">Додати модель</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть новий тип" #newTypeInput>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning" (click)="addType(newTypeInput.value)">Підтвердити</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="typeModalUpdate" tabindex="-1" aria-labelledby="typeModalUpdateLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="typeModalUpdateLabel">Редагувати тип</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="..." #editedTypeName>
+                <div class="col-md-6 mb-4">
+                    <label for="brand" class="form-label text-sm font-weight-medium text-gray-700">Бренд</label>
+                    <div class="d-flex align-items-center">
+                        <select id="brand" name="brand" class="form-select border border-gray-300 rounded-2xl shadow-sm"
+                        style="width: 100%;" (change)="updateSelectedBrand($event)">
+                        <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
+                    </select>                   
+                    </div>
+                </div>
+                <input type="text" class="form-control mb-3" placeholder="Введіть нову модель" #newModelInput>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
                 <button type="button" class="btn btn-warning"
-                    (click)="updateType(editedTypeName.value)">Підтвердити</button>
+                (click)="addModel(newModelInput.value, selectedBrandId)">Підтвердити</button>
             </div>
         </div>
     </div>

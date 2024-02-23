@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +13,19 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     initFlowbite();
+  }
+
+  constructor(private router: Router) {}
+
+  isLoginPage(): boolean {
+    return this.router.url.includes('login');
+  }
+
+  isRegisterPage(): boolean {
+    return this.router.url.includes('register');
+  }
+
+  isDashboardPage(): boolean {
+    return this.router.url.includes('dashboard');
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Color } from 'src/app/shared/models/color';
 import { DashboardService } from '../dashboard.service';
 
@@ -11,18 +12,21 @@ export class ColortabletabsComponent {
 
   colors: Color[] = [];
 
-  newColorName: string = '';
-  newHexValue: string = '';
+  colorForm: FormGroup;
 
   currentPage: number = 1;
   pageSize: number = 8;
 
   constructor(private dashboardService: DashboardService,) {
-
+    this.colorForm = new FormBuilder().group({
+      newColorName: ['', Validators.required],
+      newHexValue: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
     this.getColor();
+
   }
 
   getColor() {
@@ -34,7 +38,7 @@ export class ColortabletabsComponent {
   }
 
   addColor(newColorName: string, newHexValue: string) {
-    this.dashboardService.addColor(newColorName).subscribe({
+    this.dashboardService.addColor(newColorName, newHexValue).subscribe({
       next: response => {
         console.log('Color added successfully:', response);
         this.getColor();
@@ -42,6 +46,7 @@ export class ColortabletabsComponent {
       error: error => console.error('Error adding color:', error)
     });
   }
+  
 
   deleteColor(colorId: string) {
     this.dashboardService.deleteColor(colorId).subscribe({

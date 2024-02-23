@@ -1,10 +1,8 @@
 <div class="container ">
-  <!--   <app-header></app-header> -->
+  <app-header *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage()"></app-header>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
 </div>
 
-<!-- <app-footer></app-footer> -->
-
-
+<app-footer *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage()"></app-footer>
