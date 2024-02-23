@@ -18,8 +18,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AddcarformModule } from './addcarform/addcarform.module';
-import { RegisterComponent } from './accounts/register/register.component';
-import { LoginComponent } from './accounts/login/login.component';
 import { SidebarComponent } from './dashboard/sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TabletabsComponent } from './dashboard/tabletabs/tabletabs.component';
@@ -27,13 +25,12 @@ import { TabletabsComponent } from './dashboard/tabletabs/tabletabs.component';
 import { AdminsearchbarComponent } from './dashboard/adminsearchbar/adminsearchbar.component';
 import { ColortabletabsComponent } from './dashboard/colortabletabs/colortabletabs.component';
 import { BrandtabletabsComponent } from './dashboard/brandtabletabs/brandtabletabs.component';
+import { AccountModule } from './account/account.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    LoginComponent,
     SidebarComponent,
     DashboardComponent,
     TabletabsComponent,
@@ -49,6 +46,7 @@ import { BrandtabletabsComponent } from './dashboard/brandtabletabs/brandtableta
     HomeModule,
     AppRoutingModule,
     HttpClientModule,
+    AccountModule,
 
     ModalModule,
 

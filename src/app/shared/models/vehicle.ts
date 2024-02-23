@@ -1,4 +1,5 @@
 import { Price } from "./price";
+import { Image } from "./image";
 
 export interface Vehicle{
     id: string;
@@ -10,5 +11,6 @@ export interface Vehicle{
     model: string;
 
     displacement: number;
-    prices: Price[]
+    prices: Price[];
+    images: Image[];
 }

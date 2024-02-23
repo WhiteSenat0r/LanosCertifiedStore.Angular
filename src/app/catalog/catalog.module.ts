@@ -23,7 +23,6 @@ import { OptionSelectModelComponent } from './option-select-model/option-select-
 import { MainCarouselComponent } from './car-details/main-carousel/main-carousel.component';
 import { MultiplyItemsCarouselComponent } from './car-details/multiply-items-carousel/multiply-items-carousel.component';
 import { TableItemsComponent } from './car-details/table-items/table-items.component';
-import { DescriptionComponent } from './car-details/description/description.component';
 import { CharacteristicsComponent } from './car-details/characteristics/characteristics.component';
 import { PriceSelectComponent } from './price-select/price-select.component';
 
@@ -43,7 +42,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     MainCarouselComponent,
     MultiplyItemsCarouselComponent,
     TableItemsComponent,
-    DescriptionComponent,
     CharacteristicsComponent,
     PriceSelectComponent,
   ],

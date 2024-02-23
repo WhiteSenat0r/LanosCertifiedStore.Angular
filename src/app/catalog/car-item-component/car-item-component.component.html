@@ -1,10 +1,18 @@
 <div class="h-122 rounded-lg">
   <div class="relative">
-    <img
-      class="w-full h-full object-cover"
-      src="assets/images/car.png"
-      alt="Car photo"
-    />
+    <ng-container *ngFor="let image of vehicle?.images">
+      <ng-container *ngIf="image.isMainImage">
+        <img *ngIf="columnCount === 3" class="vehicleImage img-fluid w-full h-[200px]"
+          src="{{image.imageUrl}}"
+          alt="Car photo"
+        />
+        <img *ngIf="columnCount === 2" class="vehicleImage img-fluid w-full h-[300px]"
+          src="{{image.imageUrl}}"
+          alt="Car photo"
+        />
+      </ng-container>
+    </ng-container>
+
     <div class="absolute top-3 right-3">
       <button>
         <img
