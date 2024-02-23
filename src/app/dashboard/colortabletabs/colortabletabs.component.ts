@@ -14,6 +14,8 @@ export class ColortabletabsComponent {
 
   colorForm: FormGroup;
 
+  currentColorId: string = "";
+
   currentPage: number = 1;
   pageSize: number = 8;
 
@@ -46,7 +48,7 @@ export class ColortabletabsComponent {
       error: error => console.error('Error adding color:', error)
     });
   }
-  
+
 
   deleteColor(colorId: string) {
     this.dashboardService.deleteColor(colorId).subscribe({
@@ -59,6 +61,13 @@ export class ColortabletabsComponent {
 
   }
 
+  setEditedColor(itemId: string) {
+    this.currentColorId = itemId;
+  }
+
+  UpdateColor(){
+    
+  }
   get totalPages(): number {
     return Math.ceil(this.colors.length / this.pageSize);
   }
