@@ -2,14 +2,19 @@
   <div
     *ngFor="let vehicle of vehicles"
     class="bg-white rounded-lg overflow-hidden shadow-md card-container"
-    routerLink="/catalog/{{vehicle?.id}}"
-    >
+    routerLink="/catalog/{{ vehicle?.id }}"
+  >
     <div class="image-container">
-      <img
-        src="../../../assets/images/cars/car2.png"
-        alt="{{ vehicle.brand }}"
-        class="card-image"
-      />
+      <ng-container *ngFor="let image of vehicle.images">
+        <ng-container *ngIf="image.isMainImage">
+          <img
+            src="{{image.imageUrl}}"
+            alt="{{ vehicle.brand }}"
+            class="card-image"
+          />
+        </ng-container>
+      </ng-container>
+
       <div class="absolute top-3 right-3">
         <button>
           <img
@@ -45,10 +50,14 @@
   (click)="onButtonClick()"
   class="mt-4 mx-auto button px-40 rounded-full h-12 flex overflow-hidden space-x-1 items-center border border-black hover:bg-gray-200 transition-colors duration-300"
 >
-  <span *ngIf="countOfSearch <= 2" class="lookMore text-sm text-black whitespace-nowrap"
+  <span
+    *ngIf="countOfSearch <= 2"
+    class="lookMore text-sm text-black whitespace-nowrap"
     >Переглянути ще</span
   >
-  <span *ngIf="countOfSearch > 2" class="lookMore text-sm text-black whitespace-nowrap"
+  <span
+    *ngIf="countOfSearch > 2"
+    class="lookMore text-sm text-black whitespace-nowrap"
     >Перейти до пошуку</span
   >
 </button>

@@ -1,24 +1,20 @@
 <main class="w-[400px] d-flex align-items-center py-4 m-auto mt-5">
-    <form class="form-signin w-100 m-auto">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-signin w-100 m-auto">
         <img class="mb-4" src="../../../assets/images/Logo.svg" alt="" width="72" height="72">
         <h1 class="h3  fw-normal">Please sign in</h1>
 
         <div class="form-floating mb-1">
-            <input type="text" class="form-control" id="floatingFirstName" placeholder="First Name">
-            <label for="floatingFirstName">First Name</label>
-        </div>
-        <div class="form-floating mb-1">
-            <input type="text" class="form-control" id="floatingLastName" placeholder="Last Name">
-            <label for="floatingLastName">Last Name</label>
+            <input formControlName="username" type="text" class="form-control" id="floatingFirstName" placeholder="username">
+            <label for="floatingFirstName">User Name</label>
         </div>
 
         <div class="form-floating mb-1">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input formControlName="email"  type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
             <label for="floatingInput">Email address</label>
         </div>
         
         <div class="form-floating mb-1">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input formControlName="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
         </div>
 

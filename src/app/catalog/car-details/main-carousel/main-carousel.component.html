@@ -3,10 +3,10 @@
       <div
         class="carousel-item"
         data-bs-interval="false"
-        *ngFor="let item of carouselItems; let i = index"
+        *ngFor="let image of getSortedVehiclesByMainImage; let i = index"
         [class.active]="i === 0"
       >
-        <img src="{{item.image}}" alt="{{item.alt}}" class="img-fluid">
+        <img src="{{image.imageUrl}}" alt="{{i}}" class="img-fluid">
       </div>
     </div>
     <button

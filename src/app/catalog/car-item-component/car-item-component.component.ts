@@ -9,5 +9,5 @@ import { Vehicle } from 'src/app/shared/models/vehicle';
 export class CarItemComponentComponent {
 
   @Input() vehicle?: Vehicle;
-
+  @Input() columnCount?: number;
 }

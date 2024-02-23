@@ -1,6 +1,8 @@
 <div class="container mx-auto max-w-7xl">
   <!--Main carousel-->
-  <app-main-carousel></app-main-carousel>
+  <div *ngIf="vehicle">
+    <app-main-carousel [vehicleImages]="vehicle.images"></app-main-carousel>
+  </div>
 
   <!--Text-->
   <div class="mt-8 mx-auto max-w-7xl mb-4" *ngIf="vehicle">
@@ -35,9 +37,9 @@
 
   <!--Table of others-->
   <div class="mb-2 mt-4">
-    <span class="text-3xl"
-      ><strong>Інші моделі {{ vehicle?.brand }}</strong></span
-    >
+    <span *ngIf="vehicle?.brand" class="text-3xl">
+      <strong>Інші моделі {{ vehicle.brand }}</strong>
+    </span>
   </div>
   <app-table-items
     [modelsOfBrand]="modelsOfBrand"
