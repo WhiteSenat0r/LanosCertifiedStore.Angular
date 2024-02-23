@@ -4,7 +4,6 @@ import { Type } from '../shared/models/type';
 import { Brand } from '../shared/models/brand';
 import { Color } from '../shared/models/color';
 import { Model } from "../shared/models/model";
-import { CreateVehicle } from "../shared/models/createvehicle";
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +18,15 @@ export class DashboardService {
         return this.http.get<Model[]>(this.baseUrl + 'Models');
     }
 
+    addModel(newModelName: string, brandId: string) {
+        const params = new HttpParams().set('name', newModelName).set('brandId', brandId);
+        return this.http.post(this.baseUrl + 'Models', null, { params });
+    }
+
+    deleteModel(modelId: string) {
+        return this.http.delete(`${this.baseUrl}Models/${modelId}`);
+    }
+
     getBrands() {
         return this.http.get<Brand[]>(this.baseUrl + 'Brands');
     }
@@ -31,7 +39,7 @@ export class DashboardService {
     deleteBrand(brandId: string) {
         return this.http.delete(`${this.baseUrl}Brands/${brandId}`);
     }
-    
+
     getTypes() {
         return this.http.get<Type[]>(this.baseUrl + 'Types');
     }
@@ -40,11 +48,11 @@ export class DashboardService {
         return this.http.get<Color[]>(this.baseUrl + 'Colors');
     }
 
-    addColor(newColorName: string) {
-        const params = new HttpParams().set('name', newColorName);
-        return this.http.post(this.baseUrl + 'Colors', null, { params });
-    }
-      
+    addColor(newColorName: string, newHexValue: string) {
+        const body = { ColorName: newColorName, HexValue: newHexValue };
+        return this.http.post<Color>(`${this.baseUrl}Colors`, body);
+    } 
+
     deleteColor(colorId: string) {
         return this.http.delete(`${this.baseUrl}Colors/${colorId}`);
     }
@@ -54,13 +62,14 @@ export class DashboardService {
         return this.http.post(this.baseUrl + 'Types', null, { params });
     }
 
-   
+
     deleteType(typeId: string) {
         return this.http.delete(`${this.baseUrl}Types/${typeId}`);
     }
 
-    updateType(typeId: string, updatedName: string) {
-        const params = new HttpParams().set('name', updatedName);
-        return this.http.put(`${this.baseUrl}Types/${typeId}`, null, { params });
-    }
+    updateType(id: string, updatedName: string) {
+        const body = { id: id, updatedName: updatedName };
+        return this.http.put<Type>(`${this.baseUrl}Types`, body);
+      }      
+
 }

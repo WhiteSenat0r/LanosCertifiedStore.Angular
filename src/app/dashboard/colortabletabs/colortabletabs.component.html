@@ -1,6 +1,6 @@
 <div class="container mt-4">
     <h2 class="mb-2 fs-2 text-semibold">Колір</h2>
-    <hr class="">
+    <hr class="border border-dark border-1 my-2 opacity-100">
     <app-adminsearchbar></app-adminsearchbar>
 
     <div class="rounded p-3 shadow-xl mb-2">
@@ -26,29 +26,12 @@
                     *ngFor="let item of colors.slice((currentPage-1)*pageSize, currentPage*pageSize); let i = index">
                     <tr>
                         <td>{{ item.name }}</td>
-                        <td>{{ item.HexValue }}</td>
+                        <td>{{ item.hexValue }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-outline-secondary mr-1 btn-add ms-2" data-bs-toggle="modal"
-                                data-bs-target="#colorModalUpdate">
+                                data-bs-target="#colorModalUpdate" (click)="setEditedColor(item.id)">
                                 Редагувати
                             </button>
-                            <div class="modal fade" id="colorModalUpdate" tabindex="-1" aria-labelledby="colorModalUpdateLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="colorModalUpdateLabel">Редагувати тип</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="text" class="form-control mb-3" placeholder="Введіть новий тип" ngModel="editedTypeName">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                                            <button type="button" class="btn btn-warning" >Підтвердити</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <button class="btn btn-sm btn-outline-dark" (click)="deleteColor(item.id)">Видалити</button>
                         </td>
                     </tr>
@@ -74,25 +57,43 @@
         </li>
     </ul>
 </nav>
+
 <div class="modal fade" id="colorModal" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="colorModalLabel">Додати колір</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть новий колір" ngModel="newColorName">
-                <!-- Input field for color name -->
-                <input type="text" class="form-control mb-3" placeholder="Введіть HEX значення" ngModel="newHexValue">
-                <!-- Input field for HEX value -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning" (click)="addColor(newColorName, newHexValue)">Підтвердити</button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="colorModalLabel">Додати колір</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <input type="text" class="form-control mb-3" placeholder="Введіть новий колір" #newColorInput>
+          <input type="text" class="form-control mb-3" placeholder="Введіть HEX значення" #newHexValue>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
+          <button type="button" class="btn btn-warning"
+          (click)="addColor(newColorInput.value, newHexValue.value)">Підтвердити</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-
+  <div class="modal fade" id="colorModalUpdate" tabindex="-1" aria-labelledby="colorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="colorModalLabel">Додати колір</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control mb-3" placeholder="Введіть новий колір" #newColorInput>
+          <input type="text" class="form-control mb-3" placeholder="Введіть HEX значення" #newHexValue>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
+          <button type="button" class="btn btn-warning"
+          (click)="UpdateColor(newColorInput.value, newHexValue.value)">Підтвердити</button>
+        </div>
+      </div>
+    </div>
+  </div>

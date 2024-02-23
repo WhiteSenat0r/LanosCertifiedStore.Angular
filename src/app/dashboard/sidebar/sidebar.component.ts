@@ -21,4 +21,8 @@ export class SidebarComponent {
   selectBrand() {
     this.optionSelected.emit('brand');
   }
+
+  selectModel() {
+    this.optionSelected.emit('model');
+  }
 }

@@ -25,7 +25,11 @@ import { TabletabsComponent } from './dashboard/tabletabs/tabletabs.component';
 import { AdminsearchbarComponent } from './dashboard/adminsearchbar/adminsearchbar.component';
 import { ColortabletabsComponent } from './dashboard/colortabletabs/colortabletabs.component';
 import { BrandtabletabsComponent } from './dashboard/brandtabletabs/brandtabletabs.component';
+
+import { ModeltabletabsComponent } from './dashboard/modeltabletabs/modeltabletabs.component';
+
 import { AccountModule } from './account/account.module';
+
 
 
 @NgModule({
@@ -37,6 +41,7 @@ import { AccountModule } from './account/account.module';
     AdminsearchbarComponent,
     ColortabletabsComponent,
     BrandtabletabsComponent,
+    ModeltabletabsComponent,
   ],
   imports: [
     BrowserModule,
