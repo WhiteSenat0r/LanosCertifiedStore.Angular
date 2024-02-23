@@ -15,11 +15,16 @@
             style="height: 280px"
           >
             <div class="image-container">
-              <img
-                src="../../../assets/images/cars/car2.png"
-                alt="{{ vehicle.brand }}"
-                class="card-image"
-              />
+              <ng-container *ngFor="let image of vehicle.images">
+                <ng-container *ngIf="image.isMainImage">
+                  <img
+                    src="{{ image.imageUrl }}"
+                    alt="{{ vehicle.brand }}"
+                    class="card-image"
+                  />
+                </ng-container>
+              </ng-container>
+
               <div class="absolute top-3 right-3">
                 <button>
                   <img
@@ -32,7 +37,10 @@
             </div>
 
             <div class="p-4">
-              <h3 class="text-xl font-semibold mb-2" style="white-space: nowrap;">
+              <h3
+                class="text-xl font-semibold mb-2"
+                style="white-space: nowrap"
+              >
                 {{ vehicle.type }} {{ vehicle.model }} {{ vehicle.brand }}
               </h3>
               <span

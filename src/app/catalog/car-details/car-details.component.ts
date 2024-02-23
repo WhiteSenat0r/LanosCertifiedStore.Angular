@@ -13,7 +13,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
   styleUrls: ['./car-details.component.css'],
 })
 export class CarDetailsComponent implements OnInit {
-  vehicle?: Vehicle;
+  vehicle!: Vehicle;
   modelsOfBrand?: Model[];
   vehiclesOfType!: Vehicle[];
 
@@ -52,7 +52,6 @@ export class CarDetailsComponent implements OnInit {
           this.vehicle = vehicle;
           this.getModels();
           this.getVehiclesOfType();
-
           this.bcService.set('@vehicleElement', vehicle.brand + ' ' + vehicle.model)
         },
         error: (error) => console.error(error),

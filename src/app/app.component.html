@@ -1,3 +1,4 @@
+
 <div class="container ">
 
   <app-header *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage()"></app-header>
@@ -8,12 +9,27 @@
 
   <router-outlet></router-outlet>
 
+
+<div *ngIf="accountService.currentUserSig() === null">
+  <a routerLink="/account/login" class="p-5 bg-dark text-bg-danger">Login</a>
+  <a routerLink="/account/register" class="p-5 bg-dark text-bg-danger"
+    >Sign Up</a
+  >
+</div>
+
+<div class="container">
+  <app-header></app-header>
+  <app-section-header></app-section-header>
+
+  <router-outlet></router-outlet>
+
 </div>
 
 
 <app-footer *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage()"></app-footer>
 
-<app-footer></app-footer>
+<app-footer></app-footer><<<<<<< 77-add-model-to-dashboard
+
 
 
 
