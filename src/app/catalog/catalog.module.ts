@@ -17,7 +17,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { PaginationComponent } from './pagination/pagination.component';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { OptionSelectModelComponent } from './option-select-model/option-select-model.component';
 import { MainCarouselComponent } from './car-details/main-carousel/main-carousel.component';
@@ -28,15 +27,16 @@ import { PriceSelectComponent } from './price-select/price-select.component';
 
 //ngx-bootstrap
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { CatalogFooterComponent } from './catalog-footer/catalog-footer.component';
 @NgModule({
   declarations: [
     CatalogComponent,
+    CatalogFooterComponent,
     CarDetailsComponent,
     CarItemComponentComponent,
     OptionSelectItemComponent,
     SortSelectTypeComponent,
     ChangeViewGridComponent,
-    PaginationComponent,
     DatePickerComponent,
     OptionSelectModelComponent,
     MainCarouselComponent,

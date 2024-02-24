@@ -160,12 +160,12 @@
       </div>
     </div>
 
-    <app-pagination
+    <app-catalog-footer
       [totalCountItems]="totalCountItems"
       [pageNumber]="catalogParams.pageNumber"
       [itemsPerPage]="catalogParams.pageSize"
       (pageNumberChange)="handlePageNumberChange($event)"
       (pageSizeChange)="handlePageSizeChange($event)"
-    ></app-pagination>
+    ></app-catalog-footer>
   </section>
 </div>

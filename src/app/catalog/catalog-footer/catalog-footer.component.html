@@ -1,18 +1,11 @@
 <div *ngIf="totalCountItems" class="d-flex justify-content-between mb-10">
-  <div></div>
-  <pagination
-    [boundaryLinks]="true"
-    [totalItems]="totalCountItems"
-    [itemsPerPage]="itemsPerPage"
-    [maxSize]="5"
-    (pageChanged)="onPageChanged($event)"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    firstText="&laquo;"
-    lastText="&raquo;"
-    class="my-pagination"
-  >
-  </pagination>
+  <div>
+  </div>
+  <app-pager
+      [totalCountItems]="totalCountItems"
+      [itemsPerPage]="itemsPerPage"
+      (pageChanged)="handlePageChangedEvent($event)"
+    ></app-pager>
   <div class="mb-1">
     <span
       >Показувати по:
