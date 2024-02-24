@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 
+import { CommonModule } from '@angular/common';
 import { DashboardComponent } from "./dashboard.component";
 import { AdminsearchbarComponent } from "./adminsearchbar/adminsearchbar.component";
 import { BrandtabletabsComponent } from "./brandtabletabs/brandtabletabs.component";
@@ -10,6 +11,7 @@ import { TabletabsComponent } from "./tabletabs/tabletabs.component";
 
 import { FormsModule } from '@angular/forms';
 import { DashboardRoutingModule } from "./dashboard-routing.module";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     declarations: [
@@ -23,7 +25,9 @@ import { DashboardRoutingModule } from "./dashboard-routing.module";
     ],
     imports: [
         FormsModule,
-        DashboardRoutingModule
+        DashboardRoutingModule,
+        SharedModule,
+        CommonModule,
     ]
 })
 export class DashboardModule { }

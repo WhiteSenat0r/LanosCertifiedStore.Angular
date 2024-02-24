@@ -14,6 +14,7 @@ export class TabletabsComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 8;
   currentTypeId: string = "";
+  pageNumber: number = 0;
 
   constructor(private dashboardService: DashboardService) { }
 
@@ -23,36 +24,34 @@ export class TabletabsComponent implements OnInit {
     this.getTypes();
   }
 
+  get pageGeneration() {
+    const typecontainer = [];
+    let temp = [];
+    for (let i = 1; i < this.types.length+1; i += 1) {
+      temp.push(this.types[i-1])
+      console.log(this.types[i-1])
+      if (i  % 8 === 0) {
+        typecontainer.push(temp);
+        temp=[];
+      }
+      
+    }
+    console.log("---------")
+    return typecontainer;
+  }
+
+  handlePageChange(page: number) {
+    if (this.pageNumber !== page) {
+      this.pageNumber = page
+    }
+  }
+
   getTypes() {
     this.dashboardService.getTypes().subscribe({
       next: response => this.types = response,
       error: error => console.error(error),
       complete: () => console.log("GetData Types"),
     })
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.types.length / this.pageSize);
-  }
-
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
-  setCurrentPage(page: number) {
-    this.currentPage = page;
   }
 
   addType(newTypeName: string) {
@@ -75,9 +74,9 @@ export class TabletabsComponent implements OnInit {
     });
   }
 
- setEditedType(itemId: string) {
+  setEditedType(itemId: string) {
     this.currentTypeId = itemId;
-  } 
+  }
 
   updateType(newName: string) {
     if (!newName.trim()) {
@@ -91,7 +90,7 @@ export class TabletabsComponent implements OnInit {
     this.dashboardService.updateType(this.currentTypeId, newName).subscribe({
       next: response => {
         console.log('Type updated successfully:', response);
-        this.getTypes(); 
+        this.getTypes();
       },
       error: error => {
         console.error('Error updating type:', error);
