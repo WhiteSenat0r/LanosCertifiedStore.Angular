@@ -35,7 +35,7 @@ export class ColortabletabsComponent {
     this.dashboardService.getColor().subscribe({
       next: response => this.colors = response,
       error: error => console.error(error),
-      complete: () => console.log("GetData Types"),
+      complete: () => console.log("GetData Colors"),
     })
   }
 
@@ -65,8 +65,27 @@ export class ColortabletabsComponent {
     this.currentColorId = itemId;
   }
 
-  UpdateColor(){
-    
+  UpdateColor(newColorName: string, newHexValue: string) {
+
+    console.log('Updating color with id:', this.currentColorId);
+    console.log('New name:', newColorName);
+    console.log('New hex:', newHexValue);
+
+    if (!newColorName.trim()) {
+      console.error('Updated name cannot be empty');
+      return;
+    }
+
+    this.dashboardService.updateColor(this.currentColorId, newColorName, newHexValue).subscribe({
+      next: response => {
+        console.log('Color updated successfully:', response);
+        this.getColor();
+      },
+      error: error => {
+        console.error('Error updating color:', error);
+      }
+    });
+
   }
   get totalPages(): number {
     return Math.ceil(this.colors.length / this.pageSize);

@@ -29,6 +29,8 @@ export class CatalogComponent implements OnInit{
   catalogParams = new CatalogParams();
   totalCountItems: number = 0;
 
+  date: string = new Date(2001,1,1).toString();
+
   sortTypes = [
     { name: 'Нормальне сортування', value: '' },
     { name: 'За зростанням', value: 'price-asc' },

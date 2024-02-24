@@ -40,9 +40,6 @@ export class DashboardService {
         return this.http.delete(`${this.baseUrl}Brands/${brandId}`);
     }
 
-    getTypes() {
-        return this.http.get<Type[]>(this.baseUrl + 'Types');
-    }
 
     getColor() {
         return this.http.get<Color[]>(this.baseUrl + 'Colors');
@@ -51,12 +48,21 @@ export class DashboardService {
     addColor(newColorName: string, newHexValue: string) {
         const body = { ColorName: newColorName, HexValue: newHexValue };
         return this.http.post<Color>(`${this.baseUrl}Colors`, body);
-    } 
+    }
+
+    updateColor(id: string, updatedName: string, hexValue: string) {
+        const body = { id: id, updatedName: updatedName, hexValue: hexValue };
+        return this.http.put<Color>(`${this.baseUrl}Colors`, body);
+    }
 
     deleteColor(colorId: string) {
         return this.http.delete(`${this.baseUrl}Colors/${colorId}`);
     }
 
+    getTypes() {
+        return this.http.get<Type[]>(this.baseUrl + 'Types');
+    }
+    
     addType(newTypeName: string) {
         const params = new HttpParams().set('name', newTypeName);
         return this.http.post(this.baseUrl + 'Types', null, { params });
@@ -70,6 +76,6 @@ export class DashboardService {
     updateType(id: string, updatedName: string) {
         const body = { id: id, updatedName: updatedName };
         return this.http.put<Type>(`${this.baseUrl}Types`, body);
-      }      
+    }
 
 }
