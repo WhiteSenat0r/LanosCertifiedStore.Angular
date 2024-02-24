@@ -22,7 +22,7 @@
         catalogParams.modelName != '' ||
         catalogParams.lowerPriceLimit != 0 ||
         catalogParams.upperPriceLimit != 100000 ||
-        catalogParams.minimalPriceDate.toString() != 'Thu Feb 01 2001 00:00:00 GMT+0200 (Eastern European Standard Time)'
+        catalogParams.minimalPriceDate.toString() != date;
       "
       (click)="onCancelClick()"
       class="chip cancelChip"
@@ -73,7 +73,7 @@
     <span
       *ngIf="
         catalogParams.minimalPriceDate.toString() !==
-        'Thu Feb 01 2001 00:00:00 GMT+0200 (Eastern European Standard Time)'
+        date
       "
       class="chip"
       (click)="onChipClick('minimalPriceDate')"
