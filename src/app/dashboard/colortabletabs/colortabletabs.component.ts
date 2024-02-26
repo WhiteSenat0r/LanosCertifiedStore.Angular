@@ -18,6 +18,7 @@ export class ColortabletabsComponent {
 
   currentPage: number = 1;
   pageSize: number = 8;
+  pageNumber: number = 1;
 
   constructor(private dashboardService: DashboardService,) {
     this.colorForm = new FormBuilder().group({
@@ -29,6 +30,28 @@ export class ColortabletabsComponent {
   ngOnInit(): void {
     this.getColor();
 
+  }
+
+  get pageGeneration() {
+    const colorcontainer = [];
+    let temp = [];
+    const pageSize = 8;
+
+    for (let i = 0; i < this.colors.length; i++) {
+      temp.push(this.colors[i]);
+
+      if ((i + 1) % pageSize === 0 || i === this.colors.length - 1) {
+        colorcontainer.push(temp);
+        temp = [];
+      }
+    }
+    return colorcontainer;
+  }
+
+  handlePageChange(page: number) {
+    if (this.pageNumber !== page) {
+      this.pageNumber = page
+    }
   }
 
   getColor() {
@@ -65,18 +88,17 @@ export class ColortabletabsComponent {
     this.currentColorId = itemId;
   }
 
-  UpdateColor(newColorName: string, newHexValue: string) {
-
+  UpdateColor(editedColorName: string, editedHexValue: string) {
     console.log('Updating color with id:', this.currentColorId);
-    console.log('New name:', newColorName);
-    console.log('New hex:', newHexValue);
-
-    if (!newColorName.trim()) {
-      console.error('Updated name cannot be empty');
+    console.log('New name:', editedColorName);
+    console.log('New hex:', editedHexValue);
+  
+    if (!editedColorName.trim() || !editedHexValue.trim()) {
+      console.error('Updated name and hex value cannot be empty');
       return;
     }
-
-    this.dashboardService.updateColor(this.currentColorId, newColorName, newHexValue).subscribe({
+  
+    this.dashboardService.updateColor(this.currentColorId, editedColorName, editedHexValue).subscribe({
       next: response => {
         console.log('Color updated successfully:', response);
         this.getColor();
@@ -85,29 +107,6 @@ export class ColortabletabsComponent {
         console.error('Error updating color:', error);
       }
     });
-
   }
-  get totalPages(): number {
-    return Math.ceil(this.colors.length / this.pageSize);
-  }
-
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
-
-  setCurrentPage(page: number) {
-    this.currentPage = page;
-  }
+  
 }

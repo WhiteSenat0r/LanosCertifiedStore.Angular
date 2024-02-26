@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Model } from '../../shared/models/model';
 import { Type } from '../../shared/models/type';
 import { DashboardService } from '../dashboard.service';
 
@@ -11,15 +10,17 @@ import { DashboardService } from '../dashboard.service';
 export class TabletabsComponent implements OnInit {
 
   types: Type[] = [];
+
   currentPage: number = 1;
   pageSize: number = 8;
-  currentTypeId: string = "";
-  pageNumber: number = 0;
+  pageNumber: number = 1;
+
+ currentTypeId: string = "";
+
 
   constructor(private dashboardService: DashboardService) { }
 
-  originalModels: Model[] = [];
-
+ 
   ngOnInit(): void {
     this.getTypes();
   }
@@ -27,16 +28,16 @@ export class TabletabsComponent implements OnInit {
   get pageGeneration() {
     const typecontainer = [];
     let temp = [];
-    for (let i = 1; i < this.types.length+1; i += 1) {
-      temp.push(this.types[i-1])
-      console.log(this.types[i-1])
-      if (i  % 8 === 0) {
+    const pageSize = 8;
+
+    for (let i = 0; i < this.types.length; i++) {
+      temp.push(this.types[i]);
+
+      if ((i + 1) % pageSize === 0 || i === this.types.length - 1) {
         typecontainer.push(temp);
-        temp=[];
+        temp = [];
       }
-      
     }
-    console.log("---------")
     return typecontainer;
   }
 
@@ -63,6 +64,7 @@ export class TabletabsComponent implements OnInit {
       error: error => console.error('Error adding type:', error)
     });
   }
+
 
   deleteType(typeId: string) {
     this.dashboardService.deleteType(typeId).subscribe({

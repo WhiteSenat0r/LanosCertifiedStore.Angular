@@ -27,6 +27,11 @@ export class DashboardService {
         return this.http.delete(`${this.baseUrl}Models/${modelId}`);
     }
 
+    updateModel(id: string, updatedName: string) {
+        const body = { id: id, updatedName: updatedName };
+        return this.http.put<Model>(`${this.baseUrl}Models`, body);
+    }
+
     getBrands() {
         return this.http.get<Brand[]>(this.baseUrl + 'Brands');
     }
@@ -40,6 +45,10 @@ export class DashboardService {
         return this.http.delete(`${this.baseUrl}Brands/${brandId}`);
     }
 
+    updateBrand(id: string, updatedName: string) {
+        const body = { id: id, updatedName: updatedName };
+        return this.http.put<Brand>(`${this.baseUrl}Brands`, body);
+    }
 
     getColor() {
         return this.http.get<Color[]>(this.baseUrl + 'Colors');
