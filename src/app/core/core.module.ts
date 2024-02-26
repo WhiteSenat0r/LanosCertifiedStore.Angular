@@ -6,6 +6,10 @@ import { RouterLink } from '@angular/router';
 import { SectionHeaderComponent } from './section-header/section-header.component';
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { MatIconModule } from '@angular/material/icon';
+import { TestErrorsComponent } from './test-errors/test-errors.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ServerErrorComponent } from './server-error/server-error.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -13,6 +17,9 @@ import { MatIconModule } from '@angular/material/icon';
     HeaderComponent,
     FooterComponent,
     SectionHeaderComponent,
+    TestErrorsComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
   ],
   exports: [
     HeaderComponent,
@@ -24,6 +31,10 @@ import { MatIconModule } from '@angular/material/icon';
     RouterLink,
     BreadcrumbModule,
     MatIconModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ]
 })
 export class CoreModule { }

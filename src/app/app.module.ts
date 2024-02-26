@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from "./core/core.module";
 import { HomeModule } from "./home/home.module";
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -19,6 +19,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AddcarformModule } from './addcarform/addcarform.module';
 import { AccountModule } from './account/account.module';
+import { ErrorInterceptor } from './core/intersceptors/error.interceptor';
 
 
 @NgModule({
@@ -45,7 +46,9 @@ import { AccountModule } from './account/account.module';
     MatAutocompleteModule
 
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

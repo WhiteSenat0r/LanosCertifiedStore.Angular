@@ -1,6 +1,6 @@
 <div
   class="container"
-  *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage()"
+  *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage() && !isTestErrorsPage()"
 >
   <app-header></app-header>
   <app-section-header></app-section-header>
@@ -8,14 +8,14 @@
   
 </div>
 
-<div *ngIf="accountService.currentUserSig() === null">
+<!-- <div *ngIf="accountService.currentUserSig() === null">
   <a routerLink="/account/login" class="p-5 bg-dark text-bg-danger">Login</a>
   <a routerLink="/account/register" class="p-5 bg-dark text-bg-danger"
     >Sign Up</a
   >
-</div>
-<router-outlet *ngIf="isDashboardPage()"></router-outlet>
+</div> -->
+<router-outlet *ngIf="isDashboardPage() || isTestErrorsPage()" ></router-outlet>
 
 <app-footer
-  *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage()"
+  *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage() && !isTestErrorsPage()"
 ></app-footer>

@@ -7,11 +7,11 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./section-header.component.css']
 })
 export class SectionHeaderComponent {
-  isHomePage: boolean;
+  isHomePage: boolean = true;
 
   constructor(private router: Router) {
-    this.isHomePage = this.router.url === '/';
     this.router.events.subscribe(event => {
+      // this if is for being sure whether we already navigated to this page
       if (event instanceof NavigationEnd) {
         this.isHomePage = this.router.url === '/';
       }
