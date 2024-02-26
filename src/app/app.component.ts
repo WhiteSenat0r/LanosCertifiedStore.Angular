@@ -5,8 +5,6 @@ import { initFlowbite } from 'flowbite';
 import { Router } from '@angular/router';
 
 import { AccountService } from './account/account.service';
-import { HttpClient } from '@angular/common/http';
-import { User } from './shared/models/user';
 
 
 @Component({
@@ -36,5 +34,9 @@ export class AppComponent implements OnInit {
 
   isDashboardPage(): boolean {
     return this.router.url.includes('dashboard');
+  }
+
+  isTestErrorsPage(): boolean {
+    return this.router.url.includes('test-errors');
   }
 }

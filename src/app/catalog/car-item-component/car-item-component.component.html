@@ -1,15 +1,19 @@
 <div class="h-122 rounded-lg">
   <div class="relative">
-      <ng-container *ngIf="vehicle && vehicle.image.isMainImage">
-        <img *ngIf="columnCount === 3" class="vehicleImage img-fluid w-full h-[200px]"
-          src="{{vehicle.image.imageUrl}}"
-          alt="Car photo"
-        />
-        <img *ngIf="columnCount === 2" class="vehicleImage img-fluid w-full h-[300px]"
-          src="{{vehicle.image.imageUrl}}"
-          alt="Car photo"
-        />
-      </ng-container>
+    <ng-container *ngIf="vehicle && vehicle.image.isMainImage">
+      <img
+        *ngIf="columnCount === 3"
+        class="vehicleImage img-fluid w-full h-[200px]"
+        src="{{ vehicle.image.imageUrl }}"
+        alt="Car photo"
+      />
+      <img
+        *ngIf="columnCount === 2"
+        class="vehicleImage img-fluid w-full h-[300px]"
+        src="{{ vehicle.image.imageUrl }}"
+        alt="Car photo"
+      />
+    </ng-container>
 
     <div class="absolute top-3 right-3">
       <button>
@@ -62,14 +66,17 @@
         style="white-space: nowrap; overflow: hidden"
       >
         <span class="d-inline-block text-truncate" style="max-width: 300px"
-          >Color: {{ vehicle?.color }} | displacement:{{
+          ><strong>Color:</strong> {{ vehicle?.color }} | <strong>displacement:</strong> {{
             vehicle?.displacement
           }}</span
         >
       </div>
 
       <div style="white-space: nowrap; overflow: hidden" class="mb-2">
-        <strong>Дата: 2024-10-11</strong>
+        <ng-container *ngIf="closestDateOfVehicleFormatted">
+          <strong>Дата:</strong>
+          {{ closestDateOfVehicleFormatted }}
+        </ng-container>
       </div>
 
       <div class="flex flex-row gap-1 mb-2">

@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
-import {RouterModule, Routes} from "@angular/router";
-import {HomeComponent} from "./home/home.component";
+import { RouterModule, Routes} from "@angular/router";
+import { HomeComponent} from "./home/home.component";
 import { AddcarformComponent } from './addcarform/addcarform.component';
+import { TestErrorsComponent } from './core/test-errors/test-errors.component';
+import { ServerErrorComponent } from './core/server-error/server-error.component';
+import { NotFoundComponent } from './core/not-found/not-found.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent, data: { breadcrumb: { label: 'Головна сторінка', info: 'home'} }},
@@ -9,6 +12,9 @@ const routes: Routes = [
   {path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule)},
   {path: 'addcar', component: AddcarformComponent},
   {path: 'dashboard', loadChildren: () =>import('./dashboard/dashboard.module').then(m => m.DashboardModule)},
+  {path: 'test-errors', component: TestErrorsComponent},
+  {path: 'server-error', component: ServerErrorComponent},
+  {path: 'not-found', component: NotFoundComponent},
   {path: '**', redirectTo:'', pathMatch:'full'},
 ];
 
