@@ -6,8 +6,9 @@ import { Vehicle } from '../shared/models/vehicle';
 import { Model } from '../shared/models/model';
 import { CatalogParams } from '../shared/models/catalogParams';
 import { Color } from '../shared/models/color';
-import { Subject, debounceTime, tap } from 'rxjs';
+import { Subject, debounceTime, last, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { Pagination } from '../shared/models/pagination';
 
 @Component({
   selector: 'app-catalog',
@@ -92,8 +93,27 @@ export class CatalogComponent implements OnInit{
 
   getVehicles() {
     this.catalogService.getVehicles(this.catalogParams).subscribe({
-      next: (response: any) => {
+      next: (response: Pagination<Vehicle[]>) => {
         this.vehicles = response.items;
+
+        //НУ БЕК ПРОСТО ЗАЖАВ!!! 
+        // let ourPriceUpper: number = response.items[0].prices[0].value;
+        // let ourPriceLower: number = response.items[0].prices[0].value;
+
+        // for(let i: number = 1; i < response.items.length;i++)
+        // {
+        //     if(response.items[i].prices[0].value > ourPriceUpper)
+        //     {
+        //       ourPriceUpper = response.items[i].prices[0].value 
+        //     }
+        //     if(response.items[i].prices[0].value < ourPriceLower)
+        //     {
+        //       ourPriceLower = response.items[i].prices[0].value
+        //     }
+        // }
+
+        // this.catalogParams.lowerPriceLimit = ourPriceLower;
+        // this.catalogParams.upperPriceLimit = ourPriceUpper;
 
         this.catalogParams.pageNumber = response.pageIndex;
         this.totalCountItems = response.totalFilteredItemsQuantity;

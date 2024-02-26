@@ -1,5 +1,5 @@
 export interface CreateVehicle{
-     color: string;
+    color: string;
     description: string;
     type: string;
     brand: string;

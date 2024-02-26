@@ -16,7 +16,6 @@ import { User } from './shared/models/user';
 })
 export class AppComponent implements OnInit {
   accountService = inject(AccountService);
-  
 
 
   title = 'web-app';

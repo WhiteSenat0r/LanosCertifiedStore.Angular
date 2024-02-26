@@ -37,7 +37,10 @@ export class CarDetailsComponent implements OnInit {
     this.catalogParams.typeName = this.vehicle!.type;
     this.catalogService.getVehicles(this.catalogParams).subscribe({
       next: (response: any) => {
-        this.vehiclesOfType = response.items;
+        
+        this.vehiclesOfType = response.items.filter((item: Vehicle) => {
+          return item.id !== this.vehicle.id;
+        });
       },
       error: (error) => console.log(error),
     });
