@@ -2,13 +2,13 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { Type } from '../shared/models/type';
 import { Brand } from '../shared/models/brand';
 import { CatalogService } from './catalog.service';
-import { Vehicle } from '../shared/models/vehicle';
 import { Model } from '../shared/models/model';
 import { CatalogParams } from '../shared/models/catalogParams';
 import { Color } from '../shared/models/color';
 import { Subject, debounceTime, last, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination } from '../shared/models/pagination';
+import { ListVehicle } from '../shared/models/ListVehicle';
 
 @Component({
   selector: 'app-catalog',
@@ -21,7 +21,7 @@ export class CatalogComponent implements OnInit{
   brands: Brand[] = [];
   colors: Color[] = [];
   models: Model[] = [];
-  vehicles: Vehicle[] = [];
+  vehicles: ListVehicle[] = [];
 
   testFuntionalityVariable: boolean = false;
 
@@ -93,7 +93,7 @@ export class CatalogComponent implements OnInit{
 
   getVehicles() {
     this.catalogService.getVehicles(this.catalogParams).subscribe({
-      next: (response: Pagination<Vehicle[]>) => {
+      next: (response: Pagination<ListVehicle[]>) => {
         this.vehicles = response.items;
 
         //НУ БЕК ПРОСТО ЗАЖАВ!!! 
@@ -116,7 +116,7 @@ export class CatalogComponent implements OnInit{
         // this.catalogParams.upperPriceLimit = ourPriceUpper;
 
         this.catalogParams.pageNumber = response.pageIndex;
-        this.totalCountItems = response.totalFilteredItemsQuantity;
+        this.totalCountItems = response.totalFilteredItemsCount;
       },
       error: (error) => console.error(error),
     });

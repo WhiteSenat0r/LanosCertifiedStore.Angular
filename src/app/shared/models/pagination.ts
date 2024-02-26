@@ -1,8 +1,6 @@
-import { Vehicle } from "./vehicle";
-
 export interface Pagination<T>{
-    totalItemsQuantity: number;
-    totalFilteredItemsQuantity: number;
+    totalItemsCount: number;
+    totalFilteredItemsCount: number;
     currentPageItemsQuantity: number;
     pageIndex: number;
 

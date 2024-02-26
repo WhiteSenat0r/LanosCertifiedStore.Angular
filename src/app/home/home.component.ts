@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
 import { Type } from '../shared/models/type';
 import { Brand } from '../shared/models/brand';
-import { Vehicle } from '../shared/models/vehicle';
 import { NavigationExtras, Router } from '@angular/router';
+import { ListVehicle } from '../shared/models/ListVehicle';
+import { Pagination } from '../shared/models/pagination';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ export class HomeComponent implements OnInit {
 
   brands: Brand[] = [];
   types: Type[] = [];
-  vehicles: Vehicle[] = [];
+  vehicles: ListVehicle[] = [];
 
   constructor(private homeservice: HomeService, private router: Router) {}
 
@@ -41,7 +42,7 @@ export class HomeComponent implements OnInit {
 
   getVehicles() {
     this.homeservice.getVehicles(this.vehicleCount).subscribe({
-      next: (response: any) => {
+      next: (response: Pagination<ListVehicle[]>) => {
         this.vehicles = response.items;
       },
       error: (error) => console.error(error),

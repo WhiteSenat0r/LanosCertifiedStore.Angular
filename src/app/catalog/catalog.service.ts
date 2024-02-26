@@ -7,6 +7,7 @@ import { Pagination } from '../shared/models/pagination';
 import { CatalogParams } from '../shared/models/catalogParams';
 import { Color } from '../shared/models/color';
 import { Model } from '../shared/models/model';
+import { ListVehicle } from '../shared/models/ListVehicle';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,7 @@ export class CatalogService {
 
     params = params.append('ItemQuantity', catalogParams.pageSize);
 
-    return this.http.get<Pagination<Vehicle[]>>(this.baseUrl + 'Vehicles',{params})
+    return this.http.get<Pagination<ListVehicle[]>>(this.baseUrl + 'Vehicles',{params})
   }
 
   // getVehicles()
