@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ListVehicle } from 'src/app/shared/models/ListVehicle';
 import { Vehicle } from 'src/app/shared/models/vehicle';
 
 @Component({
@@ -8,6 +9,6 @@ import { Vehicle } from 'src/app/shared/models/vehicle';
 })
 export class CarItemComponentComponent {
 
-  @Input() vehicle?: Vehicle;
+  @Input() vehicle?: ListVehicle;
   @Input() columnCount?: number;
 }

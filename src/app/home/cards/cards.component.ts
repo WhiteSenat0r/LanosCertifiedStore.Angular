@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Vehicle } from "../../shared/models/vehicle";
+import { ListVehicle } from 'src/app/shared/models/ListVehicle';
 
 @Component({
   selector: 'app-cards',
@@ -7,7 +7,7 @@ import { Vehicle } from "../../shared/models/vehicle";
   styleUrls: ['./cards.component.css']
 })
 export class CardsComponent{
-  @Input() vehicles: Vehicle[] = [];
+  @Input() vehicles: ListVehicle[] = [];
 
   countOfSearch: number = 0;
 

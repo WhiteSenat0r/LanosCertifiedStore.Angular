@@ -5,15 +5,13 @@
     routerLink="/catalog/{{ vehicle?.id }}"
   >
     <div class="image-container">
-      <ng-container *ngFor="let image of vehicle.images">
-        <ng-container *ngIf="image.isMainImage">
+        <ng-container *ngIf="vehicle && vehicle.image.isMainImage">
           <img
-            src="{{image.imageUrl}}"
+            src="{{vehicle.image.imageUrl}}"
             alt="{{ vehicle.brand }}"
             class="card-image"
           />
         </ng-container>
-      </ng-container>
 
       <div class="absolute top-3 right-3">
         <button>
@@ -34,12 +32,12 @@
       <span
         ><strong class="nowrap"
           >{{
-            (vehicle.prices[0].value | currency : "USD")
+            (vehicle.price.value | currency : "USD")
               ?.slice(1, -3)
               ?.replace(",", " ")
           }}
           {{
-            (vehicle.prices[0].value | currency : "USD")?.slice(0, 1)
+            (vehicle.price.value | currency : "USD")?.slice(0, 1)
           }}</strong
         ></span
       >

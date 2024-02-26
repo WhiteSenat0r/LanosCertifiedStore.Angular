@@ -3,7 +3,7 @@
   <app-main-carousel [vehicleImages]="vehicle.images"></app-main-carousel>
 </div>
 
-<!--Text-->
+<!-- Text-->
 <div class="mt-8 mb-4" *ngIf="vehicle">
   <div class="flex justify-between">
     <h2 class="text-3xl font-bold">{{ vehicle.brand }} {{ vehicle.model }}</h2>
@@ -24,7 +24,7 @@
   </div>
 </div>
 <!--Multiply items carousel-->
-<div class="w-full" *ngIf="vehiclesOfType.length > 0">
+<div class="w-full" *ngIf="vehiclesOfType && vehiclesOfType.length > 0">
   <span class="text-3xl" style="margin-bottom: 20px; display: block"
     ><strong>Схожі машини</strong></span
   >
@@ -34,7 +34,6 @@
     (changeVehicleTap)="handleChangeVehicleTap($event)"
   ></app-multiply-items-carousel>
 </div>
-
 <!--Table of others-->
 <div class="mb-2 mt-4">
   <span *ngIf="vehicle?.brand" class="text-3xl">

@@ -95,7 +95,6 @@ export class OptionSelectItemComponent implements OnChanges {
 
   toggleFocus() {
     this.inputInside.nativeElement.focus();
-    this.inputButton.nativeElement.focus();
     this.toggleDropdown();
   }
 
