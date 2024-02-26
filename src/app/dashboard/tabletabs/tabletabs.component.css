@@ -1,4 +1,5 @@
-/* h2{
-    text-decoration: underline;
-    text-decoration-color: #f8d824;
-} */
+.containerpagin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

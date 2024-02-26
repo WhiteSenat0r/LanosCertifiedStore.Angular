@@ -12,16 +12,41 @@ export class ModeltabletabsComponent implements OnInit {
 
   models: Model[] = [];
   brands: Brand[] = [];
-  selectedBrandId: string = ''; 
+  selectedBrandId: string = '';
 
   currentPage: number = 1;
   pageSize: number = 8;
+  pageNumber: number = 1;
+
+  currentModelId: string = "";
 
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit(): void {
     this.getModel();
     this.getBrands();
+  }
+
+  get pageGeneration() {
+    const modelcontainer = [];
+    let temp = [];
+    const pageSize = 8;
+
+    for (let i = 0; i < this.models.length; i++) {
+      temp.push(this.models[i]);
+
+      if ((i + 1) % pageSize === 0 || i === this.models.length - 1) {
+        modelcontainer.push(temp);
+        temp = [];
+      }
+    }
+    return modelcontainer;
+  }
+
+  handlePageChange(page: number) {
+    if (this.pageNumber !== page) {
+      this.pageNumber = page
+    }
   }
 
   getModel() {
@@ -45,56 +70,59 @@ export class ModeltabletabsComponent implements OnInit {
   }
 
   addModel(newModelName: string, brandId: string) {
-    if (!brandId || !newModelName) {
-        console.error('Brand and model name must be selected.');
-        return;
+    console.log(newModelName);
+    console.log(brandId);
+
+    if (!brandId) {
+      console.error('Brand must be selected.');
+      return;
+    }
+    if (!newModelName) {
+      console.error('Model name must be selected.');
+      return;
     }
 
     this.dashboardService.addModel(newModelName, brandId).subscribe({
-        next: response => {
-            console.log('Model successfully added:', response);
-            this.getModel();
-        },
-        error: error => console.error('Error adding model:', error)
+      next: response => {
+        console.log('Model successfully added:', response);
+        this.getModel();
+      },
+      error: error => console.error('Error adding model:', error)
     });
-}
+  }
 
   deleteModel(modelId: string) {
     this.dashboardService.deleteModel(modelId).subscribe({
       next: response => {
         console.log('Model deleted successfully:', response);
-        this.getModel(); 
+        this.getModel();
       },
       error: error => console.error('Error deleting model:', error)
     });
   }
 
-  updateSelectedBrand(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    this.selectedBrandId = target.value;
-}
-
-  get totalPages(): number {
-    return Math.ceil(this.models.length / this.pageSize);
+  setEditedModel(itemId: string) {
+    this.currentModelId = itemId;
   }
 
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+  UpdateModel(newName: string) {
+    if (!newName.trim()) {
+      console.error('Updated name cannot be empty');
+      return;
     }
-  }
 
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-    }
-  }
+    console.log('Updating model with id:', this.currentModelId);
+    console.log('New name:', newName);
 
-  setCurrentPage(page: number) {
-    this.currentPage = page;
+    this.dashboardService.updateModel(this.currentModelId, newName).subscribe({
+      next: response => {
+        console.log('model updated successfully:', response);
+        this.getModel();
+      },
+      error: error => {
+        console.error('Error updating model:', error);
+      }
+    });
+
   }
 }
