@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -21,13 +22,18 @@ export class LoginComponent {
     password: ['', Validators.required],
   })
 
+  constructor(private toastr: ToastrService){}
+
   onSubmit(): void{
     this.http.post<{ user: User }>('https://api.realworld.io/api/users/login', {
       user: this.form.getRawValue(),
-    }).subscribe((response) => {
-      localStorage.setItem('token', response.user.token);
-      this.accountService.currentUserSig.set(response.user);
-      this.router.navigateByUrl('/');
-    });
+    }).subscribe({
+      next: (response) => {
+        localStorage.setItem('token', response.user.token);
+        this.accountService.currentUserSig.set(response.user);
+        this.router.navigateByUrl('/');
+      },
+      error: (error) => this.toastr.error('403', 'Authentication error!')
+    })
   }
 }
