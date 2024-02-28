@@ -25,10 +25,14 @@ export class RegisterComponent {
   onSubmit(): void {
     this.http.post<{ user: User }>('https://api.realworld.io/api/users', {
       user: this.form.getRawValue(),
-    }).subscribe((response) => {
-      localStorage.setItem('token', response.user.token);
-      this.accountService.currentUserSig.set(response.user);
-      this.router.navigateByUrl('/');
+    }).subscribe( {
+      next: (response:any) => {
+        localStorage.setItem('token', response.user.token);
+        this.accountService.currentUserSig.set(response.user);
+        this.router.navigateByUrl('/');
+      },
+      error: error => console.error(error),
     });
   }
+ 
 }

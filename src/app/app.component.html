@@ -1,21 +1,14 @@
-<div
-  class="container"
-  *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage() && !isTestErrorsPage()"
->
-  <app-header></app-header>
-  <app-section-header></app-section-header>
-  <router-outlet></router-outlet>
-  
-</div>
-
-<!-- <div *ngIf="accountService.currentUserSig() === null">
+<div *ngIf="accountService.currentUserSig() === null">
   <a routerLink="/account/login" class="p-5 bg-dark text-bg-danger">Login</a>
   <a routerLink="/account/register" class="p-5 bg-dark text-bg-danger"
     >Sign Up</a
   >
-</div> -->
-<router-outlet *ngIf="isDashboardPage() || isTestErrorsPage()" ></router-outlet>
+  
+</div>
+<div *ngIf="accountService.currentUserSig()">
+  {{accountService.currentUserSig()?.username}}
+  <span (click)="logout()">LOGOUT</span>
+  <h1>helllllllllllllllllllllllllllllllllllllooooo</h1>
+</div>
 
-<app-footer
-  *ngIf="!isLoginPage() && !isRegisterPage() && !isDashboardPage() && !isTestErrorsPage()"
-></app-footer>
+<router-outlet></router-outlet>

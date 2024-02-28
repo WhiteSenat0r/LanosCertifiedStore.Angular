@@ -22,7 +22,7 @@ export class TestErrorsComponent {
 
   get500Error()
   {
-    this.http.get(this.baseUrl + 'buggy/servererror').subscribe({
+    this.http.get(this.baseUrl + 'Brands?Name=2&ContainedModelName=2&PageIndex=3&ItemQuantity=4&MaxQuantityPerRequest=-1&SortingType=6').subscribe({
       next: response => console.log(response),
       error: error => console.log(error)
     })

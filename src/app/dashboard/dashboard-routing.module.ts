@@ -6,6 +6,7 @@ import { BrandtabletabsComponent } from "./brandtabletabs/brandtabletabs.compone
 import { ColortabletabsComponent } from "./colortabletabs/colortabletabs.component";
 import { ModeltabletabsComponent } from "./modeltabletabs/modeltabletabs.component";
 import { TabletabsComponent } from "./tabletabs/tabletabs.component";
+import { AuthGuardService } from '../auth-guard.service';
 
 const routes: Routes = [
     {path: '', component: DashboardComponent},

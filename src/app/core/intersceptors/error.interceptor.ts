@@ -20,20 +20,19 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if(error)
         {
-          if(error.status === 404){
-            //this.router.navigateByUrl('/not-found');
-            this.toastr.error('Сталася помилка 404', 'Помилка 404');
-            //this.toastr.error(error.message, error.status.toString());
-          };
+          console.log(error);
           if(error.status === 500)
           {
-            this.router.navigateByUrl('/server-error');
+            this.toastr.error(error.message, error.status.toString());
           }
+          if(error.status === 404){
+            this.router.navigateByUrl('/not-found');
+          };
           if(error.status === 405){
-            this.toastr.error(error.error.message, error.status.toString());
+            this.toastr.error(error.message, error.status.toString());
           };
         }
-        return throwError(() => new Error(error.message))
+        return throwError(() => new Error(error.message));
       })
     );
   }

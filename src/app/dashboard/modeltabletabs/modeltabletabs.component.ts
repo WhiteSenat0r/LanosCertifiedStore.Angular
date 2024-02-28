@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Model } from 'src/app/shared/models/model';
 import { Brand } from 'src/app/shared/models/brand';
 import { DashboardService } from '../dashboard.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modeltabletabs',
@@ -20,7 +21,7 @@ export class ModeltabletabsComponent implements OnInit {
 
   currentModelId: string = "";
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getModel();
@@ -52,6 +53,7 @@ export class ModeltabletabsComponent implements OnInit {
   getModel() {
     this.dashboardService.getModel().subscribe({
       next: response => {
+        this.toastr.success('Ми отримали моделі', 'Дуже добре');
         this.models = response;
       },
       error: error => console.error(error),
@@ -84,7 +86,6 @@ export class ModeltabletabsComponent implements OnInit {
 
     this.dashboardService.addModel(newModelName, brandId).subscribe({
       next: response => {
-        console.log('Model successfully added:', response);
         this.getModel();
       },
       error: error => console.error('Error adding model:', error)

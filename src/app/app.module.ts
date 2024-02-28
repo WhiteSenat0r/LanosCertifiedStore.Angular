@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from "./core/core.module";
 import { HomeModule } from "./home/home.module";
 import { AppRoutingModule } from './app-routing.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, withInterceptors } from '@angular/common/http';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -20,6 +20,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AddcarformModule } from './addcarform/addcarform.module';
 import { AccountModule } from './account/account.module';
 import { ErrorInterceptor } from './core/intersceptors/error.interceptor';
+import { AccountInterceptor } from './core/intersceptors/account.interceptor';
+import { AuthGuardService } from './auth-guard.service';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { ErrorInterceptor } from './core/intersceptors/error.interceptor';
 
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+     { provide: HTTP_INTERCEPTORS, useClass: AccountInterceptor, multi: true },
+     AuthGuardService
   ],
   bootstrap: [AppComponent]
 })
