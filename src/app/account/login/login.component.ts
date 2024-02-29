@@ -33,7 +33,7 @@ export class LoginComponent {
         this.accountService.currentUserSig.set(response.user);
         this.router.navigateByUrl('/');
       },
-      error: (error) => this.toastr.error('403', 'Authentication error!')
+      error: (error) => console.error(error)
     })
   }
 }

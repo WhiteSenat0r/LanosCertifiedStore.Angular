@@ -9,7 +9,7 @@ import { TabletabsComponent } from "./tabletabs/tabletabs.component";
 import { AuthGuardService } from '../auth-guard.service';
 
 const routes: Routes = [
-    {path: '', component: DashboardComponent},
+    {path: '', component: DashboardComponent, canActivate:[AuthGuardService]},
     {path: 'brands', component: BrandtabletabsComponent},
     {path: 'models', component: ModeltabletabsComponent},
     {path: 'types', component: TabletabsComponent},

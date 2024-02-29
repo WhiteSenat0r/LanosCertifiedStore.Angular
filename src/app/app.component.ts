@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
         },
         error: () => {
-          this.toastr.error("401", "Ти шо дядь, не туда попав? Ану пішов звідси");
+          //this.toastr.error("401", "Ти шо дядь, не туда попав? Ану пішов звідси");
           this.accountService.currentUserSig.set(null);
         }
       });
@@ -44,11 +44,7 @@ export class AppComponent implements OnInit {
     return this.router.url.includes('account');
   }
 
-  isRegisterPage(): boolean {
-    return this.router.url.includes('register');
-  }
-
-  isDashboardPage(): boolean {
+  isDashboardModule(): boolean {
     return this.router.url.includes('dashboard');
   }
 

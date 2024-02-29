@@ -27,9 +27,9 @@ export class RegisterComponent {
       user: this.form.getRawValue(),
     }).subscribe( {
       next: (response:any) => {
-        localStorage.setItem('token', response.user.token);
-        this.accountService.currentUserSig.set(response.user);
-        this.router.navigateByUrl('/');
+        // localStorage.setItem('token',  response.user.token);
+        // this.accountService.currentUserSig.set(response.user);
+        this.router.navigateByUrl('/account/login');
       },
       error: error => console.error(error),
     });

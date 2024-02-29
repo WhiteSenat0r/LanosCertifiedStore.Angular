@@ -11,13 +11,13 @@
         </button>
       </div>
 
-      <div class="w-3/4">
+      <div class="w-full">
         <form>
           <div class="relative">
             <input
               type="search"
               placeholder="Я шукаю..."
-              class="input w-full h-8 p-4 rounded-lg pr-16 hover:border-black transition duration-300 ease-in-out"
+              class="input w-full h-8 p-4 rounded-lg hover:border-black transition duration-300 ease-in-out"
             />
             <div
               class="absolute inset-y-0 right-0 flex items-center justify-center px-4"
@@ -40,9 +40,25 @@
           </div>
         </form>
       </div>
+      <ng-container *ngIf="accountService.currentUserSig() === null || accountService.currentUserSig() === undefined">
+        <div class="flex flex-row ml-2">
+          <button
+            class="button my-auto ml-2 rounded-lg px-4 h-12 overflow-hidden space-x-1 items-center border border-black hover:bg-gray-200 transition-colors duration-300"
+            routerLink="/account/login"
+          >
+            <span class="text-md text-black whitespace-nowrap">Login</span>
+          </button>
 
-      <div class="flex flex-row ml-2">
-        <div class="flex items-center">
+          <button
+            class="button my-auto ml-2 rounded-lg px-4 h-12 overflow-hidden space-x-1 items-center border border-black hover:bg-gray-200 transition-colors duration-300"
+            routerLink="/account/register"
+          >
+            <span class="text-md text-black whitespace-nowrap">Register</span>
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="accountService.currentUserSig() !== null && accountService.currentUserSig() !== undefined">
+        <div class="flex flex-row ml-2">
           <div
             class="inline-block rounded-2 hover:bg-gray-200 transition-colors duration-300"
           >
@@ -66,16 +82,15 @@
               </svg>
             </button>
           </div>
-        </div>
 
-        <div class="flex items-center">
+          <!--Profile Icon-->
           <div
-            class="inline-block rounded-2  hover:bg-gray-200 transition-colors duration-300"
+            class="userProfileElement inline-block rounded-2 hover:bg-gray-200 transition-colors duration-300"
+            (click)="toggleUserInfo()"
           >
             <button
               type="button"
               class="relative rounded-full p-[9px] text-gray-400 hover:text-black"
-              routerLink="/dashboard"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,30 +110,41 @@
                 class="tapChip absolute w-[6px] h-[6px] rounded-full"
               ></span>
             </button>
+            <div
+              class="userInfoBox py-1 px-2 d-flex flex-column align-items-start w-fit h-fit rounded-lg bg-white text-lg-center"
+              *ngIf="UserProfileVisible"
+            >
+              <div>{{ accountService.currentUserSig()?.username }}</div>
+              <div>{{ accountService.currentUserSig()?.email }}</div>
+              <div>
+                <span *ngIf="accountService.currentUserSig()?.email === 'ouradmin@gmail.com'" routerLink="/dashboard" >dashboard</span>
+                <span (click)="loggout()">Вийти</span>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!-- Here's the button moved inside the flex container -->
-        <button
-          class="button my-auto ml-2 rounded-full px-10 h-12 flex overflow-hidden space-x-1 items-center border border-black hover:bg-gray-200 transition-colors duration-300"
-        >
-          <svg
-            class="h-5 w-4 stroke-black"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="black"
-            stroke-width="3"
+          <!-- Here's the button moved inside the flex container -->
+          <button
+            class="button my-auto ml-2 rounded-full px-10 h-12 flex overflow-hidden space-x-1 items-center border border-black hover:bg-gray-200 transition-colors duration-300"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            /></svg
-          ><span class="text-md text-black whitespace-nowrap"
-            >Продати техніку</span
-          >
-        </button>
-      </div>
+            <svg
+              class="h-5 w-4 stroke-black"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="black"
+              stroke-width="3"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              /></svg
+            ><span class="text-md text-black whitespace-nowrap"
+              >Продати техніку</span
+            >
+          </button>
+        </div>
+      </ng-container>
     </div>
   </div>
 </nav>

@@ -48,6 +48,8 @@ export class CatalogService {
 
     params = params.append('ItemQuantity', catalogParams.pageSize);
 
+    params = params.append('selectionProfile', 2);
+
     return this.http.get<Pagination<ListVehicle[]>>(this.baseUrl + 'Vehicles',{params})
   }
 

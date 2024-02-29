@@ -1,14 +1,10 @@
-<div *ngIf="accountService.currentUserSig() === null">
-  <a routerLink="/account/login" class="p-5 bg-dark text-bg-danger">Login</a>
-  <a routerLink="/account/register" class="p-5 bg-dark text-bg-danger"
-    >Sign Up</a
-  >
-  
-</div>
-<div *ngIf="accountService.currentUserSig()">
-  {{accountService.currentUserSig()?.username}}
-  <span (click)="logout()">LOGOUT</span>
-  <h1>helllllllllllllllllllllllllllllllllllllooooo</h1>
+<div class="container" *ngIf="!isAccountModule() && !isDashboardModule()">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
 </div>
 
-<router-outlet></router-outlet>
+<router-outlet *ngIf="isAccountModule()"></router-outlet>
+
+<router-outlet *ngIf="isDashboardModule()"></router-outlet>
+
+<app-footer *ngIf="!isAccountModule()"></app-footer>
