@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Type } from '../../shared/models/type';
 import { DashboardService } from '../dashboard.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tabletabs',
@@ -15,12 +17,24 @@ export class TabletabsComponent implements OnInit {
   pageSize: number = 8;
   pageNumber: number = 1;
 
- currentTypeId: string = "";
+  currentTypeId: string = "";
+
+  showAlert: boolean = false;
+
+  newTypeForm: FormGroup;
+  editedTypeForm: FormGroup;
+
+  constructor(private dashboardService: DashboardService, private toastr: ToastrService) {
+    this.newTypeForm = new FormGroup({
+      newTypeName: new FormControl('', Validators.required)
+    });
+
+    this.editedTypeForm = new FormGroup({
+      editedTypeName: new FormControl('', Validators.required)
+    });
+  }
 
 
-  constructor(private dashboardService: DashboardService) { }
-
- 
   ngOnInit(): void {
     this.getTypes();
   }
@@ -55,19 +69,36 @@ export class TabletabsComponent implements OnInit {
     })
   }
 
-  addType(newTypeName: string) {
-    this.dashboardService.addType(newTypeName).subscribe({
-      next: response => {
-        console.log('Type added successfully:', response);
-        this.getTypes();
-      },
-      error: error => console.error('Error adding type:', error)
-    });
+  addType() {
+    if (this.newTypeForm.valid) {
+      const newTypeName = this.newTypeForm.value.newTypeName;
+      this.dashboardService.addType(newTypeName).subscribe({
+        next: response => {
+          console.log('Type added successfully:', response);
+          this.getTypes();
+          this.showAlert = true;
+          this.newTypeForm.reset();
+          setTimeout(() => {
+            this.showAlert = false;
+            
+          }, 3000);
+        },
+        error: error => { this.toastr.error("Такий тип уже існує") }
+      });
+    }
+  }
+  setEditedType(itemId: string) {
+    this.currentTypeId = itemId;
+    const typeToEdit = this.types.find(item => item.id === itemId);
+    if (typeToEdit) {
+      this.editedTypeForm.patchValue({
+        editedTypeName: typeToEdit.name
+      });
+    }
   }
 
-
-  deleteType(typeId: string) {
-    this.dashboardService.deleteType(typeId).subscribe({
+  deleteType() {
+    this.dashboardService.deleteType(this.currentTypeId).subscribe({
       next: response => {
         console.log('Type deleted successfully:', response);
         this.getTypes();
@@ -76,28 +107,20 @@ export class TabletabsComponent implements OnInit {
     });
   }
 
-  setEditedType(itemId: string) {
-    this.currentTypeId = itemId;
-  }
+  updateType() {
+    if (this.editedTypeForm.valid) {
+      const newName = this.editedTypeForm.value.editedTypeName;
 
-  updateType(newName: string) {
-    if (!newName.trim()) {
-      console.error('Updated name cannot be empty');
-      return;
+      console.log('Updating type with id:', this.currentTypeId);
+      console.log('New name:', newName);
+
+      this.dashboardService.updateType(this.currentTypeId, newName).subscribe({
+        next: response => {
+          console.log('Type updated successfully:', response);
+          this.getTypes();
+        },
+        error: error => { this.toastr.error("Такий тип уже існує") }
+      });
     }
-
-    console.log('Updating type with id:', this.currentTypeId);
-    console.log('New name:', newName);
-
-    this.dashboardService.updateType(this.currentTypeId, newName).subscribe({
-      next: response => {
-        console.log('Type updated successfully:', response);
-        this.getTypes();
-      },
-      error: error => {
-        console.error('Error updating type:', error);
-      }
-    });
   }
-
 }
