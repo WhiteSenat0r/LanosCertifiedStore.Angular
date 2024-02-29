@@ -71,7 +71,7 @@ export class CatalogService {
   }
   
   getModels(){ 
-    return this.http.get<Model[]>(this.baseUrl + 'Models');
+    return this.http.get<Model[]>(this.baseUrl + 'Models?selectionProfile=1');
   }
 
   getColors(){
