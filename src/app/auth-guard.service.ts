@@ -6,15 +6,15 @@ import { AccountService } from './account/account.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuardService {
+export class AuthGuardService implements CanActivate {
 
   constructor(private accountService: AccountService) { }
   
-  // canActivate(): boolean{
-  //   if(this.accountService.currentUserSig())
-  //   {
-  //     return true
-  //   }
-  //   return false;
-  // }
+  canActivate(): boolean{
+    if(localStorage.getItem('token'))
+    {
+      return true;
+    }
+    return false;
+  }
 }
