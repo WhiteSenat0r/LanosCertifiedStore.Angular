@@ -9,7 +9,7 @@ import { ModeltabletabsComponent } from "./modeltabletabs/modeltabletabs.compone
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { TabletabsComponent } from "./tabletabs/tabletabs.component";
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { SharedModule } from "../shared/shared.module";
 
@@ -28,6 +28,7 @@ import { SharedModule } from "../shared/shared.module";
         DashboardRoutingModule,
         SharedModule,
         CommonModule,
+        ReactiveFormsModule,
     ]
 })
 export class DashboardModule { }

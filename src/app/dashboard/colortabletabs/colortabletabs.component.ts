@@ -1,35 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Color } from 'src/app/shared/models/color';
 import { DashboardService } from '../dashboard.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-colortabletabs',
   templateUrl: './colortabletabs.component.html',
   styleUrls: ['./colortabletabs.component.css']
 })
-export class ColortabletabsComponent {
+export class ColortabletabsComponent implements OnInit {
 
   colors: Color[] = [];
 
   colorForm: FormGroup;
+  editColorForm: FormGroup;
 
   currentColorId: string = "";
-
   currentPage: number = 1;
   pageSize: number = 8;
+
   pageNumber: number = 1;
 
-  constructor(private dashboardService: DashboardService,) {
+  showAlert: boolean = false;
+
+  constructor(private dashboardService: DashboardService, private toastr: ToastrService) {
     this.colorForm = new FormBuilder().group({
       newColorName: ['', Validators.required],
       newHexValue: ['', Validators.required]
     });
+    this.editColorForm = new FormBuilder().group({
+      editColorName: ['', Validators.required],
+      editHexValue: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
-    this.getColor();
-
+    this.getColors();
   }
 
   get pageGeneration() {
@@ -54,7 +61,7 @@ export class ColortabletabsComponent {
     }
   }
 
-  getColor() {
+  getColors() {
     this.dashboardService.getColor().subscribe({
       next: response => this.colors = response,
       error: error => console.error(error),
@@ -66,47 +73,56 @@ export class ColortabletabsComponent {
     this.dashboardService.addColor(newColorName, newHexValue).subscribe({
       next: response => {
         console.log('Color added successfully:', response);
-        this.getColor();
+        this.getColors();
+        this.showAlert = true;
+        this.colorForm.reset();
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
       },
-      error: error => console.error('Error adding color:', error)
+      error: error => {
+        console.error('Error adding color:', error);
+        this.toastr.error("Такий колір уже існує");
+      }
     });
-  }
-
-
-  deleteColor(colorId: string) {
-    this.dashboardService.deleteColor(colorId).subscribe({
-      next: response => {
-        console.log('Color deleted successfully:', response);
-        this.getColor();
-      },
-      error: error => console.error('Error deleting color:', error)
-    });
-
   }
 
   setEditedColor(itemId: string) {
     this.currentColorId = itemId;
+    const colorToEdit = this.colors.find(item => item.id === itemId);
+    if (colorToEdit) {
+      this.editColorForm.patchValue({
+        editColorName: colorToEdit.name,
+        editHexValue: colorToEdit.hexValue
+      });
+    }
   }
 
-  UpdateColor(editedColorName: string, editedHexValue: string) {
-    console.log('Updating color with id:', this.currentColorId);
-    console.log('New name:', editedColorName);
-    console.log('New hex:', editedHexValue);
-  
-    if (!editedColorName.trim() || !editedHexValue.trim()) {
-      console.error('Updated name and hex value cannot be empty');
-      return;
-    }
-  
-    this.dashboardService.updateColor(this.currentColorId, editedColorName, editedHexValue).subscribe({
+  deleteColor() {
+    this.dashboardService.deleteColor(this.currentColorId).subscribe({
       next: response => {
-        console.log('Color updated successfully:', response);
-        this.getColor();
+        console.log('Color deleted successfully:', response);
+        this.getColors();
       },
-      error: error => {
-        console.error('Error updating color:', error);
-      }
+      error: error => console.error('Error deleting color:', error)
     });
   }
-  
+
+  UpdateColor() {
+    if (this.editColorForm.valid) {
+      const newName = this.editColorForm.value.editColorName;
+      const newHex = this.editColorForm.value.editHexValue;
+
+      this.dashboardService.updateColor(this.currentColorId, newName, newHex).subscribe({
+        next: response => {
+          console.log('Color updated successfully:', response);
+          this.getColors();
+        },
+        error: error => {
+          console.error('Error updating color:', error);
+          this.toastr.error("Такий колір уже існує");
+        }
+      });
+    }
+  }
 }

@@ -5,10 +5,12 @@
         </div>
         <div class="col-md-9">
             <div class="container mt-4">
-                <h2 class="mb-2 fs-2 text-semibold">Тип</h2>
+                <h2 class="mb-2 fs-2 text-semibold">Бренд</h2>
                 <hr class="border border-dark border-1 my-2 opacity-100">
                 <app-adminsearchbar></app-adminsearchbar>
-
+                <div class="alert alert-success mt-1" role="alert" *ngIf="showAlert">
+                    Дані успішно додані!
+                </div>
                 <div class="rounded p-3 shadow-xl mb-2">
                     <div class="mb-2">
                         <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
@@ -19,25 +21,29 @@
                             </span>
                         </button>
                     </div>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th class="text-center" style="width: 10%"></th>
                                 <th class="text-center text-semibold">Бренд</th>
-                                <th class="text-center text-semibold">Операції</th>
+                                <th class="text-center" style="width: 10%"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <ng-container *ngFor="let item of pageGeneration[pageNumber - 1]">
                                 <tr>
-                                    <td>{{ item.name }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-sm btn-outline-secondary mr-1 btn-add ms-2"
-                                            data-bs-toggle="modal" data-bs-target="#brandModalUpdate" (click)="setEditedBrand(item.id)">
-                                            Редагувати
+                                            data-bs-toggle="modal" data-bs-target="#brandModalUpdate"
+                                            (click)="setEditedBrand(item.id)">
+                                            <i class="fa-solid fa-pen-fancy" style="color: #383839;"></i>
                                         </button>
-
-                                        <button class="btn btn-sm btn-outline-dark"
-                                            (click)="deleteBrand(item.id)">Видалити</button>
+                                    </td>
+                                    <td>{{ item.name }}</td>
+                                    <td class="text-center"> <button type="button" class="btn btn-dark " data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal" (click)="setEditedBrand(item.id)">
+                                            <i class="fa-regular fa-trash-can" style="color: #000000;"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </ng-container>
@@ -60,12 +66,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть нову марку" #newBrandInput>
+                <form [formGroup]="newBrandForm" (ngSubmit)="addBrand()">
+                    <input type="text" class="form-control mb-3" placeholder="Введіть новий бренд"
+                        formControlName="newBrandName">
+                    <div *ngIf="newBrandForm.get('newBrandName')?.invalid && newBrandForm.get('newBrandName')?.touched"
+                        class="text-danger">
+                        Введіть назву бренду
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning"
-                data-bs-dismiss="modal" (click)="addBrand(newBrandInput.value)">Підтвердити</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                    (click)="addBrand()" [disabled]="newBrandForm.invalid">Підтвердити</button>
             </div>
         </div>
     </div>
@@ -75,15 +88,41 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="colorModalUpdateLabel">Редагувати тип</h5>
+                <h5 class="modal-title" id="colorModalUpdateLabel">Редагувати марку</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть новий тип" #editedTypeName>
+                <form [formGroup]="editedBrandForm" (ngSubmit)="updateBrand()">
+                    <input type="text" class="form-control mb-3" placeholder="" formControlName="editedBrandName">
+                    <div *ngIf="editedBrandForm.get('editedBrandName')?.invalid && editedBrandForm.get('editedBrandName')?.touched"
+                        class="text-danger">
+                        Відредагуйте бренд
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" (click)="updateBrand(editedTypeName.value)">Підтвердити</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                    (click)="updateBrand()" [disabled]="editedBrandForm.invalid">Підтвердити</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Видалення</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Ви остаточно хочете видалити цю марку
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                    (click)="deleteBrand()">Підтвердити</button>
             </div>
         </div>
     </div>
