@@ -25,6 +25,7 @@ export class HomeService {
     let params = new HttpParams();
 
     if(vehicleCount) params = params.append('ItemQuantity', vehicleCount);
+    params = params.append('selectionProfile', 2);
     return this.http.get<Pagination<ListVehicle[]>>(this.baseUrl + 'Vehicles',{params});
   }
 }

@@ -21,16 +21,19 @@ export class ErrorInterceptor implements HttpInterceptor {
         if(error)
         {
           console.log(error);
-          if(error.status === 500)
-          {
-            this.toastr.error(error.message, error.status.toString());
-          }
+          if(error.status === 403){
+            this.toastr.error('403', 'Проблема з авторизацією');
+          };
           if(error.status === 404){
             this.router.navigateByUrl('/not-found');
           };
           if(error.status === 405){
             this.toastr.error(error.message, error.status.toString());
           };
+          if(error.status === 500)
+          {
+            this.toastr.error(error.message, error.status.toString());
+          }
         }
         return throwError(() => new Error(error.message));
       })

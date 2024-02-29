@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountService } from 'src/app/account/account.service';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  isRegistered: boolean = (localStorage.getItem('token') !== '');
+  UserProfileVisible: boolean = false;
+
+  constructor(public accountService: AccountService){}
+
+  toggleUserInfo()
+  {
+    this.UserProfileVisible = !this.UserProfileVisible;
+  }
+  
+  loggout()
+  {
+    this.accountService.currentUserSig.set(null);
+    localStorage.setItem('token', '');
+  }
 }

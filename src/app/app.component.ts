@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
   title = 'web-app';
 
   ngOnInit(): void {
-    localStorage.setItem('token', '');
     this.http
       .get<{ user: User }>('https://api.realworld.io/api/user')
       .subscribe({
