@@ -14,6 +14,30 @@ import { VehicleoperateService } from '../vehicleoperate.service';
   styleUrls: ['./add-vehicle.component.css']
 })
 export class AddVehicleComponent {
+  onModelChange(event: any) {
+    if (event.target.value)
+    {
+      const selectedModel = this.models.find(model => model.id === event.target.value.toString());
+      if (selectedModel) {
+        console.log('Choose model:', selectedModel);
+
+        let modelAccessTypes: Type[] = selectedModel.availableTypes;
+
+        let newTypes: Type[] = [];
+        for(let i: number = 0;  i < modelAccessTypes.length;i++)
+        {
+          let filteredTypes: Type[] = [];
+          filteredTypes = this.types.filter(type => type.id === modelAccessTypes[i].id);
+         
+          newTypes = newTypes.concat(filteredTypes);
+        }
+
+        this.types = newTypes;
+      } else {
+        console.log('No found');
+      }
+    }
+  }
   addCarForm: FormGroup;
 
   models: Model[] = [];
@@ -115,7 +139,9 @@ export class AddVehicleComponent {
         console.log('Vehicle added successfully:', response);
         form.reset();
         this.showAlert = true; 
-        this.router.navigateByUrl(`vehicleoperate/addvehicle/${'thisid'}`)
+
+        let vehicleId: string = response.toString();
+        this.router.navigateByUrl(`vehicleoperate/addvehicle/${vehicleId}`)
       },
       error: error => console.error('Error adding vehicle:', error)
     });

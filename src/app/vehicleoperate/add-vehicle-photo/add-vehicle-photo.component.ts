@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environments';
 
@@ -8,10 +9,17 @@ import { environment } from 'src/environments/environments';
   templateUrl: './add-vehicle-photo.component.html',
   styleUrls: ['./add-vehicle-photo.component.css'],
 })
-export class AddVehiclePhotoComponent {
+export class AddVehiclePhotoComponent implements OnInit {
   selectedPhoto: File | null = null;
+  vehicleId: string = '';
+  constructor(private http: HttpClient, private activatedRoute: ActivatedRoute, private router: Router) {}
 
-  constructor(private http: HttpClient) {}
+  ngOnInit()
+  {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(id)
+    this.vehicleId = id.toString();
+  }
 
   onFileSelected(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -23,7 +31,7 @@ export class AddVehiclePhotoComponent {
 
   uploadPhoto() {
     const formData = new FormData();
-    formData.append('VehicleId', 'CAFCBD04-6D53-4F76-9717-147ED19153D6');
+    formData.append('VehicleId', this.vehicleId);
     if(this.selectedPhoto)
     {
       console.log(this.selectedPhoto);
@@ -36,5 +44,7 @@ export class AddVehiclePhotoComponent {
         tap(response => console.log('Photo uploaded successfully:', response)),
       )
       .subscribe();
+
+    this.router.navigateByUrl(`/catalog/${this.vehicleId}`);
   }
 }
