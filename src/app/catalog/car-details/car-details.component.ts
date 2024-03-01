@@ -27,7 +27,7 @@ export class CarDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe((params) => {
       this.getVehicle();
     });
   }
@@ -38,7 +38,6 @@ export class CarDetailsComponent implements OnInit {
     this.catalogParams.typeName = this.vehicle!.type;
     this.catalogService.getVehicles(this.catalogParams).subscribe({
       next: (response: Pagination<ListVehicle[]>) => {
-        
         this.vehiclesOfType = response.items.filter((item: ListVehicle) => {
           return item.id !== this.vehicle.id;
         });
@@ -56,7 +55,10 @@ export class CarDetailsComponent implements OnInit {
           this.vehicle = vehicle;
           this.getModels();
           this.getVehiclesOfType();
-          this.bcService.set('@vehicleElement', vehicle.brand + ' ' + vehicle.model)
+          this.bcService.set(
+            '@vehicleElement',
+            vehicle.brand + ' ' + vehicle.model
+          );
         },
         error: (error) => console.error(error),
       });

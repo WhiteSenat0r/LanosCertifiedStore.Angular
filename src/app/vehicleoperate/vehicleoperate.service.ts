@@ -22,7 +22,7 @@ export class VehicleoperateService {
   }
 
   getModel() {
-      return this.http.get<Model[]>(this.baseUrl + 'Models');
+      return this.http.get<Model[]>(this.baseUrl + 'Models?selectionProfile=1');
   }
 
   getBrands() {

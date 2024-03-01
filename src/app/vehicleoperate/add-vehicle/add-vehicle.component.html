@@ -48,6 +48,7 @@
               class="form-select border border-gray-300 rounded-2xl shadow-sm"
               style="width: 100%"
               formControlName="model"
+              (change)="onModelChange($event)"
             >
               <option *ngFor="let model of models" [value]="model.id">
                 {{ model.name }}
