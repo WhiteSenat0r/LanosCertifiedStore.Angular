@@ -101,6 +101,7 @@ export class ColortabletabsComponent implements OnInit {
   deleteColor() {
     this.dashboardService.deleteColor(this.currentColorId).subscribe({
       next: response => {
+        this.toastr.success('Колір успішно видалений');
         console.log('Color deleted successfully:', response);
         this.getColors();
       },
@@ -115,10 +116,13 @@ export class ColortabletabsComponent implements OnInit {
 
       this.dashboardService.updateColor(this.currentColorId, newName, newHex).subscribe({
         next: response => {
+          this.editColorForm.reset();
+          this.toastr.success('Колір успішно оновлений!');
           console.log('Color updated successfully:', response);
           this.getColors();
         },
         error: error => {
+          this.editColorForm.reset();
           console.error('Error updating color:', error);
           this.toastr.error("Такий колір уже існує");
         }

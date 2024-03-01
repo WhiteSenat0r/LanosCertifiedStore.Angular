@@ -1,0 +1,204 @@
+<div class="alert alert-success mt-1" role="alert" *ngIf="showAlert">
+  Дані успішно додані!
+</div>
+<div class="container w-75 mx-auto mb-4">
+  <h1 class="pr-3 pt-3 font-weight-normal text-black h4">
+    Додайте свою пропозицію
+  </h1>
+  <div class="container mx-auto mt-4">
+    <div class="p-4 rounded-lg shadow">
+      <form [formGroup]="addCarForm" (ngSubmit)="onSubmit(addCarForm)">
+        <div class="row mb-3">
+          <!-- Бренд -->
+          <div class="col-md-6">
+            <label
+              for="brand"
+              class="form-label text-sm font-weight-medium text-gray-700"
+              >Бренд</label
+            >
+            <select
+              id="brand"
+              name="brand"
+              class="form-select border border-gray-300 rounded-2xl shadow-sm"
+              style="width: 100%"
+              formControlName="brand"
+              (change)="onBrandChange($event)"
+            >
+              <option *ngFor="let brand of brands" [value]="brand.id">
+                {{ brand.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="addCarForm?.get('brand')?.errors?.['required'] && addCarForm?.get('brand')?.touched"
+              class="text-danger"
+            >
+              <span>Бренд є обов'язковим для заповнення.</span>
+            </div>
+          </div>
+          <!-- Модель -->
+          <div class="col-md-6">
+            <label
+              for="model"
+              class="form-label text-sm font-weight-medium text-gray-700"
+              >Модель</label
+            >
+            <select
+              id="model"
+              name="model"
+              class="form-select border border-gray-300 rounded-2xl shadow-sm"
+              style="width: 100%"
+              formControlName="model"
+            >
+              <option *ngFor="let model of models" [value]="model.id">
+                {{ model.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="addCarForm?.get('model')?.errors?.['required'] && addCarForm?.get('model')?.touched"
+              class="text-danger"
+            >
+              <span>Модель є обов'язковою для заповнення.</span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <!-- Колір -->
+          <div class="col-md-6">
+            <label
+              for="color"
+              class="form-label text-sm font-weight-medium text-gray-700"
+              >Колір</label
+            >
+            <select
+              id="color"
+              name="color"
+              class="form-select border border-gray-300 rounded-2xl shadow-sm"
+              style="width: 100%"
+              formControlName="color"
+            >
+              <option *ngFor="let color of colors" [value]="color.id">
+                {{ color.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="addCarForm?.get('color')?.errors?.['required'] && addCarForm?.get('color')?.touched"
+              class="text-danger"
+            >
+              <span>Колір є обов'язковим для заповнення.</span>
+            </div>
+          </div>
+          <!-- Тип -->
+          <div class="col-md-6">
+            <label
+              for="type"
+              class="form-label text-sm font-weight-medium text-gray-700"
+              >Тип</label
+            >
+            <select
+              id="type"
+              name="type"
+              class="form-select border border-gray-300 rounded-2xl shadow-sm"
+              style="width: 100%"
+              formControlName="type"
+            >
+              <option *ngFor="let type of types" [value]="type.id">
+                {{ type.name }}
+              </option>
+            </select>
+            <div
+              *ngIf="addCarForm?.get('type')?.errors?.['required'] && addCarForm?.get('type')?.touched"
+              class="text-danger"
+            >
+              <span>Тип є обов'язковим для заповнення.</span>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <!-- Ціна -->
+          <div class="col-md-6">
+            <label
+              for="price"
+              class="form-label text-sm font-weight-medium text-gray-700"
+              >Ціна</label
+            >
+            <input
+              type="number"
+              id="price"
+              name="price"
+              class="form-control border border-gray-300 rounded-2xl shadow-sm"
+              style="width: 100%"
+              formControlName="price"
+              required
+            />
+            <div
+              *ngIf="!isFormCleared && addCarForm?.get('price')?.errors?.['required'] && addCarForm?.get('price')?.touched"
+              class="text-danger"
+            >
+              <span>Ціна є обов'язковою для заповнення.</span>
+            </div>
+          </div>
+          <!-- Об'єм двигуна -->
+          <div class="col-md-6">
+            <label
+              for="displacement"
+              class="form-label text-sm font-weight-medium text-gray-700"
+              >Displacement</label
+            >
+            <input
+              type="number"
+              id="displacement"
+              name="displacement"
+              class="form-control border border-gray-300 rounded-2xl shadow-sm"
+              style="width: 100%"
+              formControlName="displacement"
+              required
+            />
+            <div
+              *ngIf="!isFormCleared && addCarForm?.get('displacement')?.errors?.['required'] && addCarForm?.get('price')?.touched"
+              class="text-danger"
+            >
+              <span>Displacement є обов'язковим для заповнення.</span>
+            </div>
+          </div>
+        </div>
+        <!-- фото і опис -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3 d-flex align-items-start">
+              <div class="flex-grow-1">
+                <label for="description" class="sr-only">Опис</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  placeholder="Опис..."
+                  class="form-control border border-gray-300 rounded-2xl shadow-sm w-100"
+                  style="resize: vertical; min-height: 160px; max-height: 300px"
+                  formControlName="description"
+                ></textarea>
+                <div
+                  *ngIf="addCarForm?.get('description')?.errors?.['maxlength']"
+                  class="text-danger mt-1"
+                >
+                  <span>Максимальна довжина опису - 500 символів.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-4">
+          <button type="submit" class="btn btn-warning">Підтвердити</button>
+          <button
+            type="button"
+            class="btn btn-secondary text-black"
+            (click)="clearForm()"
+          >
+            Очистити форму
+          </button>
+          <button routerLink="" type="button" class="btn btn-danger text-black">
+            Відхилити
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

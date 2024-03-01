@@ -1,47 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { Model } from '../shared/models/model';
-import { Brand } from '../shared/models/brand';
-import { Type } from '../shared/models/type';
-import { Color } from '../shared/models/color';
-import { Displacement } from '../shared/models/displacement';
-import { AddcarformService } from './addcarform.service';
-import { CreateVehicle } from '../shared/models/createvehicle';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Brand } from 'src/app/shared/models/brand';
+import { Color } from 'src/app/shared/models/color';
+import { CreateVehicle } from 'src/app/shared/models/createvehicle';
+import { Model } from 'src/app/shared/models/model';
+import { Type } from 'src/app/shared/models/type';
+import { VehicleoperateService } from '../vehicleoperate.service';
 
 @Component({
-  selector: 'app-addcarform',
-  templateUrl: './addcarform.component.html',
-  styleUrls: ['./addcarform.component.css'],
+  selector: 'app-add-vehicle',
+  templateUrl: './add-vehicle.component.html',
+  styleUrls: ['./add-vehicle.component.css']
 })
-export class AddcarformComponent implements OnInit {
-
+export class AddVehicleComponent {
   addCarForm: FormGroup;
 
   models: Model[] = [];
   brands: Brand[] = [];
   types: Type[] = [];
   colors: Color[] = [];
-  displacements: Displacement[] = [];
-  selectedBrandId: string = '';
-  selectedModelId: string = '';
   isBrandSelected: boolean = false;
   isFormCleared: boolean = false;
   showAlert: boolean = false;
 
 
-  constructor(private addcarformService: AddcarformService, private router: Router) {
-
+  constructor(private vehicleoperateService: VehicleoperateService, private router: Router) {
     this.addCarForm = new FormGroup({
       brand: new FormControl('', Validators.required),
       model: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
       color: new FormControl('', Validators.required),
-      displacement: new FormControl('', Validators.required),
+      displacement: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
       price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
       description: new FormControl('', Validators.required)
     });
-
   }
 
   originalModels: Model[] = [];
@@ -51,67 +44,57 @@ export class AddcarformComponent implements OnInit {
     this.getTypes();
     this.getBrands();
     this.getColor();
-    this.getDisplacement();
   }
 
   getModel() {
-    this.addcarformService.getModel().subscribe({
+    this.vehicleoperateService.getModel().subscribe({
       next: response => {
         this.models = response;
         this.originalModels = [...response];
       },
       error: error => console.error(error),
-      complete: () => console.log("GetData Models"),
     })
   }
 
   getTypes() {
-    this.addcarformService.getTypes().subscribe({
+    this.vehicleoperateService.getTypes().subscribe({
       next: response => this.types = response,
       error: error => console.error(error),
-      complete: () => console.log("GetData Types"),
     })
   }
 
   getBrands() {
-    this.addcarformService.getBrands().subscribe({
+    this.vehicleoperateService.getBrands().subscribe({
       next: response => this.brands = response,
       error: error => console.error(error),
-      complete: () => console.log("GetData Brands"),
     })
   }
 
   getColor() {
-    this.addcarformService.getColor().subscribe({
+    this.vehicleoperateService.getColor().subscribe({
       next: response => this.colors = response,
       error: error => console.error(error),
-      complete: () => console.log("GetData Color"),
     })
   }
 
-  getDisplacement() {
-    this.addcarformService.getDisplacement().subscribe({
-      next: response => this.displacements = response,
-      error: error => console.error(error),
-      complete: () => console.log("GetData Displacements"),
-    })
-  }
+  onBrandChange(event: any) {
+    if (event.target.value)
+    {
+      const selectedBrand = this.brands.find(brand => brand.id === event.target.value.toString());
+      if (selectedBrand) {
+        console.log('Choose brand:', selectedBrand);
+        this.models = [...this.originalModels];
 
-  onBrandChange() {
-    const selectedBrand = this.brands.find(brand => brand.id === this.selectedBrandId);
-    if (selectedBrand) {
-      console.log('Choose brand:', selectedBrand);
-      this.models = [...this.originalModels];
-
-      this.models = this.models.filter(model => model.vehicleBrand === selectedBrand.name);
-    } else {
-      console.log('No found');
+        this.models = this.models.filter(model => model.vehicleBrand === selectedBrand.name);
+      } else {
+        console.log('No found');
+      }
     }
+    
   }
 
   onSubmit(form: FormGroup) {
     if (form.invalid) {
-      console.log('Форма недійсна. Будь ласка, заповніть всі обов\'язкові поля.');
       form.markAllAsTouched();
       return;
     }
@@ -127,13 +110,12 @@ export class AddcarformComponent implements OnInit {
       prices: addCarForm.price
     };
   
-    console.log('Дані, які будуть відправлені на сервер:', newVehicle);
-  
-    this.addcarformService.addVehicle(newVehicle).subscribe({
+    this.vehicleoperateService.addVehicle(newVehicle).subscribe({
       next: response => {
         console.log('Vehicle added successfully:', response);
         form.reset();
         this.showAlert = true; 
+        this.router.navigateByUrl(`vehicleoperate/addvehicle/${'thisid'}`)
       },
       error: error => console.error('Error adding vehicle:', error)
     });
@@ -144,5 +126,4 @@ export class AddcarformComponent implements OnInit {
     this.isFormCleared = true;
     this.showAlert = false; 
   }
-  
 }

@@ -14,21 +14,22 @@ import { DashboardRoutingModule } from "./dashboard-routing.module";
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-    declarations: [
-        DashboardComponent,
-        AdminsearchbarComponent,
-        BrandtabletabsComponent,
-        ColortabletabsComponent,
-        ModeltabletabsComponent,
-        SidebarComponent,
-        TabletabsComponent,
-    ],
-    imports: [
-        FormsModule,
-        DashboardRoutingModule,
-        SharedModule,
-        CommonModule,
-        ReactiveFormsModule,
-    ]
+  declarations: [
+    DashboardComponent,
+    AdminsearchbarComponent,
+    BrandtabletabsComponent,
+    ColortabletabsComponent,
+    SidebarComponent,
+    TabletabsComponent,
+    ModeltabletabsComponent,
+  ],
+  imports: [
+    FormsModule,
+    DashboardRoutingModule,
+    SharedModule,
+    CommonModule,
+    ReactiveFormsModule, 
+  ]
 })
 export class DashboardModule { }
+

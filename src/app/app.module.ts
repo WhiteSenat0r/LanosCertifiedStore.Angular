@@ -16,8 +16,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
-
-import { AddcarformModule } from './addcarform/addcarform.module';
 import { AccountModule } from './account/account.module';
 import { ErrorInterceptor } from './core/intersceptors/error.interceptor';
 import { AccountInterceptor } from './core/intersceptors/account.interceptor';
@@ -43,7 +41,6 @@ import { AuthGuardService } from './auth-guard.service';
 
     MatDatepickerModule,
     MatNativeDateModule,
-    AddcarformModule,
     MatInputModule,
     MatAutocompleteModule
 

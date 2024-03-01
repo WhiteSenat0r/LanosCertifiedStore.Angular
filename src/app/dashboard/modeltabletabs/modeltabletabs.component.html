@@ -8,7 +8,9 @@
                 <h2 class="mb-2 fs-2 text-semibold">Модель</h2>
                 <hr class="border border-dark border-1 my-2 opacity-100">
                 <app-adminsearchbar></app-adminsearchbar>
-
+                <div class="alert alert-success mt-1" role="alert" *ngIf="showAlert">
+                    Дані успішно додані!
+                </div>
                 <div class="rounded p-3 shadow-xl mb-2">
                     <div class="mb-2">
                         <button type="button" class="btn btn-warning btn-add ms-2" data-bs-toggle="modal"
@@ -19,29 +21,35 @@
                             </span>
                         </button>
                     </div>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                <th class="text-center" style="width: 20%"></th>
                                 <th class="text-center text-semibold">Модель</th>
-                                <th class="text-center text-semibold">Бренд</th>
-                                <th class="text-center text-semibold">Операції</th>
+                                <th class="text-center" style="width: 10%"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <ng-container *ngFor="let item of pageGeneration[pageNumber - 1]">
                                 <tr>
-                                    <td>{{ item.name }}</td>
-                                    <td>{{ item.vehicleBrand }}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-secondary mr-1 btn-add ms-2"
-                                            data-bs-toggle="modal" data-bs-target="#modalUpdateModal" (click)="setEditedModel(item.id)">
-                                            Редагувати
+                                    <td><button class="btn btn-sm btn-outline-secondary mr-1 btn-add ms-2"
+                                            data-bs-toggle="modal" data-bs-target="#modalUpdateModal"
+                                            (click)="setEditedModel(item.id)">
+                                            <i class="fa-solid fa-pen-fancy" style="color: #383839;"></i>
                                         </button>
-                                        <div class="modal fade" id="deleteBrand" tabindex="-1"
-                                            aria-labelledby="colorModalUpdateLabel" aria-hidden="true">
-                                        </div>
-                                        <button class="btn btn-sm btn-outline-dark"
-                                            (click)="deleteModel(item.id)">Видалити</button>
+
+                                        <button class="btn btn-sm btn-outline-secondary mr-1 btn-add ms-2"
+                                            data-bs-toggle="modal" data-bs-target="#modalDetailsModal"
+                                            (click)="setEditedModel(item.id)">
+                                            <i class="fa-solid fa-circle-info" style="color: #f8d824;"></i>
+                                        </button>
+                                       
+                                    </td>
+                                    <td>{{ item.name }}</td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-dark " data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal" (click)="setEditedModel(item.id)"><i
+                                                class="fa-regular fa-trash-can" style="color: #000000;"></i></button>
                                     </td>
                                 </tr>
                             </ng-container>
@@ -57,6 +65,7 @@
     </div>
 </div>
 
+
 <div class="modal fade" id="modalModal" tabindex="-1" aria-labelledby="modelModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -65,41 +74,122 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-6 mb-4">
-                    <label for="brand" class="form-label text-sm font-weight-medium text-gray-700">Бренд</label>
-                    <div class="d-flex align-items-center">
-                        <select id="brand" name="brand" class="form-select border border-gray-300 rounded-2xl shadow-sm"
-                            style="width: 100%;" [(ngModel)]="selectedBrandId">
+                <form [formGroup]="newModelForm">
+                    <div class="mb-3">
+                        <label for="brandSelect" class="form-label">Виберіть бренд</label>
+                        <select class="form-select" id="brandSelect" formControlName="selectedBrandId">
                             <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
                         </select>
                     </div>
-                </div>
-                <input type="text" class="form-control mb-3" placeholder="Введіть нову модель" #newModelInput>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning"  data-bs-dismiss="modal"
-                    (click)="addModel(newModelInput.value, selectedBrandId)">Підтвердити</button>
+                    <div class="mb-3">
+                        <label for="newModelName" class="form-label">Назва нової моделі</label>
+                        <input type="text" class="form-control" id="newModelName" placeholder=""
+                            formControlName="newModelName" placeholder="Введіть назву нової моделі">
+                        <div *ngIf="newModelForm.get('newModelName')?.invalid && newModelForm.get('newModelName')?.touched"
+                            class="text-danger">
+                            Введіть назву нової моделі
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="typeSelect" class="form-label">Виберіть тип(и)</label>
+                        <select class="form-select" id="typeSelect" formControlName="selectedTypeIds" multiple>
+                            <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-secondary text-dark mx-1" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal" [disabled]="newModelForm.invalid" (click)="addModel()">Підтвердити</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 
-<div class="modal fade" id="modalUpdateModal" tabindex="-1" aria-labelledby="modelModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalUpdateModal" tabindex="-1" aria-labelledby="modelUpdateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modelModalLabel">Додати модель</h5>
+                <h5 class="modal-title" id="modelUpdateModalLabel">Редагувати модель</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="text" class="form-control mb-3" placeholder="Введіть нову модель" #newModelInputUpdate>
+                <form [formGroup]="editedModelForm">
+                    <div class="mb-3">
+                        <label for="editedModelName" class="form-label">Нова назва моделі</label>
+                        <input type="text" class="form-control" id="editedModelName" formControlName="editedModelName"
+                            required>
+                        <div *ngIf="editedModelForm.get('editedModelName')?.invalid && editedModelForm.get('editedModelName')?.touched"
+                            class="text-danger">
+                            Нова назва моделі обов'язкова
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editedBrandSelect" class="form-label">Виберіть бренд</label>
+                        <select class="form-select" id="editedBrandSelect" formControlName="selectedBrandId" required>
+                            <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
+                        </select>
+                        <div *ngIf="editedModelForm.get('selectedBrandId')?.invalid && editedModelForm.get('selectedBrandId')?.touched"
+                            class="text-danger">
+                            Бренд обов'язковий
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editedTypeSelect" class="form-label">Виберіть тип(и)</label>
+                        <select class="form-select" id="editedTypeSelect" formControlName="selectedTypeIds" multiple
+                            required>
+                            <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+                        </select>
+                        <div *ngIf="editedModelForm.get('AvailableTypesIds')?.invalid && editedModelForm.get('AvailableTypesIds')?.touched"
+                            class="text-danger">
+                            Вибір типу(ів) обов'язковий
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-warning mx-1" data-bs-dismiss="modal"
+                        [disabled]="editedModelForm.invalid" (click)="updateModel()">Підтвердити</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDetailsModal" tabindex="-1" aria-labelledby="modelInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelInfoModalLabel">Інформація про модель</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="selectedModel">
+                    <p><strong>Назва моделі:</strong> {{ selectedModel.name }}</p>
+                    <p><strong>Бренд:</strong> {{ selectedModel.vehicleBrand }}</p>
+                    <p><strong>Типи:</strong></p>
+                    <ul>
+                        <li *ngFor="let type of selectedModel.availableTypes">{{ type.name }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Видалення</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Ви остаточно хочете видалити цю модель
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-dark" data-bs-dismiss="modal">Скасувати</button>
-                <button type="button" class="btn btn-warning"  data-bs-dismiss="modal"
-                    (click)="UpdateModel(newModelInputUpdate.value)">Підтвердити</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                    (click)="deleteModel()">Підтвердити</button>
             </div>
         </div>
     </div>

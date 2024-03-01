@@ -15,22 +15,34 @@ export class DashboardService {
     constructor(private http: HttpClient) { }
 
     getModel() {
-        return this.http.get<Model[]>(this.baseUrl + 'Models');
+        return this.http.get<Model[]>(this.baseUrl + 'Models?selectionProfile=1');
     }
 
-    addModel(newModelName: string, brandId: string) {
-        const params = new HttpParams().set('name', newModelName).set('brandId', brandId);
-        return this.http.post(this.baseUrl + 'Models', null, { params });
+    addModel(newModelName: string, brandId: string, types: string[]) {
+        const body = {
+            name: newModelName,
+            brandId: brandId,
+            AvailableTypesIds: types
+        };
+        return this.http.post(this.baseUrl + 'Models', body);
     }
+
 
     deleteModel(modelId: string) {
         return this.http.delete(`${this.baseUrl}Models/${modelId}`);
     }
 
-    updateModel(id: string, updatedName: string) {
-        const body = { id: id, updatedName: updatedName };
+    updateModel(id: string, updatedName: string, brandId: string, types: string[]) {
+        const body = {
+            id: id,
+            updatedName: updatedName,
+            brandId: brandId,
+            AvailableTypesIds: types 
+        };
         return this.http.put<Model>(`${this.baseUrl}Models`, body);
     }
+    
+
 
     getBrands() {
         return this.http.get<Brand[]>(this.baseUrl + 'Brands');
@@ -71,7 +83,7 @@ export class DashboardService {
     getTypes() {
         return this.http.get<Type[]>(this.baseUrl + 'Types');
     }
-    
+
     addType(newTypeName: string) {
         const params = new HttpParams().set('name', newTypeName);
         return this.http.post(this.baseUrl + 'Types', null, { params });
