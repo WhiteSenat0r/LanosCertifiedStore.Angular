@@ -64,8 +64,10 @@ export class TabletabsComponent implements OnInit {
   getTypes() {
     this.dashboardService.getTypes().subscribe({
       next: response => this.types = response,
-      error: error => console.error(error),
-      complete: () => console.log("GetData Types"),
+      error: error => {
+        console.error(error);
+        this.toastr.error('Помилка завантаження типів');
+      }
     })
   }
 
@@ -80,10 +82,14 @@ export class TabletabsComponent implements OnInit {
           this.newTypeForm.reset();
           setTimeout(() => {
             this.showAlert = false;
-            
+
           }, 3000);
         },
-        error: error => { this.toastr.error("Такий тип уже існує") }
+        error: error => {
+          this.newTypeForm.reset();
+          console.error(error);
+          this.toastr.error('Помилка додавання типу');
+        }
       });
     }
   }
@@ -101,9 +107,13 @@ export class TabletabsComponent implements OnInit {
     this.dashboardService.deleteType(this.currentTypeId).subscribe({
       next: response => {
         console.log('Type deleted successfully:', response);
+        this.toastr.success('Тип успішно видалений');
         this.getTypes();
       },
-      error: error => console.error('Error deleting type:', error)
+      error: error => {
+        console.error('Error deleting type:', error);
+        this.toastr.success('Помилка видалення тип');
+      }
     });
   }
 
@@ -117,9 +127,14 @@ export class TabletabsComponent implements OnInit {
       this.dashboardService.updateType(this.currentTypeId, newName).subscribe({
         next: response => {
           console.log('Type updated successfully:', response);
+          this.editedTypeForm.reset();
           this.getTypes();
         },
-        error: error => { this.toastr.error("Такий тип уже існує") }
+        error: error => {
+          console.error(error);
+          this.editedTypeForm.reset();
+          this.toastr.error("Такий тип уже існує")
+        }
       });
     }
   }

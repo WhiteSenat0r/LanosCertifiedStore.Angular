@@ -17,7 +17,7 @@ export class BrandtabletabsComponent implements OnInit {
   pageSize: number = 8;
   pageNumber: number = 1;
 
-  currentBrandId: string ="";
+  currentBrandId: string = "";
 
   showAlert: boolean = false;
 
@@ -63,8 +63,10 @@ export class BrandtabletabsComponent implements OnInit {
   getBrands() {
     this.dashboardService.getBrands().subscribe({
       next: response => this.brands = response,
-      error: error => console.error(error),
-      complete: () => console.log("GetData Brands"),
+      error: error => {
+        console.error(error);
+        this.toastr.error('Помилка завантаження брендів');
+      },
     })
   }
 
@@ -75,19 +77,23 @@ export class BrandtabletabsComponent implements OnInit {
         next: response => {
           console.log('Brand added successfully:', response);
           this.getBrands();
-         this.showAlert = true;
+          this.showAlert = true;
           this.newBrandForm.reset();
           setTimeout(() => {
             this.showAlert = false;
-            
+
           }, 3000);
         },
-        error: error => { this.toastr.error("Такий бренд уже існує") }
+        error: error => { 
+          this.toastr.error("Такий бренд уже існує");
+          this.toastr.error('Помилка додавання бренду');
+        }
+
       });
     }
   }
 
-setEditedBrand(itemId: string) {
+  setEditedBrand(itemId: string) {
     this.currentBrandId = itemId;
     const brandToEdit = this.brands.find(item => item.id === itemId);
     if (brandToEdit) {
@@ -100,14 +106,17 @@ setEditedBrand(itemId: string) {
   deleteBrand() {
     this.dashboardService.deleteBrand(this.currentBrandId).subscribe({
       next: response => {
-        console.log('Brand deleted successfully:', response);
+        console.log('Color deleted successfully:', response);
+        this.toastr.success('Бренд успішно видалений');
         this.getBrands();
       },
-      error: error => console.error('Error deleting brand:', error)
+      error: error => {
+        console.error('Помилка видалення бренду:', error);
+        this.toastr.success('Помилка видалення бренду');}
     });
   }
 
-  
+
   updateBrand() {
     if (this.editedBrandForm.valid) {
       const newName = this.editedBrandForm.value.editedBrandName;
@@ -117,10 +126,15 @@ setEditedBrand(itemId: string) {
 
       this.dashboardService.updateBrand(this.currentBrandId, newName).subscribe({
         next: response => {
-          console.log('Brand updated successfully:', response);
+          console.log(response);
+          this.editedBrandForm.reset();
+          this.toastr.success('Бренд успішно оновлений!');
           this.getBrands();
         },
-        error: error => { this.toastr.error("Такий бренд уже існує") }
+        error: error => { 
+          console.error(error);
+          this.editedBrandForm.reset();
+          this.toastr.error("Такий бренд уже існує") }
       });
     }
   }

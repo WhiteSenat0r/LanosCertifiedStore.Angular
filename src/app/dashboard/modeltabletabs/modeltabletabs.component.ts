@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Model } from 'src/app/shared/models/model';
+import { Type } from 'src/app/shared/models/type';
 import { Brand } from 'src/app/shared/models/brand';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DashboardService } from '../dashboard.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -13,19 +15,43 @@ export class ModeltabletabsComponent implements OnInit {
 
   models: Model[] = [];
   brands: Brand[] = [];
-  selectedBrandId: string = '';
+  types: Type[] = [];
 
   currentPage: number = 1;
   pageSize: number = 8;
   pageNumber: number = 1;
 
-  currentModelId: string = "";
+  currentModelId: string = '';
 
-  constructor(private dashboardService: DashboardService, private toastr: ToastrService) { }
+  newModelForm: FormGroup;
+  editedModelForm: FormGroup;
+
+  showAlert: boolean = false;
+
+  selectedModel: Model | null = null; 
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private dashboardService: DashboardService,
+    private toastr: ToastrService
+  ) {
+    this.newModelForm = this.formBuilder.group({
+      selectedBrandId: ['', Validators.required],
+      newModelName: ['', Validators.required],
+      selectedTypeIds: ['', Validators.required]
+    });
+
+    this.editedModelForm = this.formBuilder.group({
+      editedModelName: ['', Validators.required],
+      selectedBrandId: ['', Validators.required],
+      selectedTypeIds: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
-    this.getModel();
+    this.getModels();
     this.getBrands();
+    this.getTypes();
   }
 
   get pageGeneration() {
@@ -46,19 +72,32 @@ export class ModeltabletabsComponent implements OnInit {
 
   handlePageChange(page: number) {
     if (this.pageNumber !== page) {
-      this.pageNumber = page
+      this.pageNumber = page;
     }
   }
 
-  getModel() {
+  getModels() {
     this.dashboardService.getModel().subscribe({
       next: response => {
-        this.toastr.success('Ми отримали моделі', 'Дуже добре');
         this.models = response;
       },
-      error: error => console.error(error),
-      complete: () => console.log("Got Models Data"),
-    })
+      error: error => {
+        console.error(error);
+        this.toastr.error('Помилка завантаження моделей');
+      }
+    });
+  }
+
+  getTypes() {
+    this.dashboardService.getTypes().subscribe({
+      next: response => {
+        this.types = response;
+      },
+      error: error => {
+        console.error(error);
+        this.toastr.error('Помилка завантаження типів');
+      }
+    });
   }
 
   getBrands() {
@@ -66,64 +105,77 @@ export class ModeltabletabsComponent implements OnInit {
       next: response => {
         this.brands = response;
       },
-      error: error => console.error(error),
-      complete: () => console.log("Got Brands Data"),
-    })
-  }
-
-  addModel(newModelName: string, brandId: string) {
-    console.log(newModelName);
-    console.log(brandId);
-
-    if (!brandId) {
-      console.error('Brand must be selected.');
-      return;
-    }
-    if (!newModelName) {
-      console.error('Model name must be selected.');
-      return;
-    }
-
-    this.dashboardService.addModel(newModelName, brandId).subscribe({
-      next: response => {
-        this.getModel();
-      },
-      error: error => console.error('Error adding model:', error)
+      error: error => {
+        console.error(error);
+        this.toastr.error('Помилка завантаження брендів');
+      }
     });
   }
 
-  deleteModel(modelId: string) {
-    this.dashboardService.deleteModel(modelId).subscribe({
-      next: response => {
-        console.log('Model deleted successfully:', response);
-        this.getModel();
-      },
-      error: error => console.error('Error deleting model:', error)
-    });
+  addModel() {
+    if (this.newModelForm.valid) {
+      const selectedBrandId = this.newModelForm.value.selectedBrandId;
+      const newModelName = this.newModelForm.value.newModelName;
+      const selectedTypeIds = this.newModelForm.value.selectedTypeIds;
+
+      this.dashboardService.addModel(newModelName, selectedBrandId, selectedTypeIds).subscribe({
+        next: response => {
+          this.getModels();
+          this.newModelForm.reset();
+          this.showAlert = true;
+          setTimeout(() => {
+            this.showAlert = false;
+
+          }, 3000);
+        },
+        error: error => {
+          console.error('Помилка додавання моделі:', error);
+          this.toastr.error('Помилка додавання моделі');
+          this.newModelForm.reset();
+        }
+      });
+    }
   }
 
   setEditedModel(itemId: string) {
     this.currentModelId = itemId;
+    const modelToEdit = this.models.find(item => item.id === itemId);
+    if (modelToEdit) {
+      this.selectedModel = modelToEdit;
+    }
   }
 
-  UpdateModel(newName: string) {
-    if (!newName.trim()) {
-      console.error('Updated name cannot be empty');
-      return;
-    }
-
-    console.log('Updating model with id:', this.currentModelId);
-    console.log('New name:', newName);
-
-    this.dashboardService.updateModel(this.currentModelId, newName).subscribe({
+  deleteModel() {
+    this.dashboardService.deleteModel(this.currentModelId).subscribe({
       next: response => {
-        console.log('model updated successfully:', response);
-        this.getModel();
+        this.toastr.success('Модель успішно видалена');
+        this.getModels();
       },
       error: error => {
-        console.error('Error updating model:', error);
+        console.error(error);
+        this.toastr.error('Помилка видалення моделі');
       }
     });
-
   }
+
+  updateModel() {
+    if (this.editedModelForm.valid) {
+      const newName = this.editedModelForm.value.editedModelName;
+      const modelId = this.currentModelId;
+      this.dashboardService.updateModel(modelId, newName, this.editedModelForm.value.selectedBrandId, this.editedModelForm.value.selectedTypeIds).subscribe({
+        next: response => {
+          console.log(response);
+          this.newModelForm.reset();
+          this.toastr.success('Модель успішно оновлена!');
+          this.getModels();
+        },
+        error: error => {
+          console.error(error);
+          this.editedModelForm.reset();
+          this.toastr.error('Помилка оновлення моделі');
+        }
+      });
+    }
+  }
+
 }
