@@ -1,0 +1,26 @@
+<div
+  class="w-40 h-40 border border-gray-500 rounded-2xl flex items-center justify-center"
+>
+  <input
+    type="file"
+    required
+    id="uploadPhoto"
+    (change)="onFileSelected($event)"
+    accept=".jpg,.jpeg,.png"
+    class="hidden"
+  />
+  <img
+    [src]="selectedPhoto ? selectedPhoto : '../../../assets/images/photo.png'"
+    alt=""
+    class="w-8 h-8"
+  />
+  <label
+    for="uploadPhoto"
+    class="text-md font-medium text-gray-700 cursor-pointer ml-2"
+    >Додати фото</label
+  >
+</div>
+
+<div *ngIf="selectedPhoto" (click)="uploadPhoto()">
+    <span>Додати</span>
+</div>

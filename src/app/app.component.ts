@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
         next: (response) => {
           this.toastr.success(`Привіт ${response.user.username}`);
           this.accountService.currentUserSig.set(response.user);
-
+          
         },
         error: () => {
           this.toastr.error("401", "Ти шо дядь, не туда попав? Ану пішов звідси");
