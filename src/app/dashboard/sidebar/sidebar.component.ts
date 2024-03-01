@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { AccountService } from 'src/app/account/account.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +11,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class SidebarComponent {
   
   @Output() optionSelected = new EventEmitter<string>();
+
+  constructor(private accountService: AccountService, private router:Router){}
 
   selectType() {
     this.optionSelected.emit('type');
@@ -24,5 +28,11 @@ export class SidebarComponent {
 
   selectModel() {
     this.optionSelected.emit('model');
+  }
+
+  loggout(){
+    this.accountService.currentUserSig.set(null);
+    localStorage.setItem('token', '');
+    this.router.navigateByUrl('/');
   }
 }
