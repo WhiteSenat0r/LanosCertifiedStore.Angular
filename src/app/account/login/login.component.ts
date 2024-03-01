@@ -32,6 +32,7 @@ export class LoginComponent {
         localStorage.setItem('token', response.user.token);
         this.accountService.currentUserSig.set(response.user);
         this.router.navigateByUrl('/');
+        this.toastr.info(`Hello ${response.user.username}`)
       },
       error: (error) => console.error(error)
     })

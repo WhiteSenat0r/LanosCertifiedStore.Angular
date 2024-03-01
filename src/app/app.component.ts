@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
       .get<{ user: User }>('https://api.realworld.io/api/user')
       .subscribe({
         next: (response) => {
-          this.toastr.success(`Привіт ${response.user.username}`);
           this.accountService.currentUserSig.set(response.user);
           
         },
