@@ -113,6 +113,7 @@
             <div
               class="userInfoBox py-1 px-2 d-flex flex-column align-items-start w-fit h-fit rounded-lg bg-white text-lg-center"
               *ngIf="UserProfileVisible"
+              (mouseleave)="toggleUserInfo()"
             >
               <div>{{ accountService.currentUserSig()?.username }}</div>
               <div>{{ accountService.currentUserSig()?.email }}</div>
