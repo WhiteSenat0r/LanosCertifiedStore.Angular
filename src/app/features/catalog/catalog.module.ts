@@ -26,6 +26,7 @@ import { PriceSelectComponent } from './price-select/price-select.component';
 //ngx-bootstrap
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { CatalogFooterComponent } from './catalog-footer/catalog-footer.component';
+import { CatalogHeaderComponent } from './catalog-header/catalog-header.component';
 @NgModule({
   declarations: [
     CatalogComponent,
@@ -40,6 +41,7 @@ import { CatalogFooterComponent } from './catalog-footer/catalog-footer.componen
     TableItemsComponent,
     CharacteristicsComponent,
     PriceSelectComponent,
+    CatalogHeaderComponent,
   ],
   imports: [
     CommonModule,

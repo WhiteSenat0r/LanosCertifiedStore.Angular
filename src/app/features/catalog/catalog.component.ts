@@ -132,6 +132,48 @@ export class CatalogComponent implements OnInit {
     });
   }
 
+  onChipClick(name: string) {
+    if (name) {
+      if (name === 'type') {
+        this.catalogParams.typeName = '';
+        this.getTypes();
+      }
+      if (name === 'brand') {
+        this.catalogParams.brandName = '';
+        this.catalogParams.modelName = '';
+        this.getBrands();
+        this.getModels();
+      }
+      if (name === 'model') {
+        this.catalogParams.modelName = '';
+        this.getModels();
+      }
+      if (name === 'color') {
+        this.catalogParams.colorName = '';
+        this.getColors();
+      }
+      if (name === 'lowerPriceLimit') {
+        this.catalogParams.lowerPriceLimit = 0;
+      }
+      if (name === 'upperPriceLimit') {
+        this.catalogParams.upperPriceLimit = 100000;
+      }
+      if (name === 'minimalPriceDate') {
+        this.catalogParams.minimalPriceDate = new Date(2001, 1, 1);
+      }
+
+      this.getVehicles();
+    }
+  }
+
+  onCancelClick() {
+    this.catalogParams = new CatalogParams();
+    this.getTypes();
+    this.getBrands();
+    this.getColors();
+    this.getVehicles();
+  }
+
   handleSelectedOptionChange(output: OptionTypePair<OptionIdentity>) {
     if (output) {
       let typeOfOption = output.type;
@@ -203,45 +245,5 @@ export class CatalogComponent implements OnInit {
     this.getVehicles();
   }
 
-  onChipClick(name: string) {
-    if (name) {
-      if (name === 'type') {
-        this.catalogParams.typeName = '';
-        this.getTypes();
-      }
-      if (name === 'brand') {
-        this.catalogParams.brandName = '';
-        this.catalogParams.modelName = '';
-        this.getBrands();
-        this.getModels();
-      }
-      if (name === 'model') {
-        this.catalogParams.modelName = '';
-        this.getModels();
-      }
-      if (name === 'color') {
-        this.catalogParams.colorName = '';
-        this.getColors();
-      }
-      if (name === 'lowerPriceLimit') {
-        this.catalogParams.lowerPriceLimit = 0;
-      }
-      if (name === 'upperPriceLimit') {
-        this.catalogParams.upperPriceLimit = 100000;
-      }
-      if (name === 'minimalPriceDate') {
-        this.catalogParams.minimalPriceDate = new Date(2001, 1, 1);
-      }
-
-      this.getVehicles();
-    }
-  }
-
-  onCancelClick() {
-    this.catalogParams = new CatalogParams();
-    this.getTypes();
-    this.getBrands();
-    this.getColors();
-    this.getVehicles();
-  }
+  
 }
