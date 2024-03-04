@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from "./core/core.module";
-import { HomeModule } from "./home/home.module";
 import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule, withInterceptors } from '@angular/common/http';
 
@@ -20,12 +19,12 @@ import { AccountModule } from './account/account.module';
 import { ErrorInterceptor } from './core/intersceptors/error.interceptor';
 import { AccountInterceptor } from './core/intersceptors/account.interceptor';
 import { AuthGuardService } from './auth-guard.service';
+import { HomeModule } from './features/home/home.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-     
   ],
   imports: [
     BrowserModule,

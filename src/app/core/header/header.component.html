@@ -40,7 +40,9 @@
           </div>
         </form>
       </div>
-      <ng-container *ngIf="accountService.currentUserSig() === null || accountService.currentUserSig() === undefined">
+      <div>
+      </div>
+      <ng-container *ngIf="accountService.currentUserSig() === null || accountService.currentUserSig() === undefined ">
         <div class="flex flex-row ml-2">
           <button
             class="button my-auto ml-2 rounded-lg px-4 h-12 overflow-hidden space-x-1 items-center border border-black hover:bg-gray-200 transition-colors duration-300"

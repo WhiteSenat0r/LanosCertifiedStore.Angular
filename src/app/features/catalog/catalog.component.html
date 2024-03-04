@@ -1,0 +1,166 @@
+<div class="text-lg font-bold">
+  <span *ngIf="totalCountItems"
+    >Пошук машин -
+    <span *ngIf="totalCountItems > 1">{{ totalCountItems }} пропозицій</span>
+    <span *ngIf="totalCountItems == 1">{{ totalCountItems }} пропозиція</span>
+  </span>
+  <span *ngIf="totalCountItems == 0"
+    >Не має жодних пропозицій з таким запитом. Спробуйте наступного
+    разу!!!</span
+  >
+</div>
+
+<!--Change view and Chips-->
+<div class="d-flex flex-row gap-2 mb-2">
+  <!--Chips-->
+  <div class="d-flex flex-row flex-wrap gap-2 mr-auto mt-4 chipGroup">
+    <span
+      *ngIf="
+        catalogParams.typeName != '' ||
+        catalogParams.brandName != '' ||
+        catalogParams.colorName != '' ||
+        catalogParams.modelName != '' ||
+        catalogParams.lowerPriceLimit != 0 ||
+        catalogParams.upperPriceLimit != 100000 ||
+        catalogParams.minimalPriceDate.toString() != date
+      "
+      (click)="onCancelClick()"
+      class="chip cancelChip"
+      >Скасувати</span
+    >
+    <span
+      *ngIf="catalogParams.typeName !== ''"
+      class="chip"
+      (click)="onChipClick('type')"
+      >{{ catalogParams.typeName }}</span
+    >
+    <span
+      *ngIf="catalogParams.brandName !== ''"
+      class="chip"
+      (click)="onChipClick('brand')"
+      >{{ catalogParams.brandName }}</span
+    >
+    <span
+      *ngIf="catalogParams.modelName !== ''"
+      class="chip"
+      (click)="onChipClick('model')"
+      >{{ catalogParams.modelName }}</span
+    >
+    <span
+      *ngIf="catalogParams.colorName !== ''"
+      class="chip"
+      (click)="onChipClick('color')"
+      >{{ catalogParams.colorName }}</span
+    >
+    <span
+      *ngIf="catalogParams.lowerPriceLimit != 0"
+      class="chip"
+      (click)="onChipClick('lowerPriceLimit')"
+      >Від
+      {{
+        (catalogParams.lowerPriceLimit | currency : "USD")?.slice(0, -3)
+      }}</span
+    >
+    <span
+      *ngIf="catalogParams.upperPriceLimit != 100000"
+      class="chip"
+      (click)="onChipClick('upperPriceLimit')"
+      >До
+      {{
+        (catalogParams.upperPriceLimit | currency : "USD")?.slice(0, -3)
+      }}</span
+    >
+    <span
+      *ngIf="catalogParams.minimalPriceDate.toString() !== date"
+      class="chip"
+      (click)="onChipClick('minimalPriceDate')"
+      >Від
+      {{
+        (catalogParams.minimalPriceDate.getMonth() + 1).toString() +
+          "/" +
+          catalogParams.minimalPriceDate.getDate().toString() +
+          "/" +
+          catalogParams.minimalPriceDate.getFullYear().toString()
+      }}</span
+    >
+  </div>
+  <!--Change View and Sorting-->
+  <app-sort-select-type
+    class="mr-2 mt-auto"
+    [types]="sortTypes"
+    (selectedSortTypeChange)="handleSelectedSortTypeChange($event)"
+  ></app-sort-select-type>
+  <app-change-view-grid
+    class="mt-auto"
+    (selectedViewTypeChange)="handleSelectedViewChange($event)"
+  ></app-change-view-grid>
+</div>
+
+<mat-divider class="my-2"></mat-divider>
+
+<!--Main-->
+<div class="row">
+  <!--Filters-->
+  <section class="col-3">
+    <div class="flex flex-col gap-4">
+      <app-dropdown-typeahead
+        [options]="types"
+        [placeholder]="'Типи'"
+        (selectedOptionChange)="handleSelectedOptionChange($event)"
+      ></app-dropdown-typeahead>
+      <app-dropdown-typeahead
+        [options]="brands"
+        [placeholder]="'Бренди'"
+        (selectedOptionChange)="handleSelectedOptionChange($event)"
+      ></app-dropdown-typeahead>
+      
+      <ng-container *ngIf="models.length > 0">
+        <app-dropdown-typeahead
+          [options]="models"
+          [placeholder]="'Моделі'"
+          (selectedOptionChange)="handleSelectedOptionChange($event)"
+        ></app-dropdown-typeahead>
+      </ng-container>
+
+      <app-dropdown-typeahead
+        [options]="colors"
+        [placeholder]="'Кольори'"
+        (selectedOptionChange)="handleSelectedOptionChange($event)"
+      ></app-dropdown-typeahead>
+      <app-price-select
+        [lowerPriceLimit]="catalogParams.lowerPriceLimit"
+        [upperPriceLimit]="catalogParams.upperPriceLimit"
+        (selectedNewLowerPrice)="handleChangeLowerPriceLimit($event)"
+        (selectedNewUpperPrice)="handleChangeUpperPriceLimit($event)"
+      ></app-price-select>
+      <div>
+        <app-date-picker
+          [minimalPriceDate]="catalogParams.minimalPriceDate"
+          (minimalPriceDateChange)="handleMinimalDateChange($event)"
+        ></app-date-picker>
+      </div>
+    </div>
+  </section>
+
+  <!--Car items and paginations-->
+  <section class="col-9">
+    <div class="mb-4">
+      <div class="row" [ngClass]="'row-cols-' + columnCount">
+        <div class="col" *ngFor="let vehicle of vehicles">
+          <app-car-item-component
+            [vehicle]="vehicle"
+            [columnCount]="columnCount"
+          ></app-car-item-component>
+        </div>
+      </div>
+    </div>
+
+    <app-catalog-footer
+      [totalCountItems]="totalCountItems"
+      [pageNumber]="catalogParams.pageNumber"
+      [itemsPerPage]="catalogParams.pageSize"
+      (pageNumberChange)="handlePageNumberChange($event)"
+      (pageSizeChange)="handlePageSizeChange($event)"
+    ></app-catalog-footer>
+  </section>
+</div>
