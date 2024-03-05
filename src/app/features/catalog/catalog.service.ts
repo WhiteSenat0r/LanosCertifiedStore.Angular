@@ -8,12 +8,13 @@ import { CatalogParams } from '../../shared/models/catalogParams';
 import { Color } from '../../shared/models/color';
 import { Model } from '../../shared/models/model';
 import { ListVehicle } from '../../shared/models/ListVehicle';
+import { environment } from 'src/environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

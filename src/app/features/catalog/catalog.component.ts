@@ -31,11 +31,9 @@ export class CatalogComponent implements OnInit {
   vehicles: ListVehicle[] = [];
 
   columnCount: number = 3;
-
-  catalogParams = new CatalogParams();
   totalCountItems: number = 0;
 
-  date: string = new Date(2001, 1, 1).toString();
+  catalogParams = new CatalogParams();
 
   sortTypes = [
     { name: 'Нормальне сортування', value: '' },
@@ -56,9 +54,16 @@ export class CatalogComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       if (params['brandName'] !== undefined) {
         this.catalogParams.brandName = params['brandName'];
+        if (params['modelName'] !== undefined) {
+          this.catalogParams.modelName = params['modelName'];
+          this.getModels();
+        }
       }
       if (params['typeName'] !== undefined) {
         this.catalogParams.typeName = params['typeName'];
+      }
+      if (params['colorName'] !== undefined) {
+        this.catalogParams.colorName = params['colorName'];
       }
     });
 
@@ -103,22 +108,22 @@ export class CatalogComponent implements OnInit {
 
   getTypes() {
     this.catalogService.getTypes().subscribe({
-      next: (response: Type[]) => this.types = response,
-      error: error => console.error(error),
+      next: (response: Type[]) => (this.types = response),
+      error: (error) => console.error(error),
     });
   }
 
   getColors() {
     this.catalogService.getColors().subscribe({
-      next: (response: Color[]) => this.colors = response,
-      error: error => console.error(error),
+      next: (response: Color[]) => (this.colors = response),
+      error: (error) => console.error(error),
     });
   }
 
   getBrands() {
     this.catalogService.getBrands().subscribe({
-      next: (response: Brand[]) => this.brands = response,
-      error: error => console.error(error),
+      next: (response: Brand[]) => (this.brands = response),
+      error: (error) => console.error(error),
     });
   }
 
@@ -132,45 +137,37 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  onChipClick(name: string) {
-    if (name) {
-      if (name === 'type') {
-        this.catalogParams.typeName = '';
-        this.getTypes();
-      }
-      if (name === 'brand') {
-        this.catalogParams.brandName = '';
-        this.catalogParams.modelName = '';
-        this.getBrands();
-        this.getModels();
-      }
-      if (name === 'model') {
-        this.catalogParams.modelName = '';
-        this.getModels();
-      }
-      if (name === 'color') {
-        this.catalogParams.colorName = '';
-        this.getColors();
-      }
-      if (name === 'lowerPriceLimit') {
-        this.catalogParams.lowerPriceLimit = 0;
-      }
-      if (name === 'upperPriceLimit') {
-        this.catalogParams.upperPriceLimit = 100000;
-      }
-      if (name === 'minimalPriceDate') {
-        this.catalogParams.minimalPriceDate = new Date(2001, 1, 1);
-      }
-
-      this.getVehicles();
+  handleSelectedChipClick(chip: string) {
+    if (chip === 'type') {
+      this.catalogParams.typeName = '';
+      this.getTypes();
     }
-  }
-
-  onCancelClick() {
-    this.catalogParams = new CatalogParams();
-    this.getTypes();
-    this.getBrands();
-    this.getColors();
+    if (chip === 'brand') {
+      this.catalogParams.brandName = '';
+      this.catalogParams.modelName = '';
+      this.getBrands();
+      this.getModels();
+    }
+    if (chip === 'model') {
+      this.catalogParams.modelName = '';
+      this.getModels();
+    }
+    if (chip === 'color') {
+      this.catalogParams.colorName = '';
+      this.getColors();
+    }
+    if (chip === 'lowerPriceLimit') {
+      this.catalogParams.lowerPriceLimit = 0;
+    }
+    if (chip === 'upperPriceLimit') {
+      this.catalogParams.upperPriceLimit = 100000;
+    }
+    if (chip === 'minimalPriceDate') {
+      this.catalogParams.minimalPriceDate = new Date(2001, 1, 1);
+    }
+    if (chip === 'cancel') {
+      this.catalogParams = new CatalogParams();
+    }
     this.getVehicles();
   }
 
@@ -184,8 +181,7 @@ export class CatalogComponent implements OnInit {
           this.catalogParams.typeName = selectedOption;
         } else if (typeOfOption === 'Бренди'.toLocaleLowerCase()) {
           this.catalogParams.brandName = selectedOption;
-          if(selectedOption === '')
-          {
+          if (selectedOption === '') {
             this.catalogParams.modelName = selectedOption;
           }
           this.getModels();
@@ -244,6 +240,4 @@ export class CatalogComponent implements OnInit {
     this.catalogParams.pageSize = pageSize;
     this.getVehicles();
   }
-
-  
 }
