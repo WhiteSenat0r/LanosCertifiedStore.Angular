@@ -1,0 +1,40 @@
+.container {
+    padding: 20px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: 50px;
+}
+
+.form-control, .btn-primary, input[type="text"] {
+    border-radius: 20px;
+    margin-top: 15px;
+}
+
+.rating i {
+    color: #000000;
+    cursor: pointer;
+}
+
+.rating i:hover,
+.rating i.hovered,
+.rating i.selected {
+    color: #000000;
+}
+
+input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #000000;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.textarea-resize {
+    height: 200px; 
+}
