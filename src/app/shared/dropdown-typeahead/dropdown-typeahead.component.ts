@@ -6,6 +6,7 @@ import {
   HostListener,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -23,20 +24,26 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
   filteredOptions: OptionIdentity[] = [];
   isDropdownVisible = false;
 
-  @ViewChild('inputInside') inputInside!: ElementRef;
+  @ViewChild('inputInside') inputInside?: ElementRef;
 
   constructor(private elementRef: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('options' in changes) {
       this.updateFilteredOptions();
+      this.selectedOption = this.choiceOption;
     }
   }
 
   ngAfterViewInit(): void {
     if (this.placeholder) {
-      const input = this.inputInside.nativeElement as HTMLInputElement;
+      const input = this.inputInside?.nativeElement as HTMLInputElement;
       input.placeholder = this.placeholder;
+    }
+    if (this.selectedOption)
+    {
+      const input = this.inputInside?.nativeElement as HTMLInputElement;
+      input.value = this.selectedOption;
     }
   }
 
@@ -46,19 +53,19 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
     } else {
       this.filteredOptions = [];
     }
-    const input = this.inputInside.nativeElement;
-    if(input && input.value)
-    {
-      input.value = '';
-    }
     if(this.selectedOption)
     {
-      this.selectedOption = '';
+      this.selectedOption = this.choiceOption;
+      if(this.inputInside?.nativeElement)
+      {
+        const input = this.inputInside?.nativeElement as HTMLInputElement;
+        input.value = this.selectedOption;
+      }
     }
   }
 
   filterOptions(): void {
-    const input = this.inputInside.nativeElement as HTMLInputElement;
+    const input = this.inputInside?.nativeElement as HTMLInputElement;
     const searchTerm = input.value as string;
     if (searchTerm) {
       this.filteredOptions = this.options.filter((option) => {
@@ -77,19 +84,22 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
   }
 
   selectOption(option: OptionIdentity): void {
-    const input = this.inputInside.nativeElement as HTMLInputElement;
+    const input = this.inputInside?.nativeElement as HTMLInputElement;
     input.value = option.name;
     this.selectedOption = option.name;
     this.filterOptions();
-    this.selectedOptionChange.emit({data: option, type: this.placeholder});
+    this.selectedOptionChange.emit({ data: option, type: this.placeholder });
   }
 
   clearSelectedOption(): void {
-    const input = this.inputInside.nativeElement as HTMLInputElement;
+    const input = this.inputInside?.nativeElement as HTMLInputElement;
     input.value = '';
     this.selectedOption = '';
     this.filterOptions();
-    this.selectedOptionChange.emit({data: {id: '', name: ''}, type: this.placeholder})
+    this.selectedOptionChange.emit({
+      data: { id: '', name: '' },
+      type: this.placeholder,
+    });
   }
 
   @HostListener('document:click', ['$event'])
@@ -99,8 +109,9 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  @Input() options: OptionIdentity[] = [];
-  @Input() placeholder?: string;
+  @Input({required: true}) options!: OptionIdentity[];
+  @Input() placeholder: string = '';
+  @Input() choiceOption: string = '';
   @Output() selectedOptionChange: EventEmitter<OptionTypePair<OptionIdentity>> =
     new EventEmitter<OptionTypePair<OptionIdentity>>();
 }
