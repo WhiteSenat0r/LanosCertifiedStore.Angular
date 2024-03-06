@@ -2,12 +2,11 @@
     padding: 20px;
     background: #fff;
     border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-top: 50px;
 }
 
 .form-control, .btn-primary, input[type="text"] {
-    border-radius: 20px;
     margin-top: 15px;
 }
 
@@ -31,10 +30,39 @@ input[type="text"] {
     color: #000000;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: 1px solid #010101;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 .textarea-resize {
     height: 200px; 
+}
+
+.textsmall{
+    font-size: 15px;
+}
+
+.star-container {
+    position: relative;
+    display: inline-block;
+}
+
+.star-tooltip {
+    visibility: hidden;
+    width: 80px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.star-container:hover .star-tooltip {
+    visibility: visible;
 }
