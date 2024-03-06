@@ -105,6 +105,7 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
   onClick(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isDropdownVisible = false;
+      this.onComponentClick.emit(false);
     } else {
       this.onComponentClick.emit(true);
     }

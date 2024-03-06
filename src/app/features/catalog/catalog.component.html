@@ -54,7 +54,6 @@
           [options]="brands"
           [placeholder]="'Бренди'"
           [choiceOption]="catalogParams.brandName"
-          (onComponentClick)="handleClickBrandDropDownTypeahead($event)"
           (selectedOptionChange)="handleSelectedOptionChange($event)"
         >
         </app-dropdown-typeahead>
@@ -67,10 +66,10 @@
       </div>
 
       <app-dropdown-typeahead
-        (click)="togglePopover()"
         [options]="models"
         [placeholder]="'Моделі'"
         [choiceOption]="catalogParams.modelName"
+        (onComponentClick)="handleOnModelDropdownClick($event)"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>
 

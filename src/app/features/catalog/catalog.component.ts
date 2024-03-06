@@ -1,8 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Type } from '../../shared/models/type';
 import { Brand } from '../../shared/models/brand';
 import { CatalogService } from './catalog.service';
@@ -30,7 +26,8 @@ export class CatalogComponent implements OnInit {
 
   columnCount: number = 3;
   shouldShowPopover: boolean = false;
-  
+  checkClickOnModel!: boolean | undefined;
+
   totalCountItems: number = 0;
   catalogParams = new CatalogParams();
 
@@ -42,7 +39,7 @@ export class CatalogComponent implements OnInit {
 
   constructor(
     private catalogService: CatalogService,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   updateLowerPrice$ = new Subject<number>();
@@ -136,17 +133,23 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  togglePopover(){
-    if(this.catalogParams.brandName === '')
-    {
+  togglePopover() {
+    if (this.models.length === 0 && this.checkClickOnModel) {
       this.shouldShowPopover = true;
     }
-    else{
-      if(this.shouldShowPopover)
-      {
-        this.shouldShowPopover = !this.shouldShowPopover;
-      }
+    if (
+      this.shouldShowPopover &&
+      this.models.length === 0 &&
+      !this.checkClickOnModel
+    ) {
+      this.shouldShowPopover = false;
     }
+  }
+
+  handleOnModelDropdownClick(isClicked: boolean) {
+    this.checkClickOnModel = isClicked;
+
+    this.togglePopover();
   }
 
   handleSelectedChipClick(chip: string) {
@@ -248,13 +251,5 @@ export class CatalogComponent implements OnInit {
   handlePageSizeChange(pageSize: any) {
     this.catalogParams.pageSize = pageSize;
     this.getVehicles();
-  }
-
-  handleClickBrandDropDownTypeahead(value: boolean) : void
-  {
-    if(value)
-    {
-      this.shouldShowPopover = false;
-    }
   }
 }
