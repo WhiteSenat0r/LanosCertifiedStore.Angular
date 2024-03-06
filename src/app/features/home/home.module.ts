@@ -4,6 +4,7 @@ import { TilehomepageComponent } from './tilehomepage/tilehomepage.component';
 import { CardsComponent } from './cards/cards.component';
 import { HomepagebannerComponent } from './homepagebanner/homepagebanner.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
+import { RatigComponent } from './ratig/ratig.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HomeComponent } from './home.component';
 import { RouterLink } from '@angular/router';
@@ -15,6 +16,7 @@ import { RouterLink } from '@angular/router';
     HomepagebannerComponent,
     SearchbarComponent,
     HomeComponent,
+    RatigComponent,
   ],
   exports: [
     CardsComponent,
@@ -22,6 +24,7 @@ import { RouterLink } from '@angular/router';
     SearchbarComponent,
     TilehomepageComponent,
     HomeComponent,
+    RatigComponent,
   ],
   imports: [CommonModule, FontAwesomeModule, RouterLink],
 })
