@@ -9,7 +9,7 @@
 
 .inputElement {
   height: 42px;
-  border: 2px solid #acabab;
+  border: 2px solid;
   border-radius: 10px;
 
   width: 100%;
@@ -18,12 +18,16 @@
   padding: 0px 10px 0px 2px;
 }
 
-.inputElement:hover {
-  border-color: rgb(124, 122, 122);
+.is-dropdown-visible{
+    border-color: rgb(110, 110, 110);
 }
 
-.inputElement:focus {
-  border-color: rgb(124, 122, 122);
+.is-not-dropdown-visible{
+    border-color: rgb(209, 208, 208);
+}
+
+.is-not-dropdown-visible:hover{
+    border-color: rgba(170,170,172);
 }
 
 .inputElement input {
@@ -58,8 +62,8 @@
 }
 
 .dropdown {
+  overflow-y: auto;
   max-height: 240px;
-  overflow-y: scroll;
 }
 
 .dropdown::-webkit-scrollbar {
@@ -107,11 +111,10 @@ ul .ourItem:hover {
 
 .checkmark {
   background-color: white;
-  width: 25px;
-  height: 25px;
-  border: 1px solid rgb(87, 87, 87);
-  display: block;
   position: relative;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgb(87, 87, 87);
   border-radius: 16px;
 }
 
@@ -119,10 +122,9 @@ ul .ourItem:hover {
   position: absolute;
   height: 16px;
   width: 16px;
-  top: 50%;
-  left: 50%;
   background-color: rgb(61, 61, 61);
-  border-radius: 100%;
-  /* Make it a circle */
+  border-radius: inherit;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }

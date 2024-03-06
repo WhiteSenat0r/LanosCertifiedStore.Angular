@@ -1,6 +1,8 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   Component,
+  DoCheck,
   ElementRef,
   EventEmitter,
   HostListener,
@@ -40,8 +42,7 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
       const input = this.inputInside?.nativeElement as HTMLInputElement;
       input.placeholder = this.placeholder;
     }
-    if (this.selectedOption)
-    {
+    if (this.selectedOption) {
       const input = this.inputInside?.nativeElement as HTMLInputElement;
       input.value = this.selectedOption;
     }
@@ -53,11 +54,9 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
     } else {
       this.filteredOptions = [];
     }
-    if(this.selectedOption)
-    {
+    if (this.selectedOption) {
       this.selectedOption = this.choiceOption;
-      if(this.inputInside?.nativeElement)
-      {
+      if (this.inputInside?.nativeElement) {
         const input = this.inputInside?.nativeElement as HTMLInputElement;
         input.value = this.selectedOption;
       }
@@ -109,7 +108,7 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  @Input({required: true}) options!: OptionIdentity[];
+  @Input({ required: true }) options!: OptionIdentity[];
   @Input() placeholder: string = '';
   @Input() choiceOption: string = '';
   @Output() selectedOptionChange: EventEmitter<OptionTypePair<OptionIdentity>> =
