@@ -1,3 +1,38 @@
+.brand-div{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Popover */
+.popover {
+  position: relative;
+  top: -10px;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border: none;
+}
+
+.popover-content{
+  position: absolute;
+  top: 15px;
+  background-color: rgb(48, 48, 48);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+}
+
+.popover-arrow{
+  position: absolute;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  border-bottom: 18px solid rgb(48, 48, 48);
+}
+
 /* Chips */
 
 .chipGroup .chip{
@@ -27,8 +62,6 @@
   background-color: rgb(228, 128, 128);
   color: white;
 }
-
-/* Price */
 
 
 

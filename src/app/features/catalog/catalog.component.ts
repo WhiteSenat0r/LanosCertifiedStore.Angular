@@ -1,9 +1,7 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { Type } from '../../shared/models/type';
 import { Brand } from '../../shared/models/brand';
@@ -11,7 +9,7 @@ import { CatalogService } from './catalog.service';
 import { Model } from '../../shared/models/model';
 import { CatalogParams } from '../../shared/models/catalogParams';
 import { Color } from '../../shared/models/color';
-import { Subject, debounceTime, last, tap } from 'rxjs';
+import { Subject, debounceTime, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination } from '../../shared/models/pagination';
 import { ListVehicle } from '../../shared/models/ListVehicle';
@@ -31,8 +29,9 @@ export class CatalogComponent implements OnInit {
   vehicles: ListVehicle[] = [];
 
   columnCount: number = 3;
+  shouldShowPopover: boolean = false;
+  
   totalCountItems: number = 0;
-
   catalogParams = new CatalogParams();
 
   sortTypes = [
@@ -43,7 +42,7 @@ export class CatalogComponent implements OnInit {
 
   constructor(
     private catalogService: CatalogService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   updateLowerPrice$ = new Subject<number>();
@@ -137,6 +136,19 @@ export class CatalogComponent implements OnInit {
     });
   }
 
+  togglePopover(){
+    if(this.catalogParams.brandName === '')
+    {
+      this.shouldShowPopover = true;
+    }
+    else{
+      if(this.shouldShowPopover)
+      {
+        this.shouldShowPopover = !this.shouldShowPopover;
+      }
+    }
+  }
+
   handleSelectedChipClick(chip: string) {
     if (chip === 'type') {
       this.catalogParams.typeName = '';
@@ -181,9 +193,6 @@ export class CatalogComponent implements OnInit {
           this.catalogParams.typeName = selectedOption;
         } else if (typeOfOption === 'Бренди'.toLocaleLowerCase()) {
           this.catalogParams.brandName = selectedOption;
-          if (selectedOption === '') {
-            this.catalogParams.modelName = selectedOption;
-          }
           this.getModels();
         } else if (typeOfOption === 'Кольори'.toLocaleLowerCase()) {
           this.catalogParams.colorName = selectedOption;
@@ -239,5 +248,13 @@ export class CatalogComponent implements OnInit {
   handlePageSizeChange(pageSize: any) {
     this.catalogParams.pageSize = pageSize;
     this.getVehicles();
+  }
+
+  handleClickBrandDropDownTypeahead(value: boolean) : void
+  {
+    if(value)
+    {
+      this.shouldShowPopover = false;
+    }
   }
 }

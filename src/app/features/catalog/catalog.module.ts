@@ -58,7 +58,7 @@ import { ChipListComponent } from './chip-list/chip-list.component';
     MatIconModule,
 
     //ngx-bootstrap
-    BsDatepickerModule
+    BsDatepickerModule,
   ]
 })
 export class CatalogModule { }

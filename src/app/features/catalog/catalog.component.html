@@ -13,8 +13,12 @@
 <!--Change view and Chips-->
 <div class="d-flex flex-row gap-2 mb-2 justify-content-between">
   <!--Chips-->
-  <div class=""> 
-    <app-chip-list [catalogParams]="catalogParams" (selectedChipClick)="handleSelectedChipClick($event)" class="mt-auto"></app-chip-list>
+  <div class="">
+    <app-chip-list
+      [catalogParams]="catalogParams"
+      (selectedChipClick)="handleSelectedChipClick($event)"
+      class="mt-auto"
+    ></app-chip-list>
   </div>
   <!--Change View and Sorting-->
   <div class="d-flex flex-row">
@@ -43,21 +47,32 @@
         [choiceOption]="catalogParams.typeName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>
+
+      <div class="brand-div">
+        <app-dropdown-typeahead
+          class="w-full"
+          [options]="brands"
+          [placeholder]="'Бренди'"
+          [choiceOption]="catalogParams.brandName"
+          (onComponentClick)="handleClickBrandDropDownTypeahead($event)"
+          (selectedOptionChange)="handleSelectedOptionChange($event)"
+        >
+        </app-dropdown-typeahead>
+        <ng-container *ngIf="shouldShowPopover">
+          <div class="popover w-full">
+            <div class="popover-arrow"></div>
+            <div class="popover-content">Оберіть спочатку бренд!</div>
+          </div>
+        </ng-container>
+      </div>
+
       <app-dropdown-typeahead
-        [options]="brands"
-        [placeholder]="'Бренди'"
-        [choiceOption]="catalogParams.brandName"
+        (click)="togglePopover()"
+        [options]="models"
+        [placeholder]="'Моделі'"
+        [choiceOption]="catalogParams.modelName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>
-
-      <ng-container *ngIf="models.length > 0">
-        <app-dropdown-typeahead
-          [options]="models"
-          [placeholder]="'Моделі'"
-          [choiceOption]="catalogParams.modelName"
-          (selectedOptionChange)="handleSelectedOptionChange($event)"
-        ></app-dropdown-typeahead>
-      </ng-container>
 
       <app-dropdown-typeahead
         [options]="colors"
