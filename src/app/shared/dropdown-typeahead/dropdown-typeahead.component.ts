@@ -105,6 +105,8 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
   onClick(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isDropdownVisible = false;
+    } else {
+      this.onComponentClick.emit(true);
     }
   }
 
@@ -113,4 +115,6 @@ export class DropdownTypeaheadComponent implements OnChanges, AfterViewInit {
   @Input() choiceOption: string = '';
   @Output() selectedOptionChange: EventEmitter<OptionTypePair<OptionIdentity>> =
     new EventEmitter<OptionTypePair<OptionIdentity>>();
+  @Output() onComponentClick: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
 }
