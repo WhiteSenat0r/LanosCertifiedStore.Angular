@@ -1,50 +1,32 @@
 <div class="dropdown-typeahead">
   <div class="cover">
-    <div
-      class="inputElement d-flex justify-content-between align-items-center"
+    <div class="inputElement d-flex justify-content-between align-items-center"
       (click)="isDropdownVisible || toggleDropdown()"
       [ngClass]="{'is-dropdown-visible': isDropdownVisible, 'is-not-dropdown-visible': !isDropdownVisible}">
-      <input type="text" (input)="filterOptions()" #inputInside />
-      <i
-        *ngIf="!(inputInside.value.length > 0)"
-        class="fa fa-solid fa-lg fa-angle-down fa-fw text-secondary"
-      ></i>
-      <svg
-        *ngIf="(inputInside.value.length > 0)"
-        (click)="clearSelectedOption()"
-        class="w-5 h-5 iconButtons"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512"
-      >
+      <input type="text" (input)="filterChange($event.target)" [value]="value" (blur)="onTouched()"
+        placeholder="Обрати" #inputInside />
+      <i *ngIf="!(inputInside.value.length > 0)" class="fa fa-solid fa-lg fa-angle-down fa-fw text-secondary"></i>
+      <svg *ngIf="(inputInside.value.length > 0)" (click)="clearSelectedOption()" class="w-5 h-5 iconButtons"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
         <path
-          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"
-        />
+          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
       </svg>
     </div>
 
-    <div
-      class="out-dropdown w-full"
-      [ngStyle]="{ display: (isDropdownVisible && filteredOptions.length > 0) ? 'block' : 'none' }"
-    >
-      <div
-        class="dropdown w-full"
-      >
+    <div class="out-dropdown w-full"
+      [ngStyle]="{ display: (isDropdownVisible && filteredOptions.length > 0) ? 'block' : 'none' }">
+      <div class="dropdown w-full">
         <ul>
           <li *ngFor="let option of filteredOptions">
-            <div
-              class="ourItem d-flex justify-content-between"
-              (click)="selectOption(option); toggleDropdown()"
-            >
+            <div class="ourItem d-flex justify-content-between" (click)="selectOption(option); toggleDropdown()">
               <span>
                 {{ option.name }}
               </span>
-                <div class="checkmark">
-                  <div
-                    [ngClass]="{
+              <div class="checkmark">
+                <div [ngClass]="{
                       'show-checkmark': option.name === selectedOption
-                    }"
-                  ></div>
-                </div>
+                    }"></div>
+              </div>
             </div>
           </li>
         </ul>

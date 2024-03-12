@@ -8,8 +8,10 @@
     >Не має жодних пропозицій з таким запитом. Спробуйте наступного
     разу!!!</span
   >
+  <div> 
+    
+  </div>
 </div>
-
 <!--Change view and Chips-->
 <div class="d-flex flex-row gap-2 mb-2 justify-content-between">
   <!--Chips-->
@@ -43,7 +45,7 @@
     <div class="flex flex-col gap-4">
       <app-dropdown-typeahead
         [options]="types"
-        [placeholder]="'Типи'"
+        type="Type"
         [choiceOption]="catalogParams.typeName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>
@@ -52,7 +54,7 @@
         <app-dropdown-typeahead
           class="w-full"
           [options]="brands"
-          [placeholder]="'Бренди'"
+          type="Brand"
           [choiceOption]="catalogParams.brandName"
           (onComponentClick)="handleClickBrandDropDownTypeahead($event)"
           (selectedOptionChange)="handleSelectedOptionChange($event)"
@@ -69,14 +71,14 @@
       <app-dropdown-typeahead
         (click)="togglePopover()"
         [options]="models"
-        [placeholder]="'Моделі'"
+        type="Model"
         [choiceOption]="catalogParams.modelName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>
 
       <app-dropdown-typeahead
         [options]="colors"
-        [placeholder]="'Кольори'"
+        type="Color"
         [choiceOption]="catalogParams.colorName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>

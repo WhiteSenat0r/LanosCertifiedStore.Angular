@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Vehicle } from 'src/app/shared/models/vehicle';
 import { CatalogService } from '../catalog.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,8 +22,8 @@ export class CarDetailsComponent implements OnInit {
     private catalogService: CatalogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private bcService: BreadcrumbService
-  ) {}
+    private bcService: BreadcrumbService,
+  ) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);

@@ -1,4 +1,4 @@
-.brand-div{
+.brand-div {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@
   border: none;
 }
 
-.popover-content{
+.popover-content {
   position: absolute;
   top: 15px;
   background-color: rgb(48, 48, 48);
@@ -26,7 +26,7 @@
   border-radius: 12px;
 }
 
-.popover-arrow{
+.popover-arrow {
   position: absolute;
   border-right: 12px solid transparent;
   border-left: 12px solid transparent;
@@ -35,7 +35,7 @@
 
 /* Chips */
 
-.chipGroup .chip{
+.chipGroup .chip {
   display: inline-block;
   padding: 6px 12px;
   font-size: medium;
@@ -47,25 +47,17 @@
   cursor: pointer;
 }
 
-.chipGroup .chip:hover{
+.chipGroup .chip:hover {
   background-color: rgb(0, 0, 0);
   color: white;
 }
 
-
-.chipGroup .cancelChip{
+.chipGroup .cancelChip {
   border-color: rgb(221, 163, 163);
   transition: 0.25s ease;
 }
 
-.chipGroup .cancelChip:hover{
+.chipGroup .cancelChip:hover {
   background-color: rgb(228, 128, 128);
   color: white;
 }
-
-
-
-
-
-
-

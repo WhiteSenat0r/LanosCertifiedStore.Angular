@@ -30,7 +30,9 @@ export class VehicleoperateService {
   }
 
   getTypes() {
-      return this.http.get<Type[]>(this.baseUrl + 'Types');
+    return this.http.get<Type[]>("https://localhost:5001/api/Types");
+   
+      //return this.http.get<Type[]>(this.baseUrl + 'Types');
   }
 
   getColor() {
@@ -48,6 +50,8 @@ export class VehicleoperateService {
           displacement: newVehicle.displacement,
           price: newVehicle.prices
       };
+
+      return console.log(actionVehicleDto);
       return this.http.post(this.baseUrl + 'Vehicles', actionVehicleDto);
   }
 

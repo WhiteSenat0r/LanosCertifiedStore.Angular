@@ -6,7 +6,7 @@ import { AddVehiclePhotoComponent } from './add-vehicle-photo/add-vehicle-photo.
 
 const routes: Routes = [
   {path: 'addvehicle', component: AddVehicleComponent},
-  {path: 'addvehicle/:id', component: AddVehiclePhotoComponent}
+  {path: 'addvehiclephoto/:id', component: AddVehiclePhotoComponent}
 ]
 
 @NgModule({

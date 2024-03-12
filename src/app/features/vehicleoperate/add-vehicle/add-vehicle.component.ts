@@ -1,155 +1,105 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Brand } from 'src/app/shared/models/brand';
-import { Color } from 'src/app/shared/models/color';
-import { CreateVehicle } from 'src/app/shared/models/createvehicle';
-import { Model } from 'src/app/shared/models/model';
-import { Type } from 'src/app/shared/models/type';
+import { Component, OnInit } from '@angular/core';
 import { VehicleoperateService } from '../vehicleoperate.service';
-
+import { Brand } from 'src/app/shared/models/brand';
+import { Editor, Toolbar, Validators } from 'ngx-editor';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { OptionIdentity } from 'src/app/shared/models/optionIdentity';
+import { OptionTypePair } from 'src/app/shared/models/optionTypePair';
+import { VehicleParams } from 'src/app/shared/models/vehicleParams';
+import { Type } from 'src/app/shared/models/type';
+import { Model } from 'src/app/shared/models/model';
+import { Router } from '@angular/router';
+import { CreateVehicle } from 'src/app/shared/models/createvehicle';
+import { Color } from 'src/app/shared/models/color';
 @Component({
   selector: 'app-add-vehicle',
   templateUrl: './add-vehicle.component.html',
   styleUrls: ['./add-vehicle.component.css']
 })
-export class AddVehicleComponent {
-  onModelChange(event: any) {
-    if (event.target.value)
-    {
-      const selectedModel = this.models.find(model => model.id === event.target.value.toString());
-      if (selectedModel) {
-        console.log('Choose model:', selectedModel);
+export class AddVehicleComponent implements OnInit {
+  formSubmitted: boolean = false;
 
-        let modelAccessTypes: Type[] = selectedModel.availableTypes;
+  editor: Editor = new Editor();
+  toolbar: Toolbar = [
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
+  vehicleParams: VehicleParams = new VehicleParams();
+  brands: Brand[] = [{ id: '1', name: 'lol' }, { id: '2', name: 'nimo' }, { id: '3', name: 'dsd' }];
+  types: Type[] = [{ id: '1', name: 'dsewqe' }, { id: '2', name: 'trtrd' }, { id: '3', name: 'csl' }];
+  colors: Color[] = [{ id: '1', name: 'white', hexValue: '#000' }, { id: '2', name: 'black', hexValue: '#fff' }, { id: '3', name: 'blue', hexValue: '#f3f3f3' }];
+  models: Model[] = [{ id: '1', name: 'dsewqe', vehicleBrand: '', availableTypes: [] }, { id: '2', name: 'trtrd', vehicleBrand: '', availableTypes: [] }, { id: '3', name: 'csl', vehicleBrand: '', availableTypes: [] }];
+  years: OptionIdentity[] = [{ id: '1', name: '1990' }, { id: '2', name: '1991' }, { id: '3', name: '1992' }];
 
-        let newTypes: Type[] = [];
-        for(let i: number = 0;  i < modelAccessTypes.length;i++)
-        {
-          let filteredTypes: Type[] = [];
-          filteredTypes = this.types.filter(type => type.id === modelAccessTypes[i].id);
-         
-          newTypes = newTypes.concat(filteredTypes);
-        }
 
-        this.types = newTypes;
-      } else {
-        console.log('No found');
-      }
+  form: FormGroup;
+  constructor(private vehicleOperateService: VehicleoperateService, private formBuilder: FormBuilder, private router: Router) {
+    this.form = this.formBuilder.group({
+      types: ['', Validators.required],
+      brands: ['', Validators.required],
+      models: ['', Validators.required],
+      years: ['', Validators.required],
+      colors: ['', Validators.required],
+      editorContent: ['', [Validators.required, Validators.minLength(30)]]
     }
+    )
   }
-  addCarForm: FormGroup;
-
-  models: Model[] = [];
-  brands: Brand[] = [];
-  types: Type[] = [];
-  colors: Color[] = [];
-  isBrandSelected: boolean = false;
-  isFormCleared: boolean = false;
-  showAlert: boolean = false;
-
-
-  constructor(private vehicleoperateService: VehicleoperateService, private router: Router) {
-    this.addCarForm = new FormGroup({
-      brand: new FormControl('', Validators.required),
-      model: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
-      color: new FormControl('', Validators.required),
-      displacement: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
-      price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
-      description: new FormControl('', Validators.required)
-    });
-  }
-
-  originalModels: Model[] = [];
-
   ngOnInit(): void {
-    this.getModel();
-    this.getTypes();
-    this.getBrands();
-    this.getColor();
+    //this.getBrands();
+    //this.getTypes();
+
+    console.log(this.form.get('types')?.invalid)
   }
 
-  getModel() {
-    this.vehicleoperateService.getModel().subscribe({
-      next: response => {
-        this.models = response;
-        this.originalModels = [...response];
-      },
-      error: error => console.error(error),
+
+  getBrands() {
+    this.vehicleOperateService.getBrands().subscribe({
+      next: (response: Brand[]) => this.brands = response,
+      error: (error) => console.error(error)
     })
   }
 
   getTypes() {
-    this.vehicleoperateService.getTypes().subscribe({
-      next: response => this.types = response,
-      error: error => console.error(error),
+    this.vehicleOperateService.getTypes().subscribe({
+      next: (response: Type[]) => this.types = response,
+      error: (error) => console.error(error)
     })
   }
 
-  getBrands() {
-    this.vehicleoperateService.getBrands().subscribe({
-      next: response => this.brands = response,
-      error: error => console.error(error),
-    })
-  }
-
-  getColor() {
-    this.vehicleoperateService.getColor().subscribe({
-      next: response => this.colors = response,
-      error: error => console.error(error),
-    })
-  }
-
-  onBrandChange(event: any) {
-    if (event.target.value)
-    {
-      const selectedBrand = this.brands.find(brand => brand.id === event.target.value.toString());
-      if (selectedBrand) {
-        console.log('Choose brand:', selectedBrand);
-        this.models = [...this.originalModels];
-
-        this.models = this.models.filter(model => model.vehicleBrand === selectedBrand.name);
-      } else {
-        console.log('No found');
+  handleSelectedOptionChange(event: OptionTypePair<OptionIdentity>) {
+    const typeName: string | undefined = event.type?.toLocaleLowerCase();
+    const option: OptionIdentity = event.data;
+    if (typeName && option) {
+      if (typeName === 'Type'.toLocaleLowerCase()) {
+        this.vehicleParams.typeName = option.name;
+      }
+      if (typeName === 'Brand'.toLocaleLowerCase()) {
+        this.vehicleParams.brandName = option.name;
+      }
+      if (typeName === 'Model'.toLocaleLowerCase()) {
+        this.vehicleParams.modelName = option.name;
+      }
+      if (typeName === 'Color'.toLocaleLowerCase()) {
+        this.vehicleParams.colorName = option.name;
+      }
+      if (typeName === 'Year'.toLocaleLowerCase()) {
+        this.vehicleParams.year = option.name;
       }
     }
-    
   }
 
-  onSubmit(form: FormGroup) {
-    if (form.invalid) {
-      form.markAllAsTouched();
-      return;
+  onSubmit() {
+    this.formSubmitted = true;
+    console.log('submitted form', this.form.value, this.form.invalid);
+    window.scroll(0, 0);
+
+
+    if (this.form.valid) {
+      const newVehicle: CreateVehicle = new CreateVehicle('кабріолет', 'Audi', 'A6', 'чорний', 1000, 20000, 'descriptiondasjjasdlkjasdlasjdlkjasdaskdljaskdljkasjkdaljkdajksdkvndslknvnk');
+
+      this.vehicleOperateService.addVehicle(newVehicle);
+      this.router.navigate([`addvehiclephoto/${0}`]);
     }
-  
-    const addCarForm = form.value;
-    const newVehicle: CreateVehicle = {
-      description: addCarForm.description,
-      brand: addCarForm.brand,
-      model: addCarForm.model,
-      color: addCarForm.color,
-      type: addCarForm.type,
-      displacement: addCarForm.displacement,
-      prices: addCarForm.price
-    };
-  
-    this.vehicleoperateService.addVehicle(newVehicle).subscribe({
-      next: response => {
-        console.log('Vehicle added successfully:', response);
-        form.reset();
-        this.showAlert = true; 
-
-        let vehicleId: string = response.toString();
-        this.router.navigateByUrl(`vehicleoperate/addvehicle/${vehicleId}`)
-      },
-      error: error => console.error('Error adding vehicle:', error)
-    });
-  }
-  
-  clearForm() {
-    this.addCarForm.reset();
-    this.isFormCleared = true;
-    this.showAlert = false; 
   }
 }

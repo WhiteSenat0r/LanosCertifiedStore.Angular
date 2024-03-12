@@ -1,12 +1,59 @@
-/* Збільшуємо розмір шрифту та змінюємо колір тексту */
-datalist option {
-    font-size: 16px;
-    color: #fafc86;
-  }
-  
-  /* Змінюємо фон та колір тексту для активного елемента */
-  datalist option:checked {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
+section{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+
+  border-radius: 12px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+}
+
+.optionSection{
+  padding: 14px 30px;
+  max-width: 440px;
+}
+
+.optionSectionShrinked{
+  padding: 14px 0px;
+}
+
+.main_details{
+  min-height: 400px;
+}
+
+.user_details{
+  min-height: 400px;
+}
+
+.user_decisions{
+  box-shadow: none;
+
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.user_decisions button{
+  padding: 12px 16px;
+  border-radius: 16px;
+  background-color: rgb(152, 152, 152);
+  color: rgb(31, 31, 31);
+
+  transition: 0.15s ease;
+}
+
+.user_decisions button:hover{
+  background-color: black;
+  color: white;
+}
+
+.user_decisions .undoButton{
+  border-bottom: 2px dashed black;
+  cursor: pointer;
+}
+
+.user_decisions .undoButton:hover{
+  border-bottom-style: solid;
+}
+.NgxEditor__Wrapper{
+  height: 300px;
+}

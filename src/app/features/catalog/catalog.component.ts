@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   OnInit,
 } from '@angular/core';
 import { Type } from '../../shared/models/type';
@@ -142,7 +141,7 @@ export class CatalogComponent implements OnInit {
       this.shouldShowPopover = true;
     }
     else{
-      if(this.shouldShowPopover)
+      if(this.shouldShowPopover )
       {
         this.shouldShowPopover = !this.shouldShowPopover;
       }
@@ -189,14 +188,14 @@ export class CatalogComponent implements OnInit {
       const selectedOption = output.data.name;
       if (typeOfOption) {
         typeOfOption = typeOfOption.toLocaleLowerCase();
-        if (typeOfOption === 'Типи'.toLocaleLowerCase()) {
+        if (typeOfOption === 'Type'.toLocaleLowerCase()) {
           this.catalogParams.typeName = selectedOption;
-        } else if (typeOfOption === 'Бренди'.toLocaleLowerCase()) {
+        } else if (typeOfOption === 'Brand'.toLocaleLowerCase()) {
           this.catalogParams.brandName = selectedOption;
           this.getModels();
-        } else if (typeOfOption === 'Кольори'.toLocaleLowerCase()) {
+        } else if (typeOfOption === 'Color'.toLocaleLowerCase()) {
           this.catalogParams.colorName = selectedOption;
-        } else if (typeOfOption === 'Моделі'.toLocaleLowerCase()) {
+        } else if (typeOfOption === 'Model'.toLocaleLowerCase()) {
           this.catalogParams.modelName = selectedOption;
         }
       }
