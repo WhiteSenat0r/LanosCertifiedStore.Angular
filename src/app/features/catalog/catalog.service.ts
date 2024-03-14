@@ -7,7 +7,7 @@ import { Pagination } from '../../shared/models/pagination';
 import { CatalogParams } from '../../shared/models/catalogParams';
 import { Color } from '../../shared/models/color';
 import { Model } from '../../shared/models/model';
-import { ListVehicle } from '../../shared/models/ListVehicle';
+import { CatalogVehicle } from '../../shared/models/CatalogVehicle';
 import { environment } from 'src/environments/environments';
 
 @Injectable({
@@ -55,7 +55,7 @@ export class CatalogService {
 
     params = params.append('selectionProfile', 2);
 
-    return this.http.get<Pagination<ListVehicle[]>>(this.baseUrl + 'Vehicles', {
+    return this.http.get<Pagination<CatalogVehicle>>(this.baseUrl + 'Vehicles', {
       params,
     });
   }
@@ -65,18 +65,18 @@ export class CatalogService {
   }
 
   getTypes() {
-    return this.http.get<Type[]>(this.baseUrl + 'Types');
+    return this.http.get<Pagination<Type>>(this.baseUrl + 'Types');
   }
 
   getBrands() {
-    return this.http.get<Brand[]>(this.baseUrl + 'Brands');
+    return this.http.get<Pagination<Brand>>(this.baseUrl + 'Brands');
   }
 
   getModels() {
-    return this.http.get<Model[]>(this.baseUrl + 'Models?selectionProfile=1');
+    return this.http.get<Pagination<Model>>(this.baseUrl + 'Models?selectionProfile=1');
   }
 
   getColors() {
-    return this.http.get<Color[]>(this.baseUrl + 'Colors');
+    return this.http.get<Pagination<Color>>(this.baseUrl + 'Colors');
   }
 }

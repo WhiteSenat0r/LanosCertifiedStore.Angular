@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
 import { Brand } from 'src/app/shared/models/brand';
 import { Type } from 'src/app/shared/models/type';
-import { ListVehicle } from 'src/app/shared/models/ListVehicle';
 import { NavigationExtras, Router } from '@angular/router';
 import { Pagination } from 'src/app/shared/models/pagination';
+import { CatalogVehicle } from 'src/app/shared/models/CatalogVehicle';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
 
   brands: Brand[] = [];
   types: Type[] = [];
-  vehicles: ListVehicle[] = [];
+  vehicles: CatalogVehicle[] = [];
 
   constructor(private homeservice: HomeService, private router: Router) {}
 
@@ -28,21 +28,21 @@ export class HomeComponent implements OnInit {
 
   getTypes() {
     this.homeservice.getTypes().subscribe({
-      next: (response) => (this.types = response),
+      next: (response: Pagination<Type>) => (this.types = response.items),
       error: (error) => console.error(error),
     });
   }
 
   getBrands() {
     this.homeservice.getBrands().subscribe({
-      next: (response) => (this.brands = response),
+      next: (response: Pagination<Brand>) => (this.brands = response.items),
       error: (error) => console.error(error),
     });
   }
 
   getVehicles() {
     this.homeservice.getVehicles(this.vehicleCount).subscribe({
-      next: (response: Pagination<ListVehicle[]>) => {
+      next: (response: Pagination<CatalogVehicle>) => {
         this.vehicles = response.items;
       },
       error: (error) => console.error(error),

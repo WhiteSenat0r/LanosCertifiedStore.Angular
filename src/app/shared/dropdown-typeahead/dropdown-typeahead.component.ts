@@ -63,8 +63,8 @@ export class DropdownTypeaheadComponent
 
   /* for reactive forms */
   value!: string;
-  onChange!: (value: string) => void;
-  onTouched!: () => void;
+  onChange?: (value: string) => void;
+  onTouched?: () => void;
 
   constructor(private elementRef: ElementRef) { }
 
@@ -132,16 +132,23 @@ export class DropdownTypeaheadComponent
     } else {
       this.filteredOptions = [];
     }
-    if (this.inputInside && this.inputInside.nativeElement) {
-      const input = this.inputInside.nativeElement as HTMLInputElement;
-      input.value = '';
+    if(this.choiceOption === '')
+    {
+      if (this.inputInside && this.inputInside.nativeElement) {
+        const input = this.inputInside.nativeElement as HTMLInputElement;
+        input.value = '';
+      }
     }
+   
   }
 
   filterChange(event: any) {
     const value = event?.value || '';
     this.filterOptions();
-    this.onChange(value);
+    if(this.onChange)
+    { 
+      this.onChange(value);
+    }
   }
 
   filterOptions(): void {
@@ -187,7 +194,10 @@ export class DropdownTypeaheadComponent
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
-      this.isDropdownVisible = false;
+      setTimeout(() => {
+        this.isDropdownVisible = false;
+        this.onComponentClick.emit(false);
+      });
     } else {
       this.onComponentClick.emit(true);
     }

@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ListVehicle } from 'src/app/shared/models/ListVehicle';
-import { Vehicle } from 'src/app/shared/models/vehicle';
+import { CatalogVehicle } from 'src/app/shared/models/CatalogVehicle';
 
 @Component({
   selector: 'app-car-item-component',
@@ -10,7 +9,7 @@ import { Vehicle } from 'src/app/shared/models/vehicle';
 export class CarItemComponentComponent implements OnChanges {
   closestDateOfVehicleFormatted!: string;
 
-  @Input() vehicle?: ListVehicle;
+  @Input() vehicle?: CatalogVehicle;
   @Input() columnCount?: number;
 
   ngOnChanges(changes: SimpleChanges): void {

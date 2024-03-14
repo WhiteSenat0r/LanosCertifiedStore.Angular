@@ -56,7 +56,6 @@
           [options]="brands"
           type="Brand"
           [choiceOption]="catalogParams.brandName"
-          (onComponentClick)="handleClickBrandDropDownTypeahead($event)"
           (selectedOptionChange)="handleSelectedOptionChange($event)"
         >
         </app-dropdown-typeahead>
@@ -70,9 +69,10 @@
 
       <app-dropdown-typeahead
         (click)="togglePopover()"
-        [options]="models"
+        [options]="models || []"
         type="Model"
         [choiceOption]="catalogParams.modelName"
+        (onComponentClick)="handleClickModelDropDownTypeahead($event)"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>
 

@@ -11,7 +11,7 @@ import { Color } from '../../shared/models/color';
 import { Subject, debounceTime, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination } from '../../shared/models/pagination';
-import { ListVehicle } from '../../shared/models/ListVehicle';
+import { CatalogVehicle } from '../../shared/models/CatalogVehicle';
 import { OptionIdentity } from '../../shared/models/optionIdentity';
 import { OptionTypePair } from '../../shared/models/optionTypePair';
 
@@ -25,7 +25,7 @@ export class CatalogComponent implements OnInit {
   brands: Brand[] = [];
   colors: Color[] = [];
   models: Model[] = [];
-  vehicles: ListVehicle[] = [];
+  vehicles: CatalogVehicle[] = [];
 
   columnCount: number = 3;
   shouldShowPopover: boolean = false;
@@ -95,7 +95,7 @@ export class CatalogComponent implements OnInit {
 
   getVehicles() {
     this.catalogService.getVehicles(this.catalogParams).subscribe({
-      next: (response: Pagination<ListVehicle[]>) => {
+      next: (response: Pagination<CatalogVehicle>) => {
         this.vehicles = response.items;
         this.catalogParams.pageNumber = response.pageIndex;
         this.totalCountItems = response.totalFilteredItemsCount;
@@ -106,29 +106,29 @@ export class CatalogComponent implements OnInit {
 
   getTypes() {
     this.catalogService.getTypes().subscribe({
-      next: (response: Type[]) => (this.types = response),
+      next: (response: Pagination<Type>) => (this.types = response.items),
       error: (error) => console.error(error),
     });
   }
 
   getColors() {
     this.catalogService.getColors().subscribe({
-      next: (response: Color[]) => (this.colors = response),
+      next: (response: Pagination<Color>) => (this.colors = response.items),
       error: (error) => console.error(error),
     });
   }
 
   getBrands() {
     this.catalogService.getBrands().subscribe({
-      next: (response: Brand[]) => (this.brands = response),
+      next: (response: Pagination<Brand>) => (this.brands = response.items),
       error: (error) => console.error(error),
     });
   }
 
   getModels() {
     this.catalogService.getModels().subscribe({
-      next: (response: Model[]) =>
-        (this.models = response.filter(
+      next: (response: Pagination<Model>) =>
+        (this.models = response.items.filter(
           (model: Model) => model.vehicleBrand === this.catalogParams.brandName
         )),
       error: (error) => console.error(error),
@@ -249,11 +249,11 @@ export class CatalogComponent implements OnInit {
     this.getVehicles();
   }
 
-  handleClickBrandDropDownTypeahead(value: boolean) : void
+  handleClickModelDropDownTypeahead(value: boolean) : void
   {
-    if(value)
+    if(value === false)
     {
-      this.shouldShowPopover = false;
+      this.shouldShowPopover = false
     }
   }
 }
