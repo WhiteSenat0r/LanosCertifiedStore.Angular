@@ -59,6 +59,39 @@ export class CatalogService {
       params,
     });
   }
+  getVehicleCountInfo(catalogParams: CatalogParams) {
+    let params = new HttpParams();
+
+    if (catalogParams.typeName != '')
+      params = params.append('Type', catalogParams.typeName);
+    if (catalogParams.brandName != '')
+      params = params.append('Brand', catalogParams.brandName);
+    if (catalogParams.modelName != '')
+      params = params.append('Model', catalogParams.modelName);
+    if (catalogParams.colorName != '')
+      params = params.append('Color', catalogParams.colorName);
+    if (catalogParams.sort != '')
+      params = params.append('SortingType', catalogParams.sort);
+
+    if (catalogParams.minimalPriceDate) {
+      params = params.append(
+        'MinimalPriceDate',
+        this.formatDate(catalogParams.minimalPriceDate)
+      );
+      params = params.append('LowerPriceLimit', catalogParams.lowerPriceLimit);
+      params = params.append('UpperPriceLimit', catalogParams.upperPriceLimit);
+    }
+
+    //pagination
+    params = params.append('pageIndex', catalogParams.pageNumber);
+
+    params = params.append('ItemQuantity', catalogParams.pageSize);
+
+    params = params.append('selectionProfile', 2);
+    return this.http.get<any>(this.baseUrl + 'Vehicles/countItems', {
+      params,
+    });
+  }
 
   getVehicle(id: string) {
     return this.http.get<Vehicle>(this.baseUrl + 'Vehicles' + '/' + id);

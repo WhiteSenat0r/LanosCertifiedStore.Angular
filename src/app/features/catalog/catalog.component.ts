@@ -98,7 +98,13 @@ export class CatalogComponent implements OnInit {
       next: (response: Pagination<CatalogVehicle>) => {
         this.vehicles = response.items;
         this.catalogParams.pageNumber = response.pageIndex;
-        this.totalCountItems = response.totalFilteredItemsCount;
+      },
+      error: (error) => console.error(error),
+    });
+
+    this.catalogService.getVehicleCountInfo(this.catalogParams).subscribe({
+      next: (response: any) => {
+        this.totalCountItems = response.filteredItemsCount;
       },
       error: (error) => console.error(error),
     });

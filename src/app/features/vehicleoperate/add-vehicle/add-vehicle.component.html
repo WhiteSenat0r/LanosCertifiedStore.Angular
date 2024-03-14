@@ -173,7 +173,7 @@
     <label class="mb-1">Опис пропозиції (українською)</label>
 
     <ng-container
-      *ngIf="form.get('editorContent')?.hasError('minlength') && formSubmitted"
+      *ngIf="(form.get('editorContent')?.hasError('minlength') || form.get('editorContent')?.value.length === 0) && formSubmitted"
     >
       <span style="color: red">Ваш текст повинен бути не менше 30 літер</span>
     </ng-container>

@@ -48,7 +48,7 @@ export class InputRegularComponent implements ControlValueAccessor, Validator {
     if (this.value) {
       return null;
     }
-
+    
     return { required: true };
   }
 

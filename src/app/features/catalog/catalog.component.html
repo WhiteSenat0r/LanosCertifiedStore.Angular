@@ -46,6 +46,7 @@
       <app-dropdown-typeahead
         [options]="types"
         type="Type"
+        placeholder="Тип"
         [choiceOption]="catalogParams.typeName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
       ></app-dropdown-typeahead>
@@ -54,6 +55,7 @@
         <app-dropdown-typeahead
           class="w-full"
           [options]="brands"
+          placeholder="Виробник"
           type="Brand"
           [choiceOption]="catalogParams.brandName"
           (selectedOptionChange)="handleSelectedOptionChange($event)"
@@ -70,6 +72,7 @@
       <app-dropdown-typeahead
         (click)="togglePopover()"
         [options]="models || []"
+        placeholder="Марка"
         type="Model"
         [choiceOption]="catalogParams.modelName"
         (onComponentClick)="handleClickModelDropDownTypeahead($event)"
@@ -78,6 +81,7 @@
 
       <app-dropdown-typeahead
         [options]="colors"
+        placeholder="Колір"
         type="Color"
         [choiceOption]="catalogParams.colorName"
         (selectedOptionChange)="handleSelectedOptionChange($event)"
