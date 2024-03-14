@@ -151,7 +151,6 @@ export class AddVehicleComponent implements OnInit {
       }
     }
   }
-
   onSubmit() {
     this.formSubmitted = true;
     console.log('Form state!', this.form.value, this.form.invalid);

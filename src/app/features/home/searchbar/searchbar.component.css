@@ -1,0 +1,74 @@
+@media only screen and (max-width: 768px) {
+    .max-w-md {
+      max-width: 100%;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .flex {
+      flex-direction: column;
+    }
+    .space-x-2 {
+      margin-top: 10px;
+    }
+    input[type="text"], button {
+      width: 100%;
+    }
+    input[type="text"] {
+      font-size: 1rem;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem; 
+    }
+    button {
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+    }
+    .text-2xl {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media only screen and (max-width: 480px) {
+    .text-center {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .max-w-md {
+      max-width: 90%;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .flex {
+      flex-direction: column;
+    }
+    .space-x-2 {
+      margin-top: 10px;
+    }
+    input[type="text"], button {
+      width: 90%;
+      margin: 0 auto; 
+      margin-bottom: 0.5rem; 
+    }
+    .text-2xl {
+      font-size: 1rem;
+      margin-bottom: 0.5rem; 
+    }
+  }
+    
+  @media only screen and (max-width: 360px) {
+    input[type="text"] {
+      font-size: 0.8rem;
+      padding: 0.3rem;
+      width: calc(100% - 1.4rem); 
+      margin-bottom: 0.5rem; 
+    }
+    button {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.7rem;
+      width: calc(100% - 1.4rem); 
+    }
+    .text-2xl {
+      font-size: 1rem;
+    }
+  }
+  
+  
