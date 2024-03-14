@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ListVehicle } from 'src/app/shared/models/ListVehicle';
+import { CatalogVehicle } from 'src/app/shared/models/CatalogVehicle';
 
 @Component({
   selector: 'app-multiply-items-carousel',
@@ -7,7 +7,7 @@ import { ListVehicle } from 'src/app/shared/models/ListVehicle';
   styleUrls: ['./multiply-items-carousel.component.css']
 })
 export class MultiplyItemsCarouselComponent {
-  @Input() vehicles!: ListVehicle[];
+  @Input() vehicles!: CatalogVehicle[];
   @Output() changeVehicleTap: EventEmitter<any | null> = new EventEmitter<any | null>();
 
   get carouselVehiclesPairs() {

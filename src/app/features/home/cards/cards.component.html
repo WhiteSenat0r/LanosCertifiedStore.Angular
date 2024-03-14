@@ -5,7 +5,7 @@
     routerLink="/catalog/{{ vehicle?.id }}"
   >
     <div class="image-container">
-        <ng-container *ngIf="vehicle && vehicle.image.isMainImage">
+        <ng-container *ngIf="vehicle">
           <img
             src="{{vehicle.image.imageUrl}}"
             alt="{{ vehicle.brand }}"

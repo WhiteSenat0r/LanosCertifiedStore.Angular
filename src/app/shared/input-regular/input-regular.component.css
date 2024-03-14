@@ -1,0 +1,17 @@
+/* Сховати стрілки збоку вводу числа */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input{
+    border: 1px solid rgb(104, 104, 104);
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+input:hover, input:focus{
+    border-color: black;
+    box-shadow: none;
+}

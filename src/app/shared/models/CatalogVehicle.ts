@@ -1,7 +1,7 @@
 import { Price } from "./price";
 import { Image } from "./image";
 
-export interface ListVehicle{
+export interface CatalogVehicle{
     id: string;
 
     color: string;

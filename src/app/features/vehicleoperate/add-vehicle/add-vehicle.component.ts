@@ -1,155 +1,179 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Brand } from 'src/app/shared/models/brand';
-import { Color } from 'src/app/shared/models/color';
-import { CreateVehicle } from 'src/app/shared/models/createvehicle';
-import { Model } from 'src/app/shared/models/model';
-import { Type } from 'src/app/shared/models/type';
+import { Component, OnInit } from '@angular/core';
 import { VehicleoperateService } from '../vehicleoperate.service';
-
+import { Brand } from 'src/app/shared/models/brand';
+import { Editor, Toolbar, Validators } from 'ngx-editor';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { OptionIdentity } from 'src/app/shared/models/optionIdentity';
+import { OptionTypePair } from 'src/app/shared/models/optionTypePair';
+import { VehicleParams } from 'src/app/shared/models/vehicleParams';
+import { Type } from 'src/app/shared/models/type';
+import { Model } from 'src/app/shared/models/model';
+import { Router } from '@angular/router';
+import { CreateVehicle } from 'src/app/shared/models/createvehicle';
+import { Color } from 'src/app/shared/models/color';
+import { Pagination } from 'src/app/shared/models/pagination';
 @Component({
   selector: 'app-add-vehicle',
   templateUrl: './add-vehicle.component.html',
-  styleUrls: ['./add-vehicle.component.css']
+  styleUrls: ['./add-vehicle.component.css'],
 })
-export class AddVehicleComponent {
-  onModelChange(event: any) {
-    if (event.target.value)
-    {
-      const selectedModel = this.models.find(model => model.id === event.target.value.toString());
-      if (selectedModel) {
-        console.log('Choose model:', selectedModel);
+export class AddVehicleComponent implements OnInit {
+  formSubmitted: boolean = false;
 
-        let modelAccessTypes: Type[] = selectedModel.availableTypes;
-
-        let newTypes: Type[] = [];
-        for(let i: number = 0;  i < modelAccessTypes.length;i++)
-        {
-          let filteredTypes: Type[] = [];
-          filteredTypes = this.types.filter(type => type.id === modelAccessTypes[i].id);
-         
-          newTypes = newTypes.concat(filteredTypes);
-        }
-
-        this.types = newTypes;
-      } else {
-        console.log('No found');
-      }
-    }
-  }
-  addCarForm: FormGroup;
-
-  models: Model[] = [];
+  editor: Editor = new Editor();
+  toolbar: Toolbar = [
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
+  vehicleParams: VehicleParams = new VehicleParams();
   brands: Brand[] = [];
   types: Type[] = [];
   colors: Color[] = [];
-  isBrandSelected: boolean = false;
-  isFormCleared: boolean = false;
-  showAlert: boolean = false;
+  models: Model[] = [];
+  years: OptionIdentity[] = [
+    { id: '1', name: '1990' },
+    { id: '2', name: '1991' },
+    { id: '3', name: '1992' },
+    // Додайте роки від 1993 до 2024
+    { id: '4', name: '1993' },
+    { id: '5', name: '1994' },
+    { id: '6', name: '1995' },
+    { id: '7', name: '1996' },
+    { id: '8', name: '1997' },
+    { id: '9', name: '1998' },
+    { id: '10', name: '1999' },
+    { id: '11', name: '2000' },
+    { id: '12', name: '2001' },
+    { id: '13', name: '2002' },
+    { id: '14', name: '2003' },
+    { id: '15', name: '2004' },
+    { id: '16', name: '2005' },
+    { id: '17', name: '2006' },
+    { id: '18', name: '2007' },
+    { id: '19', name: '2008' },
+    { id: '20', name: '2009' },
+    { id: '21', name: '2010' },
+    { id: '22', name: '2011' },
+    { id: '23', name: '2012' },
+    { id: '24', name: '2013' },
+    { id: '25', name: '2014' },
+    { id: '26', name: '2015' },
+    { id: '27', name: '2016' },
+    { id: '28', name: '2017' },
+    { id: '29', name: '2018' },
+    { id: '30', name: '2019' },
+    { id: '31', name: '2020' },
+    { id: '32', name: '2021' },
+    { id: '33', name: '2022' },
+    { id: '34', name: '2023' },
+    { id: '35', name: '2024' },
+  ];
 
-
-  constructor(private vehicleoperateService: VehicleoperateService, private router: Router) {
-    this.addCarForm = new FormGroup({
-      brand: new FormControl('', Validators.required),
-      model: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
-      color: new FormControl('', Validators.required),
-      displacement: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
-      price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
-      description: new FormControl('', Validators.required)
+  form: FormGroup;
+  constructor(
+    private vehicleOperateService: VehicleoperateService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {
+    this.form = this.formBuilder.group({
+      types: ['', Validators.required],
+      brands: ['', Validators.required],
+      models: ['', Validators.required],
+      years: ['', Validators.required],
+      colors: ['', Validators.required],
+      price: ['', Validators.required],
+      displacement: ['', Validators.required],
+      editorContent: ['', [Validators.required, Validators.minLength(30)]],
     });
   }
 
-  originalModels: Model[] = [];
-
   ngOnInit(): void {
-    this.getModel();
-    this.getTypes();
     this.getBrands();
-    this.getColor();
-  }
-
-  getModel() {
-    this.vehicleoperateService.getModel().subscribe({
-      next: response => {
-        this.models = response;
-        this.originalModels = [...response];
-      },
-      error: error => console.error(error),
-    })
+    this.getTypes();
+    this.getColors();
   }
 
   getTypes() {
-    this.vehicleoperateService.getTypes().subscribe({
-      next: response => this.types = response,
-      error: error => console.error(error),
-    })
+    this.vehicleOperateService.getTypes().subscribe({
+      next: (response: Pagination<Type>) => (this.types = response.items),
+      error: (error) => console.error(error),
+    });
   }
 
   getBrands() {
-    this.vehicleoperateService.getBrands().subscribe({
-      next: response => this.brands = response,
-      error: error => console.error(error),
-    })
-  }
-
-  getColor() {
-    this.vehicleoperateService.getColor().subscribe({
-      next: response => this.colors = response,
-      error: error => console.error(error),
-    })
-  }
-
-  onBrandChange(event: any) {
-    if (event.target.value)
-    {
-      const selectedBrand = this.brands.find(brand => brand.id === event.target.value.toString());
-      if (selectedBrand) {
-        console.log('Choose brand:', selectedBrand);
-        this.models = [...this.originalModels];
-
-        this.models = this.models.filter(model => model.vehicleBrand === selectedBrand.name);
-      } else {
-        console.log('No found');
-      }
-    }
-    
-  }
-
-  onSubmit(form: FormGroup) {
-    if (form.valid) {
-      form.markAllAsTouched();
-      return;
-    }
-  
-    const addCarForm = form.value;
-    const newVehicle: CreateVehicle = {
-      description: addCarForm.description,
-      brand: addCarForm.brand,
-      model: addCarForm.model,
-      color: addCarForm.color,
-      type: addCarForm.type,
-      displacement: addCarForm.displacement,
-      prices: addCarForm.price
-    };
-  
-    this.vehicleoperateService.addVehicle(newVehicle).subscribe({
-      next: response => {
-        console.log('Vehicle added successfully:', response);
-        form.reset();
-        this.showAlert = true; 
-
-        let vehicleId: string = response.toString();
-        this.router.navigateByUrl(`vehicleoperate/addvehicle/${vehicleId}`)
-      },
-      error: error => console.error('Error adding vehicle:', error)
+    this.vehicleOperateService.getBrands().subscribe({
+      next: (response: Pagination<Brand>) => (this.brands = response.items),
+      error: (error) => console.error(error),
     });
   }
-  
-  clearForm() {
-    this.addCarForm.reset();
-    this.isFormCleared = true;
-    this.showAlert = false; 
+
+  getModels() {
+    this.vehicleOperateService.getModels().subscribe({
+      next: (response: Pagination<Model>) =>
+        (this.models = response.items.filter(
+          (model: Model) => model.vehicleBrand === this.vehicleParams.brandName
+        )),
+      error: (error) => console.error(error),
+    });
+  }
+
+  getColors() {
+    this.vehicleOperateService.getColors().subscribe({
+      next: (response: Pagination<Color>) => (this.colors = response.items),
+      error: (error) => console.error(error),
+    });
+  }
+
+  handleSelectedOptionChange(event: OptionTypePair<OptionIdentity>) {
+    const typeName: string | undefined = event.type?.toLocaleLowerCase();
+    const option: OptionIdentity = event.data;
+    if (typeName && option) {
+      if (typeName === 'Type'.toLocaleLowerCase()) {
+        this.vehicleParams.typeId = option.id;
+        this.vehicleParams.typeName = option.name;
+      }
+      if (typeName === 'Brand'.toLocaleLowerCase()) {
+        this.vehicleParams.brandId = option.id;
+        this.vehicleParams.brandName = option.name;
+        this.getModels();
+      }
+      if (typeName === 'Model'.toLocaleLowerCase()) {
+        this.vehicleParams.modelId = option.id;
+        this.vehicleParams.modelName = option.name;
+      }
+      if (typeName === 'Color'.toLocaleLowerCase()) {
+        this.vehicleParams.colorId = option.id;
+        this.vehicleParams.colorName = option.name;
+      }
+      if (typeName === 'Year'.toLocaleLowerCase()) {
+        this.vehicleParams.year = option.name;
+      }
+    }
+  }
+  onSubmit() {
+    this.formSubmitted = true;
+    console.log('Form state!', this.form.value, this.form.invalid);
+    window.scroll(0, 0);
+
+    if (this.form.valid) {
+      const newVehicle: CreateVehicle = new CreateVehicle(
+        this.vehicleParams.typeId,
+        this.vehicleParams.brandId,
+        this.vehicleParams.modelId,
+        this.vehicleParams.colorId,
+        this.form.get('displacement')!.value,
+        this.form.get('price')!.value,
+        this.form.get('editorContent')!.value
+      );
+
+      this.vehicleOperateService.addVehicle(newVehicle).subscribe({
+        next: (response: string) => {
+          const vehicleId: string = response;
+          this.router.navigateByUrl('/vehicleoperate/addvehiclephoto/' + vehicleId);
+        },
+        error: (error) => console.error(error),
+      });
+    }
   }
 }

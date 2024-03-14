@@ -4,6 +4,6 @@ export interface Pagination<T>{
     currentPageItemsQuantity: number;
     pageIndex: number;
 
-    items: T
+    items: T[];
   }
   

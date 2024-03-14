@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Vehicle } from 'src/app/shared/models/vehicle';
 import { CatalogService } from '../catalog.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Model } from 'src/app/shared/models/model';
 import { CatalogParams } from 'src/app/shared/models/catalogParams';
 import { BreadcrumbService } from 'xng-breadcrumb';
-import { ListVehicle } from 'src/app/shared/models/ListVehicle';
+import { CatalogVehicle } from 'src/app/shared/models/CatalogVehicle';
 import { Pagination } from 'src/app/shared/models/pagination';
 
 @Component({
@@ -16,14 +16,14 @@ import { Pagination } from 'src/app/shared/models/pagination';
 export class CarDetailsComponent implements OnInit {
   vehicle!: Vehicle;
   modelsOfBrand?: Model[];
-  vehiclesOfType!: ListVehicle[];
+  vehiclesOfType!: CatalogVehicle[];
 
   constructor(
     private catalogService: CatalogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private bcService: BreadcrumbService
-  ) {}
+    private bcService: BreadcrumbService,
+  ) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -37,8 +37,8 @@ export class CarDetailsComponent implements OnInit {
   getVehiclesOfType() {
     this.catalogParams.typeName = this.vehicle!.type;
     this.catalogService.getVehicles(this.catalogParams).subscribe({
-      next: (response: Pagination<ListVehicle[]>) => {
-        this.vehiclesOfType = response.items.filter((item: ListVehicle) => {
+      next: (response: Pagination<CatalogVehicle>) => {
+        this.vehiclesOfType = response.items.filter((item: CatalogVehicle) => {
           return item.id !== this.vehicle.id;
         });
       },
@@ -67,8 +67,8 @@ export class CarDetailsComponent implements OnInit {
 
   getModels() {
     this.catalogService.getModels().subscribe({
-      next: (response: Model[]) => {
-        this.modelsOfBrand = response.filter(
+      next: (response: Pagination<Model>) => {
+        this.modelsOfBrand = response.items.filter(
           (model: Model) => model.vehicleBrand === this.vehicle!.brand
         );
       },

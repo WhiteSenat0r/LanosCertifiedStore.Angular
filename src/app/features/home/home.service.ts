@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Type } from 'src/app/shared/models/type';
 import { Brand } from 'src/app/shared/models/brand';
 import { Pagination } from 'src/app/shared/models/pagination';
-import { ListVehicle } from 'src/app/shared/models/ListVehicle';
+import { CatalogVehicle} from 'src/app/shared/models/CatalogVehicle';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +14,19 @@ export class HomeService {
   constructor(private http: HttpClient) {}
 
   getBrands(){
-    return this.http.get<Brand[]>(this.baseUrl + 'Brands');
+    return this.http.get<Pagination<Brand>>(this.baseUrl + 'Brands');
   }
 
   getTypes(){
-    return this.http.get<Type[]>(this.baseUrl + 'Types');
+    return this.http.get<Pagination<Type>>(this.baseUrl + 'Types');
   }
 
   getVehicles(vehicleCount?: number){
     let params = new HttpParams();
 
     if(vehicleCount) params = params.append('ItemQuantity', vehicleCount);
-    params = params.append('selectionProfile', 2);
-    return this.http.get<Pagination<ListVehicle[]>>(this.baseUrl + 'Vehicles',{params});
+    //params = params.append('selectionProfile', 2);
+    
+    return this.http.get<Pagination<CatalogVehicle>>(this.baseUrl + 'Vehicles',{params});
   }
 }

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ListVehicle } from 'src/app/shared/models/ListVehicle';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CatalogVehicle } from 'src/app/shared/models/CatalogVehicle';
 
 @Component({
   selector: 'app-cards',
@@ -7,7 +7,7 @@ import { ListVehicle } from 'src/app/shared/models/ListVehicle';
   styleUrls: ['./cards.component.css']
 })
 export class CardsComponent{
-  @Input() vehicles: ListVehicle[] = [];
+  @Input() vehicles: CatalogVehicle[] = [];
 
   countOfSearch: number = 0;
 

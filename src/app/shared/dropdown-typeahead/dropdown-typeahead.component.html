@@ -3,14 +3,25 @@
     <div
       class="inputElement d-flex justify-content-between align-items-center"
       (click)="isDropdownVisible || toggleDropdown()"
-      [ngClass]="{'is-dropdown-visible': isDropdownVisible, 'is-not-dropdown-visible': !isDropdownVisible}">
-      <input type="text" (input)="filterOptions()" #inputInside />
+      [ngClass]="{
+        'is-dropdown-visible': isDropdownVisible,
+        'is-not-dropdown-visible': !isDropdownVisible
+      }"
+    >
+      <input
+        type="text"
+        (input)="filterChange($event.target)"
+        [value]="value || ''"
+        (blur)="onTouched && onTouched()"
+        placeholder="Обрати"
+        #inputInside
+      />
       <i
         *ngIf="!(inputInside.value.length > 0)"
         class="fa fa-solid fa-lg fa-angle-down fa-fw text-secondary"
       ></i>
       <svg
-        *ngIf="(inputInside.value.length > 0)"
+        *ngIf="inputInside.value.length > 0"
         (click)="clearSelectedOption()"
         class="w-5 h-5 iconButtons"
         xmlns="http://www.w3.org/2000/svg"
@@ -24,11 +35,12 @@
 
     <div
       class="out-dropdown w-full"
-      [ngStyle]="{ display: (isDropdownVisible && filteredOptions.length > 0) ? 'block' : 'none' }"
+      [ngStyle]="{
+        display:
+          isDropdownVisible && filteredOptions.length > 0 ? 'block' : 'none'
+      }"
     >
-      <div
-        class="dropdown w-full"
-      >
+      <div class="dropdown w-full">
         <ul>
           <li *ngFor="let option of filteredOptions">
             <div
@@ -38,13 +50,13 @@
               <span>
                 {{ option.name }}
               </span>
-                <div class="checkmark">
-                  <div
-                    [ngClass]="{
-                      'show-checkmark': option.name === selectedOption
-                    }"
-                  ></div>
-                </div>
+              <div class="checkmark">
+                <div
+                  [ngClass]="{
+                    'show-checkmark': option.name === selectedOption
+                  }"
+                ></div>
+              </div>
             </div>
           </li>
         </ul>
