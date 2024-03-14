@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Type } from '../../shared/models/type';
 import { Brand } from '../../shared/models/brand';
 import { Color } from '../../shared/models/color';
@@ -28,7 +28,15 @@ export class DashboardService {
     }
 
     deleteModel(modelId: string) {
-        return this.http.delete(`${this.baseUrl}Models/${modelId}`);
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: {
+                id: modelId
+            }
+        };
+        return this.http.delete(`${this.baseUrl}Models`, options);
     }
 
     updateModel(id: string, updatedName: string, brandId: string, types: string[]) {
@@ -54,7 +62,15 @@ export class DashboardService {
     }
 
     deleteBrand(brandId: string) {
-        return this.http.delete(`${this.baseUrl}Brands/${brandId}`);
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: {
+                id: brandId
+            }
+        };
+        return this.http.delete(`${this.baseUrl}Brands`, options);
     }
 
     updateBrand(id: string, updatedName: string) {
@@ -87,7 +103,15 @@ export class DashboardService {
     }
 
     deleteColor(colorId: string) {
-        return this.http.delete(`${this.baseUrl}Colors/${colorId}`);
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: {
+                id: colorId
+            }
+        };
+        return this.http.delete(`${this.baseUrl}Colors`, options);
     }
 
     getTypes() {
@@ -100,9 +124,16 @@ export class DashboardService {
     }
 
     deleteType(typeId: string) {
-        return this.http.delete(`${this.baseUrl}Types/${typeId}`);
+        const options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: {
+                id: typeId
+            }
+        };
+        return this.http.delete(`${this.baseUrl}Types`, options);
     }
-
 
     updateType(id: string, updatedName: string) {
         const body = { id: id, updatedName: updatedName };

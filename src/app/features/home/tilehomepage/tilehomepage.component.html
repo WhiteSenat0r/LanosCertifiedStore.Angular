@@ -1,6 +1,6 @@
-<div class="container mt-3 mx-auto w-11/12 h-96 mb-4">
+ <div class="container mt-3 mx-auto w-11/12 h-96 mb-4">
   <div class="grid grid-cols-5 gap-6 h-full">
-    <ng-container *ngFor="let item of data.slice(0, 10)">
+    <ng-container *ngFor="let item of data.slice(0, getItemsCount())">
       <div (click)="onTileClick(item)" class="tile bg-white rounded-lg shadow-md p-4 flex justify-center items-center aspect-w-1 aspect-h-1 shadow-top text-center overflow-hidden break-words transition-transform duration-400 transform hover:scale-105">
         <span class="tileText overflow-hidden text-xl font-bold">{{ item.name }}</span>
       </div>
