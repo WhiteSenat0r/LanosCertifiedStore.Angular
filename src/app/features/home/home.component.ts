@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   types: Type[] = [];
   vehicles: CatalogVehicle[] = [];
 
-  constructor(private homeservice: HomeService, private router: Router) {}
+  constructor(private homeservice: HomeService, private router: Router) { }
 
   ngOnInit(): void {
     this.getTypes();
@@ -61,15 +61,14 @@ export class HomeComponent implements OnInit {
   handleTileClick(itemName: string) {
     const found = this.types.find(item => item.name === itemName)
     let navigationExtras: NavigationExtras;
-    if(found)
-    {
-       navigationExtras = {
+    if (found) {
+      navigationExtras = {
         queryParams: {
           typeName: itemName
         }
       }
     }
-    else{
+    else {
       navigationExtras = {
         queryParams: {
           brandName: itemName
