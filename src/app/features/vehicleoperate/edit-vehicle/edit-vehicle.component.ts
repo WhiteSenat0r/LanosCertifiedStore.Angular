@@ -8,16 +8,18 @@ import { OptionTypePair } from 'src/app/shared/models/optionTypePair';
 import { VehicleParams } from 'src/app/shared/models/vehicleParams';
 import { Type } from 'src/app/shared/models/type';
 import { Model } from 'src/app/shared/models/model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CreateVehicle } from 'src/app/shared/models/createvehicle';
 import { Color } from 'src/app/shared/models/color';
 import { Pagination } from 'src/app/shared/models/pagination';
+
 @Component({
-  selector: 'app-add-vehicle',
-  templateUrl: './add-vehicle.component.html',
-  styleUrls: ['./add-vehicle.component.css'],
+  selector: 'app-edit-vehicle',
+  templateUrl: './edit-vehicle.component.html',
+  styleUrls: ['./edit-vehicle.component.css']
 })
-export class AddVehicleComponent implements OnInit {
+export class EditVehicleComponent {
+  idVehicle: string = '';
   formSubmitted: boolean = false;
   shouldShowPopover: boolean = false;
 
@@ -75,13 +77,14 @@ export class AddVehicleComponent implements OnInit {
   constructor(
     private vehicleOperateService: VehicleoperateService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.form = this.formBuilder.group({
       types: ['', Validators.required],
       brands: ['', Validators.required],
       models: ['', Validators.required],
-      years: ['', Validators.required],
+      years: ['2001', Validators.required],
       colors: ['', Validators.required],
       price: ['', Validators.required],
       displacement: ['', Validators.required],
@@ -90,6 +93,41 @@ export class AddVehicleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params['brandName'] !== undefined) {
+        this.vehicleParams.brandName = params['brandName'];
+        this.form.get('brands')?.setValue(params['brandName']);
+        if (params['typeName'] !== undefined) {
+          this.vehicleParams.typeName = params['typeName'];
+          this.form.get('types')?.setValue(params['typeName']);
+          if (params['modelName'] !== undefined) {
+            this.vehicleParams.modelName = params['modelName'];
+            this.form.get('models')?.setValue(params['modelName']);
+              this.getModels();
+          }
+        }
+      }
+      if (params['colorName'] !== undefined) {
+        this.vehicleParams.colorName = params['colorName'];
+        this.form.get('colors')?.setValue(params['colorName']);
+      }
+
+      if (params['price'] !== undefined) {
+        this.form.get('price')?.setValue(params['price']);
+      }
+      if (params['displacement'] !== undefined) {
+        this.form.get('displacement')?.setValue(params['displacement']);
+      }
+
+      if (params['description'] !== undefined) {
+        this.form.get('editorContent')?.setValue(params['description']);
+      }
+
+      if (params['vehicleId'] !== undefined) {
+        this.idVehicle = params['vehicleId'];
+      }
+    });
+
     this.getBrands();
     this.getTypes();
     this.getColors();
@@ -191,6 +229,39 @@ export class AddVehicleComponent implements OnInit {
     console.log('Form state!', this.form.value, this.form.invalid);
     window.scroll(0, 0);
 
+    for(const item of this.types)
+    {
+      if(this.vehicleParams.typeName === item.name)
+      {
+        this.vehicleParams.typeId = item.id;
+        break;
+      }
+    }
+    for(const item of this.brands)
+    {
+      if(this.vehicleParams.brandName === item.name)
+      {
+        this.vehicleParams.brandId = item.id;
+        break;
+      }
+    }
+    for(const item of this.models)
+    {
+      if(this.vehicleParams.modelName === item.name)
+      {
+        this.vehicleParams.modelId = item.id;
+        break;
+      }
+    }
+    for(const item of this.colors)
+    {
+      if(this.vehicleParams.colorName === item.name)
+      {
+        this.vehicleParams.colorId = item.id;
+        break;
+      }
+    }
+
     if (this.form.valid) {
       const newVehicle: CreateVehicle = new CreateVehicle(
         this.vehicleParams.typeId,
@@ -202,10 +273,10 @@ export class AddVehicleComponent implements OnInit {
         this.form.get('editorContent')!.value
       );
 
-      this.vehicleOperateService.addVehicle(newVehicle).subscribe({
+      this.vehicleOperateService.editVehicle(newVehicle, this.idVehicle).subscribe({
         next: (response: string) => {
           const vehicleId: string = response;
-          this.router.navigateByUrl('/vehicleoperate/addvehiclephoto/' + vehicleId);
+          this.router.navigateByUrl('/');
         },
         error: (error) => console.error(error),
       });

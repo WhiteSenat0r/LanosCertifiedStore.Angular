@@ -16,7 +16,6 @@ import {
   styleUrls: ['./price-select.component.css'],
 })
 export class PriceSelectComponent implements AfterViewInit, OnChanges {
-
   @Input() lowerPriceLimit?: number;
   @Input() upperPriceLimit?: number;
 
@@ -47,16 +46,12 @@ export class PriceSelectComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if('lowerPriceLimit' || 'upperPriceLimit' in changes)
-    {
-      if(this.sliderRangeElement)
-      {
+    if ('lowerPriceLimit' || 'upperPriceLimit' in changes) {
+      if (this.sliderRangeElement) {
         this.setArea();
         this.priceInputMin.nativeElement.value = this.lowerPriceLimit;
         this.priceInputMax.nativeElement.value = this.upperPriceLimit;
       }
-        
-      
     }
   }
 
@@ -111,8 +106,14 @@ export class PriceSelectComponent implements AfterViewInit, OnChanges {
   setArea() {
     this.sliderRangeElement.style.left =
       ((this.lowerPriceLimit! / this.sliderMaxValue) * 100).toString() + '%';
-    this.sliderRangeElement.style.right =
-      (100 - (this.upperPriceLimit! / this.sliderMaxValue) * 100).toString() +
-      '%';
+
+    if (this.upperPriceLimit! > 100000) {
+      this.sliderRangeElement.style.right =
+        (100 - (100000 / this.sliderMaxValue) * 100).toString() + '%';
+    } else {
+      this.sliderRangeElement.style.right =
+        (100 - (this.upperPriceLimit! / this.sliderMaxValue) * 100).toString() +
+        '%';
+    }
   }
 }

@@ -1,0 +1,208 @@
+<div class="mb-4 mt-8">
+    <span class="text-4xl font-semibold"
+      >Додайте безкоштовно пропозицію на LanosSertifiedStore</span
+    >
+  </div>
+  
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <section class="main_details">
+      <div class="optionSection">
+        <label
+          class="mb-1"
+          [ngStyle]="{
+            color:
+              this.formSubmitted && this.form.get('types')?.invalid
+                ? 'red'
+                : 'black'
+          }"
+        >
+          Категорія
+          <ng-container *ngIf="vehicleParams.typeName; else elseBlock">
+            <i class="fa-solid fa-xs fa-check"></i>
+          </ng-container>
+          <ng-template #elseBlock>
+            {{ "*" }}
+          </ng-template>
+        </label>
+        <app-dropdown-typeahead
+          [options]="types"
+          type="Type"
+          [choiceOption]="vehicleParams.typeName"
+          (selectedOptionChange)="handleSelectedOptionChange($event)"
+          formControlName="types"
+        ></app-dropdown-typeahead>
+      </div>
+  
+      <div class="optionSection">
+        <label
+          class="mb-1"
+          [ngStyle]="{
+            color:
+              this.formSubmitted && this.form.get('brands')?.invalid
+                ? 'red'
+                : 'black'
+          }"
+          >Виробник
+          <ng-container *ngIf="vehicleParams.brandName; else elseBlock">
+            <i class="fa-solid fa-xs fa-check"></i>
+          </ng-container>
+          <ng-template #elseBlock>
+            {{ "*" }}
+          </ng-template></label
+        >
+        <app-dropdown-typeahead
+          [options]="brands"
+          type="Brand"
+          [choiceOption]="vehicleParams.brandName"
+          (selectedOptionChange)="handleSelectedOptionChange($event)"
+          formControlName="brands"
+        ></app-dropdown-typeahead>
+        <ng-container *ngIf="shouldShowPopover">
+          <div class="popover w-full">
+            <div class="popover-arrow"></div>
+            <div class="popover-content">Оберіть спочатку бренд!</div>
+          </div>
+        </ng-container>
+      </div>
+  
+      <div class="d-flex flex-row gap-3 optionSection">
+        <div class="optionSectionSrhinked w-50">
+          <label
+            class="mb-1"
+            [ngStyle]="{
+              color:
+                this.formSubmitted && this.form.get('models')?.invalid
+                  ? 'red'
+                  : 'black'
+            }"
+            >Модель
+            <ng-container *ngIf="vehicleParams.modelName; else elseBlock">
+              <i class="fa-solid fa-xs fa-check"></i>
+            </ng-container>
+            <ng-template #elseBlock>
+              {{ "*" }}
+            </ng-template></label
+          >
+          <app-dropdown-typeahead
+            [options]="models || []"
+            type="Model"
+            [choiceOption]="vehicleParams.modelName"
+            (click)="togglePopover()"
+            (onComponentClick)="handleClickModelDropDownTypeahead($event)"
+            (selectedOptionChange)="handleSelectedOptionChange($event)"
+            formControlName="models"
+          ></app-dropdown-typeahead>
+        </div>
+        <div class="optionSectionSrhinked w-50">
+          <label
+            class="mb-1"
+            [ngStyle]="{
+              color:
+                this.formSubmitted && this.form.get('years')?.invalid
+                  ? 'red'
+                  : 'black'
+            }"
+            >Рік випуску
+            <ng-container *ngIf="vehicleParams.year; else elseBlock">
+              <i class="fa-solid fa-xs fa-check"></i>
+            </ng-container>
+            <ng-template #elseBlock>
+              {{ "*" }}
+            </ng-template></label
+          >
+          <app-dropdown-typeahead
+            [options]="years"
+            type="year"
+            [choiceOption]="'2001'"
+            (selectedOptionChange)="handleSelectedOptionChange($event)"
+            formControlName="years"
+          ></app-dropdown-typeahead>
+        </div>
+      </div>
+  
+      <div class="optionSection">
+        <label
+          class="mb-1"
+          [ngStyle]="{
+            color:
+              this.formSubmitted && this.form.get('colors')?.invalid
+                ? 'red'
+                : 'black'
+          }"
+          >Колір
+          <ng-container *ngIf="vehicleParams.colorName; else elseBlock">
+            <i class="fa-solid fa-xs fa-check"></i>
+          </ng-container>
+          <ng-template #elseBlock>
+            {{ "*" }}
+          </ng-template></label
+        >
+        <app-dropdown-typeahead
+          [options]="colors"
+          type="Color"
+          [choiceOption]="vehicleParams.colorName"
+          (selectedOptionChange)="handleSelectedOptionChange($event)"
+          formControlName="colors"
+        ></app-dropdown-typeahead>
+      </div>
+    </section>
+    <section class="user_details d-flex flex-column p-4">
+      <label
+        for="price"
+        class="mb-1"
+        [ngStyle]="{
+          color:
+            this.formSubmitted && this.form.get('price')?.invalid
+              ? 'red'
+              : 'black'
+        }"
+        >Ціна {{ "*" }}</label
+      >
+      <app-input-regular
+        name="price"
+        placeholder="Ціна"
+        class="mb-4"
+        formControlName="price"
+      ></app-input-regular>
+  
+      <label
+        for="displacement"
+        class="mb-1"
+        [ngStyle]="{
+          color:
+            this.formSubmitted && this.form.get('displacement')?.invalid
+              ? 'red'
+              : 'black'
+        }"
+        >Об'єм двигуна {{ "*" }}</label
+      >
+      <app-input-regular
+        name="displacement"
+        placeholder="Об'єм двигуна"
+        class="mb-4"
+        formControlName="displacement"
+      ></app-input-regular>
+  
+      <label class="mb-1">Опис пропозиції (українською)</label>
+  
+      <ng-container
+        *ngIf="(form.get('editorContent')?.hasError('minlength') || form.get('editorContent')?.value.length === 0) && formSubmitted"
+      >
+        <span style="color: red">Ваш текст повинен бути не менше 30 літер</span>
+      </ng-container>
+  
+      <div class="NgxEditor__Wrapper">
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+        <ngx-editor [editor]="editor" formControlName="editorContent">
+        </ngx-editor>
+      </div>
+    </section>
+  
+    <section class="user_decisions">
+      <button>Оновити дані</button>
+      <div class="undoButton" routerLink="/">
+        <span>Відмінити</span>
+      </div>
+    </section>
+  </form>
+  

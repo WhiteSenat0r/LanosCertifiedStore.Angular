@@ -1,5 +1,9 @@
 <div class="container" *ngIf="!isAccountModule() && !isDashboardModule()">
   <app-header></app-header>
+  <ng-container *ngIf="!isVehicleOperateModule()">
+    <app-section-header></app-section-header>
+  </ng-container>
+
   <router-outlet></router-outlet>
 </div>
 

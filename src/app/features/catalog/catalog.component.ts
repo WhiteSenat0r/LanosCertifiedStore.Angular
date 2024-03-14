@@ -64,9 +64,16 @@ export class CatalogComponent implements OnInit {
         this.catalogParams.colorName = params['colorName'];
       }
     });
-
+    
+    this.catalogService.getPriceRange().subscribe({
+      next: (response: any) => {
+        this.catalogParams.upperPriceLimit = response.upperPriceRange;
+        console.log(this.catalogParams.upperPriceLimit);
+        this.getVehicles();
+      },
+      error: (error) => console.error(error),
+    });
     this.getTypes();
-    this.getVehicles();
     this.getBrands();
     this.getColors();
 

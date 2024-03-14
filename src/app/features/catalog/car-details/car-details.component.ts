@@ -1,7 +1,7 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Vehicle } from 'src/app/shared/models/vehicle';
 import { CatalogService } from '../catalog.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Model } from 'src/app/shared/models/model';
 import { CatalogParams } from 'src/app/shared/models/catalogParams';
 import { BreadcrumbService } from 'xng-breadcrumb';
@@ -22,8 +22,8 @@ export class CarDetailsComponent implements OnInit {
     private catalogService: CatalogService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private bcService: BreadcrumbService,
-  ) { }
+    private bcService: BreadcrumbService
+  ) {}
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -89,5 +89,22 @@ export class CarDetailsComponent implements OnInit {
   handleChangeVehicleTap(vehicleId: string) {
     this.router.navigate([`/catalog/${vehicleId}`]);
     window.scrollTo(0, 0);
+  }
+
+  onEditVehicleClick() {
+    let navigationExtras: NavigationExtras;
+    navigationExtras = {
+      queryParams: {
+        typeName: this.vehicle.type,
+        brandName: this.vehicle.brand,
+        modelName: this.vehicle.model,
+        colorName: this.vehicle.color,
+        price: this.vehicle.prices[0].value,
+        displacement: this.vehicle.displacement,
+        description: this.vehicle.description,
+        vehicleId: this.vehicle.id
+      },
+    };
+    this.router.navigate(['/vehicleoperate/editvehicle'], navigationExtras);
   }
 }

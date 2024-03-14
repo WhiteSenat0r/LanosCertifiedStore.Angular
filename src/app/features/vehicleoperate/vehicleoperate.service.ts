@@ -50,4 +50,19 @@ export class VehicleoperateService {
     };
     return this.http.post<string>(this.baseUrl + 'Vehicles', actionVehicleDto);
   }
+
+  editVehicle(Vehicle: CreateVehicle, idVehicle: string) {
+    const actionVehicleDto = {
+      id: idVehicle,
+      modelId: Vehicle.model,
+      typeId: Vehicle.type,
+      colorId: Vehicle.color,
+      description: Vehicle.description,
+      displacement: Vehicle.displacement,
+      price: Vehicle.prices,
+    };
+
+    console.log(actionVehicleDto);
+    return this.http.put<string>(this.baseUrl + 'Vehicles', actionVehicleDto);
+  }
 }

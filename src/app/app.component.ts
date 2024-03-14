@@ -43,6 +43,11 @@ export class AppComponent implements OnInit {
     return this.router.url.includes('account');
   }
 
+  isVehicleOperateModule(): boolean {
+    return this.router.url.includes('vehicleoperate');
+  }
+
+
   isDashboardModule(): boolean {
     return this.router.url.includes('dashboard');
   }

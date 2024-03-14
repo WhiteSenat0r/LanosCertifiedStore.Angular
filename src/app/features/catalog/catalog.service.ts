@@ -59,6 +59,7 @@ export class CatalogService {
       params,
     });
   }
+
   getVehicleCountInfo(catalogParams: CatalogParams) {
     let params = new HttpParams();
 
@@ -111,5 +112,9 @@ export class CatalogService {
 
   getColors() {
     return this.http.get<Pagination<Color>>(this.baseUrl + 'Colors');
+  }
+
+  getPriceRange(){
+    return this.http.get<any>(this.baseUrl + 'Vehicles' + '/' + 'GetPriceRange');
   }
 }

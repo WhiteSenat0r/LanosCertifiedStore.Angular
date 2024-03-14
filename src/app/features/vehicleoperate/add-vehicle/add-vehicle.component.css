@@ -57,3 +57,33 @@ section{
 .NgxEditor__Wrapper{
   height: 300px;
 }
+
+/* Popover */
+.popover {
+  position: relative;
+  top: -10px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border: none;
+}
+
+.popover-content {
+  position: absolute;
+  top: 15px;
+  background-color: rgb(48, 48, 48);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+}
+
+.popover-arrow {
+  position: absolute;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  border-bottom: 18px solid rgb(48, 48, 48);
+}

@@ -8,13 +8,15 @@ import { NgxEditorModule } from 'ngx-editor';
 import { MatDividerModule } from '@angular/material/divider';
 import { InputRegularModule } from 'src/app/shared/input-regular/input-regular.module';
 import { DropdownTypeaheadModule } from 'src/app/shared/dropdown-typeahead/dropdown-typeahead.module';
+import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
 
 
 
 @NgModule({
   declarations: [
     AddVehicleComponent,
-    AddVehiclePhotoComponent
+    AddVehiclePhotoComponent,
+    EditVehicleComponent
   ],
   imports: [
     CommonModule,

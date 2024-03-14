@@ -55,6 +55,12 @@
         (selectedOptionChange)="handleSelectedOptionChange($event)"
         formControlName="brands"
       ></app-dropdown-typeahead>
+      <ng-container *ngIf="shouldShowPopover">
+        <div class="popover w-full">
+          <div class="popover-arrow"></div>
+          <div class="popover-content">Оберіть спочатку бренд!</div>
+        </div>
+      </ng-container>
     </div>
 
     <div class="d-flex flex-row gap-3 optionSection">
@@ -76,8 +82,10 @@
           </ng-template></label
         >
         <app-dropdown-typeahead
-          [options]="models"
+          [options]="models || []"
           type="Model"
+          (click)="togglePopover()"
+          (onComponentClick)="handleClickModelDropDownTypeahead($event)"
           (selectedOptionChange)="handleSelectedOptionChange($event)"
           formControlName="models"
         ></app-dropdown-typeahead>
