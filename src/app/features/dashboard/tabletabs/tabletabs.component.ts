@@ -63,7 +63,7 @@ export class TabletabsComponent implements OnInit {
 
   getTypes() {
     this.dashboardService.getTypes().subscribe({
-      next: response => this.types = response,
+      next: (response: any) => this.types = response.items,
       error: error => {
         console.error(error);
         this.toastr.error('Помилка завантаження типів');
@@ -112,7 +112,7 @@ export class TabletabsComponent implements OnInit {
       },
       error: error => {
         console.error('Error deleting type:', error);
-        this.toastr.success('Помилка видалення тип');
+        this.toastr.error('Помилка видалення типy');
       }
     });
   }

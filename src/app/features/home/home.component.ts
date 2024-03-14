@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   types: Type[] = [];
   vehicles: ListVehicle[] = [];
 
-  constructor(private homeservice: HomeService, private router: Router) {}
+  constructor(private homeservice: HomeService, private router: Router) { }
 
   ngOnInit(): void {
     this.getTypes();
@@ -28,14 +28,14 @@ export class HomeComponent implements OnInit {
 
   getTypes() {
     this.homeservice.getTypes().subscribe({
-      next: (response) => (this.types = response),
+      next: (response: any) => (this.types = response.items),
       error: (error) => console.error(error),
     });
   }
 
   getBrands() {
     this.homeservice.getBrands().subscribe({
-      next: (response) => (this.brands = response),
+      next: (response: any) => (this.brands = response.items),
       error: (error) => console.error(error),
     });
   }
@@ -61,15 +61,14 @@ export class HomeComponent implements OnInit {
   handleTileClick(itemName: string) {
     const found = this.types.find(item => item.name === itemName)
     let navigationExtras: NavigationExtras;
-    if(found)
-    {
-       navigationExtras = {
+    if (found) {
+      navigationExtras = {
         queryParams: {
           typeName: itemName
         }
       }
     }
-    else{
+    else {
       navigationExtras = {
         queryParams: {
           brandName: itemName

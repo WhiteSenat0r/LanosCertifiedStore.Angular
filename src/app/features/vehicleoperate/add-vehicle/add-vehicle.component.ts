@@ -118,7 +118,7 @@ export class AddVehicleComponent {
   }
 
   onSubmit(form: FormGroup) {
-    if (form.invalid) {
+    if (form.valid) {
       form.markAllAsTouched();
       return;
     }

@@ -12,6 +12,9 @@
   position: relative;
   height: 360px;
   cursor: pointer;
+  height: auto; /* Make height flexible for all sizes */
+  padding: 20px; /* Add some padding around the cards */
+  box-sizing: border-box;
 }
 
 .card-container:hover{
@@ -37,4 +40,65 @@
 
 .lookMore{
   font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .grid.grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+  }
+
+  .card-container {
+    height: auto; /* Flexible height */ 
+    margin-bottom: 20px;
+  }
+
+  .image-container {
+    height: 60%; /* Adjusted height for smaller screens */
+  }
+
+  h3, .lookMore {
+    font-size: 1.1rem; /* Slightly smaller text */
+  }
+}
+
+/* Adjustments for screens smaller than 480px */
+@media (max-width: 480px) {
+  .grid.grid-cols-3 {
+    grid-template-columns: 1fr; /* One card per row */
+  }
+
+  .lookMore, .button {
+    font-size: 18px; /* Adjusted font size */
+    padding: 0 15px; /* Adjusted padding */
+  }
+
+  .image-container {
+    height: 55%;
+  }
+
+  .card-container {
+    margin-bottom: 15px; /* Adjust spacing for tighter screens */
+  }
+
+  h3, .lookMore {
+    font-size: 1rem; /* Reduce text size for smaller screens */
+  }
+}
+
+@media (max-width: 360px) {
+  .button, .lookMore {
+    font-size: 16px; /* Smaller font size for very small screens */
+    padding: 0 10px; /* Less padding */
+  }
+
+  .image-container {
+    height: 50%; /* Reduce the height a bit more */
+  }
+  .card-container {
+    padding: 15px; /* Slightly less padding for very small screens */
+  }
+
+  h3, .lookMore {
+    font-size: 0.9rem; /* Smaller text to fit tighter spaces */
+  }
 }
