@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Type } from 'src/app/shared/models/type';
 import { Brand } from 'src/app/shared/models/brand';
 import { Pagination } from 'src/app/shared/models/pagination';
-import { CatalogVehicle} from 'src/app/shared/models/CatalogVehicle';
-
+import { CatalogVehicle } from '../catalog/models/catalogVehicle';
 @Injectable({
   providedIn: 'root'
 })

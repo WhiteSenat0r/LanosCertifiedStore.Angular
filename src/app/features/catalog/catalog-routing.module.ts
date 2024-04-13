@@ -1,19 +1,12 @@
 import { NgModule } from '@angular/core';
-import {RouterModule, Routes} from "@angular/router";
-import {CatalogComponent} from "./catalog.component";
-import {CarDetailsComponent} from "./car-details/car-details.component";
+import { RouterModule, Routes } from '@angular/router';
+import { CatalogComponent } from './catalog.component';
 
 const routes: Routes = [
-  {path: '', component: CatalogComponent},
-  {path: ':id', component: CarDetailsComponent, data: {breadcrumb: {alias:'vehicleElement'}}},
-]
-
+  {path: '', component: CatalogComponent}
+];
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class CatalogRoutingModule { }

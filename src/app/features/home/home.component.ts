@@ -4,7 +4,7 @@ import { Brand } from 'src/app/shared/models/brand';
 import { Type } from 'src/app/shared/models/type';
 import { NavigationExtras, Router } from '@angular/router';
 import { Pagination } from 'src/app/shared/models/pagination';
-import { CatalogVehicle } from 'src/app/shared/models/CatalogVehicle';
+import { CatalogVehicle } from '../catalog/models/catalogVehicle';
 
 @Component({
   selector: 'app-home',

@@ -6,8 +6,8 @@ import { VehicleoperationRoutingModule } from './vehicleoperation-routing.module
 import { AddVehiclePhotoComponent } from './add-vehicle-photo/add-vehicle-photo.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { MatDividerModule } from '@angular/material/divider';
-import { InputRegularModule } from 'src/app/shared/input-regular/input-regular.module';
-import { DropdownTypeaheadModule } from 'src/app/shared/dropdown-typeahead/dropdown-typeahead.module';
+import { InputRegularModule } from 'src/app/shared/components/input-regular/input-regular.module';
+import { DropdownTypeaheadModule } from 'src/app/shared/components/dropdown-typeahead/dropdown-typeahead.module';
 
 
 

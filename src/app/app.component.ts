@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   title = 'web-app';
 
   ngOnInit(): void {
+    initFlowbite();
     this.http
       .get<{ user: User }>('https://api.realworld.io/api/user')
       .subscribe({
@@ -34,7 +35,6 @@ export class AppComponent implements OnInit {
           this.accountService.currentUserSig.set(null);
         }
       });
-    initFlowbite();
   }
 
   constructor(private router: Router) {}

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CatalogVehicle } from 'src/app/shared/models/CatalogVehicle';
-
+import { CatalogVehicle } from '../../catalog/models/catalogVehicle';
 @Component({
   selector: 'app-cards',
   templateUrl: './cards.component.html',
