@@ -1,0 +1,14 @@
+<!--vehicle types-->
+<section>
+  <h2 class="ml-4 my-4 font-sans font-bold text-2xl">Catalog of Vehicle Types</h2>
+  <div class="grid grid-cols-4 gap-2 bg-green-500 p-4">
+      @for(item of bodyTypes.slice(0, 8); track item.id)
+      {
+        <div class="bg-black h-48 p-1 text-white text-center">
+          {{item.name}}
+        </div>
+      } @empty {
+        <div>No data. Sry!!!</div>
+      }
+  </div>
+</section>

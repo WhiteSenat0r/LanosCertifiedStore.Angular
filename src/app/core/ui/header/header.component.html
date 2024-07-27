@@ -1,11 +1,43 @@
-<div class="flex flex-row p-4">
+<nav class="xl:container mx-auto">
+  <div class="flex flex-row px-6 py-1 gap-4">
+    <div #logo>
+      <img
+        src="assets/images/Logo.svg"
+        class="h-14 w-14 cursor-pointer"
+        alt="..."
+      />
+    </div>
 
-  <div #logo>
-    <img src="assets/images/Logo.svg" alt="...">
-  </div>
+    <!--Search-->
+    <div class="ml-auto relative self-center border-none">
+      <input type="text" placeholder="Search" class="rounded w-72" />
+      <div class="absolute top-2 right-2 cursor-pointer">
+        <svg
+          class="w-[24px] h-[24px] text-gray-800 dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-width="1.6"
+            d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </div>
+    </div>
 
-  <div class="flex flex-row justify-between w-40 h-12 px-3 py-2 border border-black">
-    <span class="block">Search</span>
-    <div class="bg-black">icon</div>
+    <!--Other icons-->
+    <div #translate class="self-center cursor-pointer">
+      <img src="assets/images/language.png" class="h-7 w-7" alt="..." />
+    </div>
+    <div #profile class="self-center cursor-pointer">
+      <img src="assets/images/user.png" class="h-7 w-7" alt="..." />
+    </div>
+
   </div>
-</div>
+</nav>
