@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { NotFoundComponent } from './core/ui/not-found/not-found.component';
-import { MaincharacteristicsComponent } from './filters/maincharacteristics/maincharacteristics.component';
-import { TechnicalparametersComponent } from './filters/technicalparameters/technicalparameters.component';
+import { CarcardComponent } from './shared/carcard/carcard.component';
+
 
 const routes: Routes = [
   {
@@ -12,14 +12,10 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'main',
-    title: 'main',
-    component: MaincharacteristicsComponent,
-  },
-  {
-    path: 'type',
-    title: 'type',
-    component: TechnicalparametersComponent,
+
+    path: 'carcard',
+    title: 'car',
+    component: CarcardComponent,
   },
   { path: '**', component: NotFoundComponent },
 ];
