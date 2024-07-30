@@ -4,6 +4,7 @@ import { HomeComponent } from './features/home/home.component';
 import { NotFoundComponent } from './core/ui/not-found/not-found.component';
 import { CarcardComponent } from './shared/carcard/carcard.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -11,6 +12,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+
     path: 'carcard',
     title: 'car',
     component: CarcardComponent,
