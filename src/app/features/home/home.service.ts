@@ -15,4 +15,8 @@ export class HomeService {
   getBodyTypes(): Observable<any> {
     return this.http.get<any>(this.baseUrl + 'BodyTypes');
   }
+
+  getBrands(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'Brands' + '?ItemQuantity=100');
+  }
 }

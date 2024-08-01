@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HeroSectionComponent } from './ui/hero-section/hero-section.component';
 import { MainContentAreaComponent } from './ui/main-content-area/main-content-area.component';
+import { BrandTilesComponent } from './ui/main-content-area/brand-tiles/brand-tiles.component';
 
 
 
@@ -10,7 +11,8 @@ import { MainContentAreaComponent } from './ui/main-content-area/main-content-ar
   declarations: [
     HomeComponent,
     HeroSectionComponent,
-    MainContentAreaComponent
+    MainContentAreaComponent,
+    BrandTilesComponent
   ],
   imports: [
     CommonModule
