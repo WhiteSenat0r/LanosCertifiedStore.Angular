@@ -1,0 +1,38 @@
+<section class="my-3">
+  <h2 class="ml-4 my-4 font-sans font-bold text-2xl">
+    Catalog of Vehicle Types
+  </h2>
+  <div class="grid grid-cols-4 gap-4">
+    @for(item of bodyTypes.slice(0, 8); track item.id; let i = $index) {
+    <div
+      class="group transition border-2 h-48 p-1 text-black flex flex-col justify-center items-center cursor-pointer hover:shadow-lg"
+    >
+      <div class="flex flex-col justify-center items-center">
+        <div class="group-hover:scale-125 transition">
+          <img
+            src="{{ bodyTypeImages[i] }}"
+            class="w-24 h-24"
+            alt="Some name of bodyTypes"
+          />
+        </div>
+
+        <div class="text-2xl font-sans mt-2">
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+    } @empty {
+    <div>
+      <span>
+        There is no data! There is probable problem with server. Try to reload
+        the page.
+      </span>
+    </div>
+    }
+  </div>
+</section>
+<!--Brand tiles-->
+<section class="my-3">
+  <h2 class="ml-4 my-4 font-sans font-bold text-2xl">Car Brands</h2>
+  <app-brand-tiles [brands]="brands"></app-brand-tiles>
+</section>
