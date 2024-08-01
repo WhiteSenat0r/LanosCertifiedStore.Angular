@@ -13,6 +13,9 @@ import { provideHttpClient } from '@angular/common/http';
     MaincharacteristicsComponent,
     TechnicalparametersComponent,
     TransmissionComponent,
+    CatalogComponent,
+    CarcardComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
