@@ -10,6 +10,9 @@ import { CarcardComponent } from './carcard/carcard.component';
   ],
   imports: [
     CommonModule
+  ],
+  exports:[
+    CarcardComponent
   ]
 })
 export class SharedModule { }

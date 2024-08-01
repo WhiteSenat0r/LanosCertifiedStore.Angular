@@ -2,7 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { NotFoundComponent } from './core/ui/not-found/not-found.component';
-import { CarcardComponent } from './shared/carcard/carcard.component';
+import { CatalogComponent } from './catalogpage/catalog/catalog.component';
 
 
 const routes: Routes = [
@@ -13,9 +13,9 @@ const routes: Routes = [
   },
   {
 
-    path: 'carcard',
-    title: 'car',
-    component: CarcardComponent,
+    path: 'catalog',
+    title: 'catalog',
+    component: CatalogComponent,
   },
   { path: '**', component: NotFoundComponent },
 ];

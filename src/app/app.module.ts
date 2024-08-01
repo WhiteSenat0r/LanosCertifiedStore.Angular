@@ -8,6 +8,9 @@ import { HomeModule } from './features/home/home.module';
 import { MaincharacteristicsComponent } from './filters/maincharacteristics/maincharacteristics.component';
 import { TechnicalparametersComponent } from './filters/technicalparameters/technicalparameters.component';
 import { TransmissionComponent } from './filters/transmission/transmission.component';
+import { CatalogComponent } from './catalogpage/catalog/catalog.component';
+import { CarcardComponent } from './shared/carcard/carcard.component';
+import { SidebarComponent } from './catalogpage/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +18,9 @@ import { TransmissionComponent } from './filters/transmission/transmission.compo
     MaincharacteristicsComponent,
     TechnicalparametersComponent,
     TransmissionComponent,
+    CatalogComponent,
+    CarcardComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
