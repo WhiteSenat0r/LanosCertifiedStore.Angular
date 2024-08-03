@@ -1,0 +1,64 @@
+<div class="relative">
+  <swiper-container init="false">
+    <swiper-slide *ngFor="let image of bodyTypeImages.slice(0, 8)">
+      <div
+        class="group transition border-2 h-48 text-black cursor-pointer hover:shadow-lg"
+      >
+        <div class="flex flex-col justify-center items-center">
+          <div class="group-hover:scale-125 transition-transform">
+            <img [src]="image" class="w-24 h-24" alt="photo of car" />
+          </div>
+        </div>
+        <div class="mx-4 my-2">
+          <span>
+            This is a car info <br />
+            And something other
+          </span>
+        </div>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+  <!-- Custom Navigation Buttons -->
+  <div
+    class="custom-button-prev absolute top-1/2 transform -translate-y-1/2 bg-black text-white p-2 cursor-pointer z-10 rounded-sm opacity-50 hover:opacity-100 transition -left-5"
+  >
+    <svg
+      class="w-6 h-6"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 12h14M5 12l4-4m-4 4 4 4"
+      />
+    </svg>
+  </div>
+  <div
+    class="custom-button-next absolute top-1/2 transform -translate-y-1/2 bg-black text-white p-2 cursor-pointer z-10 rounded-sm opacity-50 hover:opacity-100 transition -right-5"
+  >
+    <svg
+      class="w-6 h-6"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 12H5m14 0-4 4m4-4-4-4"
+      />
+    </svg>
+  </div>
+</div>

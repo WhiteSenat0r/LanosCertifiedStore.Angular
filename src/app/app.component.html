@@ -1,8 +1,10 @@
-<div #page class="h-[100vh]">
-  <app-header></app-header>
+<app-header></app-header>
 
+<main class="min-h-screen flex flex-col flex-1">
   <section #content class="grow-1">
     <router-outlet></router-outlet>
   </section>
-  <app-footer></app-footer>
-</div>
+</main>
+
+<app-footer></app-footer>
+
