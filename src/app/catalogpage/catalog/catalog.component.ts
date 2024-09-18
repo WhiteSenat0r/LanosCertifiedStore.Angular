@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './catalog.component.css'
 })
 export class CatalogComponent {
-
+  meals = Array(50).fill(null).map((_, i) => `Meal ${i + 1}`);
 }
