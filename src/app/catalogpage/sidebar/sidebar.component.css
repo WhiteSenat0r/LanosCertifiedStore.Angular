@@ -1,0 +1,31 @@
+:host ::ng-deep .ngx-slider .ngx-slider-bar {
+    background: #A30015;
+    opacity: 0.3;
+  }
+  
+  :host ::ng-deep .ngx-slider .ngx-slider-selection {
+    background: #A30015 !important;
+  }
+  
+  :host ::ng-deep .ngx-slider .ngx-slider-pointer {
+    background-color: #A30015 !important;
+    width: 16px;
+    height: 16px;
+    top: -7px;
+  }
+  
+  :host ::ng-deep .ngx-slider .ngx-slider-pointer:after {
+    display: none;
+  }
+  
+  :host ::ng-deep .ngx-slider .ngx-slider-bubble {
+    color: #A30015;
+  }
+  
+  :host ::ng-deep .ngx-slider .ngx-slider-limit {
+    color: #A30015;
+  }
+  
+  :host ::ng-deep .ngx-slider .ngx-slider-tick {
+    background: #A30015;
+  }
