@@ -15,8 +15,6 @@ import { SidebarComponent } from './catalogpage/sidebar/sidebar.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { PaginationComponent } from './catalogpage/pagination/pagination.component';
-
-
 @NgModule({
   declarations: [
     AppComponent,
