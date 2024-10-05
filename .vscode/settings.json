@@ -1,0 +1,6 @@
+{
+"workbench.colorCustomizations": {
+    "terminal.foreground": "#D4D4D4",    // Soft light gray for text
+    "terminal.background": "#000000",    // Dark background to reduce eye strain
+}
+}
