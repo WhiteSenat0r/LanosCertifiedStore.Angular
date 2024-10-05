@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
+const { expand } = require('rxjs');
+
 // Custom Colors
 
 const COLORS = {
@@ -157,15 +159,6 @@ module.exports = {
       // },
     },
 
-    spacing: {
-      xs: "0.25rem",
-      sm: "0.5rem",
-      md: "1rem",
-      lg: "1.5rem",
-      xl: "2.5rem",
-      xxl: "4rem",
-    },
-
     fontFamily: {
       code: ["Source Code Pro", "monospace"],
       ubuntu: ["Ubuntu", "sans-serif"]
@@ -195,6 +188,17 @@ module.exports = {
 
     lineHeight: {
       'normal': '1.2',
+    },
+
+    expand:{
+      spacing: {
+        xs: "0.25rem",
+        sm: "0.5rem",
+        md: "1rem",
+        lg: "1.5rem",
+        xl: "2.5rem",
+        xxl: "4rem",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],
