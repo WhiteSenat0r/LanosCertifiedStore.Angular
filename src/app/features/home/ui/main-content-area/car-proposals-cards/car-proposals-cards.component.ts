@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import 'swiper/swiper-bundle.css';
+import { AfterViewInit, Component} from '@angular/core';
 
 @Component({
   selector: 'app-car-proposals-cards',
