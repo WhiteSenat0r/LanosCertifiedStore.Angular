@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import Swiper from 'swiper';
 import 'swiper/swiper-bundle.css';
 
 @Component({
