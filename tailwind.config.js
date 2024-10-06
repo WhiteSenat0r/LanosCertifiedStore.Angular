@@ -190,15 +190,13 @@ module.exports = {
       'normal': '1.2',
     },
 
-    expand:{
-      spacing: {
-        xs: "0.25rem",
-        sm: "0.5rem",
-        md: "1rem",
-        lg: "1.5rem",
-        xl: "2.5rem",
-        xxl: "4rem",
-      },
+    spacing: {
+      xs: "0.25rem", // 4px
+      sm: "0.5rem",  // 8px
+      md: "1rem",    // 16px
+      lg: "1.5rem",  // 24px
+      xl: "2.5rem",  // 40px
+      xxl: "4rem",   // 64px
     },
   },
   plugins: [require("flowbite/plugin")],
