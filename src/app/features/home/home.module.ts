@@ -6,6 +6,7 @@ import { MainContentAreaComponent } from './ui/main-content-area/main-content-ar
 import { BrandTilesComponent } from './ui/main-content-area/brand-tiles/brand-tiles.component';
 import { CarProposalsCardsComponent } from './ui/main-content-area/car-proposals-cards/car-proposals-cards.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgHeroiconsModule } from "@dimaslz/ng-heroicons";
 
 
 
@@ -18,7 +19,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     CarProposalsCardsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgHeroiconsModule
   ],
   exports: [
     HomeComponent
