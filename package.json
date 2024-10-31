@@ -19,11 +19,11 @@
     "@angular/platform-browser": "^18.2.7",
     "@angular/platform-browser-dynamic": "^18.2.7",
     "@angular/router": "^18.2.7",
-    "@dimaslz/ng-heroicons": "^1.18.2",
+    "@splidejs/splide": "^4.1.4",
     "flowbite": "^2.4.1",
+    "http-proxy-middleware": "^3.0.3",
     "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",
-    "swiper": "^11.1.14",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },

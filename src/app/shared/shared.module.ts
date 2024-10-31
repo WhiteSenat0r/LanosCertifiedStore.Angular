@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CarcardComponent } from './carcard/carcard.component';
+import { SliderDefaultComponent } from './ui/slider-default/slider-default.component';
+import { CoreModule } from "../core/core.module";
 
 
 
 @NgModule({
   declarations: [
-    CarcardComponent
+    SliderDefaultComponent
   ],
   imports: [
-    CommonModule
-  ],
+    CommonModule,
+    CoreModule
+],
   exports:[
-    CarcardComponent
+    SliderDefaultComponent
   ]
 })
 export class SharedModule { }

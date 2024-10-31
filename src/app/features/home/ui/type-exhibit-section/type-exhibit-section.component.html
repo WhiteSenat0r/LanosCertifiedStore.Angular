@@ -1,0 +1,27 @@
+<section class="container mx-auto">
+  <div class="text-center mb-[42px]">
+    <span class="text-portGore-700 text-lg block py-[12px]"
+      >Допоможемо тобі знайти підходящу машину</span
+    >
+    <div>
+      <span class="text-portGore-700 font-medium text-[32px]">Обери Свій </span>
+      <span class="text-red-800 font-medium text-[32px]">Тип</span>
+    </div>
+  </div>
+
+  <ul class="flex flex-row flex-wrap justify-center gap-base mb-[38px]">
+    @for(item of items; track item) {
+    <li
+      class="inline-block text-portGore-700 text-lg cursor-pointer hover:scale-105 transition-all pb-[4px] duration-75 outline-none border-b-2 border-portGore-50"
+      [ngClass]="{
+        'text-red-800 scale-105 border-red-800 rounded-sm': isSelected($index)
+      }"
+      (click)="selectItem($index)"
+    >
+      {{ item }}
+    </li>
+
+    } @empty { Помилка! }
+  </ul>
+ <app-slider-default [vehicles]="vehicles" ></app-slider-default>
+</section>
