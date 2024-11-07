@@ -1,5 +1,5 @@
 <section class="container mx-auto">
-  <div class="text-center mb-[42px]">
+  <div class="text-center mb-[40px]">
     <span class="text-portGore-700 text-lg block py-[12px]"
       >Допоможемо тобі знайти підходящу машину</span
     >
@@ -9,14 +9,14 @@
     </div>
   </div>
 
-  <ul class="flex flex-row flex-wrap justify-center gap-base mb-[38px]">
+  <ul class="bypassJerkingOfOtherElements flex flex-row flex-wrap justify-center items-center gap-base mb-[36px] mt-[2px]">
     @for(item of items; track item) {
     <li
-      class="inline-block text-portGore-700 text-lg cursor-pointer hover:scale-105 transition-all pb-[4px] duration-75 outline-none border-b-2 border-portGore-50"
+      class="text-portGore-700 text-lg cursor-pointer hover:scale-105 transition-all duration-75 outline-none border-b-2 border-portGore-50"
       [ngClass]="{
-        'text-red-800 scale-105 border-red-800 rounded-sm': isSelected($index)
+        'text-red-800 scale-105 border-red-800 rounded-sm': selectedItemIndex === $index
       }"
-      (click)="selectItem($index)"
+      (click)="selectedItemIndex = $index"
     >
       {{ item }}
     </li>

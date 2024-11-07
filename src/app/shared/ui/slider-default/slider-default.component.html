@@ -1,3 +1,5 @@
+@if(vehicles?.length !== 0)
+{
 <div class="splide md:w-full sm:w-[100vw]" id="default-slider">
   <div class="splide__track">
     <ul class="splide__list">
@@ -5,27 +7,22 @@
       <li class="splide__slide">
         <!--Main breakpoint slideElementview-->
         <div class="hidden sm:block bg-portGore-700 h-[344px] rounded">
-          <div class="mb-[19px] rounded">
-            <img
-              src="assets/images/team/DA.jpg"
-              class="w-full rounded h-[192px] object-cover"
-            />
+          <div class="mb-[19px] rounded-t">
+            <img src="assets/images/team/DA.jpg" class="w-full rounded-t h-[192px] object-cover" />
           </div>
           <div class="flex flex-col gap-sm xl:gap-[20px]">
-            <div
-              class="text-center text-kimberly-50 text-lg font-medium space-y-base"
-            >
-              <span class="block">{{ vehicle.name }}</span>
+            <div class="text-center text-kimberly-50 text-lg font-medium space-y-base">
+              <span class="block">{{ vehicle }}</span>
               <!--Main beakpoint view-->
               <div class="hidden xl:flex flex-row justify-center gap-base">
-                <div class="flex flex-row justify-center items-center gap-sm">
-                  <span class="text-xs">Передній</span>
+                <div class="flex flex-row justify-center items-center gap-sm text-xs xl:text-sm">
+                  <span>Передній</span>
                   <div class="w-[0.5px] rounded h-[15px] bg-kimberly-50"></div>
-                  <span class="text-xs">2016</span>
+                  <span>2016</span>
                   <div class="w-[0.5px] rounded h-[15px] bg-kimberly-50"></div>
-                  <span class="text-xs">Автомат</span>
+                  <span>Автомат</span>
                   <div class="w-[0.5px] rounded h-[15px] bg-kimberly-50"></div>
-                  <span class="text-xs">Газовий</span>
+                  <span>Газовий</span>
                 </div>
               </div>
 
@@ -50,44 +47,32 @@
             <div class="xl:space-y-base space-y-sm">
               <hr class="h-[0.5px] bg-portGore-100" />
 
-              <span class="block text-kimberly-50 text-center text-xl"
-                ><span class="text-red-800">{{ "$" }} </span><span class="font-bold">
+              <span class="block text-kimberly-50 text-center text-xl"><span class="text-red-800">{{ "$" }} </span><span
+                  class="font-bold">
                   {{ 31 }}
                   {{ 700 }}
-                </span></span
-              >
+                </span></span>
             </div>
           </div>
         </div>
         <!--sm breakpoint slideElementView-->
         <div class="flex flex-row sm:hidden h-[182px] bg-portGore-700 rounded">
-          <div class="w-2/3 rounded">
-            <img
-              src="assets/images/team/DA.jpg"
-              class="w-full rounded h-full object-cover"
-            />
+          <div class="w-2/3 rounded-l">
+            <img src="assets/images/team/DA.jpg" class="w-full rounded-l h-full object-cover" />
           </div>
           <div class="">
-            <div
-              class="text-center text-kimberly-50 text-lg font-medium flex flex-col h-full"
-            >
+            <div class="text-center text-kimberly-50 text-lg font-medium flex flex-col h-full">
               <div class="my-auto p-sm">
-                <span class="block">{{ vehicle.name }}</span>
+                <span class="block">{{ vehicle }}</span>
                 <!--Main beakpoint view-->
                 <div class="flex flex-col justify-center gap-base">
                   <div class="flex flex-col justify-center items-center gap-xs">
                     <span class="text-xs">Передній</span>
-                    <div
-                      class="w-[38px] rounded h-[0.5px] bg-kimberly-50"
-                    ></div>
+                    <div class="w-[38px] rounded h-[0.5px] bg-kimberly-50"></div>
                     <span class="text-xs">2016</span>
-                    <div
-                      class="w-[38px] rounded h-[0.5px] bg-kimberly-50"
-                    ></div>
+                    <div class="w-[38px] rounded h-[0.5px] bg-kimberly-50"></div>
                     <span class="text-xs">Автомат</span>
-                    <div
-                      class="w-[38px] rounded h-[0.5px] bg-kimberly-50"
-                    ></div>
+                    <div class="w-[38px] rounded h-[0.5px] bg-kimberly-50"></div>
                     <span class="text-xs">Газовий</span>
                   </div>
                 </div>
@@ -96,55 +81,42 @@
               <hr class="h-[0.5px] bg-portGore-100" />
 
               <div class="h-[50px] flex justify-center items-center">
-                <span class="block text-kimberly-50 text-center text-xl"
-                  ><span class="text-red-800">{{ "$" }} </span
-                  ><span class="font-bold">
+                <span class="block text-kimberly-50 text-center text-xl"><span class="text-red-800">{{ "$" }}
+                  </span><span class="font-bold">
                     {{ 31 }}
                     {{ 700 }}
-                  </span></span
-                >
+                  </span></span>
               </div>
             </div>
           </div>
         </div>
       </li>
       } @empty {
-      <span
-        >Сайт не може з'єднатися із сервером, спробуйте перезапустити
-        сторінку.</span
-      >
+      <span>Поки що немає жодної машини на сервері! Спробуйте пізніше</span>
       }
     </ul>
   </div>
   <!--Pagination-->
-  <div class="md:hidden custom-pagination flex justify-center gap-sm mt-[28px]">
+  <div class="md:hidden custom-pagination flex justify-center gap-base mt-[28px]">
     @for(vehicle of vehicles; track vehicle.id; let i = $index) {
-    <button
-      (click)="goToSlide(i)"
-      [ngClass]="{ active: currentSlide === i }"
-      class="pagination-bullet size-base bg-portGore-50 border-red-800 border-2 rounded-full transition-all duration-75 hover:bg-red-200"
-    ></button>
+    <button (click)="goToSlide(i)" [ngClass]="{ active: currentSlide === i }"
+      class="pagination-bullet size-[18px] bg-portGore-50 border-red-800 border-2 rounded-full transition-all hover:scale-125 duration-75 hover:bg-red-200"></button>
     }
   </div>
   <!--Arrows-->
   <div class="hidden md:flex flex-row justify-between absolute w-full top-1/2">
-    <button
-      (click)="prevSlider()"
-      class="size-xl absolute -left-[18px] bg-red-300 transition-all duration-75 hover:bg-red-500 rounded flex justify-center items-center"
-    >
-      <kolesko-icon
-        name="outline-chevron-left"
-        color="kimberly-50"
-      ></kolesko-icon>
+    <button (click)="prevSlider()"
+      class="size-xl absolute -left-[18px] bg-red-300 transition-all duration-75 hover:bg-red-500 rounded flex justify-center items-center scale-110">
+      <kolesko-icon name="outline-chevron-left" color="kimberly-50"></kolesko-icon>
     </button>
-    <button
-      (click)="nextSlider()"
-      class="size-xl absolute -right-[18px] rounded transition-all duration-75 hover:bg-red-500 bg-red-300 flex justify-center items-center"
-    >
-      <kolesko-icon
-        name="outline-chevron-right"
-        color="kimberly-50"
-      ></kolesko-icon>
+    <button (click)="nextSlider()"
+      class="size-xl absolute -right-[18px] rounded transition-all duration-75 hover:bg-red-500 bg-red-300 flex justify-center items-center scale-110">
+      <kolesko-icon name="outline-chevron-right" color="kimberly-50"></kolesko-icon>
     </button>
   </div>
 </div>
+} @else {
+  <div>
+    <span>Щось пішло не так!</span>
+  </div>
+}

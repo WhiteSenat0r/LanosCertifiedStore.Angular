@@ -1,9 +1,9 @@
 import {
-  AfterViewChecked,
   Component,
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import Splide from '@splidejs/splide';
@@ -13,15 +13,18 @@ import Splide from '@splidejs/splide';
   templateUrl: './slider-default.component.html',
   styleUrls: ['./slider-default.component.css'],
 })
-export class SliderDefaultComponent implements OnChanges, OnDestroy {
-  @Input() vehicles!: any[];
+export class SliderDefaultComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() vehicles?: any[];
 
   splide?: Splide;
   currentSlide: number = 0;
 
+  ngOnInit(): void {
+    console.log(this.vehicles);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['vehicles'] && this.vehicles?.length) {
-      // Знищуємо попередній екземпляр слайдера якщо він існує
       if (this.splide) {
         this.splide.destroy();
       }
@@ -41,9 +44,10 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
       focus: 0,
       gap: '1rem',
       arrows: false,
+      drag:false,
       breakpoints: {
         1024: { perPage: 3 },
-        768: { perPage: 2, padding: {right: '10rem'} },
+        768: { perPage: 2, padding: {right: '10rem'}, drag: true },
         640: { perPage: 2, padding: '0rem'}
       },
     }).mount();

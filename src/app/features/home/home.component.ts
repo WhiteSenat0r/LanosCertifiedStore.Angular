@@ -6,25 +6,20 @@ import { HomeService } from './home.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-
-  vehicleCount:number = 20;
-
+  vehicleCount: number = 20;
   vehicles: any = [];
 
-  constructor(private homeservice: HomeService){}
-
+  constructor(private homeservice: HomeService) { }
   ngOnInit(): void {
     this.getVehicles();
-    
   }
 
-  getVehicles()
-  {
+  getVehicles() {
     this.homeservice.getVehicles(this.vehicleCount).subscribe({
       next: (response) => {
         this.vehicles = response.items;
       },
-      error: (error) => console.error(error)
+      error: (error) => { console.error(error), console.log('WTF') }
     })
   }
 

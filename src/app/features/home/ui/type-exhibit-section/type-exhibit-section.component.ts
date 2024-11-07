@@ -7,6 +7,8 @@ import { AfterViewInit, Component, Input } from '@angular/core';
 })
 export class TypeExhibitSectionComponent {
   @Input() vehicles!: any;
+
+  selectedItemIndex: number = 0;
   items: string[] = [
     'Усі',
     'Новий',
@@ -16,12 +18,5 @@ export class TypeExhibitSectionComponent {
     'Святий',
     'Ніякий',
   ];
-  selectedItemIndex: number = 0;
 
-  selectItem(index: number) {
-    this.selectedItemIndex = index;
-  }
-  isSelected(index: number): boolean {
-    return this.selectedItemIndex === index;
-  }
 }

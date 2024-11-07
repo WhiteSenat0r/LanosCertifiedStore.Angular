@@ -15,10 +15,11 @@ export class SvgIconDisplayComponent implements OnInit, OnChanges {
   @Input() width?: number;
   @Input() height?: number;
   @Input() color: string = '#000000';
+  @Input() strokeColor?: string;
 
   svgContent: SafeHtml = '';
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['color'] || changes['name']) {
@@ -47,7 +48,7 @@ export class SvgIconDisplayComponent implements OnInit, OnChanges {
     tempDiv.innerHTML = svg;
 
     const svgElement = tempDiv.querySelector('svg');
-    
+
     if (svgElement) {
       if (this.size !== undefined) {
         svgElement.setAttribute('width', `${this.size}`);
@@ -61,13 +62,16 @@ export class SvgIconDisplayComponent implements OnInit, OnChanges {
         }
       }
 
-      const pathElement = svgElement.querySelector('path');
-      if (pathElement) {
-        const existingStroke = pathElement.getAttribute('stroke');
-        if (!existingStroke) {
-          pathElement.setAttribute('fill', this.mapColorToHex(this.color));
+      const elementsToColor = svgElement.querySelectorAll('path, circle, rect, polygon, ellipse, line, polyline');
+
+      elementsToColor.forEach(element => {
+        if (!element.getAttribute('stroke')) {
+          element.setAttribute('fill', this.mapColorToHex(this.color));
         }
-      }
+        if (this.strokeColor) {
+          element.setAttribute('stroke', this.mapColorToHex(this.strokeColor));
+        }
+      });
     }
 
     return tempDiv.innerHTML;
