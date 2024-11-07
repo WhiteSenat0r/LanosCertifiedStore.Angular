@@ -12,7 +12,7 @@ export class HomeService {
   constructor(private http: HttpClient) { }
   
   getBodyTypes(): Observable<any> {
-    return this.http.get<any>(this.baseUrl + 'BodyTypes');
+    return this.http.get<any>(this.baseUrl + 'body-types');
   }
 
   getVehicles(vehicleCount?: number): Observable<any> {
@@ -21,7 +21,7 @@ export class HomeService {
     if (vehicleCount) params = params.append('ItemQuantity', vehicleCount);
     params = params.append('selectionProfile', 2);
     // return this.http.get<any>(this.baseUrl + 'Vehicles',{params});
-    return this.http.get<any>(this.baseUrl + 'BodyTypes');
+    return this.http.get<any>(this.baseUrl + 'vehicles');
   }
 
 
