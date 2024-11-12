@@ -6,6 +6,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { HeroSectionComponent } from './ui/hero-section/hero-section.component';
 import { CoreModule } from "../../core/core.module";
 import { TopPropositionsSectionComponent } from './ui/top-propositions-section/top-propositions-section.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TopPropositionsSectionComponent } from './ui/top-propositions-section/t
   imports: [
     CommonModule,
     SharedModule,
-    CoreModule
+    CoreModule,
+    RouterModule
 ],
   exports: [
     HomeComponent

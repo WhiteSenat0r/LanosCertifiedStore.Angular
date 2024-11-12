@@ -9,6 +9,11 @@ const routes: Routes = [
     title: 'home',
     component: HomeComponent,
   },
+  {
+    path: 'catalog',
+    title: 'catalog',
+    loadChildren: () => import('./features/catalog/catalog.module').then(m => m.CatalogModule)
+  },
   { path: '**', component: NotFoundComponent },
 ];
 
