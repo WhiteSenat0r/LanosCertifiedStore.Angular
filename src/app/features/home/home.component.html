@@ -1,3 +1,8 @@
-<app-hero-section></app-hero-section>
-<div class="py-2xl"></div>
-<app-type-exhibit-section [vehicles]="vehicles"></app-type-exhibit-section>
+<div class="flex flex-col">
+    <app-hero-section></app-hero-section>
+    <app-type-exhibit-section [vehicles]="vehicles"></app-type-exhibit-section>
+    <div class="bg-portGore-700">
+        <app-top-propositions-section [vehicles]="vehicles"></app-top-propositions-section>
+    </div>
+    <div class="py-[20px]"></div>
+</div>

@@ -5,6 +5,7 @@ import { TypeExhibitSectionComponent } from './ui/type-exhibit-section/type-exhi
 import { SharedModule } from '../../shared/shared.module';
 import { HeroSectionComponent } from './ui/hero-section/hero-section.component';
 import { CoreModule } from "../../core/core.module";
+import { TopPropositionsSectionComponent } from './ui/top-propositions-section/top-propositions-section.component';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { CoreModule } from "../../core/core.module";
     HomeComponent,
     TypeExhibitSectionComponent,
     HeroSectionComponent,
+    TopPropositionsSectionComponent,
   ],
   imports: [
     CommonModule,

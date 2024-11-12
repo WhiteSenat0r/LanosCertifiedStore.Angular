@@ -1,27 +1,27 @@
 @if(vehicles.length !== 0)
 {
-<div class="splide md:w-full sm:w-[100vw]" id="default-slider">
+<div class="splide md:w-full sm:w-[100vw]" id="light-slider">
   <div class="splide__track">
     <ul class="splide__list">
       @for(vehicle of vehicles; track vehicle.id) {
       <li class="splide__slide">
         <!--Main breakpoint slideElementview-->
-        <div class="hidden sm:block bg-portGore-700 h-[344px] rounded">
+        <div class="hidden sm:block bg-kimberly-50 h-[344px] rounded">
           <div class="mb-[19px] rounded-t">
             <img src="assets/images/team/DA.jpg" class="w-full rounded-t h-[192px] object-cover" />
           </div>
           <div class="flex flex-col gap-sm xl:gap-[20px]">
-            <div class="text-center text-kimberly-50 text-lg font-medium space-y-base">
+            <div class="text-center text-content-primary text-lg font-medium space-y-base">
               <span class="block">{{ vehicle.name }}</span>
               <!--Main beakpoint view-->
               <div class="hidden xl:flex flex-row justify-center gap-base">
                 <div class="flex flex-row justify-center items-center gap-sm text-xs xl:text-sm">
                   <span>Передній</span>
-                  <div class="w-[0.5px] rounded h-[15px] bg-kimberly-50"></div>
+                  <div class="w-[0.5px] rounded h-[15px] bg-content-primary"></div>
                   <span>2016</span>
-                  <div class="w-[0.5px] rounded h-[15px] bg-kimberly-50"></div>
+                  <div class="w-[0.5px] rounded h-[15px] bg-content-primary"></div>
                   <span>Автомат</span>
-                  <div class="w-[0.5px] rounded h-[15px] bg-kimberly-50"></div>
+                  <div class="w-[0.5px] rounded h-[15px] bg-content-primary"></div>
                   <span>Газовий</span>
                 </div>
               </div>
@@ -30,24 +30,24 @@
               <div class="xl:hidden flex flex-row justify-center gap-base">
                 <div class="flex flex-col justify-center items-center gap-sm">
                   <span class="text-xs">Передній</span>
-                  <div class="w-[53px] rounded h-[1px] bg-kimberly-50"></div>
+                  <div class="w-[53px] rounded h-[1px] bg-content-primary"></div>
                   <span class="text-xs">2016</span>
                 </div>
 
-                <div class="w-[1px] rounded h-[36px] bg-kimberly-50"></div>
+                <div class="w-[1px] rounded h-[36px] bg-content-primary"></div>
 
                 <div class="flex flex-col justify-center items-center gap-sm">
                   <span class="text-xs">Автомат</span>
-                  <div class="w-[53px] rounded h-[1px] bg-kimberly-50"></div>
+                  <div class="w-[53px] rounded h-[1px] bg-content-primary"></div>
                   <span class="text-xs">Газовий</span>
                 </div>
               </div>
             </div>
 
             <div class="xl:space-y-base space-y-sm">
-              <hr class="h-[0.5px] bg-portGore-100" />
+              <hr class="h-[2px] bg-content-primary" />
 
-              <span class="block text-kimberly-50 text-center text-xl"><span class="text-red-800">{{ "$" }} </span><span
+              <span class="block text-content-primary text-center text-xl"><span class="text-red-800">{{ "$" }} </span><span
                   class="font-bold">
                   {{ 31 }}
                   {{ 700 }}
@@ -56,32 +56,32 @@
           </div>
         </div>
         <!--sm breakpoint slideElementView-->
-        <div class="flex flex-row sm:hidden h-[182px] bg-portGore-700 rounded">
+        <div class="flex flex-row sm:hidden h-[182px] bg-kimberly-50 rounded">
           <div class="w-2/3 rounded-l">
             <img src="assets/images/team/DA.jpg" class="w-full rounded-l h-full object-cover" />
           </div>
           <div class="">
-            <div class="text-center text-kimberly-50 text-lg font-medium flex flex-col h-full">
+            <div class="text-center text-content-primary text-lg font-medium flex flex-col h-full">
               <div class="my-auto p-sm">
                 <span class="block pb-xs">{{ vehicle.name }}</span>
                 <!--Main beakpoint view-->
                 <div class="flex flex-col justify-center gap-base">
                   <div class="flex flex-col justify-center items-center gap-xs">
                     <span class="text-xs">Передній</span>
-                    <div class="w-[38px] rounded h-[0.5px] bg-kimberly-50"></div>
+                    <div class="w-[38px] rounded h-[0.5px] bg-content-primary"></div>
                     <span class="text-xs">2016</span>
-                    <div class="w-[38px] rounded h-[0.5px] bg-kimberly-50"></div>
+                    <div class="w-[38px] rounded h-[0.5px] bg-content-primary"></div>
                     <span class="text-xs">Автомат</span>
-                    <div class="w-[38px] rounded h-[0.5px] bg-kimberly-50"></div>
+                    <div class="w-[38px] rounded h-[0.5px] bg-content-primary"></div>
                     <span class="text-xs">Газовий</span>
                   </div>
                 </div>
               </div>
 
-              <hr class="h-[0.5px] bg-portGore-100" />
+              <hr class="h-[2px] bg-content-primary" />
 
               <div class="h-[50px] flex justify-center items-center">
-                <span class="block text-kimberly-50 text-center text-xl"><span class="text-red-800">{{ "$" }}
+                <span class="block text-content-primary text-center text-xl"><span class="text-red-800">{{ "$" }}
                   </span><span class="font-bold">
                     {{ 31 }}
                     {{ 700 }}
@@ -100,7 +100,7 @@
   <div class="md:hidden custom-pagination flex justify-center gap-base mt-[28px]">
     @for(vehicle of vehicles; track vehicle.id; let i = $index) {
     <button (click)="goToSlide(i)" [ngClass]="{ active: currentSlide === i }"
-      class="pagination-bullet size-[18px] bg-portGore-50 border-red-800 border-2 rounded-full transition-all hover:scale-125 duration-75 hover:bg-red-200"></button>
+      class="pagination-bullet size-[18px] bg-kimberly-50 border-red-800 border-2 rounded-full transition-all hover:scale-125 duration-75 hover:bg-red-200"></button>
     }
   </div>
   <!--Arrows-->

@@ -8,11 +8,11 @@ import {
 import Splide from '@splidejs/splide';
 
 @Component({
-  selector: 'app-slider-default',
-  templateUrl: './slider-default.component.html',
-  styleUrls: ['./slider-default.component.css'],
+  selector: 'app-slider-light',
+  templateUrl: './slider-light.component.html',
+  styleUrl: './slider-light.component.css'
 })
-export class SliderDefaultComponent implements OnChanges, OnDestroy {
+export class SliderLightComponent implements OnChanges, OnDestroy {
   @Input() vehicles: any[] = [];
 
   splide?: Splide;
@@ -31,20 +31,19 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
       });
     }
   }
-
   private initializeSplide() {
-    this.splide = new Splide('#default-slider', {
+    this.splide = new Splide('#light-slider', {
       type: 'loop',
       perPage: 4,
       pagination: false,
       focus: 0,
       gap: '1rem',
       arrows: false,
-      drag:false,
+      drag: false,
       breakpoints: {
         1024: { perPage: 3 },
-        768: { perPage: 2, padding: {right: '10rem'}, drag: true },
-        640: { perPage: 2, padding: '0rem'}
+        768: { perPage: 2, padding: { right: '10rem' }, drag: true },
+        640: { perPage: 2, padding: '0rem' }
       },
     }).mount();
 
@@ -71,3 +70,4 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
     }
   }
 }
+

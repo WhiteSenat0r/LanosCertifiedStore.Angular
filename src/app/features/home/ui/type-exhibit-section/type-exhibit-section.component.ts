@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import {Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-type-exhibit-section',
@@ -9,6 +9,7 @@ export class TypeExhibitSectionComponent {
   @Input() vehicles!: any;
 
   selectedItemIndex: number = 0;
+  
   items: string[] = [
     'Усі',
     'Новий',

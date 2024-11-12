@@ -1,26 +1,30 @@
 <section class="relative container mx-auto">
-    <div class="text-h1 text-portGore-700 text-wrap xl:w-[656px] pt-[69px] mb-[84px] lg:w-[600px]">
-        <span class="font-code">Купи собі вже машину дядь, cтань файним козаком</span>
-    </div>
-    <div class="hidden xl:block">
-        <div class="mb-[112px] flex flex-row gap-[46px] items-center text-xl text-portGore-700">
-            <div class="relative w-[72px] h-[56px] flex items-center">
+    <div class="flex flex-col items-center xl:block">
+        <div class="text-center w-[90%] xl:w-[656px] xl:text-wrap pt-[42px] xl:pt-[69px] mb-[32px] sm:mb-[84px]">
+            <span class="font-code text-portGore-700 text-h1">Купи собі вже машину дядь, cтань файним козаком</span>
+        </div>
+        <div
+            class="mb-[32px] sm:mb-[112px] flex flex-col sm:flex-row gap-base sm:gap-[32px] md:gap-[46px] items-center text-xl text-portGore-700">
+            <div
+                class="flex flex-col gap-sm sm:gap-[0px] sm:relative sm:w-[72px] sm:h-[56px] items-center justify-center">
                 <kolesko-icon name="super-car" strokeColor="red-800"></kolesko-icon>
-                <div class="absolute left-[50%] -translate-x-[50%] top-[64px] text-center w-max">
+                <div class="sm:absolute sm:left-[50%] sm:-translate-x-[50%] sm:top-[64px] text-center sm:w-max">
                     <span class="block">Обери</span>
                     <span class="block">машину</span>
                 </div>
             </div>
             <kolesko-icon name="arrow-right-light-1" strokeColor="portGore-600"></kolesko-icon>
-            <div class="relative">
+            <div
+                class="flex flex-col gap-sm sm:gap-[0px] sm:relative sm:w-[72px] sm:h-[56px] items-center justify-center">
                 <kolesko-icon name="phone" color="red-800"></kolesko-icon>
-                <div class="absolute left-[50%] -translate-x-[50%] top-[64px] text-center w-max">
+                <div class="sm:absolute sm:left-[50%] sm:-translate-x-[50%] sm:top-[64px] text-center sm:w-max">
                     <span class="block">Зв'яжись з</span>
                     <span class="block">продавцем</span>
                 </div>
             </div>
             <kolesko-icon name="arrow-right-light-1" strokeColor="portGore-600"></kolesko-icon>
-            <div class="relative">
+            <div
+                class="flex flex-col gap-sm sm:gap-[0px] sm:relative sm:w-[72px] sm:h-[56px] items-center justify-center">
                 <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_725_93)">
                         <path
@@ -48,37 +52,44 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <div class="absolute left-[50%] -translate-x-[50%] top-[64px] text-center w-max">
+                <div class="sm:absolute sm:left-[50%] sm:-translate-x-[50%] sm:top-[64px] text-center sm:w-max">
                     <span class="block">Назнач місце</span>
                     <span class="block">Зустрічі</span>
                 </div>
             </div>
             <kolesko-icon name="arrow-right-light-1" strokeColor="portGore-600"></kolesko-icon>
-            <div class="relative">
+            <div
+                class="flex flex-col gap-sm sm:gap-[0px] sm:relative sm:w-[72px] sm:h-[56px] items-center justify-center">
                 <kolesko-icon name="hands-deal" color="red-800"></kolesko-icon>
-                <div class="absolute left-[50%] -translate-x-[50%] top-[64px] text-center  w-max">
+                <div class="sm:absolute sm:left-[50%] sm:-translate-x-[50%] sm:top-[64px] text-center sm:w-max">
                     <span class="block">Ти платиш на</span>
                     <span class="block">місці</span>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="flex flex-row gap-[38px] items-center">
-        <button class="outline-none bg-red-800 py-[12px] px-[12px] rounded transition-colors hover:bg-red-500">
-            <span class="text-xl text-portGore-50">Пошук машин</span>
-        </button>
-        <div class="group flex flex-col justify-center items-center gap-[2px]">
-            <a href="/" class="group-hover:text-red-500 duration-75  transition-colors">
-                Продати машину
-            </a>
-            <div class="w-full h-[1px] bg-portGore-700 transition-colors duration-75 group-hover:bg-red-500">
+        <div class="flex flex-row gap-[38px] items-center">
+            <button class="flex-shrink-0 outline-none bg-red-800 py-[12px] px-[12px] rounded transition-colors hover:bg-red-500">
+                <span class="text-xl text-portGore-50">Пошук машин</span>
+            </button>
+            <div class="group flex justify-center items-center gap-[2px]">
+                <a href="/" class="group-hover:text-red-500 duration-75  transition-colors">
+                    <span class="underline-w-min inline-block w-max">
+                        Продати машину
+                        <div class="w-full h-[1px] bg-portGore-700 transition-colors duration-75 group-hover:bg-red-500">
+                        </div>
+                    </span>
+                </a>
             </div>
         </div>
     </div>
 
-    <div class="absolute h-[494px] w-[356px] right-[48px] top-[0px] bg-portGore-700">
+    <!--Two cars image and the background-->
+    <div class="hidden xl:block xl:absolute xl:h-[494px] xl:w-[356px] xl:right-[48px] xl:top-[0px] bg-portGore-700">
         <img src="assets/images/Home/hero-image-cars.png" alt="Hero image (two cars)"
             class="block absolute top-[260px] right-[36px] z-10 scale-[1.5]">
     </div>
 </section>
+<div class="car-background mt-[124px] relative sm:h-[200px] w-full xl:hidden bg-portGore-700">
+    <img src="assets/images/Home/hero-image-cars.png" alt="Hero image (two cars)"
+        class="block absolute -top-[100px] left-1/2 transform -translate-x-1/2 z-10 scale-[1]">
+</div>
