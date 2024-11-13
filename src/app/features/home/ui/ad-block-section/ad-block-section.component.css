@@ -1,0 +1,41 @@
+@media (min-width: 430px) and (max-width: 509px) {
+    .adTextOn {
+        top: 60px;
+    }
+}
+
+@media (min-width: 367px) and (max-width: 429px) {
+    .adTextOn.one {
+        top: 78px;
+    }
+
+    .adTextOn.two {
+        top: 20px;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 366px) {
+    .adTextOn.one {
+        top: 50px;
+    }
+
+    .adTextOn.two {
+        top: 5px;
+    }
+}
+
+
+@media (min-width: 300px) and (max-width: 359px) {
+    .adTextOn {
+        top: 44px;
+    }
+
+    .adTextOn span.font-medium {
+        line-height: 1.5rem;
+        font-size: 20px;
+    }
+
+    .adTextOn span.underline {
+        font-size: 10px;
+    }
+}

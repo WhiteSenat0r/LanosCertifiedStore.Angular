@@ -1,6 +1,6 @@
 @media (min-width: 300px) and (max-width: 320px) {
     .car-background {
-        height: 72px;       
+        height: 100px;       
     }
 
     .car-background img {
@@ -10,7 +10,7 @@
 
 @media (min-width: 321px) and (max-width: 360px) {
     .car-background {
-        height: 84px;       
+        height: 120px;       
     }
 
     .car-background img {
@@ -20,13 +20,13 @@
 
 @media (min-width: 361px) and (max-width: 440px) {
     .car-background {
-        height: 100px;       
+        height: 140px;       
     }
 }
 
 @media (min-width: 441px) and (max-width: 639px) {
     .car-background {
-        height: 160px;       
+        height: 180px;       
     }
 }
 

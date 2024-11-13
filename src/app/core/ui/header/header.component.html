@@ -1,87 +1,39 @@
 <header class="bg-kimberly-50 shadow-lg h-[62px]">
-  <nav
-    class="mx-sm lg:mx-auto lg:container flex flex-row justify-between items-center h-full gap-md"
-  >
+  <nav class="mx-sm lg:mx-auto lg:container flex flex-row justify-between items-center h-full gap-md">
     <div class="flex flex-row items-center gap-sm">
       <div class="w-[41px]">
-        <img
-          src="assets/images/logo/logo-dark.png"
-          alt="Dark version of Kolesko logo"
-          class="h-[46px] inline-block"
-        />
+        <img src="assets/images/logo/logo-dark.png" alt="Dark version of Kolesko logo" class="h-[46px] inline-block" />
       </div>
 
       <span class="text-h5 text-clip text-portGore-950 font-code">Kolesko</span>
     </div>
 
     <div
-      class="w-full border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden sm:flex items-center justify-start"
-    >
-      <div
-        class="relative inline-block left-[-1px] cursor-pointer"
-        (mouseenter)="onIconHover(true)"
-        (mouseleave)="onIconHover(false)"
-      >
-        <kolesko-icon
-          name="figure-bookmark-type-blue"
-          [width]="34"
-          [height]="28"
-          [color]="iconColor"
-        />
-        <kolesko-icon
-          class="absolute top-1/2 left-[44%] transform -translate-x-1/2 -translate-y-1/2"
-          [name]="nameOfIcon"
-          [size]="14"
-          [color]="searchIconColor"
-        />
+      class="w-full border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden sm:flex items-center justify-start">
+      <div class="relative group inline-block left-[-1px] cursor-pointer">
+        <kolesko-icon name="figure-bookmark-type-blue" class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34" [height]="28" />
+        <kolesko-icon class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2" name="search-short-stick" [size]="14" />
       </div>
-      <input
-        class="bg-kimberly-50 focus:outline-none w-full"
-        placeholder="Пошук..."
-      />
+      <input class="bg-kimberly-50 focus:outline-none w-full" placeholder="Пошук..." />
     </div>
 
     <div
-      class="pr-[2px] xl:w-4/12 lg:w-5/12 border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden lg:flex items-center justify-center hover:bg-portGore-50 hover:cursor-pointer transition ease-in"
-    >
+      class="pr-[2px] xl:w-4/12 lg:w-5/12 border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden lg:flex items-center justify-center hover:bg-portGore-50 hover:cursor-pointer transition ease-in">
       <kolesko-icon name="outline-plus"></kolesko-icon>
-      <span
-        class="inline-block text-nowrap text-portGore-950 text-lg"
-        >Продати машину</span
-      >
+      <span class="inline-block text-nowrap text-portGore-950 text-lg">Продати машину</span>
     </div>
 
     <div class="hidden sm:flex flex-row gap-[12px] items-center">
-      <kolesko-icon
-        name="bookmark-main"
-        class="cursor-pointer"
-        [width]="34"
-        [height]="28"
-        color="portGore-700"
-      ></kolesko-icon>
+      <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34" [height]="28"></kolesko-icon>
 
       <div class="flex flex-row items-center cursor-pointer">
-        <kolesko-icon
-          name="profile-main"
-          [size]="36"
-          color="portGore-700"
-        ></kolesko-icon>
+        <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36"></kolesko-icon>
 
-        <kolesko-icon
-          name="arrow-down-main"
-          [width]="22"
-          [height]="20"
-          color="portGore-700"
-        ></kolesko-icon>
+        <kolesko-icon class="text-portGore-700" name="arrow-down-main" [width]="22" [height]="20"></kolesko-icon>
       </div>
     </div>
 
-    <kolesko-icon
-      class="sm:hidden"
-      name="more"
-      [size]="36"
-      color="portGore-950"
-    >
+    <kolesko-icon class="sm:hidden" name="more" [size]="36">
     </kolesko-icon>
   </nav>
 </header>

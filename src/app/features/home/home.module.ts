@@ -7,6 +7,7 @@ import { HeroSectionComponent } from './ui/hero-section/hero-section.component';
 import { CoreModule } from "../../core/core.module";
 import { TopPropositionsSectionComponent } from './ui/top-propositions-section/top-propositions-section.component';
 import { RouterModule } from '@angular/router';
+import { AdBlockSectionComponent } from './ui/ad-block-section/ad-block-section.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { RouterModule } from '@angular/router';
     TypeExhibitSectionComponent,
     HeroSectionComponent,
     TopPropositionsSectionComponent,
+    AdBlockSectionComponent,
   ],
   imports: [
     CommonModule,

@@ -100,18 +100,18 @@
   <div class="md:hidden custom-pagination flex justify-center gap-base mt-[28px]">
     @for(vehicle of vehicles; track vehicle.id; let i = $index) {
     <button (click)="goToSlide(i)" [ngClass]="{ active: currentSlide === i }"
-      class="pagination-bullet size-[18px] bg-kimberly-50 border-red-800 border-2 rounded-full transition-all hover:scale-125 duration-75 hover:bg-red-200"></button>
+      class="pagination-bullet size-[18px] bg-kimberly-50 border-redy-300 border-2 rounded-full transition-all hover:scale-125 duration-75 hover:bg-red-200"></button>
     }
   </div>
   <!--Arrows-->
   <div class="hidden md:flex flex-row justify-between absolute w-full top-1/2">
     <button (click)="prevSlider()"
-      class="size-xl absolute -left-[18px] bg-red-300 transition-all duration-75 hover:bg-red-500 rounded flex justify-center items-center scale-110">
-      <kolesko-icon name="outline-chevron-left" color="kimberly-50"></kolesko-icon>
+      class="size-xl absolute -left-[18px] bg-redy-300 transition-all duration-75 hover:bg-redy-500 rounded flex justify-center items-center scale-110">
+      <kolesko-icon name="outline-chevron-left" class="text-kimberly-50"></kolesko-icon>
     </button>
     <button (click)="nextSlider()"
-      class="size-xl absolute -right-[18px] rounded transition-all duration-75 hover:bg-red-500 bg-red-300 flex justify-center items-center scale-110">
-      <kolesko-icon name="outline-chevron-right" color="kimberly-50"></kolesko-icon>
+      class="size-xl absolute -right-[18px] rounded transition-all duration-75 hover:bg-redy-500 bg-redy-300 flex justify-center items-center scale-110">
+      <kolesko-icon name="outline-chevron-right" class="text-kimberly-50"></kolesko-icon>
     </button>
   </div>
 </div>
