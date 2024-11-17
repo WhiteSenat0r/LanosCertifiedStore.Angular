@@ -8,6 +8,8 @@ import { CoreModule } from "../../core/core.module";
 import { TopPropositionsSectionComponent } from './ui/top-propositions-section/top-propositions-section.component';
 import { RouterModule } from '@angular/router';
 import { AdBlockSectionComponent } from './ui/ad-block-section/ad-block-section.component';
+import { ContactFormSectionComponent } from './ui/contact-form-section/contact-form-section.component';
+import { AdvancedSearchComponent } from './ui/advanced-search/advanced-search.component';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import { AdBlockSectionComponent } from './ui/ad-block-section/ad-block-section.
     HeroSectionComponent,
     TopPropositionsSectionComponent,
     AdBlockSectionComponent,
+    ContactFormSectionComponent,
+    AdvancedSearchComponent,
   ],
   imports: [
     CommonModule,
