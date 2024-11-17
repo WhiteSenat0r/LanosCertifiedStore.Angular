@@ -1,4 +1,10 @@
 <app-header></app-header>
+@if(!isMainPage)
+{
+    <xng-breadcrumb separator=" → "></xng-breadcrumb>
+}
+
+
 <router-outlet></router-outlet>
 <app-footer></app-footer>
  

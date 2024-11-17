@@ -8,11 +8,13 @@ const routes: Routes = [
     path: '',
     title: 'Home',
     component: HomeComponent,
+    data: { breadcrumb: 'Колеско' }
   },
   {
     path: 'catalog',
     title: 'catalog',
-    loadChildren: () => import('./features/catalog/catalog.module').then(m => m.CatalogModule)
+    loadChildren: () => import('./features/catalog/catalog.module').then(m => m.CatalogModule),
+    data: { breadcrumb: 'Каталог' }
   },
   { path: '**', component: NotFoundComponent },
 ];
@@ -21,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
