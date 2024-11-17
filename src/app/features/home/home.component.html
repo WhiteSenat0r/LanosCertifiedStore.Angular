@@ -1,7 +1,13 @@
-<app-hero-section></app-hero-section>
+<div class="flex flex-col">
+    <app-hero-section></app-hero-section>
+    <app-type-exhibit-section [vehicles]="vehicles"></app-type-exhibit-section>
+    <div class="bg-portGore-700">
+        <app-top-propositions-section [vehicles]="vehicles"></app-top-propositions-section>
+    </div>
+    <app-ad-block-section></app-ad-block-section>
 
-<div class="container mx-auto">
-  <app-main-content-area [bodyTypes]="bodyTypes" [brands]="brands"></app-main-content-area>
+    <div class="bg-portGore-700 min-h-[572px]">
+        <app-advanced-search></app-advanced-search>
+    </div>
+    <app-contact-form-section></app-contact-form-section>
 </div>
-
-<academic-cap-outline-icon [size]="64" color="red" [stroke]="2"></academic-cap-outline-icon>

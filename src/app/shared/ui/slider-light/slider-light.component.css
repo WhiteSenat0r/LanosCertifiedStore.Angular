@@ -1,0 +1,14 @@
+.active{
+    @apply !bg-redy-800 !scale-125 !border-none 
+  }
+@media (min-width: 300px) and (max-width: 500px) {
+  .xs_change_fullname{
+    @apply text-xl;
+    padding-top: 10px;
+    padding-left: 10px ;
+    padding-right: 10px ;
+  }
+  .xs_change_description_element {
+    @apply text-sm font-light
+  }
+}

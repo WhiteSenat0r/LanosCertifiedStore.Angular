@@ -1,30 +1,35 @@
 import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
+import { TypeExhibitSectionComponent } from './ui/type-exhibit-section/type-exhibit-section.component';
+import { SharedModule } from '../../shared/shared.module';
 import { HeroSectionComponent } from './ui/hero-section/hero-section.component';
-import { MainContentAreaComponent } from './ui/main-content-area/main-content-area.component';
-import { BrandTilesComponent } from './ui/main-content-area/brand-tiles/brand-tiles.component';
-import { CarProposalsCardsComponent } from './ui/main-content-area/car-proposals-cards/car-proposals-cards.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NgHeroiconsModule } from "@dimaslz/ng-heroicons";
-
+import { CoreModule } from "../../core/core.module";
+import { TopPropositionsSectionComponent } from './ui/top-propositions-section/top-propositions-section.component';
+import { RouterModule } from '@angular/router';
+import { AdBlockSectionComponent } from './ui/ad-block-section/ad-block-section.component';
+import { ContactFormSectionComponent } from './ui/contact-form-section/contact-form-section.component';
+import { AdvancedSearchComponent } from './ui/advanced-search/advanced-search.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
+    TypeExhibitSectionComponent,
     HeroSectionComponent,
-    MainContentAreaComponent,
-    BrandTilesComponent,
-    CarProposalsCardsComponent
+    TopPropositionsSectionComponent,
+    AdBlockSectionComponent,
+    ContactFormSectionComponent,
+    AdvancedSearchComponent,
   ],
   imports: [
     CommonModule,
-    NgHeroiconsModule
-  ],
+    SharedModule,
+    CoreModule,
+    RouterModule
+],
   exports: [
     HomeComponent
   ],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomeModule { }
