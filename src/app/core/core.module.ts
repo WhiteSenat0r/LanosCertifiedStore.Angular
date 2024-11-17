@@ -4,6 +4,7 @@ import { FooterComponent } from './ui/footer/footer.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { NotFoundComponent } from './ui/not-found/not-found.component';
 import { RouterModule } from '@angular/router';
+import { SvgIconDisplayComponent } from './utilities/svg-icon-display/svg-icon-display.component';
 
 
 
@@ -11,7 +12,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     FooterComponent,
     HeaderComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SvgIconDisplayComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,7 @@ import { RouterModule } from '@angular/router';
     FooterComponent,
     HeaderComponent,
     NotFoundComponent,
-    
+    SvgIconDisplayComponent
   ]
 })
 export class CoreModule { }

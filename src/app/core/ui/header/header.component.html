@@ -1,48 +1,39 @@
-<nav>
-  <div class="bg-white drop-shadow-2xl fixed z-50 w-full">
-    <div class="container mx-auto flex flex-row px-6 py-1.5 gap-4">
-      <div>
-        <a routerLink="/">
-          <img
-            src="assets/images/Logo.svg"
-            class="h-12 w-12 cursor-pointer"
-            alt="..."
-          />
-        </a>
-      </div>
-      <a routerLink="/catalog" class="cursor-pointer">
-        to catalog
-      </a>
-      <!--Search and Icons-->
-      <div class="ml-auto relative self-center border-none w-full">
-        <input type="text" placeholder="Search" class="rounded w-full" />
-        <div class="absolute top-2 right-2 cursor-pointer">
-          <svg
-            class="w-[28px] h-[24px] text-gray-800 dark:text-white"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="1.6"
-              d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-            />
-          </svg>
-        </div>
+<header class="bg-kimberly-50 shadow-lg h-[62px]">
+  <nav class="mx-sm lg:mx-auto lg:container flex flex-row justify-between items-center h-full gap-md">
+    <div class="flex flex-row items-center gap-sm">
+      <div class="w-[41px]">
+        <img src="assets/images/logo/logo-dark.png" alt="Dark version of Kolesko logo" class="h-[46px] inline-block" />
       </div>
 
-      <!--Other icons-->
-      <div #translate class="self-center cursor-pointer">
-        <img src="assets/images/language.png" class="h-7 w-7" alt="..." />
+      <span class="text-h5 text-clip text-portGore-950 font-code">Kolesko</span>
+    </div>
+
+    <div
+      class="w-full border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden sm:flex items-center justify-start">
+      <div class="relative group inline-block left-[-1px] cursor-pointer">
+        <kolesko-icon name="figure-bookmark-type-blue" class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34" [height]="28" />
+        <kolesko-icon class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2" name="search-short-stick" [size]="14" />
       </div>
-      <div #profile class="self-center cursor-pointer">
-        <img src="assets/images/user.png" class="h-7 w-7" alt="..." />
+      <input class="bg-kimberly-50 focus:outline-none w-full" placeholder="Пошук..." />
+    </div>
+
+    <div
+      class="pr-[2px] xl:w-4/12 lg:w-5/12 border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden lg:flex items-center justify-center hover:bg-portGore-50 hover:cursor-pointer transition ease-in">
+      <kolesko-icon name="outline-plus"></kolesko-icon>
+      <span class="inline-block text-nowrap text-portGore-950 text-lg">Продати машину</span>
+    </div>
+
+    <div class="hidden sm:flex flex-row gap-[12px] items-center">
+      <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34" [height]="28"></kolesko-icon>
+
+      <div class="flex flex-row items-center cursor-pointer">
+        <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36"></kolesko-icon>
+
+        <kolesko-icon class="text-portGore-700" name="arrow-down-main" [width]="22" [height]="20"></kolesko-icon>
       </div>
     </div>
-  </div>
-</nav>
+
+    <kolesko-icon class="sm:hidden" name="more" [size]="36">
+    </kolesko-icon>
+  </nav>
+</header>

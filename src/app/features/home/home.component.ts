@@ -1,38 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
-import { BodyType } from '../../shared/models/BodyType';
-import { Brand } from '../../shared/models/Brand';
+import { Vehicle } from '../../shared/models/ApiModels/Vehicle';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  bodyTypes: BodyType[] = [];
-  brands: Brand[] = [];
+  vehicleCount: number = 20;
+  vehicles: Vehicle[] = [];
 
-  constructor(private homeService: HomeService) {}
-
+  constructor(private homeservice: HomeService) { }
   ngOnInit(): void {
-    this.getBodyTypes();
-    this.getBrands();
+    this.getVehicles();
   }
 
-  getBodyTypes() {
-    this.homeService.getBodyTypes().subscribe({
-      next: (response: any) => {
-        console.log(response.items);
-        this.bodyTypes = response.items;
+  getVehicles() {
+    this.homeservice.getVehicles(this.vehicleCount).subscribe({
+      next: (response: { items: Vehicle[]}) => {
+        this.vehicles = response.items;
       },
-    });
+      error: (error) => { console.error(error) }
+    })
   }
 
-  getBrands() {
-    this.homeService.getBrands().subscribe({
-      next: (response: any) => {
-        console.log(response.items);
-        this.brands = response.items;
-      },
-    });
-  }
 }

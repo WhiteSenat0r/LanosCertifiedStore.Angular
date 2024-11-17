@@ -1,0 +1,127 @@
+@if(vehicles.length !== 0)
+{
+<div class="splide md:w-full sm:w-[100vw]" id="light-slider">
+  <div class="splide__track">
+    <ul class="splide__list">
+      @for(vehicle of vehicles; track vehicle.id) {
+      <li class="splide__slide">
+        <!--Main breakpoint slideElementview-->
+        <div class="hidden sm:flex flex-col bg-kimberly-50 h-[344px] rounded">
+          <div class="rounded-t h-[56%]">
+            <img src="assets/images/team/DA.jpg" class="w-full rounded-t h-full object-cover" />
+          </div>
+          <!--Info block-->
+          <div class="px-[8px]">
+            <span class="line-clamp-1 text-content-primary text-lg font-medium mt-base xl:mt-[20px] text-center">{{
+              vehicle.fullName }}</span>
+          </div>
+          <div class="h-auto text-center text-content-primary text-lg font-medium mt-auto mb-xs xl:mb-sm xl:px-[10px]">
+            <!--Main breakpoint view-->
+            <div class="hidden xl:flex flex-nowrap justify-center items-center gap-sm text-xs xl:text-sm h-[34px]">
+              <span>{{ vehicle.engineType }}</span>
+              <div class="w-[0.5px] min-w-[1px] rounded h-[15px] bg-content-primary"></div>
+              <span>{{ vehicle.displacement | number:'1.1'}}</span>
+              <div class="w-[0.5px] min-w-[1px] rounded h-[15px] bg-content-primary"></div>
+              <span>{{ vehicle.mileage | appendText:'mi' }}</span>
+              <div class="w-[0.5px] min-w-[1px] rounded h-[15px] bg-content-primary"></div>
+              <span class="truncate">{{ vehicle.locationTownName }}</span>
+            </div>
+
+            <!--lg breakpoint view-->
+            <div class="xl:hidden flex flex-row justify-center items-center gap-sm px-xs">
+              <div class="w-full flex flex-col justify-center items-center gap-sm">
+                <span class="text-xs">{{vehicle.engineType}}</span>
+                <div class="w-[53px] rounded h-[1px] bg-content-primary"></div>
+                <span class="text-xs">{{ vehicle.displacement | number:'1.1'}}</span>
+              </div>
+              <div class="w-[1px] rounded h-[36px] bg-content-primary"></div>
+              <div class="w-full flex flex-col justify-center items-center gap-sm">
+                <span class="text-xs">{{ vehicle.mileage | appendText:'mi' }}</span>
+                <div class="w-[53px] rounded h-[1px] bg-content-primary"></div>
+                <span class="text-xs truncate">{{ vehicle.locationTownName }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!--Other block-->
+          <hr class="block h-[2px] bg-content-primary" />
+          <div class="flex flex-col justify-center items-center h-auto my-[12px]">
+            <div>
+              <span class="block text-content-primary text-center text-xl"><span class="text-redy-800">{{ "$" }}
+                </span><span class="font-bold">
+                  {{ vehicle.price | number:'0.0'}}
+                </span></span>
+            </div>
+          </div>
+        </div>
+        <!--sm breakpoint slideElementView-->
+        <div class="flex flex-row sm:hidden h-full bg-kimberly-50 rounded">
+          <div class="w-[60%] rounded-l">
+            <img src="assets/images/team/DA.jpg" class="w-full rounded-l h-full object-cover" />
+          </div>
+          <div class="w-[40%]">
+            <div class="text-center text-content-primary text-lg font-medium flex flex-col h-full">
+              <div class="p-xs">
+                <span
+                  class="block xs_change_fullname text-content-primary text-lg font-medium mt-base xl:mt-[20px] text-center">{{
+                  vehicle.fullName }}</span>
+              </div>
+
+              <div class="mt-auto mb-xs flex flex-col justify-center items-center gap-xs w-full px-[4px]">
+                <span class="block xs_change_description_element w-full text-xs truncate">{{ vehicle.engineType}}</span>
+                <div class="w-[38px] rounded h-[0.5px] bg-content-primary"></div>
+                <span class="xs_change_description_element text-xs w-full truncate">{{ vehicle.displacement |
+                  number:'1.1'}}</span>
+                <div class="w-[38px] rounded h-[0.5px] bg-content-primary"></div>
+                <span class="xs_change_description_element text-xs w-full truncate">{{ vehicle.mileage | appendText:'mi'
+                  }}</span>
+                <div class="xs_change_description_element w-[38px] rounded h-[0.5px] bg-content-primary"></div>
+                <span class="xs_change_description_element text-xs w-full truncate">{{ vehicle.locationTownName
+                  }}</span>
+              </div>
+
+              <div class="mt-auto w-full">
+                <hr class="block min-h-[2px] w-full bg-content-primary" />
+                <div class="h-[50px] flex justify-center items-center">
+                  <span class="block text-content-primary text-center text-xl"><span class="text-redy-800">{{ "$" }}
+                    </span><span class="font-bold">
+                      {{vehicle.price | number:'0.0'}}
+                    </span></span>
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </li>
+      } @empty {
+      <span>Поки що немає жодної машини на сервері! Спробуйте пізніше</span>
+      }
+    </ul>
+  </div>
+  <!--Pagination-->
+  <div class="md:hidden custom-pagination flex justify-center gap-[14px] sm:gap-base mt-[28px]">
+    @for(vehicle of vehicles; track vehicle.id; let i = $index) {
+    <button (click)="goToSlide(i)" [ngClass]="{ active: currentSlide === i }"
+      class="pagination-bullet size-[14px] sm:size-[18px] bg-kimberly-50 border-redy-300 border-2 rounded-full transition-all duration-75"></button>
+    }
+  </div>
+  <!--Arrows-->
+  <div class="hidden md:flex flex-row justify-between absolute w-full top-1/2">
+    <button (click)="prevSlider()"
+      class="size-xl absolute -left-[18px] bg-redy-300 transition-all duration-75 hover:bg-redy-800 rounded flex justify-center items-center scale-110">
+      <kolesko-icon name="outline-chevron-left" class="text-kimberly-50"></kolesko-icon>
+    </button>
+    <button (click)="nextSlider()"
+      class="size-xl absolute -right-[18px] rounded transition-all duration-75 hover:bg-redy-800 bg-redy-300 flex justify-center items-center scale-110">
+      <kolesko-icon name="outline-chevron-right" class="text-kimberly-50"></kolesko-icon>
+    </button>
+  </div>
+</div>
+} @else {
+<div>
+  <span>Щось пішло не так!</span>
+</div>
+}
