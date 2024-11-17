@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { SliderDefaultComponent } from './ui/slider-default/slider-default.component';
 import { CoreModule } from "../core/core.module";
 import { SliderLightComponent } from './ui/slider-light/slider-light.component';
+import { AppendTextPipe } from './pipes/append-text.pipe';
 
 
 
 @NgModule({
   declarations: [
     SliderDefaultComponent,
-    SliderLightComponent
+    SliderLightComponent,
+    AppendTextPipe
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { SliderLightComponent } from './ui/slider-light/slider-light.component';
 ],
   exports:[
     SliderDefaultComponent,
-    SliderLightComponent
+    SliderLightComponent,
+    AppendTextPipe
   ]
 })
 export class SharedModule { }

@@ -1,4 +1,5 @@
 import {Component, Input } from '@angular/core';
+import { Vehicle } from '../../../../shared/models/ApiModels/Vehicle';
 
 @Component({
   selector: 'app-type-exhibit-section',
@@ -6,7 +7,7 @@ import {Component, Input } from '@angular/core';
   styleUrl: './type-exhibit-section.component.css'
 })
 export class TypeExhibitSectionComponent {
-  @Input() vehicles!: any;
+  @Input() vehicles!: Vehicle[];
 
   selectedItemIndex: number = 0;
   

@@ -6,7 +6,7 @@ import { NotFoundComponent } from './core/ui/not-found/not-found.component';
 const routes: Routes = [
   {
     path: '',
-    title: 'home',
+    title: 'Home',
     component: HomeComponent,
   },
   {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
+import { Vehicle } from '../../shared/models/ApiModels/Vehicle';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,7 @@ import { HomeService } from './home.service';
 })
 export class HomeComponent implements OnInit {
   vehicleCount: number = 20;
-  vehicles: any = [];
+  vehicles: Vehicle[] = [];
 
   constructor(private homeservice: HomeService) { }
   ngOnInit(): void {
@@ -16,10 +17,10 @@ export class HomeComponent implements OnInit {
 
   getVehicles() {
     this.homeservice.getVehicles(this.vehicleCount).subscribe({
-      next: (response) => {
+      next: (response: { items: Vehicle[]}) => {
         this.vehicles = response.items;
       },
-      error: (error) => { console.error(error), console.log('WTF') }
+      error: (error) => { console.error(error) }
     })
   }
 

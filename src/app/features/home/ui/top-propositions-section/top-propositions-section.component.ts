@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Vehicle } from '../../../../shared/models/ApiModels/Vehicle';
 
 @Component({
   selector: 'app-top-propositions-section',
@@ -6,7 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './top-propositions-section.component.css'
 })
 export class TopPropositionsSectionComponent {
-  @Input() vehicles!: any;
-
-  selectedItemIndex: number = 0;
+  @Input() vehicles!: Vehicle[];
 }
