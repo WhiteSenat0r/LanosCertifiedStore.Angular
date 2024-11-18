@@ -1,3 +1,11 @@
 xng-breadcrumb {
     @apply block w-full text-portGore-800 container pt-sm
 }
+
+.wrapper {
+    @apply flex flex-col min-h-full;
+}
+
+.wrapper app-footer {
+    @apply mt-auto;
+}

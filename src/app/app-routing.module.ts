@@ -8,13 +8,13 @@ const routes: Routes = [
     path: '',
     title: 'Home',
     component: HomeComponent,
-    data: { breadcrumb: 'Колеско' }
+    data: { breadcrumb: { label: 'Колеско', info: 'home_xng'} }
   },
   {
     path: 'catalog',
     title: 'catalog',
     loadChildren: () => import('./features/catalog/catalog.module').then(m => m.CatalogModule),
-    data: { breadcrumb: 'Каталог' }
+    data: { breadcrumb: { label: 'Каталог'} }
   },
   { path: '**', component: NotFoundComponent },
 ];

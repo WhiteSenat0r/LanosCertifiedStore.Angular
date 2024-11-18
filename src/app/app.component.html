@@ -1,10 +1,13 @@
-<app-header></app-header>
-@if(!isMainPage)
-{
-    <xng-breadcrumb separator=" → "></xng-breadcrumb>
-}
-
-
-<router-outlet></router-outlet>
-<app-footer></app-footer>
- 
+<div class="wrapper">
+    <app-header></app-header>
+    <xng-breadcrumb *ngIf="!isMainPage" separator=" → ">
+        <ng-container *xngBreadcrumbItem="let breadcrumb; let info = info; let first = first">
+            <span class="flex gap-xs">
+                <kolesko-icon *ngIf="info" [name]="info" [size]="16" class="mt-[2px]"></kolesko-icon>
+                {{ breadcrumb }}
+            </span>
+        </ng-container>
+    </xng-breadcrumb>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+</div>
