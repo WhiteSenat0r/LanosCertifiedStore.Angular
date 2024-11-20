@@ -1,0 +1,34 @@
+.other-section-bg {
+  background-position: right 20px bottom -25px;
+  background-size: 100%;
+  background-repeat: repeat-x;
+}
+
+@media (max-width: 1024px) {
+  .other-section-bg {
+    background-position: right 20px bottom -40px;
+    background-size: 35% !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .other-section-bg {
+    background-position: right 20px bottom -30px;
+    background-size: 40% !important;
+  }
+}
+
+
+@media (max-width: 640px) {
+  .other-section-bg {
+    background-position: right 20px bottom -25px;
+  }
+}
+
+@media (max-width: 500px) {
+  .other-section-bg {
+    background-position: right 20px bottom -20px;
+    background-size: 60% !important;
+  }
+}

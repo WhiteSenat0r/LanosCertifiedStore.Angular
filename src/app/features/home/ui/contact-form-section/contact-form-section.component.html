@@ -1,1 +1,164 @@
-<p>contact-form-section works!</p>
+<section class="container mx-auto py-[60px] flex justify-center">
+  <div
+    class="flex flex-col lg:flex-row-reverse w-[1100px] max-w-[1100px] rounded overflow-hidden"
+  >
+    <!--Form section-->
+    <form class="bg-kimberly-50 grow py-base px-base sm:py-lg sm:px-xl">
+      <span class="block text-content-primary font-code text-h5 mb-xs"
+        >ЗАПОВНІТЬ БЛАНК</span
+      >
+      <span class="block text-content-primary text-[32px] font-medium"
+        >Подати свій запит</span
+      >
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 gap-[12px] sm:gap-[28px] mt-sm sm:mt-[32px]"
+      >
+        <!--Dropdown list: pick type of request purpose -->
+        <div class="relative h-full" id="request-type-dropdown-element">
+          <!--Chosen option-->
+          <div
+            class="flex flex-col h-full group cursor-pointer"
+            (click)="handleShowRequests()"
+          >
+            <span class="hidden sm:block Mimic_label text-content-primary"
+              >Оберіть тип реквесту <span>*</span></span
+            >
+            <span class="block sm:hidden Mimic_label text-content-primary"
+              >Оберіть реквест <span>*</span></span
+            >
+            <div
+              class="grow flex justify-between items-end px-sm pb-sm border-b-2 border-content-primary"
+            >
+              @if(requestPurpose) {
+              <span>{{ requestPurpose }}</span>
+              } @else{
+              <span
+                class="hidden md:block text-gray-600 overflow-hidden text-nowrap"
+                >Оберіть тип вашого повідомлення</span
+              >
+              <span
+                class="block md:hidden text-gray-600 overflow-hidden text-nowrap"
+                >Оберіть тип</span
+              >
+              }
+              <kolesko-icon
+                [size]="18"
+                class="text-content-primary transition-all duration-300 rotate-90 group-hover:scale-125"
+              ></kolesko-icon>
+            </div>
+          </div>
+
+          <!--List of options-->
+          <ul
+            [@slideUp]="showRequests ? 'open' : 'closed'"
+            [ngStyle]="{ display: showRequests ? 'block' : 'none' }"
+            class="absolute border-[1px] bg-kimberly-50 border-portGore-950 rounded top-[calc(100%+8px)] left-[0px] w-full"
+          >
+            @for(item of items; track $index) {
+            <li
+              class="px-sm py-xs cursor-pointer transition-all duration-150 hover:bg-portGore-100"
+              (click)="handleRequestOptionClick(item)"
+            >
+              {{ item }}
+            </li>
+            }
+          </ul>
+        </div>
+        <!--Input: email-->
+        <div class="flex flex-col">
+          <label for="email" class="text-content-primary"
+            >Email <span>*</span></label
+          >
+          <input
+            type="email"
+            name="email"
+            placeholder="Введіть ваш емейл"
+            class="w-full appearance-none bg-transparent border-x-0 border-t-0 border-b-2 border-content-primary focus:border-content-primary focus:ring-0 placeholder-gray-600"
+          />
+        </div>
+
+        <!--Input: name-->
+        <div class="flex flex-col">
+          <label for="name" class="text-content-primary"
+            >Ваше ім'я <span>*</span></label
+          >
+          <input
+            type="text"
+            name="name"
+            placeholder="Введіть ваше ім'я"
+            class="w-full appearance-none bg-transparent border-x-0 border-t-0 border-b-2 border-content-primary focus:border-content-primary focus:ring-0 placeholder-gray-600"
+          />
+        </div>
+
+        <!--Dropdown list: pick country -->
+        <div class="relative h-full" id="country-dropdown-element">
+          <!--Chosen option-->
+          <div
+            class="flex flex-col h-full group cursor-pointer"
+            (click)="handleShowCountries()"
+          >
+            <span class="Mimic_label block text-content-primary"
+              >Оберіть країну <span>*</span></span
+            >
+            <div
+              class="grow flex justify-between items-end px-sm pb-sm border-b-2 border-content-primary overflow-hidden"
+            >
+              @if(country) {
+              <span>{{ country }}</span>
+              } @else{
+              <span
+                class="hidden md:block text-gray-600 overflow-hidden text-nowrap"
+                >Виберіть вашу країну</span
+              >
+              <span
+                class="block md:hidden text-gray-600 overflow-hidden text-nowrap"
+                >Виберіть країну</span
+              >
+              }
+              <kolesko-icon
+                [size]="18"
+                class="text-content-primary transition-all duration-300 rotate-90 group-hover:scale-125"
+              ></kolesko-icon>
+            </div>
+          </div>
+
+          <!--List of options-->
+          <ul
+            [@slideUp]="showCountries ? 'open' : 'closed'"
+            [ngStyle]="{ display: showCountries ? 'block' : 'none' }"
+            class="absolute border-[1px] bg-kimberly-50 border-portGore-950 rounded-sm top-[calc(100%+8px)] left-[0px] w-full"
+          >
+            @for(country of countries; track $index) {
+            <li
+              class="px-sm py-xs cursor-pointer transition-all duration-150 hover:bg-portGore-100"
+              (click)="handleCountryOptionClick(country)"
+            >
+              {{ country }}
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      <div
+        class="w-full mt-[12px] sm:mt-lg border-0 border-b-2 pr-[1px] border-content-primary"
+      >
+        <label for="message">Повідомлення <span>*</span></label>
+        <textarea
+          name="message"
+          placeholder="Почніть писати тут..."
+          class="h-[100px] w-full bg-transparent border-0 placeholder-gray-600"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col w-full mt-base sm:mt-md md:mt-lg">
+        <button
+          class="self-center transition-all  duration-500 bg-redy-800 hover:bg-redy-950 px-base py-sm text-md font-medium text-kimberly-50 rounded"
+        >
+          {{ "підтвердити" | uppercase }}
+        </button>
+      </div>
+    </form>
+    <!--Other section-->
+    <app-other-info-section></app-other-info-section>
+  </div>
+</section>

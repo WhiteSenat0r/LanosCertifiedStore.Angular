@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { AdBlockSectionComponent } from './ui/ad-block-section/ad-block-section.component';
 import { ContactFormSectionComponent } from './ui/contact-form-section/contact-form-section.component';
 import { AdvancedSearchComponent } from './ui/advanced-search/advanced-search.component';
+import { OtherInfoSectionComponent } from './ui/contact-form-section/other-info-section/other-info-section.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { AdvancedSearchComponent } from './ui/advanced-search/advanced-search.co
     AdBlockSectionComponent,
     ContactFormSectionComponent,
     AdvancedSearchComponent,
+    OtherInfoSectionComponent,
   ],
   imports: [
     CommonModule,

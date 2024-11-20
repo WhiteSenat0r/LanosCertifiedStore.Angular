@@ -1,0 +1,52 @@
+ul {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 120px;
+}
+
+ul::-webkit-scrollbar, textarea::-webkit-scrollbar{
+  width: 5px;
+}
+
+ul::-webkit-scrollbar-track {
+  @apply bg-portGore-200
+}
+
+textarea::-webkit-scrollbar-track {
+  @apply bg-portGore-200 rounded-sm
+}
+
+ul::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {
+  @apply bg-portGore-950
+}
+
+textarea::-webkit-scrollbar-thumb {
+  @apply rounded-sm cursor-default
+}
+
+ul::-webkit-scrollbar-thumb:hover, textarea::-webkit-scrollbar-thumb:hover {
+   @apply bg-portGore-700
+}
+
+input {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-left: 8px;
+  padding-right: 0px;
+  background-clip: text;
+}
+
+textarea {
+  overflow: auto;
+  outline: none;
+
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 0px;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+}
