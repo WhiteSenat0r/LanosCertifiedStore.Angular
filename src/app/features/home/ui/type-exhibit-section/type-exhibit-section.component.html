@@ -10,18 +10,18 @@
   </div>
 
   <ul class="bypassJerkingOfOtherElements flex flex-row flex-wrap justify-center items-center gap-base mb-[36px] mt-[2px]">
-    @for(item of items; track item) {
+    @for(bodyType of filteredBodyTypes; track bodyType; let i = $index) {
     <li
       class="text-portGore-700 text-lg cursor-pointer hover:scale-105 transition-all duration-75 outline-none border-b-2 border-portGore-50"
       [ngClass]="{
-        'text-redy-800 scale-105 border-redy-800 rounded-sm': selectedItemIndex === $index
+        'text-redy-800 scale-105 border-redy-800 rounded-sm': selectedBodyTypeIndex === $index
       }"
-      (click)="selectedItemIndex = $index"
+      (click)="handleTypeClick(bodyType, i)"
     >
-      {{ item }}
+      {{ bodyType.name }}
     </li>
 
     } @empty { Помилка! }
   </ul>
- <app-slider-default [vehicles]="vehicles" ></app-slider-default>
+ <app-slider-default [vehicles]="vehicles"></app-slider-default>
 </section>

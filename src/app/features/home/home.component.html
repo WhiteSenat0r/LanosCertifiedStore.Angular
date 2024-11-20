@@ -1,7 +1,6 @@
 <div class="flex flex-col">
-  <app-contact-form-section></app-contact-form-section>
   <app-hero-section></app-hero-section>
-  <app-type-exhibit-section [vehicles]="vehicles"></app-type-exhibit-section>
+  <app-type-exhibit-section [vehicles]="vehiclesByBodyType" [bodyTypes]="bodyTypes" (clickedBodyTypeEvent)="handleClickedBodyTypeEvent($event)"></app-type-exhibit-section>
   <div class="bg-portGore-700">
     <app-top-propositions-section
       [vehicles]="vehicles"
@@ -12,4 +11,6 @@
   <div class="bg-portGore-700 min-h-[572px]">
     <app-advanced-search></app-advanced-search>
   </div>
+
+  <app-contact-form-section></app-contact-form-section>
 </div>

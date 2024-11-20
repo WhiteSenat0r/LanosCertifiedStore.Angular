@@ -3,7 +3,7 @@
     class="flex flex-col lg:flex-row-reverse w-[1100px] max-w-[1100px] rounded overflow-hidden"
   >
     <!--Form section-->
-    <form class="bg-kimberly-50 grow py-base px-base sm:py-lg sm:px-xl">
+    <form class="bg-kimberly-50 grow py-base px-base sm:py-lg sm:px-xl" (submit)="onSubmit($event)">
       <span class="block text-content-primary font-code text-h5 mb-xs"
         >ЗАПОВНІТЬ БЛАНК</span
       >
@@ -152,6 +152,7 @@
 
       <div class="flex flex-col w-full mt-base sm:mt-md md:mt-lg">
         <button
+          type="submit"
           class="self-center transition-all  duration-500 bg-redy-800 hover:bg-redy-950 px-base py-sm text-md font-medium text-kimberly-50 rounded"
         >
           {{ "підтвердити" | uppercase }}

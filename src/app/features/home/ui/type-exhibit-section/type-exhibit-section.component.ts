@@ -1,24 +1,33 @@
-import {Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Vehicle } from '../../../../shared/models/ApiModels/Vehicle';
+import { BodyType } from '../../../../shared/models/ApiModels/BodyType';
 
 @Component({
   selector: 'app-type-exhibit-section',
   templateUrl: './type-exhibit-section.component.html',
-  styleUrl: './type-exhibit-section.component.css'
+  styleUrl: './type-exhibit-section.component.css',
 })
-export class TypeExhibitSectionComponent {
+export class TypeExhibitSectionComponent implements OnChanges {
   @Input() vehicles!: Vehicle[];
+  @Input() bodyTypes!: BodyType[];
 
-  selectedItemIndex: number = 0;
-  
-  items: string[] = [
-    'Усі',
-    'Новий',
-    'Старий',
-    'Зношений',
-    'Тупий',
-    'Святий',
-    'Ніякий',
-  ];
+  @Output() clickedBodyTypeEvent = new EventEmitter<BodyType>();
 
+  selectedBodyTypeIndex: number = 0;
+
+  public filteredBodyTypes: BodyType[] = [];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['bodyTypes'] && this.bodyTypes) {
+      this.filteredBodyTypes = [
+        { id: '0', name: 'Усі' },
+        ...this.bodyTypes,
+      ].slice(0, 7);
+    }
+  }
+
+  handleTypeClick(bodyType: BodyType, index: number) {
+    this.selectedBodyTypeIndex = index;
+    this.clickedBodyTypeEvent.emit(bodyType);
+  }
 }

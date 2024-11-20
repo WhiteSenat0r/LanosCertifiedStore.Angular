@@ -21,7 +21,6 @@ export class SliderLightComponent implements OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['vehicles'] && this.vehicles?.length) {
-      console.log(this.vehicles);
       if (this.splide) {
         this.splide.destroy();
       }

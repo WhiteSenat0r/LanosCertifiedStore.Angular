@@ -88,4 +88,9 @@ export class ContactFormSectionComponent {
       this.showRequests = false;
     }
   }
+
+  onSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    console.log('Form submitted');
+  }
 }
