@@ -9,8 +9,9 @@ import { TopPropositionsSectionComponent } from './ui/top-propositions-section/t
 import { RouterModule } from '@angular/router';
 import { AdBlockSectionComponent } from './ui/ad-block-section/ad-block-section.component';
 import { ContactFormSectionComponent } from './ui/contact-form-section/contact-form-section.component';
-import { AdvancedSearchComponent } from './ui/advanced-search/advanced-search.component';
 import { OtherInfoSectionComponent } from './ui/contact-form-section/other-info-section/other-info-section.component';
+import { AdvancedSearchSectionComponent } from './ui/advanced-search-section/advanced-search-section.component';
+import { AdvancedInputsFormComponent } from './ui/advanced-search-section/advanced-inputs-form/advanced-inputs-form.component';
 
 
 @NgModule({
@@ -21,8 +22,9 @@ import { OtherInfoSectionComponent } from './ui/contact-form-section/other-info-
     TopPropositionsSectionComponent,
     AdBlockSectionComponent,
     ContactFormSectionComponent,
-    AdvancedSearchComponent,
     OtherInfoSectionComponent,
+    AdvancedSearchSectionComponent,
+    AdvancedInputsFormComponent,
   ],
   imports: [
     CommonModule,
