@@ -1,9 +1,9 @@
 <div class="flex flex-col">
   <app-hero-section></app-hero-section>
-  <app-type-exhibit-section [vehicles]="vehiclesByBodyType" [bodyTypes]="bodyTypes" (clickedBodyTypeEvent)="handleClickedBodyTypeEvent($event)"></app-type-exhibit-section>
+  <app-type-exhibit-section [vehicles]="vehicles" [bodyTypes]="bodyTypes" (clickedBodyTypeEvent)="handleClickedBodyTypeEvent($event)"></app-type-exhibit-section>
   <div class="bg-portGore-700">
     <app-top-propositions-section
-      [vehicles]="vehicles"
+      [vehicles]="topPriceVehicles"
     ></app-top-propositions-section>
   </div>
   <app-ad-block-section></app-ad-block-section>

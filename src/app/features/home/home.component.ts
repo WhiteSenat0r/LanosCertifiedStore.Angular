@@ -12,19 +12,30 @@ export class HomeComponent implements OnInit {
   vehicles: Vehicle[] = [];
   bodyTypes: BodyType[] = [];
 
-  private chosenBodyType?: BodyType;
-  vehiclesByBodyType: Vehicle[] = [];
+  topPriceVehicles: Vehicle[] = [];
 
   constructor(private homeservice: HomeService) {}
   ngOnInit(): void {
     this.getVehicles();
+    this.getTopPriceVehicles(50000);
     this.getBodyTypes();
   }
 
-  getVehicles() {
-    this.homeservice.getVehicles().subscribe({
+  getVehicles(vehicleCount?: number, bodyTypeId?: string) {
+    this.homeservice.getVehicles(vehicleCount, bodyTypeId).subscribe({
       next: (response: { items: Vehicle[] }) => {
         this.vehicles = response.items;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
+  getTopPriceVehicles(LowerPriceLimit: number) {
+    this.homeservice.getVehicles(undefined, undefined, LowerPriceLimit).subscribe({
+      next: (response: { items: Vehicle[] }) => {
+        this.topPriceVehicles = response.items;
       },
       error: (error) => {
         console.error(error);
@@ -44,15 +55,10 @@ export class HomeComponent implements OnInit {
   }
 
   handleClickedBodyTypeEvent(bodyType: BodyType) {
-    this.chosenBodyType = bodyType;
-
-    this.homeservice.getVehicles(undefined, this.chosenBodyType.id).subscribe({
-      next: (response: { items: Vehicle[] }) => {
-        this.vehiclesByBodyType = response.items;
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    })
+    if (bodyType.id !== '0') {
+      this.getVehicles(undefined, bodyType.id);
+    } else {
+      this.getVehicles();
+    }
   }
 }

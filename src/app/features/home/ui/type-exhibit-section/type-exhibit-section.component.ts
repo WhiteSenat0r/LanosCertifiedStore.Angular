@@ -22,7 +22,7 @@ export class TypeExhibitSectionComponent implements OnChanges {
       this.filteredBodyTypes = [
         { id: '0', name: 'Усі' },
         ...this.bodyTypes,
-      ].slice(0, 7);
+      ];
     }
   }
 

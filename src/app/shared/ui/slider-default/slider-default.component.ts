@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnDestroy,
@@ -14,6 +15,12 @@ import { Vehicle } from '../../models/ApiModels/Vehicle';
   styleUrls: ['./slider-default.component.css'],
 })
 export class SliderDefaultComponent implements OnChanges, OnDestroy {
+  handleImageError(event: Event): void {
+    const element = event.target as HTMLImageElement;
+    setTimeout(() => {
+      element.src = 'assets/images/Home/car-placeholder.png';
+    });
+  }
   @Input() vehicles: Vehicle[] = [];
 
   splide?: Splide;
@@ -40,18 +47,18 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
       focus: 0,
       gap: '1rem',
       arrows: false,
-      drag:false,
+      drag: false,
       breakpoints: {
         1024: { perPage: 3 },
-        768: { perPage: 2, padding: {right: '10rem'}, drag: true },
-        640: { perPage: 2, padding: '0rem'},
-        500: {perPage: 1, padding: '0rem'},
+        768: { perPage: 2, padding: { right: '10rem' }, drag: true },
+        640: { perPage: 2, padding: '0rem' },
+        500: { perPage: 1, padding: '0rem' },
       },
     }).mount();
 
     this.splide.on('move', (newIndex) => {
       this.currentSlide = newIndex;
-    })
+    });
   }
 
   goToSlide(index: number) {
