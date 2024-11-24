@@ -6,12 +6,11 @@
       <li #splide_slide_element class="splide__slide group cursor-pointer">
         <!--Main breakpoint slideElementview-->
         <div class="hidden sm:flex flex-col bg-portGore-700 h-[344px] rounded">
-          <div class="rounded-t h-[56%] overflow-clip">
+          <div class="rounded-t h-[56%] !overflow-clip">
             <img
               [src]="vehicle.mainImageUrl"
               (error)="handleImageError($event)"
-              class="w-full tranisition-all duration-500 rounded-t h-full object-cover group-hover:scale-105"
-              style="overflow-clip-margin: unset"
+              class="w-full transition-all duration-500 rounded-t h-full object-cover group-hover:scale-105"
               alt="Vehicle Image"
             />
           </div>

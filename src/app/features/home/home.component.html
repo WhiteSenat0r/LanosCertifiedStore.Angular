@@ -12,7 +12,11 @@
   </div>
   <app-ad-block-section></app-ad-block-section>
   <div class="bg-portGore-700">
-    <app-advanced-search-section></app-advanced-search-section>
+    <app-advanced-search-section
+      [priceRange$]="priceRange$"
+      [DropDownElementUlInfo]="DropDownElementUlInfo"
+      (getInfoForUlEvent)="handleGetInfoForUlEvent($event)"
+    ></app-advanced-search-section>
   </div>
   <app-contact-form-section></app-contact-form-section>
 </div>

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EngineType } from '../../../../shared/models/ApiModels/EngineType';
 
 @Component({
   selector: 'app-advanced-search-section',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrl: './advanced-search-section.component.css'
 })
 export class AdvancedSearchSectionComponent {
+  @Input() DropDownElementUlInfo?: EngineType[];
+  @Input() priceRange$!: Observable<any>;
 
+  @Output() getInfoForUlEvent = new EventEmitter<string>();
+
+  handleGetInfoForUlEvent(data: string) {
+    this.getInfoForUlEvent.emit(data);
+
+  }
 }

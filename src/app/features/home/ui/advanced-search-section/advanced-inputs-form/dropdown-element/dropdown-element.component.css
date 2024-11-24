@@ -1,0 +1,21 @@
+.always-visible {
+  @apply bg-redy-800 opacity-100 w-sm;
+}
+
+ul {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 144px;
+}
+
+ul::-webkit-scrollbar{
+  width: 8px;
+}
+
+ul::-webkit-scrollbar-track {
+  @apply bg-redy-300;
+}
+
+ul::-webkit-scrollbar-thumb {
+  @apply bg-redy-800;
+}

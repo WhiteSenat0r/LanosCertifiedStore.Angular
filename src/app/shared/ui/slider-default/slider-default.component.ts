@@ -17,9 +17,7 @@ import { Vehicle } from '../../models/ApiModels/Vehicle';
 export class SliderDefaultComponent implements OnChanges, OnDestroy {
   handleImageError(event: Event): void {
     const element = event.target as HTMLImageElement;
-    setTimeout(() => {
-      element.src = 'assets/images/Home/car-placeholder.png';
-    });
+    element.src = 'assets/images/Home/car-placeholder.png';
   }
   @Input() vehicles: Vehicle[] = [];
 

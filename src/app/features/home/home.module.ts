@@ -13,6 +13,7 @@ import { OtherInfoSectionComponent } from './ui/contact-form-section/other-info-
 import { AdvancedSearchSectionComponent } from './ui/advanced-search-section/advanced-search-section.component';
 import { AdvancedInputsFormComponent } from './ui/advanced-search-section/advanced-inputs-form/advanced-inputs-form.component';
 import { FormsModule } from '@angular/forms';
+import { DropdownElementComponent } from './ui/advanced-search-section/advanced-inputs-form/dropdown-element/dropdown-element.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     OtherInfoSectionComponent,
     AdvancedSearchSectionComponent,
     AdvancedInputsFormComponent,
+    DropdownElementComponent,
   ],
   imports: [
     CommonModule,

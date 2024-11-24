@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Vehicle } from '../../shared/models/ApiModels/Vehicle';
 import { BodyType } from '../../shared/models/ApiModels/BodyType';
+import { EngineType } from '../../shared/models/ApiModels/EngineType';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +31,13 @@ export class HomeService {
 
   getBrands(): Observable<any> {
     return this.http.get<any>(this.baseUrl + 'Brands' + '?ItemQuantity=100');
+  }
+
+  getPriceRanges(): Observable<{ lowest: number, highest: number}> {
+    return this.http.get<{ lowest: number, highest: number}>(this.baseUrl + 'vehicles/price-range')
+  }
+
+  getEngineTypes(): Observable<{ items: EngineType[]}> {
+    return this.http.get<{ items: EngineType[]}>(this.baseUrl + 'engine-types')
   }
 }

@@ -12,3 +12,16 @@
     @apply text-sm font-light;
   }
 }
+
+@media (min-width: 640px) {
+  .image-scale-fix {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+  }
+}
+
+img,
+video,
+canvas {
+  overflow: hidden;
+}
