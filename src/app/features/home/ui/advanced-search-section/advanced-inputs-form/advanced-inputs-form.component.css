@@ -1,0 +1,66 @@
+:host {
+  --range-value: 0%;
+}
+
+input[type="range"]::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(100% - var(--range-value));
+  height: 4px;
+  background: repeating-linear-gradient(
+    270deg,
+    /* Horizontal direction */ #ffffff 0,
+    /* from 0px */ #ffffff 12px,
+    /* to 12px */ transparent 12px,
+    /* from 12px */ transparent 28px /* to 20px */
+  );
+}
+
+input[type="range"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--range-value);
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    /* Horizontal direction */ #f74a4d 0,
+    /* from 0px */ #f74a4d 12px,
+    /* to 12px */ transparent 12px,
+    /* from 12px */ transparent 28px /* to 20px */
+  );
+}
+
+input[type="range"] {
+  @apply bg-transparent z-10;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  position: relative;
+  -webkit-appearance: none;
+  width: 60px;
+  height: 28px;
+  background: url("/assets/images/Home/car-for-slider-normal.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  z-index: 100;
+  top: 1px;
+  transform: scale(1.5);
+  transition: transform 0.175s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.75);
+}

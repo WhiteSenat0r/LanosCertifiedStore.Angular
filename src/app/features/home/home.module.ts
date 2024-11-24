@@ -12,6 +12,7 @@ import { ContactFormSectionComponent } from './ui/contact-form-section/contact-f
 import { OtherInfoSectionComponent } from './ui/contact-form-section/other-info-section/other-info-section.component';
 import { AdvancedSearchSectionComponent } from './ui/advanced-search-section/advanced-search-section.component';
 import { AdvancedInputsFormComponent } from './ui/advanced-search-section/advanced-inputs-form/advanced-inputs-form.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { AdvancedInputsFormComponent } from './ui/advanced-search-section/advanc
     CommonModule,
     SharedModule,
     CoreModule,
-    RouterModule
+    RouterModule,
+    FormsModule
 ],
   exports: [
     HomeComponent
