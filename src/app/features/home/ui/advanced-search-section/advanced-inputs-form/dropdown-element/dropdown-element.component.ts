@@ -18,14 +18,14 @@ import { EngineType } from '../../../../../../shared/models/ApiModels/EngineType
         'open',
         style({
           height: '144px',
-          display: 'flex',
+          visibility: 'visible'
         })
       ),
       state(
         'closed',
         style({
-          height: '0',
-          display: 'none',
+          height: '0px',
+          visibility: 'hidden'
         })
       ),
       transition('closed => open', [animate('150ms ease-out')]),
