@@ -5,15 +5,23 @@
       @for(vehicle of vehicles; track vehicle.id) {
       <li #splide_slide_element class="splide__slide group cursor-pointer">
         <!--Main breakpoint slideElementview-->
-        <div class="hidden sm:flex flex-col bg-portGore-700 h-[344px] rounded">
+        <div
+          class="relative hidden sm:flex flex-col bg-portGore-700 h-[344px] rounded"
+        >
           <div class="rounded-t h-[56%] !overflow-clip">
             <img
               [src]="vehicle.mainImageUrl"
-              (error)="handleImageError($event)"
-              class="w-full transition-all duration-500 rounded-t h-full object-cover group-hover:scale-105"
+              (error)="handleImageError($event, vehicle)"
+              class="transition-transform duration-500 ease-in-out object-cover h-full w-full group-hover:scale-105"
+              style="image-rendering: -webkit-optimize-contrast"
               alt="Vehicle Image"
             />
           </div>
+          <!--Chip siteholder-->
+          <img
+            src="assets/images/logo/logo-dark.png"
+            class="absolute top-sm left-sm h-[46px] w-[41px] scale-75 opacity-95"
+          />
           <!--Info block-->
           <div class="px-[8px]">
             <span
@@ -90,14 +98,22 @@
         </div>
         <!--sm breakpoint slideElementView-->
         <div
-          class="flex flex-row sm:hidden h-full bg-content-secondary rounded"
+          class="relative flex flex-row sm:hidden h-full bg-content-secondary rounded"
         >
-          <div class="w-[60%] rounded-l">
+          <div class="w-[60%] rounded-l !overflow-clip">
             <img
-              src="assets/images/team/DA.jpg"
-              class="w-full rounded-l h-full object-cover"
+              [src]="vehicle.mainImageUrl"
+              (error)="handleImageError($event, vehicle)"
+              class="object-cover h-full w-full"
+              style="image-rendering: -webkit-optimize-contrast"
+              alt="Vehicle Image"
             />
           </div>
+          <!--Chip siteholder-->
+          <img
+            src="assets/images/logo/logo-dark.png"
+            class="absolute top-sm left-sm h-[46px] w-[41px] scale-75 opacity-95"
+          />
           <div class="w-[40%]">
             <div
               class="text-center text-kimberly-50 text-lg font-medium flex flex-col h-full"

@@ -15,9 +15,22 @@ import { Vehicle } from '../../models/ApiModels/Vehicle';
   styleUrls: ['./slider-default.component.css'],
 })
 export class SliderDefaultComponent implements OnChanges, OnDestroy {
-  handleImageError(event: Event): void {
-    const element = event.target as HTMLImageElement;
-    element.src = 'assets/images/Home/car-placeholder.png';
+  handleImageError(event: Event, vehicle: Vehicle): void {
+    // Оновлюємо URL зображення в масиві vehicles
+    const vehicleIndex = this.vehicles.findIndex((v) => v === vehicle);
+    if (vehicleIndex !== -1) {
+      this.vehicles[vehicleIndex] = {
+        ...vehicle,
+        mainImageUrl: 'assets/images/Home/car-placeholder2.png',
+      };
+      // Перезавантажуємо слайдер після зміни URL
+      if (this.splide) {
+        this.splide.destroy();
+        setTimeout(() => {
+          this.initializeSplide();
+        });
+      }
+    }
   }
   @Input() vehicles: Vehicle[] = [];
 
@@ -33,6 +46,8 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
       // It's important, so it to be initialized after Angular render DOM
       setTimeout(() => {
         this.initializeSplide();
+        console.dir(this.vehicles)
+        console.log(this.vehicles)
       });
     }
   }
@@ -69,6 +84,7 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
 
   prevSlider() {
     this.splide?.go('-1');
+    console.log(JSON.stringify(this.vehicles));
   }
 
   ngOnDestroy() {
