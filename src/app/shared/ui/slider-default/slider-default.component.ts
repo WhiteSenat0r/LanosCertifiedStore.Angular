@@ -46,8 +46,6 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
       // It's important, so it to be initialized after Angular render DOM
       setTimeout(() => {
         this.initializeSplide();
-        console.dir(this.vehicles)
-        console.log(this.vehicles)
       });
     }
   }

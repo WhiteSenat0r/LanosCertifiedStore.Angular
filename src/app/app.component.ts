@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      this.isMainPage = this.router.url === '/';
+      this.isMainPage = (this.router.url === '/' || this.router.url === '/#');
       // console.log('URL changed:', this.router.url);
       // console.log('isMainPage:', this.isMainPage);
     });
