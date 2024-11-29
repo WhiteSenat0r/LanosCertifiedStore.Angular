@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { Vehicle } from '../../../../shared/models/ApiModels/Vehicle';
+import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
 
 @Component({
   selector: 'app-top-propositions-section',
   templateUrl: './top-propositions-section.component.html',
-  styleUrl: './top-propositions-section.component.css'
+  styleUrl: './top-propositions-section.component.css',
 })
 export class TopPropositionsSectionComponent {
   @Input() vehicles!: Vehicle[];

@@ -5,7 +5,15 @@
 ul {
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 144px;
+  max-height: fit-content;
+}
+
+ul:empty{
+  display: none;
+}
+
+ul:has(li:nth-child(5)) {
+  max-height: none;
 }
 
 ul::-webkit-scrollbar{

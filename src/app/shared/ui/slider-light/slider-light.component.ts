@@ -6,12 +6,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import Splide from '@splidejs/splide';
-import { Vehicle } from '../../models/ApiModels/Vehicle';
+import { Vehicle } from '../../models/BaseApiModels/Vehicle';
 
 @Component({
   selector: 'app-slider-light',
   templateUrl: './slider-light.component.html',
-  styleUrl: './slider-light.component.css'
+  styleUrl: './slider-light.component.css',
 })
 export class SliderLightComponent implements OnChanges, OnDestroy {
   @Input() vehicles: Vehicle[] = [];
@@ -44,13 +44,13 @@ export class SliderLightComponent implements OnChanges, OnDestroy {
         1024: { perPage: 3 },
         768: { perPage: 2, padding: { right: '10rem' }, drag: true },
         640: { perPage: 2, padding: '0rem' },
-        500: {perPage: 1, padding: '0rem'},
+        500: { perPage: 1, padding: '0rem' },
       },
     }).mount();
 
     this.splide.on('move', (newIndex) => {
       this.currentSlide = newIndex;
-    }) 
+    });
   }
 
   goToSlide(index: number) {
@@ -71,4 +71,3 @@ export class SliderLightComponent implements OnChanges, OnDestroy {
     }
   }
 }
-

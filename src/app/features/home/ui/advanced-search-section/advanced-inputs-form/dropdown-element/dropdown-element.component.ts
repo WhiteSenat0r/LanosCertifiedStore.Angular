@@ -5,8 +5,16 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { EngineType } from '../../../../../../shared/models/ApiModels/EngineType';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { DropdownHeaderData } from '../../../../models/DropdownHeaderData';
+import { DropdownElementData } from '../../../../models/DropdownElementData.enum';
 
 @Component({
   selector: 'app-dropdown-element',
@@ -18,14 +26,14 @@ import { EngineType } from '../../../../../../shared/models/ApiModels/EngineType
         'open',
         style({
           height: '144px',
-          visibility: 'visible'
+          visibility: 'visible',
         })
       ),
       state(
         'closed',
         style({
           height: '0px',
-          visibility: 'hidden'
+          visibility: 'hidden',
         })
       ),
       transition('closed => open', [animate('150ms ease-out')]),
@@ -34,20 +42,20 @@ import { EngineType } from '../../../../../../shared/models/ApiModels/EngineType
   ],
 })
 export class DropdownElementComponent implements OnInit {
-  @Input() divInterfaceData!: { iconUrl: string; info: string };
-  @Input() DropDownElementUlInfo?: EngineType[];
-  @Output() getInfoForUlEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Input() divInterfaceData!: DropdownHeaderData;
+  @Input() DropDownElementUlInfo?: string[];
+  @Output() getInfoForUlEvent: EventEmitter<DropdownElementData> =
+    new EventEmitter<DropdownElementData>();
   uniqueId: string = `dropdown-${Math.random().toString(36).slice(2, 11)}`;
   isShown: boolean = false;
 
   option: string = '';
 
   ngOnInit() {}
-  handleClick() {
+  handleClick(ApiCallOption: DropdownElementData) {
     this.isShown = !this.isShown;
-    if(this.isShown)
-    {
-      this.getInfoForUlEvent.emit('lol');
+    if (this.isShown) {
+      this.getInfoForUlEvent.emit(ApiCallOption);
     }
   }
 

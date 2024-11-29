@@ -1,25 +1,30 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
-import { Vehicle } from '../../shared/models/ApiModels/Vehicle';
-import { BodyType } from '../../shared/models/ApiModels/BodyType';
+import { Vehicle } from '../../shared/models/BaseApiModels/Vehicle';
+import { BodyType } from '../../shared/models/BaseApiModels/BodyType';
 import { Observable } from 'rxjs';
-import { EngineType } from '../../shared/models/ApiModels/EngineType';
+import { EngineType } from '../../shared/models/BaseApiModels/EngineType';
+import { ApiResponse } from '../../shared/models/ApiSpecificModels/ApiResponse';
+import { PriceRange } from './models/PriceRange';
+import { DropdownElementData } from './models/DropdownElementData.enum';
+import { LocationRegion } from '../../shared/models/BaseApiModels/LocationRegion';
+import { TransmissionType } from '../../shared/models/BaseApiModels/TransmissionType';
+import { Brand } from '../../shared/models/BaseApiModels/Brand';
+import { Model } from '../../shared/models/BaseApiModels/Model';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  @Output() getInfoForUlEvent = new EventEmitter<string>();
-  DropDownElementUlInfo?: EngineType[];
+  DropDownElementUlInfo: string[] = [];
 
-  handleGetInfoForUlEvent(data: string) {
-    this.homeservice.getEngineTypes().subscribe({
-      next: (response: { items: EngineType[]})=> {
-        this.DropDownElementUlInfo = response.items 
-      }
+  handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
+    this.homeservice.getDropDownData(ApiCallOption).subscribe({
+      next: (response: ApiResponse<Brand | Model | LocationRegion | TransmissionType | EngineType>) => {
+          this.DropDownElementUlInfo = response.items.map(item => item.name);
+      },  
     })
-
   }
 
   vehicleCount: number = 20;
@@ -27,8 +32,7 @@ export class HomeComponent implements OnInit {
   bodyTypes: BodyType[] = [];
 
   topPriceVehicles: Vehicle[] = [];
-
-  priceRange$!: Observable<any>;
+  priceRange$!: Observable<PriceRange>;
 
   constructor(private homeservice: HomeService) {}
   ngOnInit(): void {

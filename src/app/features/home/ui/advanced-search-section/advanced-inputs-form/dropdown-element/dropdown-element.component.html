@@ -1,7 +1,7 @@
 <div
   [id]="uniqueId"
   class="relative group flex flex-row rounded bg-kimberly-50 cursor-pointer h-full"
-  (click)="handleClick()"
+  (click)="handleClick(divInterfaceData.ApiCallOption)"
 >
   <div
     class="h-full transition-all bg-kimberly-50 duration-300 opacity-0 max-w-[8px] w-[0px] border-0 rounded-l group-hover:opacity-100 group-hover:bg-redy-800 group-hover:w-sm"
@@ -37,10 +37,10 @@
     @if(DropDownElementUlInfo) { @for(info of DropDownElementUlInfo; track
     $index) {
     <li
-      (click)="handleLiElementClick(info.name)"
+      (click)="handleLiElementClick(info)"
       class="py-sm pl-sm transition-all duration-75 hover:bg-redy-800 text-content-primary text-md hover:text-kimberly-50 rounded group"
     >
-      {{ info.name }}
+      {{ info }}
     </li>
     } }
   </ul>

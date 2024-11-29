@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const COLORS = require('./colors.js');
+const COLORS = require("./colors.js");
 
 module.exports = {
   content: ["./src/**/*.{html,ts}", "./node_modules/flowbite/**/*.js"],
@@ -37,7 +37,7 @@ module.exports = {
     fontFamily: {
       code: ["Source Code Pro", "monospace"],
       ubuntu: ["Ubuntu", "sans-serif"],
-      roboto: ["Roboto", "sans-serif"]
+      roboto: ["Roboto", "sans-serif"],
     },
 
     fontSize: {

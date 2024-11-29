@@ -9,7 +9,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EngineType } from '../../../../../shared/models/ApiModels/EngineType';
+import { PriceRange } from '../../../models/PriceRange';
+import { DropdownHeaderData } from '../../../models/DropdownHeaderData';
+import { DropdownElementData } from '../../../models/DropdownElementData.enum';
 
 @Component({
   selector: 'app-advanced-inputs-form',
@@ -17,36 +19,56 @@ import { EngineType } from '../../../../../shared/models/ApiModels/EngineType';
   styleUrl: './advanced-inputs-form.component.css',
 })
 export class AdvancedInputsFormComponent implements AfterViewInit {
-  gridDivArraysInfo: { iconUrl: string; info: string }[] = [
-    { iconUrl: 'calendar', info: 'Оберіть Рік' },
-    { iconUrl: 'car-2000', info: 'Оберіть Бренд' },
-    { iconUrl: 'car-change', info: 'Оберіть Модель' },
-    { iconUrl: 'google-location', info: 'Оберіть Область' },
-    { iconUrl: 'speedometr', info: 'Оберіть тип двигуна' },
-    { iconUrl: 'transmission', info: 'Оберіть тип трансмісії' },
+  gridDivArraysInfo: DropdownHeaderData[] = [
+    {
+      iconUrl: 'calendar',
+      info: 'Оберіть Рік',
+      ApiCallOption: DropdownElementData.engine,
+    },
+    {
+      iconUrl: 'car-2000',
+      info: 'Оберіть Бренд',
+      ApiCallOption: DropdownElementData.engine,
+    },
+    {
+      iconUrl: 'car-change',
+      info: 'Оберіть Модель',
+      ApiCallOption: DropdownElementData.engine,
+    },
+    {
+      iconUrl: 'google-location',
+      info: 'Оберіть Область',
+      ApiCallOption: DropdownElementData.engine,
+    },
+    {
+      iconUrl: 'speedometr',
+      info: 'Оберіть тип двигуна',
+      ApiCallOption: DropdownElementData.engine,
+    },
+    {
+      iconUrl: 'transmission',
+      info: 'Оберіть тип трансмісії',
+      ApiCallOption: DropdownElementData.engine,
+    },
   ];
 
   // Range input related properties
-  @Input() priceRange$!: Observable<{ lowest: number; highest: number }>;
+  @Input() priceRange$!: Observable<PriceRange>;
   @ViewChild('sliderRangeElement') mySlider!: ElementRef;
   lowestPriceValue!: number;
   highestPriceValue!: number;
   ourValue!: number;
 
+  constructor(private cdRef: ChangeDetectorRef) {}
+
   ngAfterViewInit(): void {
     // Range input related manipulations
-    this.priceRange$.subscribe((range: { lowest: number; highest: number }) => {
+    this.priceRange$.subscribe((range: PriceRange) => {
       this.lowestPriceValue = range.lowest;
       this.highestPriceValue = range.highest;
-      // this.ourValue =
-      // (((range.highest - range.lowest) * 0.3 + range.lowest) /
-      //   range.highest) *
-      // 100;
       this.updateCssVariableRangeValue();
     });
   }
-
-  constructor(private cdRef: ChangeDetectorRef) {}
 
   updateCssVariableRangeValue(): void {
     if (this.highestPriceValue === undefined || !this.mySlider) {
@@ -67,10 +89,10 @@ export class AdvancedInputsFormComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  @Output() getInfoForUlEvent = new EventEmitter<string>();
-  @Input() DropDownElementUlInfo?: EngineType[];
+  @Output() getInfoForUlEvent = new EventEmitter<DropdownElementData>();
+  @Input() DropDownElementUlInfo?: string[];
 
-  handleGetInfoForUlEvent(data: string) {
-    this.getInfoForUlEvent.emit(data);
+  handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
+    this.getInfoForUlEvent.emit(ApiCallOption);
   }
 }
