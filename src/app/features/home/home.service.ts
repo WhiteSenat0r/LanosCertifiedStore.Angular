@@ -50,7 +50,7 @@ export class HomeService {
   getDropDownData(
     apiCallOption: DropdownElementData
   ): Observable<
-    ApiResponse<Brand | Model | LocationRegion | TransmissionType | EngineType>
+    ApiResponse<Brand | Model | LocationRegion | TransmissionType | EngineType> | undefined
   > {
     switch (apiCallOption) {
       case DropdownElementData.engine:
@@ -70,8 +70,7 @@ export class HomeService {
           this.baseUrl + 'transmission-types'
         );
       default:
-        //potentially could be used just return of(undefined);
-        throw new Error();
+        return of(undefined);
     }
   }
 }

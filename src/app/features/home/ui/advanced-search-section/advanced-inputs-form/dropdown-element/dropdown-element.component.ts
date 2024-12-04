@@ -54,8 +54,19 @@ export class DropdownElementComponent implements OnInit {
   ngOnInit() {}
   handleClick(ApiCallOption: DropdownElementData) {
     this.isShown = !this.isShown;
-    if (this.isShown) {
-      this.getInfoForUlEvent.emit(ApiCallOption);
+    if (
+      this.isShown &&
+      (this.DropDownElementUlInfo === undefined ||
+        this.DropDownElementUlInfo.length === 0)
+    ) {
+      if (ApiCallOption !== DropdownElementData.year) {
+        this.getInfoForUlEvent.emit(ApiCallOption);
+      } else {
+        this.DropDownElementUlInfo = Array.from(
+          { length: 2024 - 1980 + 1 },
+          (_, i) => (1980 + i).toString()
+        );
+      }
     }
   }
 
@@ -67,7 +78,9 @@ export class DropdownElementComponent implements OnInit {
     }
   }
 
+  @Output() optionPickedEvent = new EventEmitter<{option: string, ApiCallOption: DropdownElementData}>();
   handleLiElementClick(option: string) {
+    this.optionPickedEvent.emit({option: option, ApiCallOption: this.divInterfaceData.ApiCallOption});
     this.option = option;
   }
 }

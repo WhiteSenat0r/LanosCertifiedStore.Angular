@@ -51,19 +51,20 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
   }
 
   private initializeSplide() {
+    const perPageLimit = Math.min(4, this.vehicles.length)
     this.splide = new Splide('#default-slider', {
       type: 'loop',
-      perPage: 4,
+      perPage: perPageLimit,
       pagination: false,
       focus: 0,
       gap: '1rem',
       arrows: false,
       drag: false,
       breakpoints: {
-        1024: { perPage: 3 },
-        768: { perPage: 2, padding: { right: '10rem' }, drag: true },
-        640: { perPage: 2, padding: '0rem' },
-        500: { perPage: 1, padding: '0rem' },
+        1024: { perPage: Math.min(3, this.vehicles.length) },
+        768: { perPage: Math.min(2, this.vehicles.length), padding: { right: '10rem' }, drag: true },
+        640: { perPage: Math.min(2, this.vehicles.length), padding: '0rem' },
+        500: { perPage: Math.min(1, this.vehicles.length), padding: '0rem' },
       },
     }).mount();
 

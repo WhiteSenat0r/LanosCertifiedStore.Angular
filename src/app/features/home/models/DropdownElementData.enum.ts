@@ -4,4 +4,5 @@ export enum DropdownElementData{
     brand = "BrandType",
     model = "ModelType",
     location = "LocationRegion",
+    year = "Year"
 }

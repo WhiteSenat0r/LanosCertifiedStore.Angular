@@ -2,7 +2,7 @@
   <app-hero-section></app-hero-section>
   <app-type-exhibit-section
     [vehicles]="vehicles"
-    [bodyTypes]="bodyTypes"
+    [bodyTypes]="filteredBodyTypes"
     (clickedBodyTypeEvent)="handleClickedBodyTypeEvent($event)"
   ></app-type-exhibit-section>
   <div class="bg-portGore-700">
@@ -14,8 +14,9 @@
   <div class="bg-portGore-700">
     <app-advanced-search-section
       [priceRange$]="priceRange$"
-      [DropDownElementUlInfo]="DropDownElementUlInfo"
+      [InfoObjectDataOptionated]="InfoObjectDataOptionated"
       (getInfoForUlEvent)="handleGetInfoForUlEvent($event)"
+      (changeRouterLinkEvent)="handleChangeRouterLink($event)"
     ></app-advanced-search-section>
   </div>
   <app-contact-form-section></app-contact-form-section>

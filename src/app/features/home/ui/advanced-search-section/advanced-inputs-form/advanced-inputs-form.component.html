@@ -4,10 +4,11 @@
     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-sm sm:gap-md pb-[28px]"
   >
     @for(info of gridDivArraysInfo; track $index) {
-      <app-dropdown-element
+    <app-dropdown-element
       [divInterfaceData]="gridDivArraysInfo[$index]"
       (getInfoForUlEvent)="handleGetInfoForUlEvent($event)"
-      [DropDownElementUlInfo]="DropDownElementUlInfo"
+      [DropDownElementUlInfo]="(gridDivArraysInfo[$index].ApiCallOption === InfoObjectDataOptionated?.ApiCallOption) ? InfoObjectDataOptionated?.DropDownElementUlInfo : []"
+      (optionPickedEvent)="handleOptionPicked($event.option, $event.ApiCallOption)"
     ></app-dropdown-element>
     }
   </div>
@@ -37,7 +38,8 @@
   </div>
 
   <div class="pt-sm sm:pt-base flex justify-center">
-    <button routerLink="/catalog"
+    <button
+      (click)="OnSearchButtonClick()"
       class="group rounded bg-redy-800 py-sm px-lg flex flex-row justify-center items-center gap-[10px] transition-all duration-500 hover:bg-redy-950"
     >
       <span class="block text-kimberly-50 text-xl font-bold">Пошук машин</span>
