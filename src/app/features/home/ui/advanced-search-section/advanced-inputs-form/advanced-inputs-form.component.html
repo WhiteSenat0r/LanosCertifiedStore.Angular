@@ -1,0 +1,52 @@
+<!--Div below (may) better be form in the future-->
+<section>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-sm sm:gap-md pb-[28px]"
+  >
+    @for(info of gridDivArraysInfo; track $index) {
+    <app-dropdown-element
+      [divInterfaceData]="gridDivArraysInfo[$index]"
+      (getInfoForUlEvent)="handleGetInfoForUlEvent($event)"
+      [DropDownElementUlInfo]="(gridDivArraysInfo[$index].ApiCallOption === InfoObjectDataOptionated?.ApiCallOption) ? InfoObjectDataOptionated?.DropDownElementUlInfo : []"
+      (optionPickedEvent)="handleOptionPicked($event.option, $event.ApiCallOption)"
+    ></app-dropdown-element>
+    }
+  </div>
+  <div id="sliderRange-container" class="mb-[30px]">
+    <p class="text-kimberly-50 text-md font-medium mb-[28px]">
+      Ваш діапазон:&nbsp;&nbsp;&nbsp;&nbsp;<span id="lowerPrice">{{
+        lowestPriceValue | currency : "USD" : "symbol" : "0.0"
+      }}</span>
+      -
+      <span id="upperPrice">{{
+        ourValue | currency : "USD" : "symbol" : "0.0"
+      }}</span>
+    </p>
+
+    <div
+      class="relative sliderRangeContainer w-full flex items-center justify-center"
+    >
+      <input
+        (input)="updateCssVariableRangeValue()"
+        type="range"
+        min="0"
+        max="100"
+        value="30"
+        #sliderRangeElement
+      />
+    </div>
+  </div>
+
+  <div class="pt-sm sm:pt-base flex justify-center">
+    <button
+      (click)="OnSearchButtonClick()"
+      class="group rounded bg-redy-800 py-sm px-lg flex flex-row justify-center items-center gap-[10px] transition-all duration-500 hover:bg-redy-950"
+    >
+      <span class="block text-kimberly-50 text-xl font-bold">Пошук машин</span>
+      <kolesko-icon
+        name="search-short-stick"
+        class="text-kimberly-50 transition-all duration-500 group-hover:scale-125 group-hover:text-portGore-700"
+      ></kolesko-icon>
+    </button>
+  </div>
+</section>

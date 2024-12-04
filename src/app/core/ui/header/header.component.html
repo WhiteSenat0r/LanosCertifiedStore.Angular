@@ -1,6 +1,6 @@
 <header class="bg-kimberly-50 shadow-lg h-[62px]">
   <nav class="mx-sm lg:mx-auto lg:container flex flex-row justify-between items-center h-full gap-md">
-    <div class="flex flex-row items-center gap-sm">
+    <div routerLink="/" class="flex flex-row items-center gap-sm cursor-pointer">
       <div class="w-[41px]">
         <img src="assets/images/logo/logo-dark.png" alt="Dark version of Kolesko logo" class="h-[46px] inline-block" />
       </div>
@@ -10,7 +10,7 @@
 
     <div
       class="w-full border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden sm:flex items-center justify-start">
-      <div class="relative group inline-block left-[-1px] cursor-pointer">
+      <div routerLink="/catalog" class="relative group inline-block left-[-1px] cursor-pointer">
         <kolesko-icon name="figure-bookmark-type-blue" class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34" [height]="28" />
         <kolesko-icon class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2" name="search-short-stick" [size]="14" />
       </div>

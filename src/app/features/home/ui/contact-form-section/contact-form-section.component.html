@@ -1,1 +1,308 @@
-<p>contact-form-section works!</p>
+<section class="container mx-auto py-[60px] flex justify-center">
+  <div
+    class="flex flex-col lg:flex-row-reverse w-[1100px] max-w-[1100px] rounded overflow-hidden"
+  >
+    <!--Form section-->
+    <form
+      class="bg-kimberly-50 grow py-base px-base sm:py-lg sm:px-xl"
+      [formGroup]="contactForm"
+      (ngSubmit)="onSubmit()"
+      *ngIf="!submittedForm"
+    >
+      <span class="block text-content-primary font-code text-h5 mb-xs"
+        >ЗАПОВНІТЬ БЛАНК</span
+      >
+      <span class="block text-content-primary text-[32px] font-medium"
+        >Подати свій запит</span
+      >
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 gap-[12px] sm:gap-[28px] mt-sm sm:mt-[32px]"
+      >
+        <!--Dropdown list: pick type of request purpose -->
+        <div class="relative h-full" id="request-type-dropdown-element">
+          <!--Chosen option-->
+          <div
+            class="flex flex-col h-full group cursor-pointer"
+            (click)="handleShowRequests()"
+          >
+            @if(contactForm.get('requestType')?.touched &&
+            contactForm.get('requestType')?.invalid) {
+            <span class="hidden sm:block Mimic_label text-redy-700"
+              >Оберіть тип реквесту <span>!</span></span
+            >
+            } @else if (contactForm.get('requestType')?.touched &&
+            contactForm.get('requestType')?.valid) {
+            <span class="hidden sm:block Mimic_label text-content-primary"
+              >Ви обрали тип реквесту <span>*</span></span
+            >
+            }@else {
+            <span class="hidden sm:block Mimic_label text-content-primary"
+              >Оберіть тип реквесту <span>*</span></span
+            >
+            }
+            <div
+              class="grow flex justify-between items-end px-sm pb-sm border-b-2"
+              [ngClass]="
+                contactForm.get('requestType')?.touched &&
+                contactForm.get('requestType')?.invalid
+                  ? 'border-redy-700'
+                  : 'border-content-primary'
+              "
+            >
+              @if(requestPurpose) {
+              <span>{{ requestPurpose }}</span>
+              } @else{
+              <span
+                class="hidden md:block text-gray-600 overflow-hidden text-nowrap"
+                >Оберіть тип вашого повідомлення</span
+              >
+              <span
+                class="block md:hidden text-gray-600 overflow-hidden text-nowrap"
+                >Оберіть тип</span
+              >
+              }
+              <kolesko-icon
+                [size]="18"
+                class="text-content-primary transition-all duration-300 rotate-90 group-hover:scale-125"
+              ></kolesko-icon>
+            </div>
+          </div>
+
+          <!--List of options-->
+          <ul
+            [@slideUp]="showRequests ? 'open' : 'closed'"
+            [ngStyle]="{ display: showRequests ? 'block' : 'none' }"
+            class="absolute border-[1px] bg-kimberly-50 border-portGore-950 rounded top-[calc(100%+8px)] left-[0px] w-full"
+          >
+            @for(item of items; track $index) {
+            <li
+              class="px-sm py-xs cursor-pointer transition-all duration-150 hover:bg-portGore-100"
+              (click)="handleRequestOptionClick(item)"
+            >
+              {{ item }}
+            </li>
+            }
+          </ul>
+        </div>
+        <!--Input: email-->
+        <div class="flex flex-col">
+          @if(contactForm.get('email')?.invalid &&
+          contactForm.get('email')?.touched) {
+          @if(contactForm.get('email')?.hasError('required')){
+          <label for="email" class="text-redy-700"
+            >Пусте поле <span>!</span></label
+          >
+          } @else if (contactForm.get('email')?.hasError('email')) {
+          <label for="email" class="text-redy-700"
+            >Введіть правильний email <span>*</span></label
+          >
+          } }@else { @if(contactForm.get('email')?.valid) {
+          <label for="email" class="text-content-primary"
+            >Ви ввели email <span>*</span></label
+          >
+          } @else {
+          <label for="email" class="text-content-primary"
+            >Email <span>*</span></label
+          >
+          } }
+          <input
+            type="email"
+            name="email"
+            placeholder="Введіть ваш емейл"
+            class="w-full appearance-none bg-transparent border-x-0 border-t-0 border-b-2 focus:border-content-primary focus:ring-0 placeholder-gray-600"
+            formControlName="email"
+            [ngClass]="
+              contactForm.get('email')?.invalid &&
+              contactForm.get('email')?.touched
+                ? 'border-redy-700'
+                : 'border-content-primary'
+            "
+          />
+        </div>
+
+        <!--Input: name-->
+        <div class="flex flex-col">
+          @if(contactForm.get('name')?.invalid &&
+          (contactForm.get('name')?.touched || contactForm.get('name')?.dirty))
+          { @if(contactForm.get('name')?.hasError('required')) {
+          <label for="name" class="text-redy-700"
+            >Пусте поле <span>!</span></label
+          >
+          } @else if(contactForm.get('name')?.hasError('minlength') ||
+          contactForm.get('name')?.hasError('maxlength') ) {
+          <label for="name" class="text-redy-700"
+            >Ім'я повинно складатися з 3-20 літер <span>!</span></label
+          >
+          } } @else{ @if(contactForm.get('name')?.valid){
+          <label for="name" class="text-content-primary"
+            >Ви ввели ваше ім'я <span>*</span></label
+          >
+          } @else {
+          <label for="name" class="text-content-primary"
+            >Ваше ім'я <span>*</span></label
+          >
+          } }
+
+          <input
+            type="text"
+            name="name"
+            placeholder="Введіть ваше ім'я"
+            class="w-full appearance-none bg-transparent border-x-0 border-t-0 border-b-2 border-content-primary focus:border-content-primary focus:ring-0 placeholder-gray-600"
+            [ngClass]="
+              contactForm.get('name')?.invalid &&
+              (contactForm.get('name')?.touched ||
+                contactForm.get('name')?.dirty)
+                ? 'border-redy-700 focus:border-redy-700'
+                : 'border-content-primary'
+            "
+            formControlName="name"
+          />
+        </div>
+
+        <!--Dropdown list: pick country -->
+        <div class="relative h-full" id="country-dropdown-element">
+          <!--Chosen option-->
+          <div
+            class="flex flex-col h-full group cursor-pointer"
+            (click)="handleShowCountries()"
+          >
+            @if(contactForm.get('country')?.invalid &&
+            contactForm.get('country')?.touched) {
+            <span class="Mimic_label block text-redy-700"
+              >Оберіть країну <span>!</span></span
+            >
+            } @else if(contactForm.get('country')?.valid) {
+            <span class="Mimic_label block text-content-primary"
+              >Ви обрали країну <span>*</span></span
+            >
+            } @else {
+            <span class="Mimic_label block text-content-primary"
+              >Оберіть країну <span>*</span></span
+            >
+            }
+            <div
+              class="grow flex justify-between items-end px-sm pb-sm border-b-2 overflow-hidden"
+              [ngClass]="
+                contactForm.get('country')?.touched &&
+                contactForm.get('country')?.invalid
+                  ? 'border-redy-700'
+                  : 'border-content-primary'
+              "
+            >
+              @if(country) {
+              <span>{{ country }}</span>
+              } @else{
+              <span
+                class="hidden md:block text-gray-600 overflow-hidden text-nowrap"
+                >Виберіть вашу країну</span
+              >
+              <span
+                class="block md:hidden text-gray-600 overflow-hidden text-nowrap"
+                >Виберіть країну</span
+              >
+              }
+              <kolesko-icon
+                [size]="18"
+                class="text-content-primary transition-all duration-300 rotate-90 group-hover:scale-125"
+              ></kolesko-icon>
+            </div>
+          </div>
+
+          <!--List of options-->
+          <ul
+            [@slideUp]="showCountries ? 'open' : 'closed'"
+            [ngStyle]="{ display: showCountries ? 'block' : 'none' }"
+            class="absolute border-[1px] bg-kimberly-50 border-portGore-950 rounded-sm top-[calc(100%+8px)] left-[0px] w-full"
+          >
+            @for(country of countries; track $index) {
+            <li
+              class="px-sm py-xs cursor-pointer transition-all duration-150 hover:bg-portGore-100"
+              (click)="handleCountryOptionClick(country)"
+            >
+              {{ country }}
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+      <div
+        class="w-full mt-[12px] sm:mt-lg border-0 border-b-2 pr-[1px]"
+        [ngClass]="
+          contactForm.get('message')?.invalid &&
+          (contactForm.get('message')?.touched ||
+            contactForm.get('message')?.dirty)
+            ? 'border-redy-700'
+            : 'border-content-primary'
+        "
+      >
+        @if((contactForm.get('message')?.touched ||
+        contactForm.get('message')?.dirty) &&
+        contactForm.get('message')?.invalid ) { @if
+        (contactForm.get('message')?.hasError('minlength') ||
+        contactForm.get('message')?.hasError('required')) {
+        <label for="message" class="text-redy-700"
+          >Повідомлення повинно містити не менше 50 символів
+          <span> !</span></label
+        >} @else if (contactForm.get('message')?.hasError('maxlength')) {
+        <label for="message" class="text-redy-700"
+          >Повідомлення може складатися не більше як з 2000 символів
+          <span>!</span></label
+        >
+        } } @else{ @if(contactForm.get('message')?.valid) {
+        <label for="message"
+          >Ваше повідомлення може бути відправлене <span>*</span></label
+        >
+        } @else {
+        <label for="message">Повідомлення <span>*</span></label>
+        } }
+        <textarea
+          name="message"
+          placeholder="Почніть писати тут..."
+          class="h-[100px] w-full bg-transparent border-0 placeholder-gray-600"
+          formControlName="message"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col w-full mt-base sm:mt-md md:mt-lg">
+        <button
+          type="submit"
+          class="self-center transition-all duration-700  px-base py-sm text-md font-medium text-kimberly-50 rounded"
+          [ngClass]="
+            contactForm.invalid
+              ? 'bg-portGore-950 hover:bg-portGore-950'
+              : 'bg-redy-800 hover:bg-redy-950 px-md'
+          "
+          [disabled]="contactForm.invalid"
+        >
+          {{ "підтвердити" | uppercase }}
+        </button>
+      </div>
+    </form>
+    <!--Success message after form submitted-->
+    <div
+      *ngIf="submittedForm"
+      class="w-full lg:h-[500px] bg-kimberly-50 flex flex-col gap-base justify-center items-center md:py-xl py-2xl"
+    >
+      <kolesko-icon
+        [@enterAnimation]
+        [size]="124"
+        name="check-mark-form-submitted"
+      >
+      </kolesko-icon>
+      <div
+        [@appearAnimation]
+        class="text-lg text-portGore-950 font-medium"
+      >
+        <span class="hidden sm:block text-center"
+          >Ваше повідомлення було успішно відправленно<br />
+          Опрацювання вашої заявки може тривати кілька днів
+        </span>
+        <span class="block px-base sm:hidden"
+        >Ваше повідомлення було успішно відправленно, опрацювання вашої заявки може тривати кілька днів
+      </span>
+      </div>
+    </div>
+    <!--Other section-->
+    <app-other-info-section></app-other-info-section>
+  </div>
+</section>

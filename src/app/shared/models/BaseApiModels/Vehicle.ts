@@ -7,4 +7,5 @@ export interface Vehicle {
     mainImageUrl: string;
     mileage: number;
     price: number;
+    bodyType: string;
 }
