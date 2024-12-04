@@ -10,18 +10,22 @@ import { HomeModule } from './features/home/home.module';
 import { provideHttpClient } from '@angular/common/http';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
     HomeModule,
     NgxSliderModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BreadcrumbComponent, BreadcrumbItemDirective
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

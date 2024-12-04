@@ -1,85 +1,124 @@
 <footer class="bg-portGore-950 h-fit md:h-[168px] py-[24px]">
-    <div class="container mx-auto h-full">
-
-        <!--768+ resolution-->
-        <div class="hidden md:flex h-full flex-row justify-between">
-            <div class="h-full flex flex-col">
-                <!--Team info and help with site-->
-                <div class="flex flex-row gap-xs items-center mb-[18px]">
-                    <div class="flex -space-x-sm">
-                        @for(avatar of avatars; track $index)
-                        {
-                        <img class="w-[28px] h-[28px] border-[1px]  border-white rounded-full dark:border-gray-800"
-                            src="{{avatar}}">
-                        }
-                    </div>
-                    <a href="#"
-                        class="block text-xs font-light text-kimberly-50 cursor-pointer hover:underline underline-offset-4">Допомога
-                        по сайту Ukraine.iad.com →</a>
-                </div>
-
-                <!--Social Media Links-->
-                <div class="flex flex-row gap-[10px]">
-                    @for(link of socialMediaSvgIconLinks; track $index )
-                    {
-                    <kolesko-icon
-                        class="text-kimberly-50 tranisition-all duration-700 hover:text-portGore-300 cursor-pointer"
-                        name={{link}} [size]="24"></kolesko-icon>
-                    }
-                </div>
-
-                <!--Credentials-->
-                <div class="mt-auto flex gap-xs items-center">
-                    <kolesko-icon class="text-kimberly-50" name="copyright" [size]="10"></kolesko-icon>
-                    <span class="block text-kimberly-50 font-light text-xs">2024-2025 Ukraine.iad.com</span>
-                </div>
-            </div>
-            <!--Other clauses-->
-            <div class="text-md text-kimberly-50 flex flex-col gap-sm">
-                <span class="cursor-pointer block w-fit underline-offset-4 hover:underline">Про проєкт</span>
-                <span class="cursor-pointer block w-fit underline-offset-4 hover:underline">Підтримка</span>
-                <img src="assets/images/logo/logo-light.png" alt="Light version of Kolesko logo"
-                    class="w-[45.4px] h-[51px] block mt-auto mx-auto">
-            </div>
+  <div class="container mx-auto h-full">
+    <!--768+ resolution-->
+    <div class="hidden md:flex h-full flex-row justify-between">
+      <div class="h-full flex flex-col">
+        <!--Team info and help with site-->
+        <div class="flex flex-row gap-xs items-center mb-[18px]">
+          <div class="flex -space-x-sm">
+            @for(avatar of avatars; track $index) {
+            <img
+              class="w-[28px] h-[28px] border-[1px] border-white rounded-full dark:border-gray-800"
+              src="{{ avatar }}"
+            />
+            }
+          </div>
+          <a
+            href="#"
+            class="block text-xs font-light text-kimberly-50 cursor-pointer hover:underline underline-offset-4"
+            >Допомога по сайту Ukraine.iad.com →</a
+          >
         </div>
-        <!--768- resolution-->
-        <div class="md:hidden h-full w-full flex flex-col items-center gap-sm">
-            <!--Team info and help with site-->
-            <div class="flex flex-row gap-xs items-center">
-                <div class="flex -space-x-sm">
-                    @for(avatar of avatars; track $index)
-                    {
-                    <img class="w-[28px] h-[28px] border-[1px]  border-white rounded-full dark:border-gray-800"
-                        src="{{avatar}}">
-                    }
-                </div>
-            </div>
-            <a href="#"
-                class="block text-xs font-light text-kimberly-50 cursor-pointer hover:underline underline-offset-4">Допомога
-                по сайту Ukraine.iad.com →</a>
-            <!--Social Media Links-->
-            <div class="flex flex-row gap-[10px]">
-                @for(link of socialMediaSvgIconLinks; track $index )
-                {
-                <kolesko-icon
-                    class="text-kimberly-50 tranisition-all duration-700 hover:text-portGore-300 cursor-pointer"
-                    name={{link}} [size]="24"></kolesko-icon>
-                }
-            </div>
-            <!--Other clauses-->
-            <span class="cursor-pointer text-kimberly-50 block w-fit underline-offset-4 hover:underline">Про проєкт</span>
-            <span class="cursor-pointer text-kimberly-50 block w-fit underline-offset-4 hover:underline">Підтримка</span>
-            <div class="py-sm">
-                <img src="assets/images/logo/logo-light.png" alt="Light version of Kolesko logo"
-                class="w-[45.4px] h-[51px] block ">
-            </div>
-   
-            <!--Credentials-->
-            <div class="mt-auto flex gap-xs items-center">
-                <kolesko-icon class="text-kimberly-50" name="copyright" [size]="10"></kolesko-icon>
-                <span class="block text-kimberly-50 font-light text-xs">2024-2025 Ukraine.iad.com</span>
-            </div>
+
+        <!--Social Media Links-->
+
+        <div class="flex flex-row gap-[10px]">
+          @for(link of socialMediaSvgIconLinks; track $index ) {
+          <kolesko-icon
+            class="text-kimberly-50 tranisition-all duration-700 hover:text-portGore-300 cursor-pointer"
+            name="{{ link }}"
+            [size]="24"
+            (click)="handleIconClick(link)"
+          ></kolesko-icon>
+          }
         </div>
+
+        <!--Credentials-->
+        <div class="mt-auto flex gap-xs items-center">
+          <kolesko-icon
+            class="text-kimberly-50"
+            name="copyright"
+            [size]="10"
+          ></kolesko-icon>
+          <span class="block text-kimberly-50 font-light text-xs"
+            >2024-2025 Ukraine.iad.com</span
+          >
+        </div>
+      </div>
+      <!--Other clauses-->
+      <div class="text-md text-kimberly-50 flex flex-col gap-sm">
+        <span
+          class="cursor-pointer block w-fit underline-offset-4 hover:underline"
+          >Про проєкт</span
+        >
+        <span
+          class="cursor-pointer block w-fit underline-offset-4 hover:underline"
+          >Підтримка</span
+        >
+        <img
+          src="assets/images/logo/logo-light.png"
+          alt="Light version of Kolesko logo"
+          class="w-[45.4px] h-[51px] block mt-auto mx-auto"
+        />
+      </div>
     </div>
+    <!--768- resolution-->
+    <div class="md:hidden h-full w-full flex flex-col items-center gap-sm">
+      <!--Team info and help with site-->
+      <div class="flex flex-row gap-xs items-center">
+        <div class="flex -space-x-sm">
+          @for(avatar of avatars; track $index) {
+          <img
+            class="w-[28px] h-[28px] border-[1px] border-white rounded-full dark:border-gray-800"
+            src="{{ avatar }}"
+          />
+          }
+        </div>
+      </div>
+      <a
+        href="#"
+        class="block text-xs font-light text-kimberly-50 cursor-pointer hover:underline underline-offset-4"
+        >Допомога по сайту Ukraine.iad.com →</a
+      >
+      <!--Social Media Links-->
+      <div class="flex flex-row gap-[10px]">
+        @for(link of socialMediaSvgIconLinks; track $index ) {
+        <kolesko-icon
+          class="text-kimberly-50 tranisition-all duration-700 hover:text-portGore-300 cursor-pointer"
+          name="{{ link }}"
+          [size]="24"
+        ></kolesko-icon>
+        }
+      </div>
 
+      <!--Other clauses-->
+      <span
+        class="cursor-pointer text-kimberly-50 block w-fit underline-offset-4 hover:underline"
+        >Про проєкт</span
+      >
+      <span
+        class="cursor-pointer text-kimberly-50 block w-fit underline-offset-4 hover:underline"
+        >Підтримка</span
+      >
+      <div class="py-sm">
+        <img
+          src="assets/images/logo/logo-light.png"
+          alt="Light version of Kolesko logo"
+          class="w-[45.4px] h-[51px] block"
+        />
+      </div>
+
+      <!--Credentials-->
+      <div class="mt-auto flex gap-xs items-center">
+        <kolesko-icon
+          class="text-kimberly-50"
+          name="copyright"
+          [size]="10"
+        ></kolesko-icon>
+        <span class="block text-kimberly-50 font-light text-xs"
+          >2024-2025 Ukraine.iad.com</span
+        >
+      </div>
+    </div>
+  </div>
 </footer>

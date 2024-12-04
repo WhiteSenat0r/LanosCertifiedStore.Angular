@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +9,20 @@ import { initFlowbite } from 'flowbite';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  title = 'web-app';
+  title: string = 'web-app';
+  isMainPage!: boolean; 
+
+  constructor(private router: Router){
+  }
 
   ngOnInit(): void {
     initFlowbite();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.isMainPage = (this.router.url === '/' || this.router.url === '/#');
+      // console.log('URL changed:', this.router.url);
+      // console.log('isMainPage:', this.isMainPage);
+    });
   }
 }

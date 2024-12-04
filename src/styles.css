@@ -11,10 +11,13 @@
   @apply font-roboto
 }
 
-html, body {
-  overflow-x: hidden;
-}
-
 body{
   background-color: #e2e2f4;
 }
+
+html, body {
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+  

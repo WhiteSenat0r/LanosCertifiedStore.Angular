@@ -1,0 +1,11 @@
+<section class="container mx-auto py-[44px]">
+  <div class="flex flex-col items-center pb-xl sm:pb-[52px]">
+    <div class="text-[32px] font-medium pb-[12px]">
+      <span class="text-kimberly-50">Розширений </span>
+      <span class="text-redy-800">Пошук</span>
+    </div>
+    <span class="block text-kimberly-50 text-lg font-medium">Шукай авто за своїми критеріями</span>
+  </div>
+  <!--Mock form for now-->
+  <app-advanced-inputs-form (getInfoForUlEvent)="handleGetInfoForUlEvent($event)" [InfoObjectDataOptionated]="InfoObjectDataOptionated" [priceRange$]="priceRange$" (changeRouterLinkEvent)="handleChangeRouterLink($event)"></app-advanced-inputs-form>
+</section>

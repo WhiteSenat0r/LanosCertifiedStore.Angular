@@ -1,0 +1,63 @@
+<section
+  class="w-full flex flex-col items-center lg:block lg:w-[300px] other-section-bg bg-redy-800 bg-[url('/assets/images/Home/gears-blueprint.png')] bg-no-repeat h-full px-lg lg:px-xl py-base lg:py-md"
+>
+  <span class="block text-[24px] font-bold text-kimberly-50 text-center md:text-left"
+    >Будьте з Нами На Зв’язку</span
+  >
+  <div
+    class="flex flex-col md:flex-row lg:flex-col justify-center items-center lg:items-start gap-md mt-base lg:mt-[44px] mb-md lg:mb-xl"
+  >
+    <div class="flex text-sm gap-sm items-center w-min md:w-auto md:flex-grow md:basis-[0]">
+      <kolesko-icon
+        name="google-map"
+        [size]="24"
+        class="text-kimberly-50"
+      ></kolesko-icon>
+      <span class="text-kimberly-50"
+        >Varshavska St, 3A Netishyn, Khmel'nyts'ka oblast, 30100</span
+      >
+    </div>
+    <div class="flex justify-center text-sm gap-sm items-center md:shrink">
+      <kolesko-icon
+        name="simple-phone"
+        [size]="24"
+        class="text-kimberly-50"
+      ></kolesko-icon>
+      <span class="text-kimberly-50">(+380)-67-25-34-047</span>
+    </div>
+    <div class="flex text-sm gap-sm items-center md:flex-grow md:basis-[0]">
+      <kolesko-icon
+        name="email-box"
+        [size]="24"
+        class="text-kimberly-50"
+      ></kolesko-icon>
+      <span class="text-kimberly-50">{{ "serhii.kukharchuk@oa.edu.ua" }}</span>
+    </div>
+  </div>
+  <div class="flex flex-row gap-base">
+    <kolesko-icon
+      name="facebook-block"
+      [size]="28"
+      class="text-kimberly-50 transition-all duration-300 hover:text-portGore-200 cursor-pointer"
+      (click)="handleIconClick('facebook')"
+    ></kolesko-icon>
+    <kolesko-icon
+      name="twitter-block"
+      [size]="28"
+      class="text-kimberly-50 transition-all duration-300 hover:text-portGore-200 cursor-pointer"
+      (click)="handleIconClick('twitter')"
+    ></kolesko-icon>
+    <kolesko-icon
+      name="instagram-block"
+      [size]="28"
+      class="text-kimberly-50 transition-all duration-300 hover:text-portGore-200 cursor-pointer"
+      (click)="handleIconClick('instagram')"
+    ></kolesko-icon>
+    <kolesko-icon
+      name="youtube-block"
+      [size]="28"
+      class="text-kimberly-50 transition-all duration-300 hover:text-portGore-200 cursor-pointer"
+      (click)="handleIconClick('youtube')"
+    ></kolesko-icon>
+  </div>
+</section>
