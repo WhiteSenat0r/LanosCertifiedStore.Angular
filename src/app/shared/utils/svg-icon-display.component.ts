@@ -1,12 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'kolesko-icon',
+  standalone: true,
   template: `
     <div [ngClass]="tailwindClasses" [innerHTML]="svgContent"></div>
   `,
+  imports: [CommonModule]
 })
 export class SvgIconDisplayComponent implements OnInit, OnChanges {
   @Input() name: string = 'outline-chevron-right';

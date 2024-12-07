@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Vehicle } from '../../shared/models/BaseApiModels/Vehicle';
-import { BodyType } from '../../shared/models/BaseApiModels/BodyType';
-import { EngineType } from '../../shared/models/BaseApiModels/EngineType';
-import { PriceRange } from './models/PriceRange';
-import { LocationRegion } from '../../shared/models/BaseApiModels/LocationRegion';
-import { Brand } from '../../shared/models/BaseApiModels/Brand';
-import { Model } from '../../shared/models/BaseApiModels/Model';
-import { TransmissionType } from '../../shared/models/BaseApiModels/TransmissionType';
-import { ApiResponse } from '../../shared/models/ApiSpecificModels/ApiResponse';
-import { DropdownElementData } from './models/DropdownElementData.enum';
+import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
+import { BodyType } from '../../../shared/models/BaseApiModels/BodyType';
+import { EngineType } from '../../../shared/models/BaseApiModels/EngineType';
+import { PriceRange } from '../models/PriceRange';
+import { LocationRegion } from '../../../shared/models/BaseApiModels/LocationRegion';
+import { Brand } from '../../../shared/models/BaseApiModels/Brand';
+import { Model } from '../../../shared/models/BaseApiModels/Model';
+import { TransmissionType } from '../../../shared/models/BaseApiModels/TransmissionType';
+import { ApiResponse } from '../../../shared/models/ApiSpecificModels/ApiResponse';
+import { DropdownElementData } from '../models/DropdownElementData.enum';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class HomeService {
   private baseUrl = environment.apiUrl;
 
@@ -50,7 +48,10 @@ export class HomeService {
   getDropDownData(
     apiCallOption: DropdownElementData
   ): Observable<
-    ApiResponse<Brand | Model | LocationRegion | TransmissionType | EngineType> | undefined
+    | ApiResponse<
+        Brand | Model | LocationRegion | TransmissionType | EngineType
+      >
+    | undefined
   > {
     switch (apiCallOption) {
       case DropdownElementData.engine:

@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { HomeService } from './home.service';
-import { Vehicle } from '../../shared/models/BaseApiModels/Vehicle';
-import { BodyType } from '../../shared/models/BaseApiModels/BodyType';
+import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
+import { BodyType } from '../../../shared/models/BaseApiModels/BodyType';
 import { filter, forkJoin, map, Observable, tap, throwError } from 'rxjs';
-import { EngineType } from '../../shared/models/BaseApiModels/EngineType';
-import { ApiResponse } from '../../shared/models/ApiSpecificModels/ApiResponse';
-import { PriceRange } from './models/PriceRange';
-import { DropdownElementData } from './models/DropdownElementData.enum';
-import { LocationRegion } from '../../shared/models/BaseApiModels/LocationRegion';
-import { TransmissionType } from '../../shared/models/BaseApiModels/TransmissionType';
-import { Brand } from '../../shared/models/BaseApiModels/Brand';
-import { Model } from '../../shared/models/BaseApiModels/Model';
+import { EngineType } from '../../../shared/models/BaseApiModels/EngineType';
+import { ApiResponse } from '../../../shared/models/ApiSpecificModels/ApiResponse';
+import { PriceRange } from '../models/PriceRange';
+import { DropdownElementData } from '../models/DropdownElementData.enum';
+import { LocationRegion } from '../../../shared/models/BaseApiModels/LocationRegion';
+import { TransmissionType } from '../../../shared/models/BaseApiModels/TransmissionType';
+import { Brand } from '../../../shared/models/BaseApiModels/Brand';
+import { Model } from '../../../shared/models/BaseApiModels/Model';
 import { Router } from '@angular/router';
-import { SearchAdvancedParams } from './models/SearchAdvancedParams';
+import { SearchAdvancedParams } from '../models/SearchAdvancedParams';
+import { HomeService } from '../services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -48,7 +48,10 @@ export class HomeComponent implements OnInit {
         )
       )
       .subscribe((info: string[]) => {
-        this.InfoObjectDataOptionated = {ApiCallOption: ApiCallOption, DropDownElementUlInfo: info};
+        this.InfoObjectDataOptionated = {
+          ApiCallOption: ApiCallOption,
+          DropDownElementUlInfo: info,
+        };
       });
   }
 
@@ -56,7 +59,7 @@ export class HomeComponent implements OnInit {
   vehicles: Vehicle[] = [];
   bodyTypes: BodyType[] = [];
 
-  filteredBodyTypes: BodyType[] =[];
+  filteredBodyTypes: BodyType[] = [];
 
   topPriceVehicles: Vehicle[] = [];
   priceRange$!: Observable<PriceRange>;
@@ -96,18 +99,18 @@ export class HomeComponent implements OnInit {
 
   getBodyTypes() {
     const vehicleObservables: Observable<ApiResponse<Vehicle>>[] = [];
-  
+
     this.homeservice.getBodyTypes().subscribe({
       next: (response: { items: BodyType[] }) => {
         this.bodyTypes = response.items;
-        
+
         // group observables
-        response.items.forEach(bodyType => {
+        response.items.forEach((bodyType) => {
           vehicleObservables.push(
             this.homeservice.getVehicles(undefined, bodyType.id)
           );
         });
-  
+
         // forkJoin to wait before all the observables will be executed asyncroniously
         // and after that gives us all the results in the same moment.
         forkJoin(vehicleObservables).subscribe({
@@ -118,18 +121,24 @@ export class HomeComponent implements OnInit {
                 filteredBodyTypesDataHolder.push(this.bodyTypes[index]);
               }
             });
-  
-            this.filteredBodyTypes = [...this.filteredBodyTypes, ...filteredBodyTypesDataHolder];
-            console.log('Оновлені фільтровані типи кузова:', this.filteredBodyTypes);
+
+            this.filteredBodyTypes = [
+              ...this.filteredBodyTypes,
+              ...filteredBodyTypesDataHolder,
+            ];
+            console.log(
+              'Оновлені фільтровані типи кузова:',
+              this.filteredBodyTypes
+            );
           },
           error: (error) => {
             console.error(error);
-          }
+          },
         });
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 
@@ -142,6 +151,6 @@ export class HomeComponent implements OnInit {
   }
 
   handleChangeRouterLink(searchAdvanced: SearchAdvancedParams): void {
-    this.router.navigate(['/catalog'], {queryParams: {...searchAdvanced} });
+    this.router.navigate(['/catalog'], { queryParams: { ...searchAdvanced } });
   }
 }

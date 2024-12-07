@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import Splide from '@splidejs/splide';
-import { Vehicle } from '../../models/BaseApiModels/Vehicle';
+import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
 
 @Component({
   selector: 'app-slider-default',
