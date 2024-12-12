@@ -5,6 +5,7 @@ import { VehicleSearchCriterias } from '../models/VehicleSearchCriterias';
 import { Observable } from 'rxjs';
 import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
 import { PaginatedResult } from '../models/PaginatedResult';
+import { VehicleCountSummary } from '../models/VehicleCountSummary';
 
 //not the best approach in case of a 'solititude'
 //feature to pass an object with property provicedIn which is 'root'
@@ -23,10 +24,18 @@ export class CatalogService {
       if (vehicleSearchCriterias.year) {
         params = params.set('ProductionYear', vehicleSearchCriterias.year);
       }
+      if (vehicleSearchCriterias.pageIndex !== 1)
+      {
+        params = params.set('PageIndex', vehicleSearchCriterias.pageIndex)
+      }
     }
 
     return this.http.get<PaginatedResult<Vehicle>>(this.baseUrl + 'vehicles', {
       params,
     });
+  }
+  getVehicleCountSummary(vehicleSearchCriterias?: VehicleSearchCriterias): Observable<VehicleCountSummary>
+  {
+    return this.http.get<VehicleCountSummary>(this.baseUrl + 'vehicles/count')
   }
 }

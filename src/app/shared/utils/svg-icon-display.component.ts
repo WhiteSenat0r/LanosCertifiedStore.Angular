@@ -6,9 +6,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'kolesko-icon',
   standalone: true,
-  //[ngClass]="InnerTailwindClasses"
   template: `
-    <div [innerHTML]="svgContent"></div>
+    <div [ngClass]="innerClass" [innerHTML]="svgContent"></div>
   `,
   imports: [CommonModule]
 })
@@ -18,8 +17,9 @@ export class SvgIconDisplayComponent implements OnInit, OnChanges {
   @Input() size?: number;
   @Input() width?: number;
   @Input() height?: number;
+  @Input() stroke: boolean = false;
   // For getting whole spectrum of abalitites to be available. 
-  //@Input() InnerTailwindClasses: string = ''; 
+  @Input() innerClass: string = ''; 
 
   svgContent: SafeHtml = '';
 
@@ -59,10 +59,13 @@ export class SvgIconDisplayComponent implements OnInit, OnChanges {
 
       // Застосовуємо currentColor до всіх елементів, які мають fill або stroke
       const elementsToColor = svgElement.querySelectorAll('path, circle, rect, polygon, ellipse, line, polyline');
+      // 
       elementsToColor.forEach(element => {
-        if (!element.getAttribute('stroke')) {
-          element.setAttribute('fill', 'currentColor');
+        // Якщо атрибут stroke існує, змінюємо його на currentColor
+        if (element.hasAttribute('stroke') && this.stroke) {
+          element.setAttribute('stroke', 'currentColor');
         }
+        element.setAttribute('fill', 'currentColor');
       });
 
       // Задаємо розміри SVG, якщо вони вказані

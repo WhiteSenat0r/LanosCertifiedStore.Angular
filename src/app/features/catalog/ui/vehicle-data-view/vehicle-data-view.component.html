@@ -1,5 +1,5 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-md md:gap-md lg:gap-base">
-  @for (vehicle of vehicles; track $index) {
+  @for (vehicle of vehicles.slice(0, 9); track $index) {
   <div class="group cursor-default bg-kimberly-50 rounded shadow-md transition-shadow duration-700 hover:shadow-xl">
     <div class="overflow-hidden rounder-t h-[160px]">
       <img
@@ -13,9 +13,9 @@
       <div
         class="flex flex-row justify-between font-medium text-lg text-[#000000] mb-[14px]"
       >
-        <span>{{ "BMW M2 2023" | uppercase }}</span>
+        <span>{{ vehicle.fullName | uppercase }}</span>
         <div>
-          <span>{{ "50000" | number : "0.0" }}</span>
+          <span>{{ vehicle.price | number : "0.0" }}</span>
           <span class="">{{ "$" }}</span>
         </div>
       </div>

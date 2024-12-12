@@ -1,7 +1,9 @@
 <div class="container mx-auto flex flex-row gap-xs">
-  <!--Main filters-->
-  <aside class="hidden md:block bg-kimberly-50 h-fit py-base w-[288px] mr-[16px]">
-    <!--Brand and model filters-->
+  <!--MAIN FILTERS-->
+  <aside
+    class="hidden md:block bg-kimberly-50 h-fit py-base w-[288px] mr-[16px]"
+  >
+    <!--BRAND AND MODEL FILTERS-->
     <div class="flex flex-col gap-[10px] px-base">
       <div class="flex flex-col gap-[10px]">
         <span class="inline-block">Марка авто</span>
@@ -16,16 +18,16 @@
         ></app-filter-dropdown>
       </div>
     </div>
-    <!--Hr analog-->
+    <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
     ></div>
-    <!--Price related filters-->
+    <!--PRICE RELATED FILTER-->
   </aside>
   <main class="flex-grow">
-    <!--Others filters-->
+    <!--OTHER FILTERS-->
     <app-view-mode-selectors></app-view-mode-selectors>
-    <!--Vehicle data exhibition-->
+    <!--VEHICLE DATA EXHIBITION-->
     @if(store.vehicles()) {
     <app-vehicle-data-view
       [vehicles]="store.vehicles()"
@@ -35,5 +37,9 @@
       <span>Виникли проблеми, спробуйте перезапустити сторінку.</span>
     </div>
     }
+    <!--PAGINATION-->
+    <div class="flex mt-xl mb-2xl justify-center">
+      <app-pagination [totalPages]="store.filteredTotalVehicleCount() / store.currentPageItemsQuantity()" [currentPage]="store.pageIndex()" (onPageChangeEvent)="handlePageChangeEvent($event)"></app-pagination>
+    </div>
   </main>
 </div>

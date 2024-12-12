@@ -4,4 +4,6 @@ export class VehicleSearchCriterias{
     modelId = '';
     colorId = '';
     year = '';
+    pageIndex = 1;
+    currentPageItemsQuantity = 10;
 }

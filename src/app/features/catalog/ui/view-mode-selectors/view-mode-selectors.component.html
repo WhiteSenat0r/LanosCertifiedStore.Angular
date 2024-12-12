@@ -1,9 +1,12 @@
 <div class="mb-[14px]">
-  <div class="flex flex-row justify-between mb-[14px]">
+  <div class="flex flex-row justify-between mb-[14px] max-h-[24px]">
     <div><span>34 126 результатів</span></div>
     <!--VIEW MODE SELECTORS-->
-    <div class="flex flex-row gap-sm">
-      <div class="flex flex-row gap-xs">
+    <div class="flex flex-row gap-[6px]">
+      <!--By some criteria-->
+      <div
+        class="flex flex-row gap-xs border-b-[1px] border-transparent cursor-pointer  hover:border-portGore-950"
+      >
         <kolesko-icon
           [size]="24"
           src="assets/icons/features/catalog/outline-filter.svg"
@@ -16,13 +19,18 @@
         ></kolesko-icon>
       </div>
       <div class="min-w-[1px] h-full bg-portGore-950"></div>
+      <!--LIST VIEW-->
       <kolesko-icon
         [size]="24"
         src="assets/icons/features/catalog/line-md_list.svg"
+        [stroke]="true"
+        class="my-auto cursor-pointer text-portGore-400 opacity-90 hover:text-portGore-950 hover:opacity-100"
       ></kolesko-icon>
+      <!--GRID VIEW-->
       <kolesko-icon
         [size]="24"
         src="assets/icons/features/catalog/rivet-icons_grid-vertical.svg"
+        class="my-auto cursor-pointer text-portGore-950 opacity-90 hover:text-portGore-950 hover:opacity-100"
       ></kolesko-icon>
     </div>
   </div>
