@@ -1,0 +1,40 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-md md:gap-md lg:gap-base">
+  @for (vehicle of vehicles; track $index) {
+  <div class="group cursor-default bg-kimberly-50 rounded shadow-md transition-shadow duration-700 hover:shadow-xl">
+    <div class="overflow-hidden rounder-t h-[160px]">
+      <img
+        src="assets/images/Home/hero-image-cars.png"
+        class="w-full tranisition-all duration-500 rounded-t h-full object-cover group-hover:scale-105"
+        alt="Vehicle Image"
+      />
+    </div>
+
+    <div class="flex flex-col px-[12px] mt-[12px]">
+      <div
+        class="flex flex-row justify-between font-medium text-lg text-[#000000] mb-[14px]"
+      >
+        <span>{{ "BMW M2 2023" | uppercase }}</span>
+        <div>
+          <span>{{ "50000" | number : "0.0" }}</span>
+          <span class="">{{ "$" }}</span>
+        </div>
+      </div>
+      <!--Chips (change the name in the future!!!)-->
+      <div class="flex flex-row gap-sm flex-wrap mb-[10px]">
+        @for (item of vehicles.slice(0,4); track $index) {
+        <div
+          class="flex flex-row w-fit p-xs rounded gap-xs bg-kimberly-100 text-sm"
+        >
+          <kolesko-icon name="google-map"></kolesko-icon>
+          <span>Шось</span>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-row justify-end items-center pb-[12px]">
+        <span class="cursor-pointer inline-block p-xs">Three things</span>
+      </div>
+    </div>
+  </div>
+  }
+</div>

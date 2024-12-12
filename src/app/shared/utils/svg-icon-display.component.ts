@@ -6,17 +6,20 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'kolesko-icon',
   standalone: true,
+  //[ngClass]="InnerTailwindClasses"
   template: `
-    <div [ngClass]="tailwindClasses" [innerHTML]="svgContent"></div>
+    <div [innerHTML]="svgContent"></div>
   `,
   imports: [CommonModule]
 })
 export class SvgIconDisplayComponent implements OnInit, OnChanges {
   @Input() name: string = 'outline-chevron-right';
+  @Input() src?: string;
   @Input() size?: number;
   @Input() width?: number;
   @Input() height?: number;
-  @Input() tailwindClasses: string = ''; 
+  // For getting whole spectrum of abalitites to be available. 
+  //@Input() InnerTailwindClasses: string = ''; 
 
   svgContent: SafeHtml = '';
 
@@ -33,7 +36,8 @@ export class SvgIconDisplayComponent implements OnInit, OnChanges {
   }
 
   private loadAndModifySvg(): void {
-    const iconFilePath = `assets/icons/${this.name}.svg`;
+    let iconFilePath: string;
+    this.src ? (iconFilePath = this.src) : iconFilePath = `assets/icons/others/${this.name}.svg`;
     this.http.get(iconFilePath, { responseType: 'text' }).subscribe({
       next: svg => {
         this.svgContent = this.sanitizer.bypassSecurityTrustHtml(this.modifySvg(svg));

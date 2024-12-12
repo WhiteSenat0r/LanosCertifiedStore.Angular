@@ -13,7 +13,7 @@ import { TransmissionType } from '../../../shared/models/BaseApiModels/Transmiss
 import { ApiResponse } from '../../../shared/models/ApiSpecificModels/ApiResponse';
 import { DropdownElementData } from '../models/DropdownElementData.enum';
 
-@Injectable()
+@Injectable({providedIn: null})
 export class HomeService {
   private baseUrl = environment.apiUrl;
 
@@ -30,11 +30,11 @@ export class HomeService {
   ): Observable<ApiResponse<Vehicle>> {
     let params = new HttpParams();
 
-    if (vehicleCount) params = params.append('ItemQuantity', vehicleCount);
-    if (bodyTypeId) params = params.append('BodyTypeId', bodyTypeId);
+    if (vehicleCount) params = params.set('ItemQuantity', vehicleCount);
+    if (bodyTypeId) params = params.set('BodyTypeId', bodyTypeId);
     if (LowerPriceLimit)
-      params = params.append('LowerPriceLimit', LowerPriceLimit);
-    params = params.append('selectionProfile', 2);
+      params = params.set('LowerPriceLimit', LowerPriceLimit);
+    params = params.set('selectionProfile', 2);
     // return this.http.get<any>(this.baseUrl + 'Vehicles',{params});
     return this.http.get<{ items: Vehicle[] }>(this.baseUrl + 'vehicles', {
       params,

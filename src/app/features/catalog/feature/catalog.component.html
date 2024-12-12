@@ -1,3 +1,39 @@
-<div class="container mx-auto">
-  
+<div class="container mx-auto flex flex-row gap-xs">
+  <!--Main filters-->
+  <aside class="hidden md:block bg-kimberly-50 h-fit py-base w-[288px] mr-[16px]">
+    <!--Brand and model filters-->
+    <div class="flex flex-col gap-[10px] px-base">
+      <div class="flex flex-col gap-[10px]">
+        <span class="inline-block">Марка авто</span>
+        <app-filter-dropdown
+          placeHolder="Виберіть марку авто"
+        ></app-filter-dropdown>
+      </div>
+      <div class="flex flex-col gap-[10px]">
+        <span class="inline-block">Модель авто</span>
+        <app-filter-dropdown
+          placeHolder="Виберіть модель авто"
+        ></app-filter-dropdown>
+      </div>
+    </div>
+    <!--Hr analog-->
+    <div
+      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
+    ></div>
+    <!--Price related filters-->
+  </aside>
+  <main class="flex-grow">
+    <!--Others filters-->
+    <app-view-mode-selectors></app-view-mode-selectors>
+    <!--Vehicle data exhibition-->
+    @if(store.vehicles()) {
+    <app-vehicle-data-view
+      [vehicles]="store.vehicles()"
+    ></app-vehicle-data-view>
+    } @else {
+    <div class="p-sm">
+      <span>Виникли проблеми, спробуйте перезапустити сторінку.</span>
+    </div>
+    }
+  </main>
 </div>

@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'catalog',
     title: 'catalog',
     loadChildren: () =>
-      import('./features/catalog/feature/catalog.module').then((m) => m.CatalogModule),
+      import('./features/catalog/catalog.module').then((m) => m.CatalogModule),
     data: { breadcrumb: { label: 'Каталог' } },
   },
   { path: '**', component: NotFoundComponent },
