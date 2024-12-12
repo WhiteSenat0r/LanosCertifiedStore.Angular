@@ -14,8 +14,9 @@ export class CatalogComponent {
   readonly store = inject(VehicleStore);
 
   ngOnInit(): void {
-    this.store.loadVehicles();
-    this.store.loadVehicleCount();
+    
+    this.store.loadVehicles(this.vehicleSearchCriterias);
+    this.store.loadVehicleCount(this.vehicleSearchCriterias);
   }
 
   handlePageChangeEvent(pageIndex: number){

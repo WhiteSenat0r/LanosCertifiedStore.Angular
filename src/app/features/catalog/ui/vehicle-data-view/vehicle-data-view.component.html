@@ -1,6 +1,10 @@
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-md md:gap-md lg:gap-base">
+<div
+  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-md md:gap-md lg:gap-base"
+>
   @for (vehicle of vehicles.slice(0, 9); track $index) {
-  <div class="group cursor-default bg-kimberly-50 rounded shadow-md transition-shadow duration-700 hover:shadow-xl">
+  <div
+    class="group cursor-pointer bg-kimberly-50 rounded shadow-md transition-shadow duration-700 hover:shadow-xl"
+  >
     <div class="overflow-hidden rounder-t h-[160px]">
       <img
         src="assets/images/Home/hero-image-cars.png"
@@ -21,14 +25,56 @@
       </div>
       <!--Chips (change the name in the future!!!)-->
       <div class="flex flex-row gap-sm flex-wrap mb-[10px]">
-        @for (item of vehicles.slice(0,4); track $index) {
+        <!--1-->
         <div
-          class="flex flex-row w-fit p-xs rounded gap-xs bg-kimberly-100 text-sm"
+          class="flex flex-row items-center w-fit py-xs px-sm rounded gap-xs bg-kimberly-100 text-sm max-w-[120px]"
         >
-          <kolesko-icon name="google-map"></kolesko-icon>
-          <span>Шось</span>
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/ion_car-sport-outline.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.mileage | number : "0.0" }}км</span>
         </div>
-        }
+        <!--2-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm rounded gap-xs bg-kimberly-100 text-sm max-w-[120px]"
+        >
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/lucide_fuel.svg"
+          ></kolesko-icon>
+          <span class="truncate">{{ vehicle.engineType }}</span>
+        </div>
+        <!--3-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm rounded gap-xs bg-kimberly-100 text-sm max-w-[120px]"
+        >
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/map-pin.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.locationTownName }}</span>
+        </div>
+        <!--4-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm gap-xs rounded bg-kimberly-100 text-sm max-w-[120px]"
+        >
+          <kolesko-icon
+            class="text-portGore-700"
+            src="assets/icons/features/catalog/vehicle_icons/mdi_engine-outline.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.displacement }}л</span>
+        </div>
+        <!--5-->
+        <div
+          class="flex flex-row items-center w-fit px-sm rounded gap-xs bg-kimberly-100 text-sm max-w-[120px]"
+        >
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/tabler_manual-gearbox.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.bodyType }}</span>
+        </div>
       </div>
 
       <div class="flex flex-row justify-end items-center pb-[12px]">
