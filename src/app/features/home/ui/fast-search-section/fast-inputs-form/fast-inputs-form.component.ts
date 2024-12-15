@@ -1,25 +1,16 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PriceRange } from '../../../models/PriceRange';
-import { DropdownHeaderData } from '../../../models/DropdownHeaderData';
 import { DropdownElementData } from '../../../models/DropdownElementData.enum';
+import { DropdownHeaderData } from '../../../models/DropdownHeaderData';
+import { PriceRange } from '../../../models/PriceRange';
 import { SearchAdvancedParams } from '../../../models/SearchAdvancedParams';
 
 @Component({
-  selector: 'app-advanced-inputs-form',
-  templateUrl: './advanced-inputs-form.component.html',
-  styleUrl: './advanced-inputs-form.component.css',
+  selector: 'app-fast-inputs-form',
+  templateUrl: './fast-inputs-form.component.html',
+  styleUrl: './fast-inputs-form.component.css',
 })
-export class AdvancedInputsFormComponent implements AfterViewInit {
+export class FastInputsFormComponent {
   gridDivArraysInfo: DropdownHeaderData[] = [
     {
       iconUrl: 'calendar',
@@ -89,7 +80,11 @@ export class AdvancedInputsFormComponent implements AfterViewInit {
       (this.highestPriceValue - this.lowestPriceValue) * 0.01;
     this.ourValue =
       inputStep * Number(inputElement.value) + this.lowestPriceValue;
-    this.searchParams = {...this.searchParams, lowestPrice: this.lowestPriceValue, highestPrice:this.ourValue}
+    this.searchParams = {
+      ...this.searchParams,
+      lowestPrice: this.lowestPriceValue,
+      highestPrice: this.ourValue,
+    };
     this.cdRef.detectChanges();
   }
 
@@ -102,7 +97,6 @@ export class AdvancedInputsFormComponent implements AfterViewInit {
   handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
     this.getInfoForUlEvent.emit(ApiCallOption);
   }
-
 
   handleOptionPicked(option: string, ApiCallOption: DropdownElementData) {
     switch (ApiCallOption) {
@@ -125,7 +119,7 @@ export class AdvancedInputsFormComponent implements AfterViewInit {
         this.searchParams.year = Number(option);
         break;
       default:
-        console.error('There is not such an ApiCallOption')
+        console.error('There is not such an ApiCallOption');
         break;
     }
   }

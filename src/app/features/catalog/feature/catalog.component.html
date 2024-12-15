@@ -23,10 +23,11 @@
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
     ></div>
     <!--PRICE RELATED FILTER-->
+    <app-filter-price-by-range-elements></app-filter-price-by-range-elements>
   </aside>
   <main class="flex-grow">
     <!--OTHER FILTERS-->
-    <app-view-mode-selectors></app-view-mode-selectors>
+    <app-view-mode-selectors [filteredTotalResults]="store.filteredTotalVehicleCount()" [ourViewMode]="ourViewMode" (viewModeToggleEvent)="handleViewModeToggleEvent($event)"></app-view-mode-selectors>
     <!--VEHICLE DATA EXHIBITION-->
     @if(store.vehicles()) {
     <app-vehicle-data-view

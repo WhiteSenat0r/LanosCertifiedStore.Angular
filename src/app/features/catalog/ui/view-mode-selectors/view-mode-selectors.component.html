@@ -1,11 +1,11 @@
 <div class="mb-[14px]">
   <div class="flex flex-row justify-between mb-[14px] max-h-[24px]">
-    <div><span>34 126 результатів</span></div>
+    <div><span>{{filteredTotalResults | number:"0.0"}} результатів</span></div>
     <!--VIEW MODE SELECTORS-->
     <div class="flex flex-row gap-[6px]">
       <!--By some criteria-->
       <div
-        class="flex flex-row gap-xs border-b-[1px] border-transparent cursor-pointer  hover:border-portGore-950"
+        class="flex flex-row gap-xs border-b-[1px] border-transparent cursor-pointer hover:border-portGore-950"
       >
         <kolesko-icon
           [size]="24"
@@ -21,16 +21,20 @@
       <div class="min-w-[1px] h-full bg-portGore-950"></div>
       <!--LIST VIEW-->
       <kolesko-icon
+        [ngClass]="{ 'text-portGore-950 opacity-100': (ourViewMode === ViewMode.list) }"
         [size]="24"
         src="assets/icons/features/catalog/line-md_list.svg"
         [stroke]="true"
-        class="my-auto cursor-pointer text-portGore-400 opacity-90 hover:text-portGore-950 hover:opacity-100"
+        class="my-auto cursor-pointer text-portGore-400 opacity-90 transition-all hover:text-portGore-950 hover:opacity-100"
+        (click)="onViewModeButtonClick(ViewMode.list)"
       ></kolesko-icon>
       <!--GRID VIEW-->
       <kolesko-icon
+        [ngClass]="{ 'text-portGore-950 opacity-100': (ourViewMode === ViewMode.grid)  }"
         [size]="24"
         src="assets/icons/features/catalog/rivet-icons_grid-vertical.svg"
-        class="my-auto cursor-pointer text-portGore-950 opacity-90 hover:text-portGore-950 hover:opacity-100"
+        class="my-auto cursor-pointer text-portGore-400 opacity-90 transition-all hover:text-portGore-950 hover:opacity-100"
+        (click)="onViewModeButtonClick(ViewMode.grid)"
       ></kolesko-icon>
     </div>
   </div>
