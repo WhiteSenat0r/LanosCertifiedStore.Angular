@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
 import { VehicleStore } from '../stores/vehicles.store';
 import { VehicleSearchCriterias } from '../models/VehicleSearchCriterias';
 import { ViewMode } from '../models/ViewMode.enum';
