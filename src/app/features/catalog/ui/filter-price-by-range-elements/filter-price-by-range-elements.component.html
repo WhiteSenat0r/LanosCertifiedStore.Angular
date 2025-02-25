@@ -1,0 +1,56 @@
+<div class="flex flex-col gap-[10px] z-10">
+  <div><span>Ціна</span></div>
+  <!--PRICE INPUTS-->
+  <div class="flex gap-lg w-full">
+    <input
+      class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
+      type="text"
+      placeholder="0"
+    />
+    <input
+      class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
+      type="text"
+      placeholder="2500"
+    />
+  </div>
+
+  <!--PRICE RANGE-->
+  <div>
+    <div class="flex flex-row justify-between">
+      <span>{{ "0 - 2500" }}</span>
+      <span class="text-kimberly-500">{{ "2500" }}</span>
+    </div>
+    <div class="relative w-full mt-[6px]">
+      <input
+        #minRange
+        (input)="onMinValueChange($event)"
+        class="absolute -translate-y-1/2 top-[2px] left-[0px] w-full appearance-none bg-transparent z-20"
+        type="range"
+        min="0"
+        max="100"
+        [value]="minValue"
+      />
+      <input
+        #maxRange
+        (input)="onMaxValueChange($event)"
+        class="absolute -translate-y-1/2 top-[2px] left-[0px] w-full appearance-none bg-transparent z-20"
+        type="range"
+        min="0"
+        max="100"
+        [value]="maxValue"
+      />
+      <!--ACTIVE RANGE-->
+      <div
+        class="absolute top-[0px] bg-portGore-700 h-[4px] rounded-xl z-10"
+        [ngStyle]="{
+          left: minValue + '%',
+          width: (maxValue - minValue) + '%'
+        }"
+      ></div>
+      <!--BACKGROUND RANGE-->
+      <div
+        class="absolute top-[0px] left-[0px] w-full bg-portGore-300 h-[4px] rounded-xl z-0"
+      ></div>
+    </div>
+  </div>
+</div>

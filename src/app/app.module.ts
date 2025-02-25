@@ -9,9 +9,10 @@ import { CoreModule } from './core/core.module';
 import { HomeModule } from './features/home/home.module';
 import { provideHttpClient } from '@angular/common/http';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-import {NgxPaginationModule} from 'ngx-pagination';
-import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BreadcrumbHolderComponent } from './shared/ui/breadcrumb-holder/breadcrumb-holder.component';
+import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,9 +26,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgxSliderModule,
     FormsModule,
     NgxPaginationModule,
-    BreadcrumbComponent, BreadcrumbItemDirective
+    BreadcrumbHolderComponent,
+    SvgIconDisplayComponent,
   ],
   providers: [provideHttpClient()],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
