@@ -126,10 +126,6 @@ export class HomeComponent implements OnInit {
               ...this.filteredBodyTypes,
               ...filteredBodyTypesDataHolder,
             ];
-            console.log(
-              'Оновлені фільтровані типи кузова:',
-              this.filteredBodyTypes
-            );
           },
           error: (error) => {
             console.error(error);

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
 import { PaginatedResult } from '../models/PaginatedResult';
 import { VehicleCountSummary } from '../models/VehicleCountSummary';
+import { VehicleColor } from '../../../shared/models/BaseApiModels/VehicleColor';
 
 //not the best approach in case of a 'solititude'
 //feature to pass an object with property provicedIn which is 'root'
@@ -38,4 +39,10 @@ export class CatalogService {
   {
     return this.http.get<VehicleCountSummary>(this.baseUrl + 'vehicles/count')
   }
+
+  getVehicleColors() : Observable<PaginatedResult<VehicleColor>>
+  {
+    return this.http.get<PaginatedResult<VehicleColor>>(this.baseUrl + 'colors');
+  }
+
 }

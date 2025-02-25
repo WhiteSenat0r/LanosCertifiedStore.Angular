@@ -1,1 +1,9 @@
-<p>color-palette works!</p>
+<ul class="mx-auto flex flex-row flex-wrap gap-x-sm gap-y-sm">
+  @for(color of colors(); track $index) {
+  <li class="w-[25px] h-[25px] rounded-sm cursor-pointer" [style.backgroundColor]="color.hexValue"></li>
+
+  } @empty {
+  <div>ok</div>
+  }
+</ul>
+

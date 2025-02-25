@@ -50,7 +50,7 @@
     <div class="flex flex-col gap-[12px] px-base">
       <span class="inline-block">Колір</span>
       <!--COLORS GRID PICKER-->
-      <div></div>
+      <app-color-palette [colors]="this.vehicleFilterStore.colors()"></app-color-palette>
     </div>
     <!--HR ANALOG-->
     <div
@@ -107,14 +107,14 @@
   <main class="flex-grow">
     <!--OTHER FILTERS-->
     <app-view-mode-selectors
-      [filteredTotalResults]="store.filteredTotalVehicleCount()"
+      [filteredTotalResults]="vehicleStore.filteredTotalVehicleCount()"
       [ourViewMode]="ourViewMode"
       (viewModeToggleEvent)="handleViewModeToggleEvent($event)"
     ></app-view-mode-selectors>
     <!--VEHICLE DATA EXHIBITION-->
-    @if(store.vehicles()) {
+    @if(vehicleStore.vehicles()) {
     <app-vehicle-data-view
-      [vehicles]="store.vehicles()"
+      [vehicles]="vehicleStore.vehicles()"
     ></app-vehicle-data-view>
     } @else {
     <div class="p-sm">
@@ -125,9 +125,9 @@
     <div class="flex mt-xl mb-2xl justify-center">
       <app-pagination
         [totalPages]="
-          store.filteredTotalVehicleCount() / store.currentPageItemsQuantity()
+          vehicleStore.filteredTotalVehicleCount() / vehicleStore.currentPageItemsQuantity()
         "
-        [currentPage]="store.pageIndex()"
+        [currentPage]="vehicleStore.pageIndex()"
         (onPageChangeEvent)="handlePageChangeEvent($event)"
       ></app-pagination>
     </div>

@@ -2,26 +2,21 @@ import { Component, inject } from '@angular/core';
 import { VehicleStore } from '../stores/vehicles.store';
 import { VehicleSearchCriterias } from '../models/VehicleSearchCriterias';
 import { ViewMode } from '../models/ViewMode.enum';
+import { VehicleFilterStore } from '../stores/vehicleFilter.store';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css',
-  providers: [VehicleStore],
+  providers: [VehicleStore, VehicleFilterStore],
 })
 export class CatalogComponent {
-  private vehicleSearchCriterias: VehicleSearchCriterias =
-    new VehicleSearchCriterias();
-  readonly store = inject(VehicleStore);
-
-  ngOnInit(): void {
-    this.store.loadVehicles(this.vehicleSearchCriterias);
-    this.store.loadVehicleCount(this.vehicleSearchCriterias);
-  }
+  readonly vehicleStore = inject(VehicleStore);
+  readonly vehicleFilterStore = inject(VehicleFilterStore);
 
   handlePageChangeEvent(pageIndex: number) {
-    this.vehicleSearchCriterias.pageIndex = pageIndex;
-    this.store.loadVehicles(this.vehicleSearchCriterias);
+    this.vehicleStore.setVehicleSearchCriterias({ pageIndex });
+    this.vehicleStore.loadVehicles();
   }
 
   ViewMode = ViewMode;
