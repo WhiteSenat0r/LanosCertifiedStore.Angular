@@ -1,4 +1,32 @@
-<div class="w-[256px] py-xs px-[12px] flex flex-row justify-between items-center border-2 border-jaguar-900 cursor-pointer rounded">
-    <span class="text-xs font-light">{{ placeHolder }}</span>
-    <kolesko-icon class="rotate-90"></kolesko-icon>
+<div
+  #dropdownContainer
+  class="group box-border z-40 hover:z-50 relative w-[256px] transition-all duration-75 py-xs px-[12px] flex flex-row justify-between items-center border-[2px] border-black cursor-pointer rounded"
+  (click)="handleFilterClick()"
+  [class.z-50]="isShown()"
+  [class.rounded-b-none]="isShown()"
+>
+  <div
+    [class.opacity-25]="isShown()"
+    class="absolute inset-[0px] h-full w-full transition-all duration-75 bg-portGore-500 opacity-0 group-hover:opacity-25"
+  ></div>
+  <span class="text-xs font-light">{{ kylavlob() ?? placeHolder()}}</span>
+  <kolesko-icon
+    [class.rotate-90]="isShown()"
+    class="transition-all duration-75"
+  ></kolesko-icon>
+  <ul
+    [@dropDown]="isShown() ? 'open' : 'closed'"
+    class="absolute box-border w-[calc(100%+4px)] py-[6px] top-[100%] -left-[2px] border-[2px] px-xs border-t-0 border-portGore-950 bg-white rounded-b"
+  >
+    <!--FOR INSIDE SCROLL UI VIEW-->
+    <div class="catalogFilterScroller flex flex-col items-start h-full w-full">
+      @for(item of items; track $index) {
+      <li class="pr-xs w-full">
+        <div class="pl-sm py-xs pr-xs hover:bg-portGore-50 rounded-sm w-full" (click)="handleNewChoicePicked(item)">
+          {{ item }}
+        </div>
+      </li>
+      }
+    </div>
+  </ul>
 </div>

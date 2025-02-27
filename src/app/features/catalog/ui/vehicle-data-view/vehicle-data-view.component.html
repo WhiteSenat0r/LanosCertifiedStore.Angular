@@ -3,13 +3,14 @@
 >
   @for (vehicle of vehicles.slice(0, 9); track $index) {
   <div
-    class="group border-[2px] border-portGore-950 border-opacity-25 cursor-pointer bg-kimberly-50 rounded-md drop-shadow-md hover:border-opacity-100"
+    class="group border-[1px] border-portGore-950 border-opacity-25 cursor-pointer bg-kimberly-50 rounded-md shadow-sm hover:shadow hover:border-opacity-100"
   >
     <div class="overflow-hidden rounder-t h-[160px]">
       <img
-        src="assets/images/Home/hero-image-cars.png"
+        src="{{vehicle.mainImageUrl}}"
         class="w-full rounded-t h-full object-cover"
         alt="Vehicle Image"
+        appImageError="assets/images/Home/car-placeholder2.png"
       />
     </div>
 

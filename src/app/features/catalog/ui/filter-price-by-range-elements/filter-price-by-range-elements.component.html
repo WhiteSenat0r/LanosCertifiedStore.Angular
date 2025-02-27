@@ -6,45 +6,49 @@
       class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
       type="text"
       placeholder="0"
+      [value]="minValue"
+      (input)="onMinValueChange($event)"
     />
     <input
       class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
       type="text"
-      placeholder="2500"
+      placeholder="100"
+      [value]="maxValue"
+      (input)="onMinValueChange($event)"
     />
   </div>
 
   <!--PRICE RANGE-->
   <div>
     <div class="flex flex-row justify-between">
-      <span>{{ "0 - 2500" }}</span>
-      <span class="text-kimberly-500">{{ "2500" }}</span>
+      <span class="text-kimberly-500">{{ minPrice() }}</span>
+      <span class="text-kimberly-500">{{ maxPrice() }}</span>
     </div>
-    <div class="relative w-full mt-[6px]">
+    <div class="relative mx-auto w-[calc(100%-18px)] mt-[6px]">
       <input
         #minRange
         (input)="onMinValueChange($event)"
-        class="absolute -translate-y-1/2 top-[2px] left-[0px] w-full appearance-none bg-transparent z-20"
+        class="absolute -translate-y-1/2 top-[2px] -left-[9px] w-full appearance-none bg-transparent z-20"
         type="range"
-        min="0"
-        max="100"
+        [min]="minPrice()"
+        [max]="maxPrice()"
         [value]="minValue"
       />
       <input
         #maxRange
         (input)="onMaxValueChange($event)"
-        class="absolute -translate-y-1/2 top-[2px] left-[0px] w-full appearance-none bg-transparent z-20"
+        class="absolute -translate-y-1/2 top-[2px] -right-[9px] w-full appearance-none bg-transparent z-20"
         type="range"
-        min="0"
-        max="100"
+        [min]="minPrice()"
+        [max]="maxPrice()"
         [value]="maxValue"
       />
       <!--ACTIVE RANGE-->
       <div
         class="absolute top-[0px] bg-portGore-700 h-[4px] rounded-xl z-10"
         [ngStyle]="{
-          left: minValue + '%',
-          width: (maxValue - minValue) + '%'
+          left: ((minValue - minPrice()) * 100 / (maxPrice() - minPrice())) + '%',
+          width: (((maxValue - minValue) * 100)  / (maxPrice() - minPrice())) + '%'
         }"
       ></div>
       <!--BACKGROUND RANGE-->

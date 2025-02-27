@@ -12,11 +12,11 @@ import { PaginationComponent } from './ui/pagination/pagination.component';
 import { FilterPriceByRangeElementsComponent } from './ui/filter-price-by-range-elements/filter-price-by-range-elements.component';
 import { ColorPaletteComponent } from './ui/color-palette/color-palette.component';
 import { FilterCheckboxesComponent } from './ui/filter-checkboxes/filter-checkboxes.component';
+import { ImageErrorDirective } from '../../shared/directives/image-error.directive';
 
 @NgModule({
   declarations: [CatalogComponent, FilterDropdownComponent, VehicleDataViewComponent, ViewModeSelectorsComponent, PaginationComponent, FilterPriceByRangeElementsComponent, ColorPaletteComponent, FilterCheckboxesComponent],
-  imports: [CommonModule, CatalogRoutingModule, SvgIconDisplayComponent],
-  exports: [CatalogComponent],
+  imports: [CommonModule, CatalogRoutingModule, SvgIconDisplayComponent, ImageErrorDirective],
   providers: [CatalogService],
 })
 export class CatalogModule {}

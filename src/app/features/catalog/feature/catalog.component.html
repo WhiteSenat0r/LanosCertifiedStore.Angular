@@ -1,17 +1,17 @@
 <div class="container mx-auto flex flex-row gap-xs">
   <!--MAIN FILTERS-->
   <aside
-    class="hidden md:block bg-kimberly-50 h-fit py-base w-[288px] mr-[16px]"
+    class="hidden md:block bg-kimberly-50 h-fit pt-base w-[288px] mr-[16px] box-content border-[1px] border-portGore-950 rounded"
   >
     <!--BRAND AND MODEL FILTERS-->
     <div class="flex flex-col gap-[10px] px-base">
-      <div class="flex flex-col gap-[10px]">
+      <div class="relative flex flex-col gap-[10px]">
         <span class="inline-block">Марка авто</span>
         <app-filter-dropdown
           placeHolder="Виберіть марку авто"
         ></app-filter-dropdown>
       </div>
-      <div class="flex flex-col gap-[10px]">
+      <div class="relative flex flex-col gap-[10px]">
         <span class="inline-block">Модель авто</span>
         <app-filter-dropdown
           placeHolder="Виберіть модель авто"
@@ -24,7 +24,12 @@
     ></div>
     <!--PRICE RELATED FILTER-->
     <div class="px-base">
-      <app-filter-price-by-range-elements></app-filter-price-by-range-elements>
+      <app-filter-price-by-range-elements
+        [minPrice]="vehicleFilterStore.priceRange().lowest"
+        [maxPrice]="vehicleFilterStore.priceRange().highest"
+        (onMinValueChangeEmitter)="handleMinPriceChange($event)"
+        (onMaxValueChangeEmitter)="handleMaxPriceChange($event)"
+      ></app-filter-price-by-range-elements>
       <div class="mt-md">
         <app-filter-dropdown placeHolder="EUR"></app-filter-dropdown>
       </div>
@@ -50,58 +55,42 @@
     <div class="flex flex-col gap-[12px] px-base">
       <span class="inline-block">Колір</span>
       <!--COLORS GRID PICKER-->
-      <app-color-palette [colors]="this.vehicleFilterStore.colors()"></app-color-palette>
+      <app-color-palette
+        [colors]="this.vehicleFilterStore.colors()"
+        (onColorChange)="handleColorChange($event)"
+      ></app-color-palette>
     </div>
     <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
     ></div>
-    <div class="px-base">
-      <div class="flex flex-row justify-between items-center">
-        <span class="text-md">Тип двигуна</span>
-        <kolesko-icon class="rotate-90"></kolesko-icon>
-      </div>
-    </div>
+    <!--TYPE OF ENGINE-->
+    <app-filter-checkboxes filterType="Тип двигуна"></app-filter-checkboxes>
     <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
     ></div>
-    <div class="px-base">
-      <div class="flex flex-row justify-between items-center">
-        <span class="text-md">Тип приводу</span>
-        <kolesko-icon class="rotate-90"></kolesko-icon>
-      </div>
-    </div>
+    <!--TYPE OF "PRUVODY"*UA-->
+    <app-filter-checkboxes filterType="Тип приводу"></app-filter-checkboxes>
     <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
     ></div>
-    <div class="px-base">
-      <div class="flex flex-row justify-between items-center">
-        <span class="text-md">Тип кузова</span>
-        <kolesko-icon class="rotate-90"></kolesko-icon>
-      </div>
-    </div>
+    <!--BODY TYPE-->
+    <app-filter-checkboxes filterType="Тип кузова"></app-filter-checkboxes>
     <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
     ></div>
-    <div class="px-base">
-      <div class="flex flex-row justify-between items-center">
-        <span class="text-md">Тип трансмісії</span>
-        <kolesko-icon class="rotate-90"></kolesko-icon>
-      </div>
-    </div>
+    <!--TYPE OF TRANSMISSION-->
+    <app-filter-checkboxes filterType="Тип трансмісії"></app-filter-checkboxes>
     <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
     ></div>
-    <div class="px-base">
-      <div class="flex flex-row justify-between items-center">
-        <span class="text-md">Тип транспортного засобу</span>
-        <kolesko-icon class="rotate-90"></kolesko-icon>
-      </div>
-    </div>
+    <!--TYPE OF "TRANSPORTNOGO ZASOBY"*UA-->
+    <app-filter-checkboxes filterType="Тип транспортного засобу"></app-filter-checkboxes>
+    <div class="mb-[10px]"></div>
   </aside>
 
   <main class="flex-grow">
@@ -125,7 +114,8 @@
     <div class="flex mt-xl mb-2xl justify-center">
       <app-pagination
         [totalPages]="
-          vehicleStore.filteredTotalVehicleCount() / vehicleStore.currentPageItemsQuantity()
+          vehicleStore.filteredTotalVehicleCount() /
+          vehicleStore.currentPageItemsQuantity()
         "
         [currentPage]="vehicleStore.pageIndex()"
         (onPageChangeEvent)="handlePageChangeEvent($event)"

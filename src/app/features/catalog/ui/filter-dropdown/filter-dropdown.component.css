@@ -1,0 +1,17 @@
+.catalogFilterScroller {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+.catalogFilterScroller:empty {
+  display: none;
+}
+.catalogFilterScroller::-webkit-scrollbar {
+  @apply w-[5px]
+}
+.catalogFilterScroller::-webkit-scrollbar-track {
+  @apply bg-portGore-300 rounded-full;
+}
+
+.catalogFilterScroller::-webkit-scrollbar-thumb {
+  @apply bg-portGore-500 rounded-full;
+}

@@ -7,6 +7,9 @@ import {
   inject,
   input,
   InputSignal,
+  output,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { VehicleColor } from '../../../../shared/models/BaseApiModels/VehicleColor';
 
@@ -15,15 +18,13 @@ import { VehicleColor } from '../../../../shared/models/BaseApiModels/VehicleCol
   templateUrl: './color-palette.component.html',
 })
 export class ColorPaletteComponent {
-  cdr = inject(ChangeDetectorRef);
   colors: InputSignal<VehicleColor[]> = input<VehicleColor[]>([]);
-
-  ref: EffectRef = effect(() => {
-    console.log(this.colors());
-    this.cdr.detectChanges();
-  });
-
-  handleButtonClick() {
-    console.log('yes');
+  chosenColor: WritableSignal<VehicleColor | undefined> = signal(undefined);
+  onColorChange = output<VehicleColor>();
+  handleColorPick(color: VehicleColor) {
+    this.chosenColor.set(color);
+    this.onColorChange.emit(color);
   }
+
+
 }
