@@ -4,17 +4,63 @@
       <div class="w-[41px]">
         <img src="assets/images/logo/logo-dark.png" alt="Dark version of Kolesko logo" class="h-[46px] inline-block" />
       </div>
-
       <span class="text-h5 text-clip text-portGore-950 font-code">Kolesko</span>
     </div>
 
-    <div
-      class="w-full border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden sm:flex items-center justify-start">
-      <div routerLink="/catalog" class="relative group inline-block left-[-1px] cursor-pointer">
-        <kolesko-icon name="figure-bookmark-type-blue" class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34" [height]="28" />
-        <kolesko-icon class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2" name="search-short-stick" [size]="14" />
+    <div #searchContainer
+      class="w-full relative border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-visible hidden sm:flex items-center justify-start">
+
+      <div class="relative group inline-block left-[-1px] cursor-pointer">
+        <kolesko-icon name="figure-bookmark-type-blue"
+          class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34"
+          [height]="28" />
+        <kolesko-icon
+          class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2"
+          name="search-short-stick" [size]="14" />
       </div>
-      <input class="bg-kimberly-50 focus:outline-none w-full" placeholder="Пошук..." />
+
+      <input [formControl]="searchControl" class="bg-kimberly-50 focus:outline-none w-full" placeholder="Пошук..." />
+      
+      <div *ngIf="searchControl.value" (click)="clearSearch()"
+        class="mr-3 cursor-pointer text-portGore-500 hover:text-portGore-700 flex items-center justify-center"
+        style="min-width: 16px; font-size: 16px; line-height: 1;">
+        ✕
+      </div>
+
+      <div *ngIf="showResults"
+        class="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-96 overflow-y-auto"
+        style="width: 100%;">
+        <div *ngIf="isLoading" class="flex justify-center p-3">
+          <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-portGore-700"></div>
+        </div>
+
+        <div *ngIf="!isLoading && searchResults.length === 0" class="p-3 text-center text-gray-600">
+          Немає результатів за вашим запитом
+        </div>
+
+        <div *ngIf="!isLoading && searchResults.length > 0" style="padding: 4px;">
+          <div *ngFor="let vehicle of searchResults"
+            class="flex items-center hover:bg-gray-50 cursor-pointer transition-colors duration-150 border border-gray-100 rounded"
+            style="margin: 4px; padding: 4px;" (click)="navigateToVehicle(vehicle.id)">
+
+            <div class="flex-shrink-0" style="padding: 4px;">
+              <img [src]="vehicle.mainImageUrl" [alt]="vehicle.fullName"
+                class="w-[110px] h-[70px] object-cover rounded">
+            </div>
+
+            <div class="flex-grow ml-3">
+              <span class="font-medium text-portGore-900 block">{{ vehicle.fullName }}</span>
+              <span class="text-portGore-700">{{ vehicle.price | currency:'USD':'symbol':'1.0-0' }}</span>
+            </div>
+          </div>
+
+          <div *ngIf="!showingAll && allSearchResults.length > 3"
+            class="text-center py-2 cursor-pointer text-portGore-700 hover:text-portGore-900 border-t border-gray-100"
+            (click)="loadMoreResults()">
+            <span>Переглянути ще</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div
@@ -24,16 +70,14 @@
     </div>
 
     <div class="hidden sm:flex flex-row gap-[12px] items-center">
-      <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34" [height]="28"></kolesko-icon>
-
+      <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34"
+        [height]="28"></kolesko-icon>
       <div class="flex flex-row items-center cursor-pointer">
         <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36"></kolesko-icon>
-
         <kolesko-icon class="text-portGore-700" name="arrow-down-main" [width]="22" [height]="20"></kolesko-icon>
       </div>
     </div>
 
-    <kolesko-icon class="sm:hidden" name="more" [size]="36">
-    </kolesko-icon>
+    <kolesko-icon class="sm:hidden" name="more" [size]="36"></kolesko-icon>
   </nav>
 </header>
