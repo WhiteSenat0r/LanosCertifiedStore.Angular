@@ -1,4 +1,4 @@
-import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
+import { Vehicle } from '../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import {
   patchState,
   signalStore,
@@ -8,9 +8,9 @@ import {
 } from '@ngrx/signals';
 import { CatalogService } from '../services/catalog.service';
 import { inject } from '@angular/core';
-import { PaginatedResult } from '../models/PaginatedResult';
-import { VehicleSearchCriterias } from '../models/VehicleSearchCriterias';
-import { VehicleCountSummary } from '../models/VehicleCountSummary';
+import { PaginatedResult } from '../../../shared/models/interfaces/api/PaginatedResult.interface';
+import { VehicleSearchCriterias } from '../models/classes/VehicleSearchCriterias.class';
+import { VehicleCountSummary } from '../models/interfaces/VehicleCountSummary.interface';
 type VehicleState = {
   vehicles: Vehicle[];
   vehicleSearchCriterias: VehicleSearchCriterias;
@@ -79,6 +79,6 @@ export const VehicleStore = signalStore(
         vehicles: [],
         filteredTotalVehicleCount: 0,
       });
-    }
+    },
   })
 );

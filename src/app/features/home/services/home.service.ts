@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
-import { BodyType } from '../../../shared/models/BaseApiModels/BodyType';
-import { EngineType } from '../../../shared/models/BaseApiModels/EngineType';
-import { PriceRange } from '../models/PriceRange';
-import { LocationRegion } from '../../../shared/models/BaseApiModels/LocationRegion';
-import { Brand } from '../../../shared/models/BaseApiModels/Brand';
-import { Model } from '../../../shared/models/BaseApiModels/Model';
-import { TransmissionType } from '../../../shared/models/BaseApiModels/TransmissionType';
-import { ApiResponse } from '../../../shared/models/ApiSpecificModels/ApiResponse';
-import { DropdownElementData } from '../models/DropdownElementData.enum';
+import { Vehicle } from '../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
+import { BodyType } from '../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
+import { EngineType } from '../../../shared/models/interfaces/vehicle-properties/EngineType.interface';
+import { PriceRange } from '../models/interfaces/PriceRange.interface';
+import { LocationRegion } from '../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
+import { Brand } from '../../../shared/models/interfaces/vehicle-properties/Brand.interface';
+import { Model } from '../../../shared/models/interfaces/vehicle-properties/Model.interface';
+import { TransmissionType } from '../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
+import { DropdownElementData } from '../models/enums/DropdownElementData.enum';
+import { ApiResponse } from '../../../shared/models/interfaces/api/ApiResponse.interface';
 
-@Injectable({providedIn: null})
+@Injectable({ providedIn: null })
 export class HomeService {
   private baseUrl = environment.apiUrl;
 

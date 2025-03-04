@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import Splide from '@splidejs/splide';
-import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
+import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 
 @Component({
   selector: 'app-slider-default',
@@ -51,7 +51,7 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
   }
 
   private initializeSplide() {
-    const perPageLimit = Math.min(4, this.vehicles.length)
+    const perPageLimit = Math.min(4, this.vehicles.length);
     this.splide = new Splide('#default-slider', {
       type: 'loop',
       perPage: perPageLimit,
@@ -62,7 +62,11 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
       drag: false,
       breakpoints: {
         1024: { perPage: Math.min(3, this.vehicles.length) },
-        768: { perPage: Math.min(2, this.vehicles.length), padding: { right: '10rem' }, drag: true },
+        768: {
+          perPage: Math.min(2, this.vehicles.length),
+          padding: { right: '10rem' },
+          drag: true,
+        },
         640: { perPage: Math.min(2, this.vehicles.length), padding: '0rem' },
         500: { perPage: Math.min(1, this.vehicles.length), padding: '0rem' },
       },

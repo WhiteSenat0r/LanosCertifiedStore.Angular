@@ -11,7 +11,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { VehicleColor } from '../../../../shared/models/BaseApiModels/VehicleColor';
+import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 
 @Component({
   selector: 'app-color-palette',
@@ -25,6 +25,4 @@ export class ColorPaletteComponent {
     this.chosenColor.set(color);
     this.onColorChange.emit(color);
   }
-
-
 }

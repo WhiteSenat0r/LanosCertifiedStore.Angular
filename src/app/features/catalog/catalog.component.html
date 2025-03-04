@@ -1,4 +1,4 @@
-<div class="container mx-auto flex flex-row gap-xs">
+<div class="container mx-auto flex flex-row gap-xs mb-md">
   <!--MAIN FILTERS-->
   <aside
     class="hidden md:block bg-kimberly-50 h-fit pt-base w-[288px] mr-[16px] box-content border-[1px] border-portGore-950 rounded"
@@ -7,34 +7,81 @@
     <div class="flex flex-col gap-[10px] px-base">
       <div class="relative flex flex-col gap-[10px]">
         <span class="inline-block">Марка авто</span>
-        <app-filter-dropdown
-          placeHolder="Виберіть марку авто"
-        ></app-filter-dropdown>
+        <div class="relative">
+          <app-filter-dropdown
+            placeHolder="Виберіть марку авто"
+            [items]="vehicleFilterStore.brands()"
+            (callForBrandPatchState)="
+              vehicleFilterStore.handleCallForBrandChangeState($event)
+            "
+          ></app-filter-dropdown>
+          @if(vehicleFilterStore.showBrandToolTip()) {
+          <app-tooltip-upside-down
+            message="Оберіть спочатку виробника"
+          ></app-tooltip-upside-down>
+          }
+        </div>
       </div>
       <div class="relative flex flex-col gap-[10px]">
         <span class="inline-block">Модель авто</span>
-        <app-filter-dropdown
-          placeHolder="Виберіть модель авто"
-        ></app-filter-dropdown>
+        <div #modelFilter>
+          <app-filter-dropdown
+            [placeHolder]="'Виберіть модель авто'"
+            [items]="vehicleFilterStore.models()"
+            [dependentFilter]="filterTypeEnum.modelFilter"
+            [lockingDropDown]="!vehicleFilterStore.brand()"
+            [filterReset]="vehicleFilterStore.modelFilterReset()"
+            (callForModelPatchState)="
+              vehicleFilterStore.handleCallForModelChangeState($event)
+            "
+            (filterResetWasUsed)="vehicleFilterStore.resetDependentFilter($event)"
+          ></app-filter-dropdown>
+        </div>
       </div>
     </div>
-    <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
     ></div>
     <!--PRICE RELATED FILTER-->
     <div class="px-base">
+      <!--PRICE INPUTS-->
       <app-filter-price-by-range-elements
         [minPrice]="vehicleFilterStore.priceRange().lowest"
         [maxPrice]="vehicleFilterStore.priceRange().highest"
         (onMinValueChangeEmitter)="handleMinPriceChange($event)"
         (onMaxValueChangeEmitter)="handleMaxPriceChange($event)"
       ></app-filter-price-by-range-elements>
+      <!--CURRENCY CHIP PICKER-->
       <div class="mt-md">
-        <app-filter-dropdown placeHolder="EUR"></app-filter-dropdown>
+        <ul class="flex flex-row gap-sm">
+          @for(currency of vehicleFilterStore.currencyArray(); track $index) {
+          <li
+            class="relative group border-[2px] border-kimberly-500 transition-all duration-150 hover:border-portGore-500 rounded px-base py-[2px]"
+            (click)="vehicleFilterStore.changeCurrencyTypeState(currency)"
+            [class]="
+              vehicleFilterStore.currencyType() === currency
+                ? 'bg-portGore-500 !border-portGore-500 text-white'
+                : 'text-black cursor-pointer'
+            "
+          >
+            @if(vehicleFilterStore.currencyType() !== currency) {
+            <div
+              class="absolute inset-[0px] h-full w-full transition-all duration-150 bg-portGore-300 opacity-0 group-hover:opacity-25"
+            ></div>
+            }
+
+            <span
+              [class.pointer-events-none]="
+                vehicleFilterStore.currencyType() !== currency
+              "
+              class="cursor-default"
+              >{{ currency }}</span
+            >
+          </li>
+          }
+        </ul>
       </div>
     </div>
-    <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
     ></div>
@@ -48,7 +95,6 @@
         <app-filter-dropdown placeHolder="Оберіть місто"></app-filter-dropdown>
       </div>
     </div>
-    <!--HR ANALOG-->
     <div
       class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
     ></div>
@@ -60,45 +106,31 @@
         (onColorChange)="handleColorChange($event)"
       ></app-color-palette>
     </div>
-    <!--HR ANALOG-->
-    <div
-      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
-    ></div>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px]"></div>
     <!--TYPE OF ENGINE-->
     <app-filter-checkboxes filterType="Тип двигуна"></app-filter-checkboxes>
-    <!--HR ANALOG-->
-    <div
-      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
-    ></div>
-    <!--TYPE OF "PRUVODY"*UA-->
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
+    <!--TYPE OF DRIVETRAIN-->
     <app-filter-checkboxes filterType="Тип приводу"></app-filter-checkboxes>
-    <!--HR ANALOG-->
-    <div
-      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
-    ></div>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--BODY TYPE-->
     <app-filter-checkboxes filterType="Тип кузова"></app-filter-checkboxes>
-    <!--HR ANALOG-->
-    <div
-      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
-    ></div>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--TYPE OF TRANSMISSION-->
     <app-filter-checkboxes filterType="Тип трансмісії"></app-filter-checkboxes>
-    <!--HR ANALOG-->
-    <div
-      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[10px] mb-[10px]"
-    ></div>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--TYPE OF "TRANSPORTNOGO ZASOBY"*UA-->
-    <app-filter-checkboxes filterType="Тип транспортного засобу"></app-filter-checkboxes>
-    <div class="mb-[10px]"></div>
+    <app-filter-checkboxes
+      filterType="Тип транспортного засобу"
+    ></app-filter-checkboxes>
   </aside>
 
   <main class="flex-grow">
     <!--OTHER FILTERS-->
     <app-view-mode-selectors
       [filteredTotalResults]="vehicleStore.filteredTotalVehicleCount()"
-      [ourViewMode]="ourViewMode"
-      (viewModeToggleEvent)="handleViewModeToggleEvent($event)"
+      [ourViewMode]="currentViewMode"
+      (viewModeToggleEvent)="handleViewModeToggle($event)"
     ></app-view-mode-selectors>
     <!--VEHICLE DATA EXHIBITION-->
     @if(vehicleStore.vehicles()) {
@@ -118,7 +150,7 @@
           vehicleStore.currentPageItemsQuantity()
         "
         [currentPage]="vehicleStore.pageIndex()"
-        (onPageChangeEvent)="handlePageChangeEvent($event)"
+        (onPageChangeEvent)="handlePageChange($event)"
       ></app-pagination>
     </div>
   </main>

@@ -1,21 +1,25 @@
 import {
   Component,
+  effect,
   ElementRef,
   HostListener,
   input,
-  Input,
+  InputSignal,
+  output,
   signal,
   ViewChild,
-  WritableSignal,
 } from '@angular/core';
-import { SvgIconDisplayComponent } from '../../../../shared/utils/svg-icon-display.component';
 import {
   trigger,
   state,
   style,
   transition,
   animate,
+  AnimationEvent,
 } from '@angular/animations';
+import { Brand } from '../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
+import { Model } from '../../../../shared/models/interfaces/vehicle-properties/Model.interface';
+import { FilterType } from '../../models/enums/FilterType.enum';
 
 @Component({
   selector: 'app-filter-dropdown',
@@ -26,7 +30,7 @@ import {
       state(
         'open',
         style({
-          height: '144px',
+          height: '*',
           visibility: 'visible',
         })
       ),
@@ -44,28 +48,58 @@ import {
 })
 export class FilterDropdownComponent {
   @ViewChild('dropdownContainer') dropdownContainer!: ElementRef;
+
+  // Inputs
+  items = input<Brand[] | Model[]>();
   placeHolder = input.required<string>();
-  kylavlob: WritableSignal<string | undefined> = signal(undefined);
+  dependentFilter: InputSignal<FilterType | undefined> = input<FilterType>();
+  lockingDropDown = input<boolean>();
+  filterReset = input<boolean>();
 
+  // Outputs
+  callForBrandPatchState = output<Brand>();
+  callForModelPatchState = output<Model>();
+  filterResetWasUsed = output<FilterType>();
+
+  // State
+  selectedItemName?: string;
   isShown = signal(false);
+  animationState = signal('closed');
 
-  items: any = [
-    'First item',
-    'Second item',
-    'Third item',
-    'Fourth item',
-    'Fifth item',
-    'Sixth item',
-  ];
+  // Reset for filters with dependencies
+  resetModelFilterEffect = effect(() => {
+    if (this.filterReset()) {
+      this.selectedItemName = undefined;
+      if(this.dependentFilter())
+      {
+        this.filterResetWasUsed.emit(this.dependentFilter()!);
+      }
+    }
+  });
 
-  handleNewChoicePicked(item: string): void {
-    this.kylavlob.set(item);
+  /** Handle selection of an item */ 
+  handleNewChoicePicked(item: Brand | Model): void {
+    this.selectedItemName = item.name;
+
+    if (this.dependentFilter() === FilterType.modelFilter) {
+      this.callForModelPatchState.emit(item as Model);
+    } else {
+      this.callForBrandPatchState.emit(item as Brand);
+    }
   }
 
+  /** Toggle dropdown visibility */
   handleFilterClick() {
-    this.isShown.update((value) => !value);
+    if (this.dependentFilter() === FilterType.modelFilter) {
+      if (!this.lockingDropDown()) {
+        this.isShown.update((value) => !value);
+      }
+    } else {
+      this.isShown.update((value) => !value);
+    }
   }
 
+  /** Closes dropdown when clicking outside */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.isShown()) return;
@@ -76,5 +110,9 @@ export class FilterDropdownComponent {
     if (dropdownElement && !dropdownElement.contains(clickedElement)) {
       this.isShown.set(false);
     }
+  }
+
+  onAnimationDropDownDone(event: AnimationEvent) {
+    this.animationState.set(event.toState);
   }
 }

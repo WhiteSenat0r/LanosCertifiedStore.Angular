@@ -13,8 +13,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { DropdownHeaderData } from '../../../../models/DropdownHeaderData';
-import { DropdownElementData } from '../../../../models/DropdownElementData.enum';
+import { DropdownHeaderData } from '../../../../models/interfaces/DropdownHeaderData.interface';
+import { DropdownElementData } from '../../../../models/enums/DropdownElementData.enum';
 
 @Component({
   selector: 'app-dropdown-element',
@@ -78,9 +78,15 @@ export class DropdownElementComponent implements OnInit {
     }
   }
 
-  @Output() optionPickedEvent = new EventEmitter<{option: string, ApiCallOption: DropdownElementData}>();
+  @Output() optionPickedEvent = new EventEmitter<{
+    option: string;
+    ApiCallOption: DropdownElementData;
+  }>();
   handleLiElementClick(option: string) {
-    this.optionPickedEvent.emit({option: option, ApiCallOption: this.divInterfaceData.ApiCallOption});
+    this.optionPickedEvent.emit({
+      option: option,
+      ApiCallOption: this.divInterfaceData.ApiCallOption,
+    });
     this.option = option;
   }
 }

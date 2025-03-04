@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, output } from '@angular/core';
-import { ViewMode } from '../../models/ViewMode.enum';
+import { ViewMode } from '../../models/enums/ViewMode.enum';
 
 @Component({
   selector: 'app-view-mode-selectors',
@@ -8,8 +8,8 @@ import { ViewMode } from '../../models/ViewMode.enum';
 })
 export class ViewModeSelectorsComponent {
   ViewMode = ViewMode;
-  @Input({required: true}) filteredTotalResults!: number;
-  @Input({required: true}) ourViewMode!: ViewMode;
+  @Input({ required: true }) filteredTotalResults!: number;
+  @Input({ required: true }) ourViewMode!: ViewMode;
   @Output() viewModeToggleEvent = new EventEmitter<ViewMode>();
   onViewModeButtonClick(option: ViewMode) {
     this.viewModeToggleEvent.emit(option);

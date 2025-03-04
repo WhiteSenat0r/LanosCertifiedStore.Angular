@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Vehicle } from '../../../shared/models/BaseApiModels/Vehicle';
-import { BodyType } from '../../../shared/models/BaseApiModels/BodyType';
+import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
+import { BodyType } from '../../shared/models/interfaces/vehicle-properties/BodyType.interface';
 import { filter, forkJoin, map, Observable, tap, throwError } from 'rxjs';
-import { EngineType } from '../../../shared/models/BaseApiModels/EngineType';
-import { ApiResponse } from '../../../shared/models/ApiSpecificModels/ApiResponse';
-import { PriceRange } from '../models/PriceRange';
-import { DropdownElementData } from '../models/DropdownElementData.enum';
-import { LocationRegion } from '../../../shared/models/BaseApiModels/LocationRegion';
-import { TransmissionType } from '../../../shared/models/BaseApiModels/TransmissionType';
-import { Brand } from '../../../shared/models/BaseApiModels/Brand';
-import { Model } from '../../../shared/models/BaseApiModels/Model';
+import { EngineType } from '../../shared/models/interfaces/vehicle-properties/EngineType.interface';
+import { PriceRange } from './models/interfaces/PriceRange.interface';
+import { DropdownElementData } from './models/enums/DropdownElementData.enum';
+import { LocationRegion } from '../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
+import { TransmissionType } from '../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
+import { Brand } from '../../shared/models/interfaces/vehicle-properties/Brand.interface';
+import { Model } from '../../shared/models/interfaces/vehicle-properties/Model.interface';
 import { Router } from '@angular/router';
-import { SearchAdvancedParams } from '../models/SearchAdvancedParams';
-import { HomeService } from '../services/home.service';
+import { SearchAdvancedParams } from './models/interfaces/SearchAdvancedParams.interface';
+import { HomeService } from './services/home.service';
+import { ApiResponse } from '../../shared/models/interfaces/api/ApiResponse.interface';
 
 @Component({
   selector: 'app-home',

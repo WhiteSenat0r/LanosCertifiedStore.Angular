@@ -7,7 +7,10 @@ const routes: Routes = [
   {
     path: ':id',
     title: 'Vehicle Details',
-    loadChildren: () => import("../../vehicle-details/vehicle-details.module").then((m) => m.VehicleDetailsModule),
+    loadChildren: () =>
+      import('../vehicle-details/vehicle-details.module').then(
+        (m) => m.VehicleDetailsModule
+      ),
     data: { breadcrumb: { label: 'Машина' } },
   },
 ];

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
+import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 
 @Component({
   selector: 'app-top-propositions-section',

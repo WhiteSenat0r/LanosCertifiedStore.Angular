@@ -1,32 +1,51 @@
 <div
   #dropdownContainer
-  class="group box-border z-40 hover:z-50 relative w-[256px] transition-all duration-75 py-xs px-[12px] flex flex-row justify-between items-center border-[2px] border-black cursor-pointer rounded"
+  class="group box-border z-40 relative w-[256px] transition-all duration-75 py-xs px-[12px] flex flex-row justify-between items-center border-[2px] border-black cursor-pointer rounded"
   (click)="handleFilterClick()"
-  [class.z-50]="isShown()"
-  [class.rounded-b-none]="isShown()"
+  [class.z-50]="animationState() !== 'closed' || isShown()"
+  [class.rounded-b-none]="isShown() || animationState() === 'open'"
 >
+  <!-- Background Overlay -->
   <div
+    class="absolute inset-[0px] h-full w-full transition-all duration-75 bg-portGore-300 opacity-0 group-hover:opacity-25"
     [class.opacity-25]="isShown()"
-    class="absolute inset-[0px] h-full w-full transition-all duration-75 bg-portGore-500 opacity-0 group-hover:opacity-25"
   ></div>
-  <span class="text-xs font-light">{{ kylavlob() ?? placeHolder()}}</span>
+
+  <!-- Selected Item or Placeholder -->
+  <span class="text-sm">
+    {{ selectedItemName ?? placeHolder() }}
+  </span>
+
+  <!-- Dropdown Icon -->
   <kolesko-icon
-    [class.rotate-90]="isShown()"
     class="transition-all duration-75"
+    [class.rotate-90]="isShown()"
   ></kolesko-icon>
-  <ul
-    [@dropDown]="isShown() ? 'open' : 'closed'"
-    class="absolute box-border w-[calc(100%+4px)] py-[6px] top-[100%] -left-[2px] border-[2px] px-xs border-t-0 border-portGore-950 bg-white rounded-b"
-  >
-    <!--FOR INSIDE SCROLL UI VIEW-->
-    <div class="catalogFilterScroller flex flex-col items-start h-full w-full">
-      @for(item of items; track $index) {
-      <li class="pr-xs w-full">
-        <div class="pl-sm py-xs pr-xs hover:bg-portGore-50 rounded-sm w-full" (click)="handleNewChoicePicked(item)">
-          {{ item }}
-        </div>
-      </li>
-      }
-    </div>
-  </ul>
+
+  <!-- Dropdown List (Only Rendered When Items Exist) -->
+  @if (items() && items()!.length > 0) {
+    <ul
+      class="absolute box-border w-[calc(100%+4px)] py-[6px] top-[100%] -left-[2px] border-[2px] px-xs border-t-0 border-portGore-950 bg-kimberly-50 rounded-b"
+      [@dropDown]="isShown() ? 'open' : 'closed'"
+      (@dropDown.done)="onAnimationDropDownDone($event)"
+    >
+      <div
+        class="catalogFilterScroller flex flex-col items-start h-full w-full"
+        [class.!overflow-y-scroll]="items()!.length > 7"
+        [class.!overflow-y-hidden]="items()!.length <= 7"
+      >
+        <!-- List Items -->
+        @for (item of items(); track $index) {
+          <li class="pr-xs w-full">
+            <div
+              class="pl-sm py-xs pr-xs hover:bg-portGore-50 text-sm rounded-sm w-full"
+              (click)="handleNewChoicePicked(item)"
+            >
+              {{ item.name }}
+            </div>
+          </li>
+        }
+      </div>
+    </ul>
+  }
 </div>

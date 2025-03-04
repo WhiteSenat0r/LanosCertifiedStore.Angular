@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
+import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 
 @Component({
   selector: 'app-vehicle-data-view',
@@ -7,5 +7,5 @@ import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
   styleUrl: './vehicle-data-view.component.css',
 })
 export class VehicleDataViewComponent {
-  @Input({required: true}) vehicles!: Vehicle[];
+  @Input({ required: true }) vehicles!: Vehicle[];
 }

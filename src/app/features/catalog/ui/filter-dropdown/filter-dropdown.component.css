@@ -1,5 +1,5 @@
 .catalogFilterScroller {
-  overflow-y: auto !important;
+  max-height: 180px !important;
   overflow-x: hidden !important;
 }
 .catalogFilterScroller:empty {
