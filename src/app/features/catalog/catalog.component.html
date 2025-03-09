@@ -34,7 +34,9 @@
             (callForModelPatchState)="
               vehicleFilterStore.handleCallForModelChangeState($event)
             "
-            (filterResetWasUsed)="vehicleFilterStore.resetDependentFilter($event)"
+            (filterResetWasUsed)="
+              vehicleFilterStore.resetDependentFilter($event)
+            "
           ></app-filter-dropdown>
         </div>
       </div>
@@ -108,20 +110,34 @@
     </div>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px]"></div>
     <!--TYPE OF ENGINE-->
-    <app-filter-checkboxes filterType="Тип двигуна"></app-filter-checkboxes>
+    <app-filter-checkboxes
+      filterType="Тип двигуна"
+      [allItems]="vehicleFilterStore.allEngines()"
+      (checkboxChangedEmitter)="vehicleFilterStore.handleCheckboxChanged($event)"
+    ></app-filter-checkboxes>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--TYPE OF DRIVETRAIN-->
-    <app-filter-checkboxes filterType="Тип приводу"></app-filter-checkboxes>
+    <app-filter-checkboxes
+      filterType="Тип приводу"
+      [allItems]="vehicleFilterStore.allDriveTrains()"
+    ></app-filter-checkboxes>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--BODY TYPE-->
-    <app-filter-checkboxes filterType="Тип кузова"></app-filter-checkboxes>
+    <app-filter-checkboxes
+      filterType="Тип кузова"
+      [allItems]="vehicleFilterStore.allBodyTypes()"
+    ></app-filter-checkboxes>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--TYPE OF TRANSMISSION-->
-    <app-filter-checkboxes filterType="Тип трансмісії"></app-filter-checkboxes>
+    <app-filter-checkboxes
+      filterType="Тип трансмісії"
+      [allItems]="vehicleFilterStore.allTransmissionTypes()"
+    ></app-filter-checkboxes>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--TYPE OF "TRANSPORTNOGO ZASOBY"*UA-->
     <app-filter-checkboxes
       filterType="Тип транспортного засобу"
+      [allItems]="vehicleFilterStore.allVTypes()"
     ></app-filter-checkboxes>
   </aside>
 

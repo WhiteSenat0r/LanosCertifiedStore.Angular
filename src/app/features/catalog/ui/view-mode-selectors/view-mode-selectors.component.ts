@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output, output } from '@angular/core';
 import { ViewMode } from '../../models/enums/ViewMode.enum';
 
 @Component({
@@ -7,10 +7,19 @@ import { ViewMode } from '../../models/enums/ViewMode.enum';
   styleUrl: './view-mode-selectors.component.css',
 })
 export class ViewModeSelectorsComponent {
-  ViewMode = ViewMode;
+  // Inputs
   @Input({ required: true }) filteredTotalResults!: number;
   @Input({ required: true }) ourViewMode!: ViewMode;
+  
+  currentFilterChips = input<any>();
+
+  // Outputs
   @Output() viewModeToggleEvent = new EventEmitter<ViewMode>();
+
+  // States 
+  ViewMode = ViewMode;
+
+  // Direct event handlers
   onViewModeButtonClick(option: ViewMode) {
     this.viewModeToggleEvent.emit(option);
   }

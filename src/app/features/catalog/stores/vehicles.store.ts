@@ -24,7 +24,7 @@ const initialState: VehicleState = {
   vehicleSearchCriterias: new VehicleSearchCriterias(),
   currentPageItemsQuantity: 10,
   pageIndex: 1,
-  filteredTotalVehicleCount: 10,
+  filteredTotalVehicleCount: 0,
 };
 
 export const VehicleStore = signalStore(
@@ -32,6 +32,7 @@ export const VehicleStore = signalStore(
   withMethods((store, catalogService = inject(CatalogService)) => ({
     loadVehicles() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
+      this.loadVehicleCount();
       catalogService.getVehicles(vehicleSearchCriterias).subscribe({
         next: (response: PaginatedResult<Vehicle>) => {
           patchState(store, {
@@ -72,7 +73,6 @@ export const VehicleStore = signalStore(
   withHooks({
     onInit(store) {
       store.loadVehicles();
-      store.loadVehicleCount();
     },
     onDestroy(store) {
       patchState(store, {

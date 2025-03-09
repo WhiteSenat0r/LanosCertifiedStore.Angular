@@ -17,6 +17,8 @@ import { EngineType } from '../../../shared/models/interfaces/vehicle-properties
 import { DrivetrainType } from '../../../shared/models/interfaces/vehicle-properties/DrivetrainType.interface';
 import { BodyType } from '../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
 import { FilterType } from '../models/enums/FilterType.enum';
+import { TransmissionType } from '../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
+import { VType } from '../../../shared/models/interfaces/vehicle-properties/VType.interface';
 
 type VehicleFilterState = {
   priceRange: PriceRange;
@@ -31,12 +33,16 @@ type VehicleFilterState = {
   modelFilterReset: boolean;
 
   // Related to UI checkbox filters
-  engines: EngineType[];
-  engine: EngineType | undefined;
-  driveTrains: DrivetrainType[];
-  driveTrain: DrivetrainType[] | undefined;
-  bodyTypes: BodyType[];
-  bodyType: BodyType[] | undefined;
+  allEngines: EngineType[];
+  chosenEngines: EngineType[];
+  allDriveTrains: DrivetrainType[];
+  chosenDriveTrains: DrivetrainType[];
+  allBodyTypes: BodyType[];
+  chosenBodyTypes: BodyType[];
+  allTransmissionTypes: TransmissionType[];
+  chosenTransmissionTypes: TransmissionType[];
+  allVTypes: VType[];
+  chosenVTypes: VType[];
 };
 
 const initialFilterState: VehicleFilterState = {
@@ -50,12 +56,16 @@ const initialFilterState: VehicleFilterState = {
   brand: undefined,
   model: undefined,
   modelFilterReset: false,
-  engines: [],
-  engine: undefined,
-  driveTrains: [],
-  driveTrain: undefined,
-  bodyTypes: [],
-  bodyType: undefined,
+  allEngines: [],
+  chosenEngines: [],
+  allDriveTrains: [],
+  chosenDriveTrains: [],
+  allBodyTypes: [],
+  chosenBodyTypes: [],
+  allTransmissionTypes: [],
+  chosenTransmissionTypes: [],
+  allVTypes: [],
+  chosenVTypes: [],
 };
 
 export const VehicleFilterStore = signalStore(
@@ -77,6 +87,31 @@ export const VehicleFilterStore = signalStore(
           .subscribe((response) => {
             patchState(store, { priceRange: response });
           });
+      },
+      loadEngines() {
+        catalogService.getEngines().subscribe((response) => {
+          patchState(store, { allEngines: response.items });
+        });
+      },
+      loadDrivetrains() {
+        catalogService.getDrivetrains().subscribe((response) => {
+          patchState(store, { allDriveTrains: response.items });
+        });
+      },
+      loadBodyTypes() {
+        catalogService.getBodyTypes().subscribe((response) => {
+          patchState(store, { allBodyTypes: response.items });
+        });
+      },
+      loadTransmissionTypes() {
+        catalogService.getTranmissionTypes().subscribe((response) => {
+          patchState(store, { allTransmissionTypes: response.items });
+        });
+      },
+      loadVTypes() {
+        catalogService.getVTypes().subscribe((response) => {
+          patchState(store, { allVTypes: response.items });
+        });
       },
       loadBrands() {
         catalogService.getBrands().subscribe((response) => {
@@ -114,6 +149,32 @@ export const VehicleFilterStore = signalStore(
           vehicleStore.loadVehicles();
         }
       },
+      handleCheckboxChanged(event: {
+        item: BodyType | EngineType | DrivetrainType | VType | TransmissionType;
+        checked: boolean;
+        filterType: string;
+      }) {
+        if (event.checked) {
+          if (event.filterType === 'Тип двигуна') {
+            if (!store.chosenBodyTypes().some(item => item.id === event.item.id))
+            {
+              store.chosenBodyTypes().push(event.item);
+              const updatedBodyTypesIds = store.chosenBodyTypes().map(item => {
+                return item.id
+              });
+              vehicleStore.setVehicleSearchCriterias({ bodyTypeIds: updatedBodyTypesIds });
+            }
+          } 
+        } else {
+          // else if (event.filterType === 'Тип приводу') {
+          // } else if (event.filterType === 'Типу кузова') {
+          // } else if (event.filterType === 'Тип трансмісії') {
+          // } else if (event.filterType === 'Тип транспортного засобу') {
+          // }
+        }
+        vehicleStore.loadVehicles();
+      },
+
       resetDependentFilter(filterType: FilterType) {
         if (filterType === FilterType.modelFilter) {
           patchState(store, { modelFilterReset: false });
@@ -128,6 +189,11 @@ export const VehicleFilterStore = signalStore(
       store.loadAvailableColors();
       store.loadPriceRange();
       store.loadBrands();
+      store.loadEngines();
+      store.loadDrivetrains();
+      store.loadBodyTypes();
+      store.loadTransmissionTypes();
+      store.loadVTypes();
     },
   })
 );

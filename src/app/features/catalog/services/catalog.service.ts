@@ -11,6 +11,11 @@ import { PriceRange } from '../../home/models/interfaces/PriceRange.interface';
 import { Brand } from '../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../shared/models/interfaces/vehicle-properties/Model.interface';
 import { ApiResponse } from '../../../shared/models/interfaces/api/ApiResponse.interface';
+import { EngineType } from '../../../shared/models/interfaces/vehicle-properties/EngineType.interface';
+import { DrivetrainType } from '../../../shared/models/interfaces/vehicle-properties/DrivetrainType.interface';
+import { BodyType } from '../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
+import { TransmissionType } from '../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
+import { VType } from '../../../shared/models/interfaces/vehicle-properties/VType.interface';
 
 //not the best approach in case of a 'solititude'
 //feature to pass an object with property provicedIn which is 'root'
@@ -33,7 +38,10 @@ export class CatalogService {
   getVehicleCountSummary(
     vehicleSearchCriterias?: VehicleSearchCriterias
   ): Observable<VehicleCountSummary> {
-    return this.http.get<VehicleCountSummary>(this.baseUrl + 'vehicles/count');
+    const params = this.buildVehicleParams(vehicleSearchCriterias);
+    return this.http.get<VehicleCountSummary>(this.baseUrl + 'vehicles/count', {
+      params,
+    });
   }
 
   getVehicleColors(): Observable<PaginatedResult<VehicleColor>> {
@@ -44,6 +52,29 @@ export class CatalogService {
 
   getBrands(): Observable<ApiResponse<Brand>> {
     return this.http.get<ApiResponse<Brand>>(this.baseUrl + 'brands');
+  }
+
+  getEngines(): Observable<ApiResponse<EngineType>> {
+    return this.http.get<ApiResponse<EngineType>>(
+      this.baseUrl + 'engine-types'
+    );
+  }
+
+  getDrivetrains(): Observable<ApiResponse<DrivetrainType>> {
+    return this.http.get<ApiResponse<DrivetrainType>>(
+      this.baseUrl + 'drivetrain-types'
+    );
+  }
+  getBodyTypes(): Observable<ApiResponse<BodyType>> {
+    return this.http.get<ApiResponse<BodyType>>(this.baseUrl + 'body-types');
+  }
+  getTranmissionTypes(): Observable<ApiResponse<TransmissionType>> {
+    return this.http.get<ApiResponse<TransmissionType>>(
+      this.baseUrl + 'transmission-types'
+    );
+  }
+  getVTypes(): Observable<ApiResponse<VType>> {
+    return this.http.get<ApiResponse<VType>>(this.baseUrl + 'types');
   }
 
   getModels(brandId: string): Observable<ApiResponse<Model>> {
@@ -99,6 +130,11 @@ export class CatalogService {
       }
       if (vehicleSearchCriterias.modelId) {
         params = params.set('ModelId', vehicleSearchCriterias.modelId);
+      }
+      if (vehicleSearchCriterias.bodyTypeIds) {
+        vehicleSearchCriterias.bodyTypeIds.forEach((id) => {
+          params = params.set('BodyType', id);
+        });
       }
     }
     return params;

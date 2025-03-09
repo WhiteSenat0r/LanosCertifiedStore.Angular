@@ -6,7 +6,12 @@ import {
   animate,
   AnimationEvent,
 } from '@angular/animations';
-import { Component, ElementRef, input, signal, ViewChild } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
+import { BodyType } from '../../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
+import { DrivetrainType } from '../../../../shared/models/interfaces/vehicle-properties/DrivetrainType.interface';
+import { EngineType } from '../../../../shared/models/interfaces/vehicle-properties/EngineType.interface';
+import { VType } from '../../../../shared/models/interfaces/vehicle-properties/VType.interface';
+import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
 
 @Component({
   selector: 'app-filter-checkboxes',
@@ -36,17 +41,21 @@ import { Component, ElementRef, input, signal, ViewChild } from '@angular/core';
   ],
 })
 export class FilterCheckboxesComponent {
-  isExpanded = signal(false);
+  // Inputs
   filterType = input.required<string>();
-  animationState: string = 'closed';
+  allItems = input.required<
+    BodyType[] | EngineType[] | DrivetrainType[] | VType[] | TransmissionType[]
+  >();
 
-  items: any = [
-    'First item',
-    'Second item',
-    'Third item',
-    'Fourth item',
-    'Fifth item',
-  ];
+  //Outputs
+  checkboxChangedEmitter = output<{
+    item: BodyType | EngineType | DrivetrainType | VType | TransmissionType;
+    checked: boolean;
+    filterType: string;
+  }>();
+  // States
+  isExpanded = signal(false);
+  animationState: string = 'closed';
 
   handleFilterClick() {
     this.isExpanded.update((value) => !value);
@@ -54,5 +63,13 @@ export class FilterCheckboxesComponent {
 
   onAnimationDropDownDone(event: AnimationEvent) {
     this.animationState = event.toState;
+  }
+
+  onCheckboxChange(
+    item: BodyType | EngineType | DrivetrainType | VType | TransmissionType,
+    event: Event
+  ) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.checkboxChangedEmitter.emit({ item: item, checked: isChecked, filterType: this.filterType()});
   }
 }
