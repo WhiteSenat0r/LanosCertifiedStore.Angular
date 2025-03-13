@@ -4,6 +4,7 @@ import {
   HostListener,
   inject,
   OnInit,
+  viewChild,
   ViewChild,
 } from '@angular/core';
 import { VehicleStore } from './stores/vehicles.store';
@@ -12,6 +13,7 @@ import { VehicleFilterStore } from './stores/vehicleFilter.store';
 import { VehicleColor } from '../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { FilterType } from './models/enums/FilterType.enum';
 import { VehicleSearchCriterias } from './models/classes/VehicleSearchCriterias.class';
+import { patchState } from '@ngrx/signals';
 
 @Component({
   selector: 'app-catalog',
@@ -29,6 +31,7 @@ export class CatalogComponent {
 
   // UI State
   @ViewChild('modelFilter') modelFilter!: ElementRef;
+  townFilter = viewChild.required<ElementRef>('townFilter');
   currentViewMode: ViewMode = ViewMode.grid;
 
   /** Toggles the current view mode (grid or list) */
@@ -44,6 +47,7 @@ export class CatalogComponent {
   /** Updates the selected vehicle color */
   handleColorChange(color: VehicleColor) {
     this.updateVehicleSearch({ colorId: color.id });
+    this.vehicleFilterStore.setColor(color);
     this.vehicleFilterStore.loadPriceRange();
   }
 
@@ -60,12 +64,24 @@ export class CatalogComponent {
   /** Show or hide showBrandToolTip accordingly to the emptiness of vehicleFilterStore.models() */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event) {
+    // Brands and models
     if (
-      this.modelFilter?.nativeElement.contains(event.target) && !this.vehicleFilterStore.brand()
+      this.modelFilter?.nativeElement.contains(event.target) &&
+      !this.vehicleFilterStore.brand()
     ) {
       this.vehicleFilterStore.changeShowBrandToolTip(true);
     } else if (this.vehicleFilterStore.showBrandToolTip()) {
       this.vehicleFilterStore.changeShowBrandToolTip(false);
+    }
+
+    // Regions and towns
+    if (
+      this.townFilter().nativeElement.contains(event.target) &&
+      !this.vehicleFilterStore.region()
+    ) {
+      this.vehicleFilterStore.changeShowRegionToolTip(true);
+    } else if (this.vehicleFilterStore.showRegionToolTip()) {
+      this.vehicleFilterStore.changeShowRegionToolTip(false);
     }
   }
 

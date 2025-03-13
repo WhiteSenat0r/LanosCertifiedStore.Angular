@@ -4,21 +4,26 @@
   <div class="flex gap-lg w-full">
     <input
       class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
-      type="text"
+      type="number"
       placeholder="0"
       [value]="minValue"
       (input)="onMinValueChange($event)"
     />
     <input
       class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
-      type="text"
+      type="number"
       placeholder="100"
       [value]="maxValue"
-      (input)="onMinValueChange($event)"
+      (input)="onMaxValueChange($event)"
     />
   </div>
 
   <!--PRICE RANGE-->
+  @if(maxPrice() === minPrice()) {
+  <span class="inline-block text-sm px-xs leading-normal text-redy-700"
+    >Наразі функція недоступна, спробуйте інший фільтр</span
+  >
+  } @else {
   <div>
     <div class="flex flex-row justify-between">
       <span class="text-kimberly-500">{{ minPrice() }}</span>
@@ -47,8 +52,9 @@
       <div
         class="absolute top-[0px] bg-portGore-700 h-[4px] rounded-xl z-10"
         [ngStyle]="{
-          left: ((minValue - minPrice()) * 100 / (maxPrice() - minPrice())) + '%',
-          width: (((maxValue - minValue) * 100)  / (maxPrice() - minPrice())) + '%'
+          left:
+            ((minValue - minPrice()) * 100) / (maxPrice() - minPrice()) + '%',
+          width: ((maxValue - minValue) * 100) / (maxPrice() - minPrice()) + '%'
         }"
       ></div>
       <!--BACKGROUND RANGE-->
@@ -57,4 +63,5 @@
       ></div>
     </div>
   </div>
+  }
 </div>

@@ -1,14 +1,13 @@
 <div
   #dropdownContainer
-  class="group box-border z-40 relative w-[256px] transition-all duration-75 py-xs px-[12px] flex flex-row justify-between items-center border-[2px] border-black cursor-pointer rounded"
+  class="group box-border relative w-[256px] transition-all duration-75 py-xs px-[12px] flex flex-row justify-between items-center border-[2px] border-black cursor-pointer rounded"
   (click)="handleFilterClick()"
-  [class.z-50]="animationState() !== 'closed' || isShown()"
   [class.rounded-b-none]="isShown() || animationState() === 'open'"
+  [style.z-index]="zIndexValue() ? zIndexValue() : '0'"
 >
   <!-- Background Overlay -->
   <div
     class="absolute inset-[0px] h-full w-full transition-all duration-75 bg-portGore-300 opacity-0 group-hover:opacity-25"
-    [class.opacity-25]="isShown()"
   ></div>
 
   <!-- Selected Item or Placeholder -->

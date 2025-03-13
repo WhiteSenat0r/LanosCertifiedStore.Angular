@@ -1,5 +1,13 @@
-import { Component, EventEmitter, input, Input, Output, output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  Input,
+  Output,
+  output,
+} from '@angular/core';
 import { ViewMode } from '../../models/enums/ViewMode.enum';
+import { VehicleInfoOptions } from '../../models/interfaces/VehicleInfoOptions.interface';
 
 @Component({
   selector: 'app-view-mode-selectors',
@@ -8,19 +16,25 @@ import { ViewMode } from '../../models/enums/ViewMode.enum';
 })
 export class ViewModeSelectorsComponent {
   // Inputs
-  @Input({ required: true }) filteredTotalResults!: number;
-  @Input({ required: true }) ourViewMode!: ViewMode;
-  
-  currentFilterChips = input<any>();
+  filteredTotalResults = input.required<number>();
+  ourViewMode = input.required<ViewMode>();
+
+  currentInfoChips = input<VehicleInfoOptions>();
 
   // Outputs
+  chipClick = output<string>();
   @Output() viewModeToggleEvent = new EventEmitter<ViewMode>();
 
-  // States 
+  // States
   ViewMode = ViewMode;
 
   // Direct event handlers
   onViewModeButtonClick(option: ViewMode) {
     this.viewModeToggleEvent.emit(option);
+  }
+
+  //Event handlers
+  handleChipClick(propertyName: string) {
+    this.chipClick.emit(propertyName);
   }
 }

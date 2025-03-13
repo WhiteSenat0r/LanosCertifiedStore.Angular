@@ -1,0 +1,30 @@
+@if(infoChipsEntries() !== null) {
+<div class="flex flex-row gap-base items-center">
+  @for(entry of infoChipsEntries(); track $index) { @if(entry.value !==
+  undefined) {
+  <div
+    class="border-2 border-black rounded h-fit flex items-center flex-row p-xs gap-xs cursor-pointer transition-colors hover:bg-portGore-100"
+    (click)="handleChipClick(entry.property)"
+  >
+    @if(entry.property !== "lowerPrice" && entry.property !== "upperPrice") {
+    <span class="block">{{ entry.value.name }}</span>
+    <kolesko-icon name="outline-x" class="block"></kolesko-icon>
+    } @else {
+    <div class="flex flex-nowrap">
+      @if(entry.property === "lowerPrice") {
+      <span class="block"
+        >Ціна від {{ entry.value.toString() | number : "0.0" }}</span
+      >
+      } @else {
+      <span class="block"
+        >Ціна до {{ entry.value.toString() | number : "0.0" }}</span
+      >
+      }
+      <span class="">{{ "$" }}</span>
+    </div>
+    <kolesko-icon name="outline-x" class="block"></kolesko-icon>
+    }
+  </div>
+  } }
+</div>
+}

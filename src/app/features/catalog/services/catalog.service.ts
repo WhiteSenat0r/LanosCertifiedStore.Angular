@@ -16,6 +16,8 @@ import { DrivetrainType } from '../../../shared/models/interfaces/vehicle-proper
 import { BodyType } from '../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
 import { TransmissionType } from '../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
 import { VType } from '../../../shared/models/interfaces/vehicle-properties/VType.interface';
+import { LocationRegion } from '../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
+import { LocationTown } from '../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 
 //not the best approach in case of a 'solititude'
 //feature to pass an object with property provicedIn which is 'root'
@@ -54,6 +56,35 @@ export class CatalogService {
     return this.http.get<ApiResponse<Brand>>(this.baseUrl + 'brands');
   }
 
+  getModels(brandId: string): Observable<ApiResponse<Model>> {
+    const params = new HttpParams()
+      .set('VehicleBrandId', brandId)
+      .set('PageIndex', 1)
+      .set('ItemQuantity', 100);
+    return this.http.get<ApiResponse<Model>>(this.baseUrl + 'models', {
+      params,
+    });
+  }
+
+  getRegions(): Observable<ApiResponse<LocationRegion>> {
+    return this.http.get<ApiResponse<LocationRegion>>(
+      this.baseUrl + 'location-regions'
+    );
+  }
+
+  getTowns(regionId: string): Observable<ApiResponse<LocationTown>> {
+    const params = new HttpParams()
+      .set('LocationRegionId', regionId)
+      .set('PageIndex', 1)
+      .set('ItemQuantity', 100);
+    return this.http.get<ApiResponse<LocationTown>>(
+      this.baseUrl + 'location-towns',
+      {
+        params,
+      }
+    );
+  }
+
   getEngines(): Observable<ApiResponse<EngineType>> {
     return this.http.get<ApiResponse<EngineType>>(
       this.baseUrl + 'engine-types'
@@ -77,20 +108,20 @@ export class CatalogService {
     return this.http.get<ApiResponse<VType>>(this.baseUrl + 'types');
   }
 
-  getModels(brandId: string): Observable<ApiResponse<Model>> {
-    const params = new HttpParams()
-      .set('VehicleBrandId', brandId)
-      .set('PageIndex', 1)
-      .set('ItemQuantity', 100);
-    return this.http.get<ApiResponse<Model>>(this.baseUrl + 'models', {
-      params,
-    });
-  }
-
   getPriceRanges(
     vehicleSearchCriterias?: VehicleSearchCriterias
   ): Observable<PriceRange> {
-    const params = this.buildVehicleParams(vehicleSearchCriterias);
+    let params: HttpParams;
+    if (vehicleSearchCriterias) {
+      params = this.buildVehicleParams({
+        ...vehicleSearchCriterias,
+        lowerPriceLimit: 0,
+        upperPriceLimit: undefined,
+      });
+    } else {
+      params = this.buildVehicleParams(undefined);
+    }
+
     return this.http.get<PriceRange>(this.baseUrl + 'vehicles/price-range', {
       params,
     });
@@ -135,6 +166,19 @@ export class CatalogService {
         vehicleSearchCriterias.bodyTypeIds.forEach((id) => {
           params = params.set('BodyType', id);
         });
+      }
+      if (vehicleSearchCriterias.locationRegionId) {
+        params = params.set(
+          'LocationRegionAreaId',
+          vehicleSearchCriterias.locationRegionId
+        );
+        params = params.set(
+          'LocationAreaId',
+          vehicleSearchCriterias.locationRegionId
+        );
+      }
+      if (vehicleSearchCriterias.townId) {
+        params = params.set('LocationTownId', vehicleSearchCriterias.townId);
       }
     }
     return params;

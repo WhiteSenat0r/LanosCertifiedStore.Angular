@@ -1,7 +1,8 @@
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import {
   patchState,
   signalStore,
+  withComputed,
   withHooks,
   withMethods,
   withState,
@@ -19,18 +20,36 @@ import { BodyType } from '../../../shared/models/interfaces/vehicle-properties/B
 import { FilterType } from '../models/enums/FilterType.enum';
 import { TransmissionType } from '../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
 import { VType } from '../../../shared/models/interfaces/vehicle-properties/VType.interface';
+import { LocationRegion } from '../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
+import { LocationTown } from '../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
+import { VehicleInfoOptions } from '../models/interfaces/VehicleInfoOptions.interface';
 
 type VehicleFilterState = {
   priceRange: PriceRange;
+  lowerPrice: number | undefined;
+  upperPrice: number | undefined;
   colors: VehicleColor[];
+  color: VehicleColor | undefined;
+  currencyType: string;
+  currencyArray: Currency[];
+
+  // Brand and model filters
   brands: Brand[];
   showBrandToolTip: boolean | undefined;
   models: Model[];
-  currencyType: string;
-  currencyArray: Currency[];
   brand: Brand | undefined;
+  brandFilterReset: boolean;
   model: Model | undefined;
   modelFilterReset: boolean;
+
+  // Related to location filters
+  regions: LocationRegion[];
+  towns: LocationTown[];
+  region: LocationRegion | undefined;
+  regionFilterReset: boolean;
+  town: LocationTown | undefined;
+  showRegionToolTip: boolean | undefined;
+  townFilterReset: boolean;
 
   // Related to UI checkbox filters
   allEngines: EngineType[];
@@ -50,12 +69,20 @@ const initialFilterState: VehicleFilterState = {
   colors: [],
   brands: [],
   showBrandToolTip: undefined,
+  showRegionToolTip: undefined,
   models: [],
+  regions: [],
+  towns: [],
   currencyType: Currency.USD,
   currencyArray: [Currency.USD, Currency.EUR, Currency.UA],
   brand: undefined,
   model: undefined,
+  region: undefined,
+  town: undefined,
+  brandFilterReset: false,
   modelFilterReset: false,
+  townFilterReset: false,
+  regionFilterReset: false,
   allEngines: [],
   chosenEngines: [],
   allDriveTrains: [],
@@ -66,10 +93,26 @@ const initialFilterState: VehicleFilterState = {
   chosenTransmissionTypes: [],
   allVTypes: [],
   chosenVTypes: [],
+  color: undefined,
+  lowerPrice: undefined,
+  upperPrice: undefined
 };
 
 export const VehicleFilterStore = signalStore(
   withState(initialFilterState),
+  withComputed((store) => ({
+    vehicleInfoOptions: computed<VehicleInfoOptions>(() => {
+      return {
+        brand: store.brand(),
+        model: store.model(),
+        region: store.region(),
+        town: store.town(),
+        color: store.color(),
+        upperPrice: store.upperPrice(),
+        lowerPrice: store.lowerPrice(),
+      };
+    }),
+  })),
   withMethods(
     (
       store,
@@ -118,8 +161,119 @@ export const VehicleFilterStore = signalStore(
           patchState(store, { brands: response.items });
         });
       },
+      loadRegions() {
+        catalogService.getRegions().subscribe((response) => {
+          patchState(store, { regions: response.items });
+        });
+      },
+
+      setColor(color: VehicleColor) {
+        patchState(store, { color });
+      },
+
+      setPropertyStateToDefault(propertyName: string): void {
+        switch (propertyName) {
+          case 'brand': {
+            patchState(store, { brand: undefined });
+            patchState(store, { brandFilterReset: true });
+            patchState(store, { model: undefined });
+            patchState(store, { modelFilterReset: true });
+            vehicleStore.setVehicleSearchCriterias({
+              brandId: '',
+              modelId: '',
+            });
+            break;
+          }
+          case 'model': {
+            patchState(store, { model: undefined });
+            patchState(store, { modelFilterReset: true });
+            vehicleStore.setVehicleSearchCriterias({ modelId: '' });
+            break;
+          }
+          case 'region': {
+            patchState(store, { region: undefined });
+            patchState(store, { regionFilterReset: true });
+            patchState(store, { town: undefined });
+            patchState(store, { townFilterReset: true });
+            vehicleStore.setVehicleSearchCriterias({
+              locationRegionId: '',
+              townId: '',
+            });
+            break;
+          }
+          case 'town': {
+            patchState(store, { town: undefined });
+            patchState(store, { townFilterReset: true });
+            vehicleStore.setVehicleSearchCriterias({ townId: '' });
+            break;
+          }
+          case 'color': {
+            patchState(store, { color: undefined });
+            vehicleStore.setVehicleSearchCriterias({ colorId: '' });
+            break;
+          }
+          case 'lowerPrice': {
+            patchState(store, { lowerPrice: undefined})
+            break;
+          }
+          case 'upperPrice': {
+            patchState(store, { upperPrice: undefined})
+            break;
+          }
+        }
+
+        this.loadPriceRange();
+        vehicleStore.loadVehicles();
+      },
       changeCurrencyTypeState(newCurrencyType: string) {
         patchState(store, { currencyType: newCurrencyType });
+      },
+      changeShowBrandToolTip(showBrandToolTip: boolean) {
+        patchState(store, { showBrandToolTip });
+      },
+      changeShowRegionToolTip(showRegionToolTip: boolean) {
+        patchState(store, { showRegionToolTip });
+      },
+      handleCallForBrandChangeState(brand: Brand) {
+        if (brand.id !== store.brand()?.id) {
+          patchState(store, { brand });
+          vehicleStore.setVehicleSearchCriterias({ brandId: brand.id });
+          this.loadPriceRange();
+          vehicleStore.loadVehicles();
+          patchState(store, { modelFilterReset: true });
+          patchState(store, { model: undefined });
+          this.handleAskToLoadModels();
+        }
+      },
+      handleCallForRegionChangeState(region: LocationRegion) {
+        if (region.id !== store.region()?.id) {
+          patchState(store, { region });
+          vehicleStore.setVehicleSearchCriterias({
+            locationRegionId: region.id,
+          });
+          this.loadPriceRange();
+          vehicleStore.loadVehicles();
+          patchState(store, { townFilterReset: true });
+          patchState(store, { town: undefined });
+          this.handleAskToLoadTowns();
+        }
+      },
+      handleAskToLoadTowns() {
+        if (!store.region()) {
+          patchState(store, { showRegionToolTip: true });
+        } else {
+          catalogService.getTowns(store.region()!.id).subscribe((response) => {
+            patchState(store, { towns: response.items });
+          });
+        }
+      },
+      handleCallForModelChangeState(model: Model) {
+        if (model.id !== store.model()?.id) {
+          patchState(store, { model });
+          vehicleStore.setVehicleSearchCriterias({ modelId: model.id });
+          this.loadPriceRange();
+          vehicleStore.loadVehicles();
+        }
       },
       handleAskToLoadModels() {
         if (!store.brand()) {
@@ -130,22 +284,11 @@ export const VehicleFilterStore = signalStore(
           });
         }
       },
-      changeShowBrandToolTip(showBrandToolTip: boolean) {
-        patchState(store, { showBrandToolTip });
-      },
-      handleCallForBrandChangeState(brand: Brand) {
-        if (brand.id !== store.brand()?.id) {
-          patchState(store, { brand });
-          vehicleStore.setVehicleSearchCriterias({ brandId: brand.id });
-          vehicleStore.loadVehicles();
-          patchState(store, { modelFilterReset: true });
-          this.handleAskToLoadModels();
-        }
-      },
-      handleCallForModelChangeState(model: Model) {
-        if (model.id !== store.model()?.id) {
-          patchState(store, { model });
-          vehicleStore.setVehicleSearchCriterias({ modelId: model.id });
+      handleCallForTownChangeState(town: LocationTown) {
+        if (town.id !== store.town()?.id) {
+          patchState(store, { town });
+          vehicleStore.setVehicleSearchCriterias({ townId: town.id });
+          this.loadPriceRange();
           vehicleStore.loadVehicles();
         }
       },
@@ -156,15 +299,20 @@ export const VehicleFilterStore = signalStore(
       }) {
         if (event.checked) {
           if (event.filterType === 'Тип двигуна') {
-            if (!store.chosenBodyTypes().some(item => item.id === event.item.id))
-            {
+            if (
+              !store.chosenBodyTypes().some((item) => item.id === event.item.id)
+            ) {
               store.chosenBodyTypes().push(event.item);
-              const updatedBodyTypesIds = store.chosenBodyTypes().map(item => {
-                return item.id
+              const updatedBodyTypesIds = store
+                .chosenBodyTypes()
+                .map((item) => {
+                  return item.id;
+                });
+              vehicleStore.setVehicleSearchCriterias({
+                bodyTypeIds: updatedBodyTypesIds,
               });
-              vehicleStore.setVehicleSearchCriterias({ bodyTypeIds: updatedBodyTypesIds });
             }
-          } 
+          }
         } else {
           // else if (event.filterType === 'Тип приводу') {
           // } else if (event.filterType === 'Типу кузова') {
@@ -174,14 +322,25 @@ export const VehicleFilterStore = signalStore(
         }
         vehicleStore.loadVehicles();
       },
-
       resetDependentFilter(filterType: FilterType) {
         if (filterType === FilterType.modelFilter) {
           patchState(store, { modelFilterReset: false });
-        } else if (filterType === FilterType.cityFilter) {
-          // TODO: Implement reset logic for cityFilter
+        } else if (filterType === FilterType.townFilter) {
+          patchState(store, { townFilterReset: false });
+        } else if (filterType === FilterType.brandFilter) {
+          patchState(store, { brandFilterReset: false });
+        } else if (filterType === FilterType.regionFilter) {
+          patchState(store, { regionFilterReset: false });
         }
       },
+      setLowerPrice(lowerPrice: number | undefined)
+      {
+        patchState(store, { lowerPrice })
+      },
+      setUpperPrice(upperPrice: number | undefined)
+      {
+        patchState(store, { upperPrice })
+      }
     })
   ),
   withHooks({
@@ -189,6 +348,7 @@ export const VehicleFilterStore = signalStore(
       store.loadAvailableColors();
       store.loadPriceRange();
       store.loadBrands();
+      store.loadRegions();
       store.loadEngines();
       store.loadDrivetrains();
       store.loadBodyTypes();

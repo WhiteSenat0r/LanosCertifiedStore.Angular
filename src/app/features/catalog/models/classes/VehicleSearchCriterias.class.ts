@@ -1,7 +1,9 @@
 export class VehicleSearchCriterias {
   typeId = '';
   brandId = '';
+  locationRegionId = '';
   modelId = '';
+  townId = '';
   colorId = '';
   year = '';
 

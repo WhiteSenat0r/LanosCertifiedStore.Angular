@@ -5,3 +5,9 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]{
     pointer-events: none; 
 }
+
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   effect,
   ElementRef,
@@ -7,6 +8,7 @@ import {
   InputSignal,
   output,
   signal,
+  viewChild,
   ViewChild,
 } from '@angular/core';
 import {
@@ -20,6 +22,8 @@ import {
 import { Brand } from '../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../../shared/models/interfaces/vehicle-properties/Model.interface';
 import { FilterType } from '../../models/enums/FilterType.enum';
+import { LocationRegion } from '../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
+import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 
 @Component({
   selector: 'app-filter-dropdown',
@@ -46,19 +50,24 @@ import { FilterType } from '../../models/enums/FilterType.enum';
     ]),
   ],
 })
-export class FilterDropdownComponent {
-  @ViewChild('dropdownContainer') dropdownContainer!: ElementRef;
+export class FilterDropdownComponent<T extends { id: string; name: string }>{
+  @ViewChild('dropdownContainer') dropdownContainer!: ElementRef<HTMLDivElement>;
+
 
   // Inputs
-  items = input<Brand[] | Model[]>();
+  items = input<T[]>();
   placeHolder = input.required<string>();
   dependentFilter: InputSignal<FilterType | undefined> = input<FilterType>();
   lockingDropDown = input<boolean>();
   filterReset = input<boolean>();
+  zIndexValue = input<string>();
 
   // Outputs
-  callForBrandPatchState = output<Brand>();
-  callForModelPatchState = output<Model>();
+  callForBrandPatchState = output<T>();
+  callForModelPatchState = output<T>();
+  callForRegionPatchState = output<T>();
+  callForTownPatchState = output<T>();
+
   filterResetWasUsed = output<FilterType>();
 
   // State
@@ -66,31 +75,44 @@ export class FilterDropdownComponent {
   isShown = signal(false);
   animationState = signal('closed');
 
-  // Reset for filters with dependencies
-  resetModelFilterEffect = effect(() => {
+  // Reset for filters
+  resetFilterEffect = effect(() => {
     if (this.filterReset()) {
       this.selectedItemName = undefined;
-      if(this.dependentFilter())
-      {
-        this.filterResetWasUsed.emit(this.dependentFilter()!);
-      }
+      this.filterResetWasUsed.emit(this.dependentFilter()!);
     }
   });
 
-  /** Handle selection of an item */ 
-  handleNewChoicePicked(item: Brand | Model): void {
+  /** Handle selection of an item */
+  handleNewChoicePicked(item: T): void {
     this.selectedItemName = item.name;
 
-    if (this.dependentFilter() === FilterType.modelFilter) {
-      this.callForModelPatchState.emit(item as Model);
-    } else {
-      this.callForBrandPatchState.emit(item as Brand);
+    switch (this.dependentFilter()) {
+      case FilterType.modelFilter: {
+        this.callForModelPatchState.emit(item);
+        break;
+      }
+      case FilterType.brandFilter: {
+        this.callForBrandPatchState.emit(item);
+        break;
+      }
+      case FilterType.regionFilter: {
+        this.callForRegionPatchState.emit(item);
+        break;
+      }
+      case FilterType.townFilter: {
+        this.callForTownPatchState.emit(item);
+        break;
+      }
     }
   }
 
   /** Toggle dropdown visibility */
   handleFilterClick() {
-    if (this.dependentFilter() === FilterType.modelFilter) {
+    if (
+      this.dependentFilter() === FilterType.modelFilter ||
+      this.dependentFilter() === FilterType.townFilter
+    ) {
       if (!this.lockingDropDown()) {
         this.isShown.update((value) => !value);
       }

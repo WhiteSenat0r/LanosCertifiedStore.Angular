@@ -15,6 +15,7 @@ import { FilterCheckboxesComponent } from './ui/filter-checkboxes/filter-checkbo
 import { ImageErrorDirective } from '../../shared/directives/image-error.directive';
 import { TooltipComponent } from '../../shared/ui/tooltip/tooltip.component';
 import { TooltipUpsideDownComponent } from '../../shared/ui/tooltip-upside-down/tooltip-upside-down.component';
+import { InfoChipsComponent } from './ui/view-mode-selectors/info-chips/info-chips.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { TooltipUpsideDownComponent } from '../../shared/ui/tooltip-upside-down/
     FilterPriceByRangeElementsComponent,
     ColorPaletteComponent,
     FilterCheckboxesComponent,
+    InfoChipsComponent,
   ],
   imports: [
     CommonModule,
