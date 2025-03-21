@@ -30,7 +30,11 @@ export class CatalogService {
   getVehicles(
     vehicleSearchCriterias?: VehicleSearchCriterias
   ): Observable<PaginatedResult<Vehicle>> {
-    const params = this.buildVehicleParams(vehicleSearchCriterias);
+    let params = this.buildVehicleParams(vehicleSearchCriterias);
+
+    params = params.set('ItemQuantity', vehicleSearchCriterias?.currentPageItemsQuantity ?? 100);
+
+    console.log(params);
 
     return this.http.get<PaginatedResult<Vehicle>>(this.baseUrl + 'vehicles', {
       params,
@@ -133,6 +137,7 @@ export class CatalogService {
     let params = new HttpParams();
 
     if (!vehicleSearchCriterias) return params;
+
 
     if (vehicleSearchCriterias) {
       if (vehicleSearchCriterias.year) {

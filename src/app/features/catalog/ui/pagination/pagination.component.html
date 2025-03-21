@@ -15,8 +15,9 @@
       [size]="24"
     ></kolesko-icon>
   </button>
+  <!--PAGES-->
   <ul class="flex flex-row gap-sm">
-    @for(page of pageNumbers; track $index) { @if($index <= 4) {
+    @for(page of pageNumbers(); track $index) { @if($index <= 4) {
     <li
       class="transition-all duration-300 py-xs px-[12px] border-[2px] border-portGore-600 bg-transparent cursor-pointer bg-portGore-400 opacity-90 hover:bg-portGore-900 hover:opacity-100 hover:text-kimberly-50 rounded"
       [class.active]="currentPage === $index + 1"
@@ -38,10 +39,10 @@
   </ul>
   <!--NEXT BUTTON-->
   <button
-    [disabled]="this.currentPage === this.totalPages"
+    [disabled]="this.currentPage === this.totalPages()"
     [ngClass]="{
       '!bg-portGore-300 !opacity-85 hover:!bg-portGore-300 hover:!opacity-85':
-        this.currentPage === this.totalPages
+        this.currentPage === this.totalPages()
     }"
     class="transition-all duration-300 py-xs px-[6px] cursor-pointer bg-portGore-500 opacity-90 hover:bg-portGore-900 hover:opacity-100 rounded"
     (click)="onChangePageButtonClick('next')"
