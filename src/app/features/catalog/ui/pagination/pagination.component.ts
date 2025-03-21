@@ -15,7 +15,7 @@ import {
 })
 export class PaginationComponent {
   // Inputs
-  @Input({ required: true }) currentPage!: number;
+  currentPage = input.required<number>();
   totalPages = input.required<number>();
 
   // Outputs
@@ -23,6 +23,10 @@ export class PaginationComponent {
 
   // Component states
   pageNumbers = computed(() => {
+    if(this.totalPages() < 1 )
+    {
+      console.log(Array.from({ length: this.totalPages() }, (_, index) => index + 1));
+    }
     return Array.from({ length: this.totalPages() }, (_, index) => index + 1);
   });
 
@@ -51,13 +55,13 @@ export class PaginationComponent {
   onChangePageButtonClick(option: string) {
     switch (option) {
       case 'previous':
-        if (this.currentPage !== 1) {
-          this.onPageChangeEvent.emit(this.currentPage - 1);
+        if (this.currentPage() !== 1) {
+          this.onPageChangeEvent.emit(this.currentPage() - 1);
         }
         break;
       case 'next':
-        if (this.currentPage !== this.totalPages()) {
-          this.onPageChangeEvent.emit(this.currentPage + 1);
+        if (this.currentPage() !== this.totalPages()) {
+          this.onPageChangeEvent.emit(this.currentPage() + 1);
         }
         break;
     }
