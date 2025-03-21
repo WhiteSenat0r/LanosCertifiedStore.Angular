@@ -1,5 +1,5 @@
-@if(infoChipsEntries() !== null) {
-<div class="flex flex-row gap-base items-center">
+@if(infoChipsEntries()) {
+<div class="flex flex-row gap-base items-center flex-wrap">
   @for(entry of infoChipsEntries(); track $index) { @if(entry.value !==
   undefined) {
   <div
@@ -25,6 +25,8 @@
     <kolesko-icon name="outline-x" class="block"></kolesko-icon>
     }
   </div>
-  } }
+  } } @if(countUndefinedInfoChips() >= 3) {
+  <span class="inline-block cursor-pointer underline underline-offset-1 font-medium transition-all duration-150 text-portGore-950 hover:text-portGore-700" (click)="handelEraseAllClick()">Очистити</span>
+  }
 </div>
 }

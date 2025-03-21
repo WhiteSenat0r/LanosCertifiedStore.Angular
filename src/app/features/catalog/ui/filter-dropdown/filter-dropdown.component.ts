@@ -53,7 +53,6 @@ import { LocationTown } from '../../../../shared/models/interfaces/vehicle-prope
 export class FilterDropdownComponent<T extends { id: string; name: string }>{
   @ViewChild('dropdownContainer') dropdownContainer!: ElementRef<HTMLDivElement>;
 
-
   // Inputs
   items = input<T[]>();
   placeHolder = input.required<string>();

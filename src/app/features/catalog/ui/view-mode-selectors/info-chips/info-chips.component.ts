@@ -1,6 +1,5 @@
 import { Component, computed, input, output } from '@angular/core';
 import { VehicleInfoOptions } from '../../../models/interfaces/VehicleInfoOptions.interface';
-import { Brand } from '../../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 
 @Component({
   selector: 'app-info-chips',
@@ -24,8 +23,19 @@ export class InfoChipsComponent<T extends { id: string; name: string }> {
     return null;
   });
 
+  countUndefinedInfoChips = computed(() => {
+    return (
+      this.infoChipsEntries()?.filter(({ value }) => value !== undefined)
+        .length ?? 0
+    );
+  });
+
   // Event handlers
   handleChipClick(propertyName: string) {
     this.chipClick.emit(propertyName);
+  }
+
+  handelEraseAllClick() {
+    this.chipClick.emit('eraseAll');
   }
 }

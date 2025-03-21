@@ -115,7 +115,7 @@ export class CatalogService {
     if (vehicleSearchCriterias) {
       params = this.buildVehicleParams({
         ...vehicleSearchCriterias,
-        lowerPriceLimit: 0,
+        lowerPriceLimit: 0, 
         upperPriceLimit: undefined,
       });
     } else {

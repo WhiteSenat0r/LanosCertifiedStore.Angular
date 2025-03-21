@@ -8,6 +8,7 @@
   <!-- Background Overlay -->
   <div
     class="absolute inset-[0px] h-full w-full transition-all duration-75 bg-portGore-300 opacity-0 group-hover:opacity-25"
+    [class.opacity-25]="isShown()"
   ></div>
 
   <!-- Selected Item or Placeholder -->

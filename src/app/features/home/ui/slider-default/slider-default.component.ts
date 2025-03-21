@@ -87,7 +87,6 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
 
   prevSlider() {
     this.splide?.go('-1');
-    console.log(JSON.stringify(this.vehicles));
   }
 
   ngOnDestroy() {

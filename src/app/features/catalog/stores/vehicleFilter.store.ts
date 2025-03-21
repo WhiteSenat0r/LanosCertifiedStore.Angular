@@ -95,7 +95,7 @@ const initialFilterState: VehicleFilterState = {
   chosenVTypes: [],
   color: undefined,
   lowerPrice: undefined,
-  upperPrice: undefined
+  upperPrice: undefined,
 };
 
 export const VehicleFilterStore = signalStore(
@@ -213,11 +213,37 @@ export const VehicleFilterStore = signalStore(
             break;
           }
           case 'lowerPrice': {
-            patchState(store, { lowerPrice: undefined})
+            patchState(store, { lowerPrice: undefined });
+            vehicleStore.setVehicleSearchCriterias({ lowerPriceLimit: undefined });
             break;
           }
           case 'upperPrice': {
-            patchState(store, { upperPrice: undefined})
+            patchState(store, { upperPrice: undefined });
+            vehicleStore.setVehicleSearchCriterias({ upperPriceLimit: undefined });
+            break;
+          }
+          case 'eraseAll': {
+            patchState(store, {
+              brand: undefined,
+              brandFilterReset: true,
+              model: undefined,
+              modelFilterReset: true,
+              region: undefined,
+              regionFilterReset: true,
+              town: undefined,
+              townFilterReset: true,
+              color: undefined,
+              lowerPrice: undefined,
+              upperPrice: undefined,
+            });
+
+            vehicleStore.setVehicleSearchCriterias({
+              brandId: '',
+              modelId: '',
+              locationRegionId: '',
+              townId: '',
+              colorId: '',
+            });
             break;
           }
         }
@@ -333,14 +359,12 @@ export const VehicleFilterStore = signalStore(
           patchState(store, { regionFilterReset: false });
         }
       },
-      setLowerPrice(lowerPrice: number | undefined)
-      {
-        patchState(store, { lowerPrice })
+      setLowerPrice(lowerPrice: number | undefined) {
+        patchState(store, { lowerPrice });
       },
-      setUpperPrice(upperPrice: number | undefined)
-      {
-        patchState(store, { upperPrice })
-      }
+      setUpperPrice(upperPrice: number | undefined) {
+        patchState(store, { upperPrice });
+      },
     })
   ),
   withHooks({

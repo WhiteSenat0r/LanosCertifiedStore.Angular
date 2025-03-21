@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { BodyType } from '../../shared/models/interfaces/vehicle-properties/BodyType.interface';
-import { filter, forkJoin, map, Observable, tap, throwError } from 'rxjs';
+import { filter, forkJoin, map, Observable } from 'rxjs';
 import { EngineType } from '../../shared/models/interfaces/vehicle-properties/EngineType.interface';
 import { PriceRange } from './models/interfaces/PriceRange.interface';
 import { DropdownElementData } from './models/enums/DropdownElementData.enum';
@@ -27,8 +27,7 @@ export class HomeComponent implements OnInit {
   handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
     this.homeservice
       .getDropDownData(ApiCallOption)
-      .pipe(
-        filter(
+      .pipe(filter(
           (
             response:
               | ApiResponse<
@@ -46,8 +45,7 @@ export class HomeComponent implements OnInit {
             >
           ) => response.items.map((item) => item.name)
         )
-      )
-      .subscribe((info: string[]) => {
+      ).subscribe((info: string[]) => {
         this.InfoObjectDataOptionated = {
           ApiCallOption: ApiCallOption,
           DropDownElementUlInfo: info,

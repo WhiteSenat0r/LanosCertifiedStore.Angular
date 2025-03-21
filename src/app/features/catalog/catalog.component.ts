@@ -1,5 +1,5 @@
 import {
-  Component,
+Component,
   ElementRef,
   HostListener,
   inject,
@@ -13,7 +13,6 @@ import { VehicleFilterStore } from './stores/vehicleFilter.store';
 import { VehicleColor } from '../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { FilterType } from './models/enums/FilterType.enum';
 import { VehicleSearchCriterias } from './models/classes/VehicleSearchCriterias.class';
-import { patchState } from '@ngrx/signals';
 
 @Component({
   selector: 'app-catalog',

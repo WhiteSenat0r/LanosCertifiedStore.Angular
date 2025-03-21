@@ -4,6 +4,7 @@ import { LocationTown } from "../../../../shared/models/interfaces/vehicle-prope
 import { Model } from "../../../../shared/models/interfaces/vehicle-properties/Model.interface";
 import { VehicleColor } from "../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface";
 
+
 export interface VehicleInfoOptions {
     brand: Brand | undefined;
     model: Model | undefined;
