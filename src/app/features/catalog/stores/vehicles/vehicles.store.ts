@@ -1,4 +1,4 @@
-import { Vehicle } from '../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
+
 import {
   patchState,
   signalStore,
@@ -6,11 +6,12 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { CatalogService } from '../services/catalog.service';
 import { inject } from '@angular/core';
-import { PaginatedResult } from '../../../shared/models/interfaces/api/PaginatedResult.interface';
-import { VehicleSearchCriterias } from '../models/classes/VehicleSearchCriterias.class';
-import { VehicleCountSummary } from '../models/interfaces/VehicleCountSummary.interface';
+import { PaginatedResult } from '../../../../shared/models/interfaces/api/PaginatedResult.interface';
+import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
+import { VehicleSearchCriterias } from '../../models/classes/VehicleSearchCriterias.class';
+import { VehicleCountSummary } from '../../models/interfaces/VehicleCountSummary.interface';
+import { CatalogService } from '../../services/catalog.service';
 type VehicleState = {
   vehicles: Vehicle[];
   vehicleSearchCriterias: VehicleSearchCriterias;

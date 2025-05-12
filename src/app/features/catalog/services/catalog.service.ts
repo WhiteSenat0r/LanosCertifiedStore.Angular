@@ -19,9 +19,7 @@ import { VType } from '../../../shared/models/interfaces/vehicle-properties/VTyp
 import { LocationRegion } from '../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
 import { LocationTown } from '../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 
-//not the best approach in case of a 'solititude'
-//feature to pass an object with property provicedIn which is 'root'
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class CatalogService {
   private baseUrl = environment.apiUrl;
 

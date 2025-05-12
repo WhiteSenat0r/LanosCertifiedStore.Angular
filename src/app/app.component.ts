@@ -6,23 +6,22 @@ import { filter } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   title: string = 'web-app';
-  isMainPage!: boolean; 
+  isMainPage!: boolean;
 
-  constructor(private router: Router){
-  }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
+  ngOnInit( test: string = 'test'): void {
     initFlowbite();
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.isMainPage = (this.router.url === '/' || this.router.url === '/#');
-      // console.log('URL changed:', this.router.url);
-      // console.log('isMainPage:', this.isMainPage);
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.isMainPage = this.router.url === '/' || this.router.url === '/#';
+        // console.log('URL changed:', this.router.url);
+        // console.log('isMainPage:', this.isMainPage);
+      });
   }
 }

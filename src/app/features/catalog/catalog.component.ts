@@ -1,5 +1,8 @@
 import {
-Component,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  effect,
   ElementRef,
   HostListener,
   inject,
@@ -7,12 +10,12 @@ Component,
   viewChild,
   ViewChild,
 } from '@angular/core';
-import { VehicleStore } from './stores/vehicles.store';
 import { ViewMode } from './models/enums/ViewMode.enum';
-import { VehicleFilterStore } from './stores/vehicleFilter.store';
+import { VehicleFilterStore } from './stores/vehicle-filter/vehicle-filter.store';
 import { VehicleColor } from '../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { FilterType } from './models/enums/FilterType.enum';
 import { VehicleSearchCriterias } from './models/classes/VehicleSearchCriterias.class';
+import { VehicleStore } from './stores/vehicles/vehicles.store';
 
 @Component({
   selector: 'app-catalog',
@@ -47,7 +50,6 @@ export class CatalogComponent {
   handleColorChange(color: VehicleColor) {
     this.updateVehicleSearch({ colorId: color.id });
     this.vehicleFilterStore.setColor(color);
-    this.vehicleFilterStore.loadPriceRange();
   }
 
   /** Updates the minimum price filter */
