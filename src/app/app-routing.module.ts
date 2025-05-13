@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home.component';
+import { HomeComponent } from './features/home/feature/home.component';
 import { NotFoundComponent } from './core/ui/not-found/not-found.component';
 
 const routes: Routes = [
@@ -8,13 +8,14 @@ const routes: Routes = [
     path: '',
     title: 'Home',
     component: HomeComponent,
-    data: { breadcrumb: { label: 'Колеско', info: 'home_xng'} }
+    data: { breadcrumb: { label: 'Колеско', info: 'home_xng' } },
   },
   {
     path: 'catalog',
     title: 'catalog',
-    loadChildren: () => import('./features/catalog/catalog.module').then(m => m.CatalogModule),
-    data: { breadcrumb: { label: 'Каталог'} }
+    loadChildren: () =>
+      import('./features/catalog/catalog.module').then((m) => m.CatalogModule),
+    data: { breadcrumb: { label: 'Каталог' } },
   },
   { path: '**', component: NotFoundComponent },
 ];
@@ -23,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

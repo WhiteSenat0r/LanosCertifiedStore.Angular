@@ -8,24 +8,22 @@ import { SvgIconDisplayComponent } from './utilities/svg-icon-display/svg-icon-d
 import { ReactiveFormsModule } from '@angular/forms';
 
 
-
 @NgModule({
   declarations: [
     FooterComponent,
     HeaderComponent,
     NotFoundComponent,
-    SvgIconDisplayComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule
+    SvgIconDisplayComponent
   ],
   exports: [
     FooterComponent,
     HeaderComponent,
     NotFoundComponent,
-    SvgIconDisplayComponent
   ]
 })
 export class CoreModule { }
