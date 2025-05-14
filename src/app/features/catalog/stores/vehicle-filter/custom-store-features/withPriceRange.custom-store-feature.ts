@@ -22,6 +22,7 @@ export function withPriceRange() {
         vehicleStore = inject(VehicleStore)
       ) => ({
         loadPriceRange() {
+          console.log('WAS IVOKED BITCH');
           catalogService
             .getPriceRanges(vehicleStore.vehicleSearchCriterias())
             .subscribe((response) => {

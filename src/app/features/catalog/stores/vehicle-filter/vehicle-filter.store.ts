@@ -7,12 +7,9 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { CatalogService } from '../../services/catalog.service';
 import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
-import { PriceRange } from '../../../home/models/interfaces/PriceRange.interface';
 import { Brand } from '../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../../shared/models/interfaces/vehicle-properties/Model.interface';
-import { Currency } from '../../models/enums/Currency.enum';
 import { FilterType } from '../../models/enums/FilterType.enum';
 import { LocationRegion } from '../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
 import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
@@ -24,6 +21,8 @@ import { withRegionTownFilters } from './custom-store-features/withRegionTownFil
 import { withPriceRange } from './custom-store-features/withPriceRange.custom-store-feature';
 import { withCustomCurrency } from './custom-store-features/withCustomCurrency.custom-store-features';
 import { FilterProperty } from '../../models/enums/FilterProperty';
+import { VehicleInfoArrays } from '../../models/interfaces/VehicleInfoArrays.interface';
+import { ActivatedRoute } from '@angular/router';
 
 type VehicleFilterState = {
   lowerPrice: number | undefined;
@@ -54,6 +53,15 @@ export const VehicleFilterStore = signalStore(
         color: store.color(),
         upperPrice: store.upperPrice(),
         lowerPrice: store.lowerPrice(),
+      };
+    }),
+    vehicleInfoArrayOptions: computed<VehicleInfoArrays>(() => {
+      return {
+        engineTypeIds: store.chosenEngines(),
+        drivetrainTypeIds: store.chosenDriveTrains(),
+        bodyTypeIds: store.chosenBodyTypes(),
+        transmissionTypeIds: store.chosenTransmissionTypes(),
+        vTypeIds: store.chosenVTypes(),
       };
     }),
   })),
@@ -130,7 +138,32 @@ export const VehicleFilterStore = signalStore(
             regionFilterReset: true,
             modelFilterReset: true,
             brandFilterReset: true,
+
+            // Очистити обрані фільтри
+            chosenEngines: [],
+            chosenDriveTrains: [],
+            chosenBodyTypes: [],
+            chosenTransmissionTypes: [],
+            chosenVTypes: [],
+
+            // Обнулити status у всіх доступних фільтрах
+            allEngines: store
+              .allEngines()
+              .map((item) => ({ ...item, status: undefined })),
+            allDriveTrains: store
+              .allDriveTrains()
+              .map((item) => ({ ...item, status: undefined })),
+            allBodyTypes: store
+              .allBodyTypes()
+              .map((item) => ({ ...item, status: undefined })),
+            allTransmissionTypes: store
+              .allTransmissionTypes()
+              .map((item) => ({ ...item, status: undefined })),
+            allVTypes: store
+              .allVTypes()
+              .map((item) => ({ ...item, status: undefined })),
           });
+
           vehicleStore.setVehicleSearchCriterias({
             brandId: '',
             modelId: '',
@@ -139,7 +172,16 @@ export const VehicleFilterStore = signalStore(
             colorId: '',
             lowerPriceLimit: undefined,
             upperPriceLimit: undefined,
+
+            // Очистити фільтри за id
+            engineTypeIds: [],
+            drivetrainTypeIds: [],
+            bodyTypeIds: [],
+            transmissionTypeIds: [],
+            vTypeIds: [],
           });
+
+          vehicleStore.loadVehicles();
           break;
         }
       }
@@ -205,8 +247,27 @@ export const VehicleFilterStore = signalStore(
     },
   })),
   withHooks({
-    onInit(store) {
-      effect(() => {});
+    onInit(
+      store,
+      route = inject(ActivatedRoute),
+      vehicleStore = inject(VehicleStore)
+    ) {
+      route.queryParamMap.subscribe((params) => {
+        params.keys.forEach((key) => {
+          const value = params.get(key);
+          if (value === null) return;
+
+          switch (key) {
+            case 'highestPrice':
+              patchState(store, { upperPrice: Number(value) });
+              break;
+            // Додаткові поля в майбутньому
+            // case 'brand':
+            //   patchState(store, { brand: value });
+            //   break;
+          }
+        });
+      });
     },
   })
 );

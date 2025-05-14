@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ViewMode } from '../../models/enums/ViewMode.enum';
 import { VehicleInfoOptions } from '../../models/interfaces/VehicleInfoOptions.interface';
+import { VehicleInfoArrays } from '../../models/interfaces/VehicleInfoArrays.interface';
 
 @Component({
   selector: 'app-view-mode-selectors',
@@ -20,9 +21,11 @@ export class ViewModeSelectorsComponent {
   ourViewMode = input.required<ViewMode>();
 
   currentInfoChips = input<VehicleInfoOptions>();
+  currentInfoArrays = input<VehicleInfoArrays>();
 
   // Outputs
   chipClick = output<string>();
+  arrayedChipClick = output< { id: string; name: string }>();
   @Output() viewModeToggleEvent = new EventEmitter<ViewMode>();
 
   // States
@@ -36,5 +39,9 @@ export class ViewModeSelectorsComponent {
   //Event handlers
   handleChipClick(propertyName: string) {
     this.chipClick.emit(propertyName);
+  }
+
+  handleArrayedChipClick(entry: { id: string; name: string }) {
+    this.arrayedChipClick.emit(entry);
   }
 }

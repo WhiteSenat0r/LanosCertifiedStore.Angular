@@ -68,8 +68,12 @@
         [maxValueAnchor]="vehicleFilterStore.upperPrice()"
         (onMinValueChangeEmitter)="handleMinPriceChange($event)"
         (onMaxValueChangeEmitter)="handleMaxPriceChange($event)"
-        (onMinValueChangeInfoChipEmitter)="vehicleFilterStore.setLowerPrice($event)"
-        (onMaxValueChangeInfoChipEmitter)="vehicleFilterStore.setUpperPrice($event)"
+        (onMinValueChangeInfoChipEmitter)="
+          vehicleFilterStore.setLowerPrice($event)
+        "
+        (onMaxValueChangeInfoChipEmitter)="
+          vehicleFilterStore.setUpperPrice($event)
+        "
       ></app-filter-price-by-range-elements>
       <!--CURRENCY CHIP PICKER-->
       <div class="mt-md">
@@ -116,8 +120,8 @@
             [dependentFilter]="filterTypeEnum.regionFilter"
             [filterReset]="vehicleFilterStore.regionFilterReset()"
             (filterResetWasUsed)="
-            vehicleFilterStore.resetDependentFilter($event)
-          "
+              vehicleFilterStore.resetDependentFilter($event)
+            "
             (callForRegionPatchState)="
               vehicleFilterStore.handleCallForRegionChangeState($event)
             "
@@ -174,24 +178,36 @@
     <app-filter-checkboxes
       filterType="Тип приводу"
       [allItems]="vehicleFilterStore.allDriveTrains()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
     ></app-filter-checkboxes>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--BODY TYPE-->
     <app-filter-checkboxes
       filterType="Тип кузова"
       [allItems]="vehicleFilterStore.allBodyTypes()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
     ></app-filter-checkboxes>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--TYPE OF TRANSMISSION-->
     <app-filter-checkboxes
       filterType="Тип трансмісії"
       [allItems]="vehicleFilterStore.allTransmissionTypes()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
     ></app-filter-checkboxes>
     <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
     <!--TYPE OF "TRANSPORTNOGO ZASOBY"*UA-->
     <app-filter-checkboxes
       filterType="Тип транспортного засобу"
       [allItems]="vehicleFilterStore.allVTypes()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
     ></app-filter-checkboxes>
   </aside>
 
@@ -203,11 +219,14 @@
       [currentInfoChips]="vehicleFilterStore.vehicleInfoOptions()"
       (viewModeToggleEvent)="handleViewModeToggle($event)"
       (chipClick)="vehicleFilterStore.setPropertyStateToDefault($event)"
+      (arrayedChipClick)="vehicleFilterStore.deleteEntryFromCheckbox($event)"
+      [currentInfoArrays]="vehicleFilterStore.vehicleInfoArrayOptions()"
     ></app-view-mode-selectors>
     <!--VEHICLE DATA EXHIBITION-->
     @if(vehicleStore.vehicles()) {
     <app-vehicle-data-view
       [vehicles]="vehicleStore.vehicles()"
+      (goToProductPage)="handleTransitionToProductPage($event)"
     ></app-vehicle-data-view>
     } @else {
     <div class="p-sm">

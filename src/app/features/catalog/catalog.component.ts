@@ -16,6 +16,8 @@ import { VehicleColor } from '../../shared/models/interfaces/vehicle-properties/
 import { FilterType } from './models/enums/FilterType.enum';
 import { VehicleSearchCriterias } from './models/classes/VehicleSearchCriterias.class';
 import { VehicleStore } from './stores/vehicles/vehicles.store';
+import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
@@ -26,6 +28,9 @@ export class CatalogComponent {
   // Injected stores
   readonly vehicleStore = inject(VehicleStore);
   readonly vehicleFilterStore = inject(VehicleFilterStore);
+
+  // Injections
+  readonly router = inject(Router);
 
   // Enums
   readonly filterTypeEnum = FilterType;
@@ -59,7 +64,12 @@ export class CatalogComponent {
 
   /** Updates the maximum price filter */
   handleMaxPriceChange(max: number) {
+    console.log('wtf');
     this.updateVehicleSearch({ upperPriceLimit: max });
+  }
+
+  handleTransitionToProductPage(vehicle: Vehicle) {
+     this.router.navigate(['/catalog', vehicle.id]);
   }
 
   /** Show or hide showBrandToolTip accordingly to the emptiness of vehicleFilterStore.models() */

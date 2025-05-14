@@ -1,33 +1,70 @@
-import { Component, computed, input, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  output,
+} from '@angular/core';
 import { VehicleInfoOptions } from '../../../models/interfaces/VehicleInfoOptions.interface';
+import { VehicleInfoArrays } from '../../../models/interfaces/VehicleInfoArrays.interface';
+
+// type InfoChipEntry = {
+//   property: string;
+//   value: VehicleInfoOptions[keyof VehicleInfoOptions];
+// };
 
 @Component({
   selector: 'app-info-chips',
   templateUrl: './info-chips.component.html',
 })
-export class InfoChipsComponent<T extends { id: string; name: string }> {
+export class InfoChipsComponent {
   // Inputs
   infoChips = input<VehicleInfoOptions>();
+  infoArrays = input<VehicleInfoArrays>();
 
   // Outputs
   chipClick = output<string>();
+  arrayedChipClick = output< { id: string; name: string }>();
 
   // Computed
-  infoChipsEntries = computed(() => {
-    if (this.infoChips()) {
-      return Object.entries(this.infoChips()!).map(([key, value]) => ({
-        property: key,
-        value: value,
-      })) as { property: string; value: T }[];
-    }
-    return null;
+  infoChipsEntries = computed<any>(() => {
+    const data = this.infoChips();
+    if (!data) return [];
+
+    return Object.entries(data)
+      .filter(([_, value]) => {
+        return value !== undefined;
+      })
+      .map(([property, value]) => ({
+        property: property as string,
+        value: value as string,
+      }));
   });
 
-  countUndefinedInfoChips = computed(() => {
-    return (
-      this.infoChipsEntries()?.filter(({ value }) => value !== undefined)
-        .length ?? 0
-    );
+  countNormalChips = computed<number>(() => {
+    const entries = this.infoChipsEntries();
+
+    let total = 0;
+
+    entries.forEach((entry: string[][]) => {
+      total += 1;
+    });
+
+    return total;
+  });
+
+  countChipsOfCheckboxes = computed<number>(() => {
+    return this.checkboxesEntries().length;
+  });
+  // Computed "PLURAL" CHIPS
+  checkboxesEntries = computed(() => {
+    const data = [
+      ...(this.infoArrays()?.engineTypeIds || []),
+      ...(this.infoArrays()?.bodyTypeIds || []),
+      ...(this.infoArrays()?.drivetrainTypeIds || []),
+      ...(this.infoArrays()?.transmissionTypeIds || []),
+      ...(this.infoArrays()?.vTypeIds || []),
+    ];
+    return data;
   });
 
   // Event handlers
@@ -37,5 +74,9 @@ export class InfoChipsComponent<T extends { id: string; name: string }> {
 
   handelEraseAllClick() {
     this.chipClick.emit('eraseAll');
+  }
+
+  handleCheckboxChipClick(entry: { id: string; name: string; status?: boolean}) {
+    this.arrayedChipClick.emit(entry);
   }
 }

@@ -7,12 +7,11 @@ import {
   AnimationEvent,
 } from '@angular/animations';
 import { Component, input, output, signal } from '@angular/core';
-import { BodyType } from '../../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
-import { DrivetrainType } from '../../../../shared/models/interfaces/vehicle-properties/DrivetrainType.interface';
-import { EngineType } from '../../../../shared/models/interfaces/vehicle-properties/EngineType.interface';
-import { VType } from '../../../../shared/models/interfaces/vehicle-properties/VType.interface';
-import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
-
+import { LiveBodyType } from '../../models/interfaces/vehicleProperties/LiveBodyType.interface';
+import { LiveDrivetrainType } from '../../models/interfaces/vehicleProperties/LiveDrivetrainType.interface';
+import { LiveEngineType } from '../../models/interfaces/vehicleProperties/LiveEngineType.interface';
+import { LiveTransmissionType } from '../../models/interfaces/vehicleProperties/LiveTransmissionType.interface';
+import { LiveVType } from '../../models/interfaces/vehicleProperties/LiveVType.interface';
 @Component({
   selector: 'app-filter-checkboxes',
   templateUrl: './filter-checkboxes.component.html',
@@ -44,13 +43,20 @@ export class FilterCheckboxesComponent {
   // Inputs
   filterType = input.required<string>();
   allItems = input.required<
-    BodyType[] | EngineType[] | DrivetrainType[] | VType[] | TransmissionType[]
+    | LiveBodyType[]
+    | LiveEngineType[]
+    | LiveDrivetrainType[]
+    | LiveVType[]
+    | LiveTransmissionType[]
   >();
-
   //Outputs
   checkboxChangedEmitter = output<{
-    item: BodyType | EngineType | DrivetrainType | VType | TransmissionType;
-    checked: boolean;
+    item:
+      | LiveBodyType
+      | LiveEngineType
+      | LiveDrivetrainType
+      | LiveVType
+      | LiveTransmissionType;
     filterType: string;
   }>();
   // States
@@ -66,10 +72,18 @@ export class FilterCheckboxesComponent {
   }
 
   onCheckboxChange(
-    item: BodyType | EngineType | DrivetrainType | VType | TransmissionType,
+    item:
+      | LiveBodyType
+      | LiveEngineType
+      | LiveDrivetrainType
+      | LiveVType
+      | LiveTransmissionType,
     event: Event
   ) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    this.checkboxChangedEmitter.emit({ item: item, checked: isChecked, filterType: this.filterType()});
+    item.status = (event.target as HTMLInputElement).checked;
+    this.checkboxChangedEmitter.emit({
+      item: item,
+      filterType: this.filterType(),
+    });
   }
 }

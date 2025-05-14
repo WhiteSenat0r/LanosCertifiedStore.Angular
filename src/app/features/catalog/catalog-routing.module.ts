@@ -6,10 +6,10 @@ const routes: Routes = [
   { path: '', title: 'Catalog', component: CatalogComponent },
   {
     path: ':id',
-    title: 'Vehicle Details',
+    title: 'product',
     loadChildren: () =>
-      import('../vehicle-details/vehicle-details.module').then(
-        (m) => m.VehicleDetailsModule
+      import('../product/product.module').then(
+        (m) => m.ProductModule
       ),
     data: { breadcrumb: { label: 'Машина' } },
   },

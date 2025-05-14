@@ -1,11 +1,11 @@
 <div class="mb-[14px]">
   <div class="flex flex-row justify-between mb-[14px] max-h-[24px]">
-    <div><span class="capitalize">{{filteredTotalResults() | number:"0.0"}} результатів</span></div>
+    <div><span class="capitalize text-portGore-950">{{filteredTotalResults() | number:"0.0"}} результатів</span></div>
     <!--VIEW MODE SELECTORS-->
     <div class="flex flex-row gap-[6px]">
       <!--By some criteria-->
       <div
-        class="flex flex-row gap-xs border-b-[1px] border-transparent cursor-pointer hover:border-portGore-950"
+        class="flex flex-row gap-xs border-b-[1px] border-transparent cursor-pointer hover:border-portGore-950 hover:text-portGore-950"
       >
         <kolesko-icon
           [size]="24"
@@ -40,5 +40,5 @@
   </div>
 
   <!--INFO CHIPS-->
-  <app-info-chips [infoChips]="currentInfoChips()" (chipClick)="handleChipClick($event)"></app-info-chips>
+  <app-info-chips [infoChips]="currentInfoChips()" [infoArrays]="currentInfoArrays()" (chipClick)="handleChipClick($event)" (arrayedChipClick)="handleArrayedChipClick($event)"></app-info-chips>
 </div>

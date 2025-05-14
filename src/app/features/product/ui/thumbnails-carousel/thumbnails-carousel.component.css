@@ -1,0 +1,9 @@
+#slider-thumbnails .splide__slide {
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+#slider-thumbnails .splide__slide.is-active {
+    @apply opacity-100 border-solid border-2 border-portGore-950
+}

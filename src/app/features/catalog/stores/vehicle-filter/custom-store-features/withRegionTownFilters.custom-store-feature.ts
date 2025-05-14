@@ -37,6 +37,7 @@ export function withRegionTownFilters() {
       loadRegions() {
         catalogService.getRegions().subscribe((response) => {
           patchState(store, { regions: response.items });
+          
         });
       },
       changeShowRegionToolTip(showRegionToolTip: boolean) {

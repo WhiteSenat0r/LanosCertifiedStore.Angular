@@ -25,7 +25,7 @@
   >
     @for(item of allItems(); track $index) {
     <li class="flex flex-row gap-sm items-center group/li cursor-pointer">
-      <input type="checkbox" id="checkbox-{{ item.id }}" class="cursor-pointer rounded-sm checked:bg-portGore-700" (change)="onCheckboxChange(item, $event)"/>
+      <input type="checkbox" id="checkbox-{{ item.id }}" class="cursor-pointer rounded-sm checked:bg-portGore-700" [checked]="item.status" (change)="onCheckboxChange(item, $event)"/>
       <label
         for="checkbox-{{ item.id }}"
         class="group-hover/li:text-portGore-500 cursor-pointer w-full"

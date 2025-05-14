@@ -28,6 +28,10 @@ export class FilterPriceByRangeElementsComponent implements OnInit {
   minValueAnchor = input<number | undefined>();
   maxValueAnchor = input<number | undefined>();
 
+  def = effect(() => {
+    console.log(this.maxValueAnchor());
+  });
+
   MinValueAnchorEffect = effect(() => {
     if (this.minValueAnchor() === undefined) {
       this.minValue = this.minPrice();
@@ -43,20 +47,13 @@ export class FilterPriceByRangeElementsComponent implements OnInit {
   maxValue: number = 100;
 
   changePriceMin: EffectRef = effect(() => {
-    if (this.maxValueAnchor() !== undefined && this.maxPrice() > this.maxValueAnchor()! && this.minPrice() < this.maxValueAnchor()!) {
+    if (
+      this.maxValueAnchor() !== undefined &&
+      this.maxPrice() > this.maxValueAnchor()! &&
+      this.minPrice() < this.maxValueAnchor()!
+    ) {
       this.maxValue = this.maxValueAnchor()!;
-    } else {
-      this.maxValue = this.maxPrice();
-      this.onMaxValueChangeInfoChipEmitter.emit(undefined);
     }
-    if (this.minValueAnchor() !== undefined && this.minPrice() < this.minValueAnchor()! && this.maxPrice() > this.minValueAnchor()!) {
-      this.minValue = this.minValueAnchor()!;
-    } else {
-      this.minValue = this.minPrice();
-      this.onMinValueChangeInfoChipEmitter.emit(undefined);
-    }
-    this.onMinValueChangeEmitter.emit(this.minValue);
-    this.onMaxValueChangeEmitter.emit(this.maxValue);
   });
 
   onMinValueChangeEmitter = output<number>();

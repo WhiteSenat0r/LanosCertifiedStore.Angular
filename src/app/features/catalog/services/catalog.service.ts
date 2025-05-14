@@ -30,13 +30,15 @@ export class CatalogService {
   ): Observable<PaginatedResult<Vehicle>> {
     let params = this.buildVehicleParams(vehicleSearchCriterias);
 
-    params = params.set('ItemQuantity', vehicleSearchCriterias?.currentPageItemsQuantity ?? 100);
+    params = params.set(
+      'ItemQuantity',
+      vehicleSearchCriterias?.currentPageItemsQuantity ?? 100
+    );
 
     return this.http.get<PaginatedResult<Vehicle>>(this.baseUrl + 'vehicles', {
       params,
     });
   }
-
   getVehicleCountSummary(
     vehicleSearchCriterias?: VehicleSearchCriterias
   ): Observable<VehicleCountSummary> {
@@ -115,13 +117,15 @@ export class CatalogService {
     if (vehicleSearchCriterias) {
       params = this.buildVehicleParams({
         ...vehicleSearchCriterias,
-        lowerPriceLimit: 0, 
+
+        //PriceRange has to annul lowerPriceLimit and upperPriceLimit (that's a logic of project).
+        //When you pick color or etc.. You have to get new PriceRange which has to be independent from your component where you choose price.
+        lowerPriceLimit: 0,
         upperPriceLimit: undefined,
       });
     } else {
       params = this.buildVehicleParams(undefined);
     }
-
     return this.http.get<PriceRange>(this.baseUrl + 'vehicles/price-range', {
       params,
     });
@@ -134,7 +138,6 @@ export class CatalogService {
 
     if (!vehicleSearchCriterias) return params;
 
-
     if (vehicleSearchCriterias) {
       if (vehicleSearchCriterias.year) {
         params = params.set('ProductionYear', vehicleSearchCriterias.year);
@@ -143,7 +146,7 @@ export class CatalogService {
         params = params.set('PageIndex', vehicleSearchCriterias.pageIndex);
       }
       if (vehicleSearchCriterias.colorId) {
-        params = params.set('ColorId', vehicleSearchCriterias.colorId);
+        params = params.set('ColorIds', vehicleSearchCriterias.colorId);
       }
       if (vehicleSearchCriterias.lowerPriceLimit) {
         params = params.set(
@@ -158,19 +161,39 @@ export class CatalogService {
         );
       }
       if (vehicleSearchCriterias.brandId) {
-        params = params.set('BrandId', vehicleSearchCriterias.brandId);
+        params = params.set('BrandIds', vehicleSearchCriterias.brandId);
       }
       if (vehicleSearchCriterias.modelId) {
-        params = params.set('ModelId', vehicleSearchCriterias.modelId);
+        params = params.set('ModelIds', vehicleSearchCriterias.modelId);
       }
       if (vehicleSearchCriterias.bodyTypeIds) {
         vehicleSearchCriterias.bodyTypeIds.forEach((id) => {
-          params = params.set('BodyType', id);
+          params = params.append('BodyTypeIds', id);
+        });
+      }
+      if (vehicleSearchCriterias.engineTypeIds) {
+        vehicleSearchCriterias.engineTypeIds.forEach((id) => {
+          params = params.append('EngineTypeIds', id);
+        });
+      }
+      if (vehicleSearchCriterias.drivetrainTypeIds) {
+        vehicleSearchCriterias.drivetrainTypeIds.forEach((id) => {
+          params = params.append('DrivetrainTypeIds', id);
+        });
+      }
+      if (vehicleSearchCriterias.transmissionTypeIds) {
+        vehicleSearchCriterias.transmissionTypeIds.forEach((id) => {
+          params = params.append('TransmissionTypeIds', id);
+        });
+      }
+      if (vehicleSearchCriterias.vTypeIds) {
+        vehicleSearchCriterias.vTypeIds.forEach((id) => {
+          params = params.append('TypeIds', id);
         });
       }
       if (vehicleSearchCriterias.locationRegionId) {
         params = params.set(
-          'LocationRegionAreaId',
+          'LocationRegionAreaIds',
           vehicleSearchCriterias.locationRegionId
         );
         params = params.set(

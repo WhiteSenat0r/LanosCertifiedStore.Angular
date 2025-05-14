@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, output, Output } from '@angular/core';
 import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 
 @Component({
@@ -8,4 +8,12 @@ import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties
 })
 export class VehicleDataViewComponent {
   @Input({ required: true }) vehicles!: Vehicle[];
+  
+  goToProductPage = output<Vehicle>();
+  
+  handleCardClick(vehicle: Vehicle) {
+    this.goToProductPage.emit(vehicle);
+  }
+
+
 }
