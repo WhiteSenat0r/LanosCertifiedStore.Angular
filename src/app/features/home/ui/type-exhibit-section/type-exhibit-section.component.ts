@@ -6,8 +6,8 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
-import { BodyType } from '../../../../shared/models/BaseApiModels/BodyType';
+import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
+import { BodyType } from '../../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
 
 @Component({
   selector: 'app-type-exhibit-section',

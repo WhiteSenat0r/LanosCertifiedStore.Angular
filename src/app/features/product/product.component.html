@@ -1,0 +1,21 @@
+<div class="container mx-auto flex flex-col gap-xs">
+  <!--PRODUCT GALERRY + DETAILS-->
+  <div class="gap-base flex flex-col lg:flex-row">
+    <ng-container *ngIf="vehicle()">
+      <app-thumbnails-carousel
+        class="grow-0 shrink-0 basis-2/3"
+        [vehicle]="vehicle()"
+      ></app-thumbnails-carousel>
+    </ng-container>
+
+    <app-product-details class="flex-1"></app-product-details>
+  </div>
+  <!--DETAILED DESCRIPTION-->
+  <div>
+    <app-detailed-description></app-detailed-description>
+  </div>
+  <!--SIMILAR ADVERTISEMENTS-->
+  <div></div>
+  <!--OTHER MODELS OF BRAND-->
+  <div></div>
+</div>

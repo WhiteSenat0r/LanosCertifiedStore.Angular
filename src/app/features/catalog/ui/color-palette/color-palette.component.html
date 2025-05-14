@@ -1,1 +1,12 @@
-<p>color-palette works!</p>
+<ul class="mx-auto flex flex-row flex-wrap gap-x-sm gap-y-sm">
+  @for(color of colors(); track $index) {
+  <li
+    class="w-[25px] h-[25px] rounded-sm cursor-pointer border-white transition-all duration-75 border-[2px] hover:border-portGore-700 hover:drop-shadow-lg"
+    [class]="(chosenColor()?.hexValue === color.hexValue) ? '!border-portGore-950' : ''"
+    [style.backgroundColor]="color.hexValue"
+    (click)="handleColorPick(color)"
+  ></li>
+  } @empty {
+  <div>There is no color available, try again later</div>
+  }
+</ul>

@@ -9,7 +9,7 @@ import { AdBlockSectionComponent } from './ui/ad-block-section/ad-block-section.
 import { ContactFormSectionComponent } from './ui/contact-form-section/contact-form-section.component';
 import { OtherInfoSectionComponent } from './ui/contact-form-section/other-info-section/other-info-section.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './feature/home.component';
+import { HomeComponent } from './home.component';
 import { SliderDefaultComponent } from './ui/slider-default/slider-default.component';
 import { SliderLightComponent } from './ui/slider-light/slider-light.component';
 import { AppendTextPipe } from '../../shared/pipes/append-text.pipe';
@@ -32,7 +32,7 @@ import { FastInputsFormComponent } from './ui/fast-search-section/fast-inputs-fo
     SliderDefaultComponent,
     SliderLightComponent,
     FastSearchSectionComponent,
-    FastInputsFormComponent
+    FastInputsFormComponent,
   ],
   imports: [
     CommonModule,

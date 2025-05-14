@@ -1,4 +1,51 @@
-<div class="w-[256px] py-xs px-[12px] flex flex-row justify-between items-center border-2 border-jaguar-900 cursor-pointer rounded">
-    <span class="text-xs font-light">{{ placeHolder }}</span>
-    <kolesko-icon class="rotate-90"></kolesko-icon>
+<div
+  #dropdownContainer
+  class="group box-border relative w-[256px] transition-all duration-75 py-xs px-[12px] flex flex-row justify-between items-center border-[2px] border-black cursor-pointer rounded"
+  (click)="handleFilterClick()"
+  [class.rounded-b-none]="isShown() || animationState() === 'open'"
+  [style.z-index]="zIndexValue() ? zIndexValue() : '0'"
+>
+  <!-- Background Overlay -->
+  <div
+    class="absolute inset-[0px] h-full w-full transition-all duration-75 bg-portGore-300 opacity-0 group-hover:opacity-25"
+    [class.opacity-25]="isShown()"
+  ></div>
+
+  <!-- Selected Item or Placeholder -->
+  <span class="text-sm">
+    {{ selectedItemName ?? placeHolder() }}
+  </span>
+
+  <!-- Dropdown Icon -->
+  <kolesko-icon
+    class="transition-all duration-75"
+    [class.rotate-90]="isShown()"
+  ></kolesko-icon>
+
+  <!-- Dropdown List (Only Rendered When Items Exist) -->
+  @if (items() && items()!.length > 0) {
+    <ul
+      class="absolute box-border w-[calc(100%+4px)] py-[6px] top-[100%] -left-[2px] border-[2px] px-xs border-t-0 border-portGore-950 bg-kimberly-50 rounded-b"
+      [@dropDown]="isShown() ? 'open' : 'closed'"
+      (@dropDown.done)="onAnimationDropDownDone($event)"
+    >
+      <div
+        class="catalogFilterScroller flex flex-col items-start h-full w-full"
+        [class.!overflow-y-scroll]="items()!.length > 7"
+        [class.!overflow-y-hidden]="items()!.length <= 7"
+      >
+        <!-- List Items -->
+        @for (item of items(); track $index) {
+          <li class="pr-xs w-full">
+            <div
+              class="pl-sm py-xs pr-xs hover:bg-portGore-50 text-sm rounded-sm w-full"
+              (click)="handleNewChoicePicked(item)"
+            >
+              {{ item.name }}
+            </div>
+          </li>
+        }
+      </div>
+    </ul>
+  }
 </div>

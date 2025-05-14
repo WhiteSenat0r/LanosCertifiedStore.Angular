@@ -1,0 +1,64 @@
+<div class="flex flex-row lg:flex-col gap-[12px]">
+  <!-- Main slider constrained -->
+
+  <div class="h-[282px] lg:h-[440px] relative">
+    <div id="slider-main" class="splide h-full">
+      <!--Arrows-->
+      <div class="flex flex-row justify-between absolute w-full top-1/2 z-50">
+        <button
+          (click)="prevSlide()"
+          class="size-xl absolute left-[14px] rounded-full transition-all duration-75 opacity-45 hover:opacity-75 bg-[#ffffffff] flex justify-center items-center scale-110"
+        >
+          <kolesko-icon
+            name="outline-chevron-left"
+            class="text-portGore-950"
+          ></kolesko-icon>
+        </button>
+        <button
+          (click)="nextSlide()"
+          class="size-xl absolute right-[14px] rounded-full transition-all duration-75 opacity-45 hover:opacity-75 bg-[#ffffffff] flex justify-center items-center scale-110"
+        >
+          <kolesko-icon
+            name="outline-chevron-right"
+            class="text-portGore-950"
+          ></kolesko-icon>
+        </button>
+      </div>
+      <div class="splide__track h-full">
+        <ul class="splide__list h-full">
+          <li class="splide__slide h-full" *ngFor="let img of vehicle().images">
+            <div
+              class="w-full h-full overflow-hidden flex items-center justify-center"
+            >
+              <img
+                [src]="img.imageUrl"
+                alt="Main image"
+                class="object-cover h-full w-full"
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thumbnails slider -->
+  <div id="slider-thumbnails" class="splide shrink-0">
+    <div class="splide__track">
+      <ul class="splide__list">
+        <li
+          class="splide__slide border-0"
+          *ngFor="let img of vehicle().images; let i = index"
+          (click)="goToSlide(i)"
+          [class.is-active]="i === currentSlide"
+        >
+          <img
+            [src]="img.imageUrl"
+            alt="Thumbnail"
+            class="w-full h-full object-cover block"
+          />
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import Splide from '@splidejs/splide';
-import { Vehicle } from '../../../../shared/models/BaseApiModels/Vehicle';
+import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 
 @Component({
   selector: 'app-slider-light',

@@ -1,0 +1,50 @@
+@if(infoChipsEntries()) {
+<div class="flex flex-row gap-base items-center flex-wrap">
+  @for(entry of infoChipsEntries(); track $index) {
+  <div
+    class="border-2 border-black rounded h-fit flex items-center flex-row p-xs gap-xs cursor-pointer transition-colors hover:bg-portGore-100"
+    (click)="handleChipClick(entry.property)"
+  >
+    <!--PRICE HANDLING-->
+    @if(entry.property === "lowerPrice" || entry.property === "upperPrice"){
+    <div class="flex flex-nowrap">
+      @if(entry.property === "lowerPrice") {
+      <span class="block"
+        >Ціна від {{ entry.value!.toString() | number : "0.0" }}</span
+      >
+      } @else {
+      <span class="block"
+        >Ціна до {{ entry.value!.toString() | number : "0.0" }}</span
+      >
+      }
+      <span class="">{{ "$" }}</span>
+    </div>
+    <kolesko-icon name="outline-x" class="block"></kolesko-icon>
+    }
+    <!--OTHER CHIPS-->
+    @else {
+    <span class="block">{{ entry.value.name }}</span>
+    <kolesko-icon name="outline-x" class="block"></kolesko-icon>
+    }
+  </div>
+  }
+  <!--"PLURAL" CHIPS-->
+  @for(entry of checkboxesEntries(); track $index) {
+  <div
+    class="border-2 border-black rounded h-fit flex items-center flex-row p-xs gap-xs cursor-pointer transition-colors hover:bg-portGore-100"
+    (click)="handleCheckboxChipClick(entry)"
+  >
+    <span class="block">{{ entry.name }}</span>
+    <kolesko-icon name="outline-x" class="block"></kolesko-icon>
+  </div>
+  }
+  <!--ERASER-->
+  @if((countNormalChips() + countChipsOfCheckboxes()) >= 3) {
+  <span
+    class="inline-block cursor-pointer underline underline-offset-1 font-medium transition-all duration-150 text-portGore-950 hover:text-portGore-700"
+    (click)="handelEraseAllClick()"
+    >Очистити</span
+  >
+  }
+</div>
+}

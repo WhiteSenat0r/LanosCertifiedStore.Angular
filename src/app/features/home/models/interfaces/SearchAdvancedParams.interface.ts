@@ -7,5 +7,4 @@ export interface SearchAdvancedParams{
     engine?: string;
     region?: string;
     transmission?: string;
-    
 }

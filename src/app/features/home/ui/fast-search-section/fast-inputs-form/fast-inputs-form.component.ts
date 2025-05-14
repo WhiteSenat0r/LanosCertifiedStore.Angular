@@ -1,9 +1,17 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Observable } from 'rxjs';
-import { DropdownElementData } from '../../../models/DropdownElementData.enum';
-import { DropdownHeaderData } from '../../../models/DropdownHeaderData';
-import { PriceRange } from '../../../models/PriceRange';
-import { SearchAdvancedParams } from '../../../models/SearchAdvancedParams';
+import { DropdownElementData } from '../../../models/enums/DropdownElementData.enum';
+import { DropdownHeaderData } from '../../../models/interfaces/DropdownHeaderData.interface';
+import { PriceRange } from '../../../models/interfaces/PriceRange.interface';
+import { SearchAdvancedParams } from '../../../models/interfaces/SearchAdvancedParams.interface';
 
 @Component({
   selector: 'app-fast-inputs-form',

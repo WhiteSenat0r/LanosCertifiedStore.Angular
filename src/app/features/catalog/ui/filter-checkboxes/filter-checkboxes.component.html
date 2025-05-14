@@ -1,1 +1,38 @@
-<p>filter-checkboxes works!</p>
+<div class="group px-base relative overflow-hidden">
+  <div
+    class="group/nested flex flex-row justify-start items-center py-[10px] cursor-pointer"
+    (click)="handleFilterClick()"
+  >
+    <span
+      class="text-md group-hover/nested:text-portGore-500 transition-all duration-75"
+      >{{ filterType() }}</span
+    >
+    @if(isExpanded()) {
+    <kolesko-icon
+      name="outline-x"
+      class="absolute right-[16px] group-hover/nested:text-portGore-500"
+    ></kolesko-icon>
+    }@else {
+    <kolesko-icon
+      class="absolute right-[16px] group-hover/nested:rotate-90 transition-all duration-75 group-hover:text-portGore-500"
+    ></kolesko-icon>
+    }
+  </div>
+  <ul
+    [@dropDown]="isExpanded() ? 'open' : 'closed'"
+    (@dropDown.done)="onAnimationDropDownDone($event)"
+    class="flex flex-col gap-[2px]"
+  >
+    @for(item of allItems(); track $index) {
+    <li class="flex flex-row gap-sm items-center group/li cursor-pointer">
+      <input type="checkbox" id="checkbox-{{ item.id }}" class="cursor-pointer rounded-sm checked:bg-portGore-700" [checked]="item.status" (change)="onCheckboxChange(item, $event)"/>
+      <label
+        for="checkbox-{{ item.id }}"
+        class="group-hover/li:text-portGore-500 cursor-pointer w-full"
+      >
+        {{ item.name }}
+      </label>
+    </li>
+    }
+  </ul>
+</div>

@@ -1,0 +1,248 @@
+<div class="container mx-auto flex flex-row gap-xs mb-md">
+  <!--MAIN FILTERS-->
+  <aside
+    class="hidden md:block bg-kimberly-50 h-fit pt-base w-[288px] mr-[16px] box-content border-[1px] border-portGore-950 rounded"
+  >
+    <!--BRAND AND MODEL FILTERS-->
+    <div class="flex flex-col gap-[10px] px-base">
+      <div class="relative flex flex-col gap-[10px]">
+        <span class="inline-block">Марка авто</span>
+        <div class="relative">
+          <app-filter-dropdown
+            placeHolder="Виберіть марку авто"
+            [items]="vehicleFilterStore.brands()"
+            [dependentFilter]="filterTypeEnum.brandFilter"
+            [filterReset]="vehicleFilterStore.brandFilterReset()"
+            (callForBrandPatchState)="
+              vehicleFilterStore.handleCallForBrandChangeState($event)
+            "
+            (filterResetWasUsed)="
+              vehicleFilterStore.resetDependentFilter($event)
+            "
+            [zIndexValue]="'53'"
+          ></app-filter-dropdown>
+          @if(vehicleFilterStore.showBrandToolTip()) {
+          <app-tooltip-upside-down
+            message="Оберіть спочатку виробника"
+          ></app-tooltip-upside-down>
+          }
+        </div>
+      </div>
+      <div class="relative flex flex-col gap-[10px]">
+        <span class="inline-block">Модель авто</span>
+        @if(vehicleFilterStore.brand() && vehicleFilterStore.models().length ===
+        0) {
+        <span class="inline-block text-sm px-xs leading-normal text-redy-700"
+          >Для цього бренду поки що немає доступних моделей!</span
+        >
+        } @else {
+        <div #modelFilter>
+          <app-filter-dropdown
+            [placeHolder]="'Виберіть модель авто'"
+            [items]="vehicleFilterStore.models()"
+            [dependentFilter]="filterTypeEnum.modelFilter"
+            [lockingDropDown]="!vehicleFilterStore.brand()"
+            [filterReset]="vehicleFilterStore.modelFilterReset()"
+            (callForModelPatchState)="
+              vehicleFilterStore.handleCallForModelChangeState($event)
+            "
+            (filterResetWasUsed)="
+              vehicleFilterStore.resetDependentFilter($event)
+            "
+            [zIndexValue]="'52'"
+          ></app-filter-dropdown>
+        </div>
+        }
+      </div>
+    </div>
+    <div
+      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
+    ></div>
+    <!--PRICE RELATED FILTER-->
+    <div class="px-base">
+      <!--PRICE INPUTS-->
+      <app-filter-price-by-range-elements
+        [minPrice]="vehicleFilterStore.priceRange().lowest"
+        [maxPrice]="vehicleFilterStore.priceRange().highest"
+        [minValueAnchor]="vehicleFilterStore.lowerPrice()"
+        [maxValueAnchor]="vehicleFilterStore.upperPrice()"
+        (onMinValueChangeEmitter)="handleMinPriceChange($event)"
+        (onMaxValueChangeEmitter)="handleMaxPriceChange($event)"
+        (onMinValueChangeInfoChipEmitter)="
+          vehicleFilterStore.setLowerPrice($event)
+        "
+        (onMaxValueChangeInfoChipEmitter)="
+          vehicleFilterStore.setUpperPrice($event)
+        "
+      ></app-filter-price-by-range-elements>
+      <!--CURRENCY CHIP PICKER-->
+      <div class="mt-md">
+        <ul class="flex flex-row gap-sm">
+          @for(currency of vehicleFilterStore.currencyArray(); track $index) {
+          <li
+            class="relative group border-[2px] border-kimberly-500 transition-all duration-150 hover:border-portGore-500 rounded px-base py-[2px]"
+            (click)="vehicleFilterStore.changeCurrencyTypeState(currency)"
+            [class]="
+              vehicleFilterStore.currencyType() === currency
+                ? 'bg-portGore-500 !border-portGore-500 text-white'
+                : 'text-black cursor-pointer'
+            "
+          >
+            @if(vehicleFilterStore.currencyType() !== currency) {
+            <div
+              class="absolute inset-[0px] h-full w-full transition-all duration-150 bg-portGore-300 opacity-0 group-hover:opacity-25"
+            ></div>
+            }
+
+            <span
+              [class.pointer-events-none]="
+                vehicleFilterStore.currencyType() !== currency
+              "
+              class="cursor-default"
+              >{{ currency }}</span
+            >
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+    <div
+      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
+    ></div>
+    <!--LOCATION-->
+    <div class="flex flex-col gap-[12px] px-base">
+      <span class="inline-block">Розташування</span>
+      <div class="flex flex-col gap-[10px]">
+        <div class="relative">
+          <app-filter-dropdown
+            placeHolder="Оберіть область"
+            [items]="vehicleFilterStore.regions()"
+            [dependentFilter]="filterTypeEnum.regionFilter"
+            [filterReset]="vehicleFilterStore.regionFilterReset()"
+            (filterResetWasUsed)="
+              vehicleFilterStore.resetDependentFilter($event)
+            "
+            (callForRegionPatchState)="
+              vehicleFilterStore.handleCallForRegionChangeState($event)
+            "
+            [zIndexValue]="'51'"
+          ></app-filter-dropdown>
+          @if(vehicleFilterStore.showRegionToolTip()) {
+          <app-tooltip-upside-down
+            message="Оберіть спочатку область"
+          ></app-tooltip-upside-down>
+          }
+        </div>
+
+        <div #townFilter>
+          <app-filter-dropdown
+            placeHolder="Оберіть місто"
+            [items]="vehicleFilterStore.towns()"
+            [dependentFilter]="filterTypeEnum.townFilter"
+            [lockingDropDown]="!vehicleFilterStore.region()"
+            [filterReset]="vehicleFilterStore.townFilterReset()"
+            (callForTownPatchState)="
+              vehicleFilterStore.handleCallForTownChangeState($event)
+            "
+            (filterResetWasUsed)="
+              vehicleFilterStore.resetDependentFilter($event)
+            "
+            [zIndexValue]="'50'"
+          ></app-filter-dropdown>
+        </div>
+      </div>
+    </div>
+    <div
+      class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px] mb-[10px]"
+    ></div>
+    <div class="flex flex-col gap-[12px] px-base">
+      <span class="inline-block">Колір</span>
+      <!--COLORS GRID PICKER-->
+      <app-color-palette
+        [colors]="this.vehicleFilterStore.colors()"
+        (onColorChange)="handleColorChange($event)"
+        [chosenColor]="vehicleFilterStore.color()"
+      ></app-color-palette>
+    </div>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800 mt-[20px]"></div>
+    <!--TYPE OF ENGINE-->
+    <app-filter-checkboxes
+      filterType="Тип двигуна"
+      [allItems]="vehicleFilterStore.allEngines()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
+    ></app-filter-checkboxes>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
+    <!--TYPE OF DRIVETRAIN-->
+    <app-filter-checkboxes
+      filterType="Тип приводу"
+      [allItems]="vehicleFilterStore.allDriveTrains()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
+    ></app-filter-checkboxes>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
+    <!--BODY TYPE-->
+    <app-filter-checkboxes
+      filterType="Тип кузова"
+      [allItems]="vehicleFilterStore.allBodyTypes()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
+    ></app-filter-checkboxes>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
+    <!--TYPE OF TRANSMISSION-->
+    <app-filter-checkboxes
+      filterType="Тип трансмісії"
+      [allItems]="vehicleFilterStore.allTransmissionTypes()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
+    ></app-filter-checkboxes>
+    <div class="block min-h-[0.5px] w-full bg-kimberly-800"></div>
+    <!--TYPE OF "TRANSPORTNOGO ZASOBY"*UA-->
+    <app-filter-checkboxes
+      filterType="Тип транспортного засобу"
+      [allItems]="vehicleFilterStore.allVTypes()"
+      (checkboxChangedEmitter)="
+        vehicleFilterStore.handleCheckboxChanged($event)
+      "
+    ></app-filter-checkboxes>
+  </aside>
+
+  <main class="flex-grow">
+    <!--OTHER FILTERS-->
+    <app-view-mode-selectors
+      [filteredTotalResults]="vehicleStore.filteredTotalVehicleCount()"
+      [ourViewMode]="currentViewMode"
+      [currentInfoChips]="vehicleFilterStore.vehicleInfoOptions()"
+      (viewModeToggleEvent)="handleViewModeToggle($event)"
+      (chipClick)="vehicleFilterStore.setPropertyStateToDefault($event)"
+      (arrayedChipClick)="vehicleFilterStore.deleteEntryFromCheckbox($event)"
+      [currentInfoArrays]="vehicleFilterStore.vehicleInfoArrayOptions()"
+    ></app-view-mode-selectors>
+    <!--VEHICLE DATA EXHIBITION-->
+    @if(vehicleStore.vehicles()) {
+    <app-vehicle-data-view
+      [vehicles]="vehicleStore.vehicles()"
+      (goToProductPage)="handleTransitionToProductPage($event)"
+    ></app-vehicle-data-view>
+    } @else {
+    <div class="p-sm">
+      <span>Виникли проблеми, спробуйте перезапустити сторінку.</span>
+    </div>
+    }
+    <!--PAGINATION-->
+    <div class="flex mt-xl mb-2xl justify-center">
+      <app-pagination
+        [totalPages]="
+          vehicleStore.filteredTotalVehicleCount() /
+          vehicleStore.currentPageItemsQuantity()
+        "
+        [currentPage]="vehicleStore.pageIndex()"
+        (onPageChangeEvent)="handlePageChange($event)"
+      ></app-pagination>
+    </div>
+  </main>
+</div>

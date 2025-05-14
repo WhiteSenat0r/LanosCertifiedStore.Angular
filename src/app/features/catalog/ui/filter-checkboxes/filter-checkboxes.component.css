@@ -1,0 +1,4 @@
+input[type="checkbox"]:focus {
+  box-shadow: none;
+  outline: none;
+}
