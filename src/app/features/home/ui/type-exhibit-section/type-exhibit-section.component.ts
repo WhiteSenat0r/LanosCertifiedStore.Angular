@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  output,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -19,6 +20,7 @@ export class TypeExhibitSectionComponent implements OnChanges {
   @Input() bodyTypes!: BodyType[];
 
   @Output() clickedBodyTypeEvent = new EventEmitter<BodyType>();
+  vehicleCardClick = output<Vehicle>();
 
   selectedBodyTypeIndex: number = 0;
 
@@ -33,5 +35,9 @@ export class TypeExhibitSectionComponent implements OnChanges {
   handleTypeClick(bodyType: BodyType, index: number) {
     this.selectedBodyTypeIndex = index;
     this.clickedBodyTypeEvent.emit(bodyType);
+  }
+
+  handleVehicleCardClick(vehicle: Vehicle) {
+    this.vehicleCardClick.emit(vehicle);
   }
 }

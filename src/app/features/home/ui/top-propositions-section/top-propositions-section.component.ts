@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 
 @Component({
@@ -8,4 +8,8 @@ import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties
 })
 export class TopPropositionsSectionComponent {
   @Input() vehicles!: Vehicle[];
+  vehicleCardClick = output<Vehicle>();
+  handleVehicleCardClick(vehicle: Vehicle) {
+    this.vehicleCardClick.emit(vehicle);
+  }
 }

@@ -1,6 +1,5 @@
 <div class="flex flex-row lg:flex-col gap-[12px]">
   <!-- Main slider constrained -->
-
   <div class="h-[282px] lg:h-[440px] relative">
     <div id="slider-main" class="splide h-full">
       <!--Arrows-->
@@ -28,7 +27,7 @@
         <ul class="splide__list h-full">
           <li class="splide__slide h-full" *ngFor="let img of vehicle().images">
             <div
-              class="w-full h-full overflow-hidden flex items-center justify-center"
+              class="w-full h-full overflow-hidden flex items-center justify-center relative"
             >
               <img
                 [src]="img.imageUrl"

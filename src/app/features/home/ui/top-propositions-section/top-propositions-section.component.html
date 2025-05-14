@@ -8,5 +8,5 @@
             <kolesko-icon name="info-icon-solid" class="text-redy-800 cursor-pointer"></kolesko-icon>
         </div>
     </div>
-    <app-slider-light [vehicles]="vehicles"></app-slider-light>
+    <app-slider-light [vehicles]="vehicles" (vehicleCardClick)="handleVehicleCardClick($event)"></app-slider-light>
 </section>

@@ -3,6 +3,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  output,
   SimpleChanges,
 } from '@angular/core';
 import Splide from '@splidejs/splide';
@@ -15,6 +16,7 @@ import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties
 })
 export class SliderLightComponent implements OnChanges, OnDestroy {
   @Input() vehicles: Vehicle[] = [];
+  vehicleCardClick = output<Vehicle>();
 
   splide?: Splide;
   currentSlide: number = 0;
@@ -69,5 +71,9 @@ export class SliderLightComponent implements OnChanges, OnDestroy {
     if (this.splide) {
       this.splide.destroy();
     }
+  }
+
+  vehicleClick(vehicle: Vehicle) {
+    this.vehicleCardClick.emit(vehicle);
   }
 }

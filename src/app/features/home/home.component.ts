@@ -27,7 +27,8 @@ export class HomeComponent implements OnInit {
   handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
     this.homeservice
       .getDropDownData(ApiCallOption)
-      .pipe(filter(
+      .pipe(
+        filter(
           (
             response:
               | ApiResponse<
@@ -45,7 +46,8 @@ export class HomeComponent implements OnInit {
             >
           ) => response.items.map((item) => item.name)
         )
-      ).subscribe((info: string[]) => {
+      )
+      .subscribe((info: string[]) => {
         this.InfoObjectDataOptionated = {
           ApiCallOption: ApiCallOption,
           DropDownElementUlInfo: info,
@@ -134,6 +136,10 @@ export class HomeComponent implements OnInit {
         console.error(error);
       },
     });
+  }
+
+  handleVehicleCardClick(vehicle: Vehicle) {
+    this.router.navigate(['/catalog', vehicle.id]);
   }
 
   handleClickedBodyTypeEvent(bodyType: BodyType) {
