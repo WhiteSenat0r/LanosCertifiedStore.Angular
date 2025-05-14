@@ -23,5 +23,5 @@
 
     } @empty { Помилка! }
   </ul>
- <app-slider-default [vehicles]="vehicles"></app-slider-default>
+ <app-slider-default [vehicles]="vehicles" (vehicleCardClick)="handleVehicleCardClick($event)"></app-slider-default>
 </section>

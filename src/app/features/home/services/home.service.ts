@@ -31,7 +31,7 @@ export class HomeService {
     let params = new HttpParams();
 
     if (vehicleCount) params = params.set('ItemQuantity', vehicleCount);
-    if (bodyTypeId) params = params.set('BodyTypeId', bodyTypeId);
+    if (bodyTypeId) params = params.set('BodyTypeIds', bodyTypeId);
     if (LowerPriceLimit)
       params = params.set('LowerPriceLimit', LowerPriceLimit);
     params = params.set('selectionProfile', 2);

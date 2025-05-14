@@ -26,8 +26,8 @@ export class ThumbnailsCarouselComponent implements OnChanges, OnDestroy {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['vehicle'] && this.vehicle().images.length) {
+  ngOnChanges(): void {
+    if (this.vehicle().images.length) {
       this.destroySplides();
       setTimeout(() => this.initSplides());
     }

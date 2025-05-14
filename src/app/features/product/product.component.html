@@ -1,4 +1,4 @@
-<div class="container mx-auto flex flex-col gap-xs">
+<div class="container mx-auto flex flex-col gap-base">
   <!--PRODUCT GALERRY + DETAILS-->
   <div class="gap-base flex flex-col lg:flex-row">
     <ng-container *ngIf="vehicle()">
@@ -8,14 +8,30 @@
       ></app-thumbnails-carousel>
     </ng-container>
 
-    <app-product-details class="flex-1"></app-product-details>
+    <app-product-details
+      class="flex-1"
+      [vehicle]="vehicle()"
+    ></app-product-details>
   </div>
   <!--DETAILED DESCRIPTION-->
   <div>
     <app-detailed-description></app-detailed-description>
   </div>
   <!--SIMILAR ADVERTISEMENTS-->
-  <div></div>
+  <div class="flex flex-col gap-lg">
+    <div class="flex flex-row gap-[12px]">
+      <kolesko-icon></kolesko-icon>
+      <span class="font-bold">Схожі оголошення</span>
+    </div>
+    <app-similar-products-carousel
+      [vehicles]="similarVehicles()"
+    ></app-similar-products-carousel>
+  </div>
   <!--OTHER MODELS OF BRAND-->
-  <div></div>
+  <div class="flex flex-col gap-lg">
+    <div class="flex flex-row gap-[12px]">
+      <kolesko-icon></kolesko-icon>
+      <span class="font-bold">Інші моделі {{ vehicle().brand }}</span>
+    </div>
+  </div>
 </div>

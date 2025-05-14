@@ -4,10 +4,12 @@
     [vehicles]="vehicles"
     [bodyTypes]="filteredBodyTypes"
     (clickedBodyTypeEvent)="handleClickedBodyTypeEvent($event)"
+    (vehicleCardClick)="handleVehicleCardClick($event)"
   ></app-type-exhibit-section>
   <div class="bg-portGore-700">
     <app-top-propositions-section
       [vehicles]="topPriceVehicles"
+       (vehicleCardClick)="handleVehicleCardClick($event)"
     ></app-top-propositions-section>
   </div>
   <app-ad-block-section></app-ad-block-section>

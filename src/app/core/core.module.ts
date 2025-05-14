@@ -4,8 +4,8 @@ import { FooterComponent } from './ui/footer/footer.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { NotFoundComponent } from './ui/not-found/not-found.component';
 import { RouterModule } from '@angular/router';
-import { SvgIconDisplayComponent } from './utilities/svg-icon-display/svg-icon-display.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SvgIconDisplayComponent } from '../shared/utils/svg-icon-display.component';
 
 
 @NgModule({
@@ -17,7 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
     SvgIconDisplayComponent
   ],
   exports: [

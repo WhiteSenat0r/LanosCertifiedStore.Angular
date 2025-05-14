@@ -3,7 +3,7 @@
   <div class="splide__track">
     <ul class="splide__list">
       @for(vehicle of vehicles; track vehicle.id) {
-      <li #splide_slide_element class="splide__slide group cursor-pointer">
+      <li #splide_slide_element class="splide__slide group cursor-pointer" (click)="vehicleClick(vehicle)">
         <!--Main breakpoint slideElementview-->
         <div
           class="relative hidden sm:flex flex-col bg-portGore-700 h-[344px] rounded"
@@ -17,11 +17,6 @@
               alt="Vehicle Image"
             />
           </div>
-          <!--Chip siteholder-->
-          <img
-            src="assets/images/logo/logo-dark.png"
-            class="absolute top-sm left-sm h-[46px] w-[41px] scale-75 opacity-95"
-          />
           <!--Info block-->
           <div class="px-[8px]">
             <span
