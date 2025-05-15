@@ -1,0 +1,38 @@
+<div class="grid grid-cols-2 gap-base">
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Пальне</span>
+    <span>{{vehicleDetails()?.engineType}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Вид транспортного засобу</span>
+    <span>{{vehicleDetails()?.type}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Об'єм двигуна</span>
+    <span>{{vehicleDetails()?.displacement}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Тип кузова</span>
+    <span>{{vehicleDetails()?.bodyType}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Трансмісія</span>
+    <span>{{vehicleDetails()?.transmissionType}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Колір</span>
+    <span>{{vehicleDetails()?.color}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Тип приводу</span>
+    <span>{{vehicleDetails()?.drivetrainType}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Vin code</span>
+    <span class="truncate text-wrap">{{vehicleDetails()?.vincode}}</span>
+  </div>
+  <div class="flex flex-col">
+    <span class="text-portGore-500 font-medium">Пробіг</span>
+    <span>{{vehicleDetails()?.mileage}}</span>
+  </div>
+</div>

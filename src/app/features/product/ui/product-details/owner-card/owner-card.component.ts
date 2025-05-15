@@ -1,11 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
+import { ExtendedVehicle } from '../../../../../shared/models/classes/vehicle-properties/ExtendedVehicle.class';
 
 @Component({
   selector: 'app-owner-card',
   templateUrl: './owner-card.component.html',
-  styles: ``,
 })
 export class OwnerCardComponent {
-  email = 'nelya1973@gmail.com';
-  telephone = '+380685428123'
+  vehicle = input<ExtendedVehicle>();
+
+  owner = computed(() => {
+    return (
+      this.vehicle()?.ownerData.firstName +
+      ' ' +
+      this.vehicle()?.ownerData.lastName
+    );
+  });
+  location = computed(() => {
+    return (
+      this.vehicle()?.region +
+      ', ' +
+      this.vehicle()?.town
+    );
+  });
 }

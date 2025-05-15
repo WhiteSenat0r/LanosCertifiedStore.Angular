@@ -15,23 +15,25 @@
   </div>
   <!--DETAILED DESCRIPTION-->
   <div>
-    <app-detailed-description></app-detailed-description>
+    <app-detailed-description [description]="vehicle().description"></app-detailed-description>
   </div>
   <!--SIMILAR ADVERTISEMENTS-->
-  <div class="flex flex-col gap-lg">
-    <div class="flex flex-row gap-[12px]">
-      <kolesko-icon></kolesko-icon>
-      <span class="font-bold">Схожі оголошення</span>
+  <div class="flex flex-col gap-lg mt-base">
+    <div class="flex flex-row items-center gap-[12px]">
+      <app-icon-outlined-annotation class="size-md text-portGore-500"></app-icon-outlined-annotation>
+      <span class="font-bold text-md text-portGore-950">Схожі оголошення</span>
     </div>
     <app-similar-products-carousel
       [vehicles]="similarVehicles()"
+      (goToVehiclePage)="handleGoToVehiclePage($event)"
     ></app-similar-products-carousel>
   </div>
   <!--OTHER MODELS OF BRAND-->
-  <div class="flex flex-col gap-lg">
-    <div class="flex flex-row gap-[12px]">
-      <kolesko-icon></kolesko-icon>
-      <span class="font-bold">Інші моделі {{ vehicle().brand }}</span>
+  <div class="flex flex-col gap-lg mb-lg mt-lg">
+    <div class="flex flex-row items-center gap-[12px]">
+      <app-icon-outline-zoom-in class="size-md text-portGore-500"></app-icon-outline-zoom-in>
+      <span class="font-bold text-md text-portGore-950">Інші моделі {{ vehicle().brand }}</span>
     </div>
+    <app-other-models [models]="models()"></app-other-models>
   </div>
 </div>

@@ -1,0 +1,21 @@
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-y-lg gap-x-[128px]">
+  @for(model of models(); track model.id) {
+  <a
+    class="block cursor-pointer text-md font-bold text-portGore-950 hover:underline"
+    >{{ model.vehicleBrand }} {{ model.name }}</a
+  >
+  }
+  <div class="group flex flex-row gap-sm items-center cursor-pointer" [routerLink]="'/catalog'">
+    <a class="block text-md font-medium text-portGore-500 transition-all group-hover:underline">Дивитися ще</a>
+    <app-outline-arrow-right
+      class="size-md text-portGore-500 transition-transform group-hover:scale-105 group-hover:translate-x-[2px]"
+    ></app-outline-arrow-right>
+  </div>
+</div>
+@if(!models()) {
+<div class="w-full">
+  Уупс.<br />
+  Ми на разі немаємо інших доступних моделей даного виробника.<br />Можливо
+  колись з'являться
+</div>
+}

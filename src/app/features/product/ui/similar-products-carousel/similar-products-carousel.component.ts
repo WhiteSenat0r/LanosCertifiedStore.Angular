@@ -4,6 +4,7 @@ import {
   Input,
   input,
   OnChanges,
+  output,
   SimpleChanges,
 } from '@angular/core';
 import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
@@ -18,6 +19,8 @@ export class SimilarProductsCarouselComponent implements OnChanges {
   @Input({ required: true }) vehicles: Vehicle[] = [];
 
   private otherProductsSplide?: Splide;
+
+  goToVehiclePage = output<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['vehicles'] && this.vehicles?.length) {
@@ -63,7 +66,11 @@ export class SimilarProductsCarouselComponent implements OnChanges {
   public nextSlide(): void {
     const width = window.innerWidth;
     if (width <= 1024) {
-      this.otherProductsSplide?.go('+2');
+      if (width <= 640) {
+        this.otherProductsSplide?.go('+1');
+      } else {
+        this.otherProductsSplide?.go('+2');
+      }
     } else {
       this.otherProductsSplide?.go('+3');
     }
@@ -74,7 +81,7 @@ export class SimilarProductsCarouselComponent implements OnChanges {
   // }
 
   goToVehicleProductPage(vehicle: Vehicle) {
-    throw new Error('Method not implemented.');
+    this.goToVehiclePage.emit(vehicle.id);
   }
 
   handleImageError(event: Event, vehicle: Vehicle): void {

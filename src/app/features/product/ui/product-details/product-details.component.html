@@ -1,14 +1,13 @@
-<div class="flex flex-col">
-  <div class="flex flex-row items-start justify-between">
+@if(vehicle().model) {
+<div class="flex flex-col h-full">
+  <div class="flex flex-row items-start justify-between mb-[12px]">
     <!--NAME & PRICE-->
-    <div class="flex flex-col justify-between items-start">
-      <span class="font-bold"
+    <div class="flex flex-col">
+      <span class="block font-bold text-xl leading-normal"
         >{{ vehicle().brand }} {{ vehicle().model }}
         {{ vehicle().productionYear }}</span
       >
-
-      <!--TODO: here is some problem in console althought everything works-->
-      <!-- <span class="font-bold">{{ vehicle().prices[0].value }}$</span> -->
+      <span class="font-bold text-xl">{{ vehicle().prices[0].value }}$</span>
     </div>
     <div>
       <app-icon-bookmark-main
@@ -21,6 +20,7 @@
     ></app-icon-bookmark-main> -->
     </div>
   </div>
-  <app-owner-card></app-owner-card>
-
+  <app-owner-card [vehicle]="vehicle()"></app-owner-card>
+  <app-vehicle-details [vehicleDetails]="vehicleDTO()"></app-vehicle-details>
 </div>
+}
