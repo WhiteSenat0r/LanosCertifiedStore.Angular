@@ -60,6 +60,12 @@ export class ThumbnailsCarouselComponent implements OnChanges, OnDestroy {
           fixedWidth: '170px',
           fixedHeight: '85px',
         },
+        640: {
+          direction: 'ttb',
+          height: '282px',
+          fixedWidth: '80px',
+          fixedHeight: '65px',
+        },
       },
     });
 

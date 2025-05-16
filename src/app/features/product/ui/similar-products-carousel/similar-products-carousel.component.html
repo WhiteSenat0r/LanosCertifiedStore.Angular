@@ -25,10 +25,10 @@
       <ul class="splide__list">
         @for(vehicle of vehicles; track vehicle.id) {
         <li
-          class="splide__slide h-fit bg-kimberly-50 rounded !overflow-hidden cursor-pointer"
+          class="splide__slide h-fit bg-kimberly-50 !overflow-hidden cursor-pointer border-2 border-opacity-0 hover:border-portGore-950 hover:border-opacity-100 rounded-md"
           (click)="goToVehicleProductPage(vehicle)"
         >
-          <div class="rounded-t h-[160px] !overflow-clip">
+          <div class="h-[160px] !overflow-clip">
             <img
               [src]="vehicle.mainImageUrl"
               (error)="handleImageError($event, vehicle)"

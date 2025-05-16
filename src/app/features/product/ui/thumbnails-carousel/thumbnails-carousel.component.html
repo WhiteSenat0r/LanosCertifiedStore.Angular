@@ -1,6 +1,6 @@
 <div class="flex flex-row lg:flex-col gap-[12px]">
   <!-- Main slider constrained -->
-  <div class="h-[282px] lg:h-[440px] relative">
+  <div class="h-[282px] min-w-[260px] lg:h-[440px] relative">
     <div id="slider-main" class="splide h-full">
       <!--Arrows-->
       <div class="flex flex-row justify-between absolute w-full top-1/2 z-50">
@@ -42,11 +42,11 @@
   </div>
 
   <!-- Thumbnails slider -->
-  <div id="slider-thumbnails" class="splide shrink-0">
+  <div id="slider-thumbnails" class="splide">
     <div class="splide__track">
       <ul class="splide__list">
         <li
-          class="splide__slide border-0"
+          class="splide__slide"
           *ngFor="let img of vehicle().images; let i = index"
           (click)="goToSlide(i)"
           [class.is-active]="i === currentSlide"
