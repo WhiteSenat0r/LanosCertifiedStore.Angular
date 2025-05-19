@@ -13,11 +13,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbHolderComponent } from './shared/ui/breadcrumb-holder/breadcrumb-holder.component';
 import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.component';
-import { PofileComponent } from './features/pofile.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    PofileComponent,
   ],
   imports: [
     BrowserModule,
