@@ -72,9 +72,40 @@
     <div class="hidden sm:flex flex-row gap-[12px] items-center">
       <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34"
         [height]="28"></kolesko-icon>
-      <div class="flex flex-row items-center cursor-pointer">
-        <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36"></kolesko-icon>
-        <kolesko-icon class="text-portGore-700" name="arrow-down-main" [width]="22" [height]="20"></kolesko-icon>
+       <!-- User profile dropdown -->
+      <div #userMenu class="relative">
+        <div class="flex flex-row items-center cursor-pointer" (click)="toggleUserMenu()">
+          <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36"></kolesko-icon>
+          <kolesko-icon class="text-portGore-700" name="arrow-down-main" [width]="22" [height]="20"></kolesko-icon>
+        </div>
+        
+        <!-- User menu dropdown -->
+        <div *ngIf="showUserMenu" 
+             class="absolute right-0 z-50 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100">
+          <div class="py-1">
+            <!-- Show user info if authenticated -->
+            <div *ngIf="user" class="px-4 py-2 text-sm text-gray-700 border-b">
+              <div class="font-medium">{{ user.firstName }} {{ user.lastName }}</div>
+              <div class="text-gray-500 text-xs">{{ user.email }}</div>
+            </div>
+            
+            <!-- Login button if not authenticated -->
+            <a *ngIf="!user" (click)="login()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+              Увійти
+            </a>
+            
+            <!-- Authenticated user options -->
+            <a *ngIf="user" routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              Профіль
+            </a>
+            <a *ngIf="user" routerLink="/favorites" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              Обрані авто
+            </a>
+            <a *ngIf="user" (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+              Вийти
+            </a>
+          </div>
+        </div>
       </div>
     </div>
 

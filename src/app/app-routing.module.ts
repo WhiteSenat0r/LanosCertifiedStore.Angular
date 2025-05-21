@@ -17,6 +17,13 @@ const routes: Routes = [
       import('./features/catalog/catalog.module').then((m) => m.CatalogModule),
     data: { breadcrumb: { label: 'Каталог' } },
   },
+  {
+    path: 'profile',
+    title: 'profile',
+    loadChildren: () =>
+      import('./features/profile/profile.module').then((m) => m.ProfileModule),
+    data: { breadcrumb: { label: 'Профіль' } },
+  },
   { path: '**', component: NotFoundComponent },
 ];
 
