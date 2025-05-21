@@ -14,6 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbHolderComponent } from './shared/ui/breadcrumb-holder/breadcrumb-holder.component';
 import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.component';
 
+import { AuthModule } from './core/auth/auth.module';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.compone
     NgxPaginationModule,
     BreadcrumbHolderComponent,
     SvgIconDisplayComponent,
+     AuthModule,
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
