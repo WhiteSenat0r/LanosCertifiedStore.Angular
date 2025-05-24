@@ -1,10 +1,9 @@
+
 export interface UserProfile {
   id: string;
-  username: string;
   email: string;
   firstName?: string;
   lastName?: string;
-  roles: string[];
   isAuthenticated: boolean;
 }
 
@@ -14,6 +13,8 @@ export interface TokenResponse {
   refresh_expires_in: number;
   refresh_token: string;
   token_type: string;
-  session_state: string;
+  session_state?: string;
   scope: string;
+  id_token?: string;
+  'not-before-policy'?: number;
 }

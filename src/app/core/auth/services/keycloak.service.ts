@@ -1,159 +1,161 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { TokenResponse } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KeycloakService {
-  private keycloakUrl: string;
-  private realm: string;
-  private clientId: string;
-  private redirectUri: string;
+  private keycloakUrl = environment.keycloak.url;
+  private realm = environment.keycloak.realm;
+  private clientId = environment.keycloak.clientId;
+  private redirectUri = `${window.location.origin}/auth-callback`;
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.keycloakUrl = environment.keycloak.url;
-    this.realm = environment.keycloak.realm;
-    this.clientId = environment.keycloak.clientId;
-    this.redirectUri = window.location.origin;
-    
-    // Check if token exists in local storage
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.checkAuthentication();
   }
 
-  /**
-   * Gets the base URL of the Keycloak server
-   */
-  public getBaseUrl(): string {
-    return this.keycloakUrl;
-  }
-
-  /**
-   * Initiates the login process by redirecting to Keycloak
-   */
   public login(): void {
-    // Generate a random state to protect against CSRF
     const state = this.generateRandomState();
-    // Store state in local storage to verify later
-    localStorage.setItem('kc_state', state);
-    
-    // Build the authorization URL
-    const authUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/auth`;
-    const redirectUrl = encodeURIComponent(this.redirectUri);
-    
-    // Redirect to Keycloak login page
-    window.location.href = `${authUrl}?client_id=${this.clientId}&redirect_uri=${redirectUrl}/auth-callback&response_type=code&scope=openid&state=${state}`;
-  }
+    sessionStorage.setItem('kc_state', state);
 
-  /**
-   * Handles the authentication callback after login
-   * @param code The authorization code from Keycloak
-   * @param state The state parameter for CSRF protection
-   */
-  public handleAuthCallback(code: string, state: string): Observable<any> {
-    // Verify state to prevent CSRF attacks
-    const storedState = localStorage.getItem('kc_state');
-    if (state !== storedState) {
-      throw new Error('Invalid state parameter');
+    const currentUrl = this.router.url;
+    if (currentUrl !== '/auth-callback') {
+      localStorage.setItem('returnUrl', currentUrl);
     }
-    
-    // Remove state from local storage
-    localStorage.removeItem('kc_state');
-    
-    // Exchange authorization code for tokens
-    const tokenUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/token`;
-    const payload = {
-      grant_type: 'authorization_code',
+
+    const authUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/auth`;
+    const params = new URLSearchParams({
       client_id: this.clientId,
-      code: code,
-      redirect_uri: this.redirectUri
-    };
-    
-    // Convert payload to form data
-    const formData = new URLSearchParams();
-    
-    // Безпечно додаємо кожне поле окремо
-    formData.append('grant_type', payload.grant_type);
-    formData.append('client_id', payload.client_id);
-    formData.append('code', payload.code);
-    formData.append('redirect_uri', payload.redirect_uri);
-    
-    return this.http.post(tokenUrl, formData.toString(), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+      redirect_uri: this.redirectUri,
+      response_type: 'code',
+      scope: 'openid email profile',
+      state
     });
+
+    window.location.href = `${authUrl}?${params.toString()}`;
   }
 
-  /**
-   * Logs out the user
-   */
-  public logout(): void {
-    const logoutUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/logout`;
-    const redirectUrl = encodeURIComponent(this.redirectUri);
-    
-    // Clear tokens and authentication state
-    localStorage.removeItem('kc_token');
-    localStorage.removeItem('kc_refresh_token');
-    localStorage.removeItem('kc_token_exp');
-    this.isAuthenticatedSubject.next(false);
-    
-    // Redirect to Keycloak logout page
-    window.location.href = `${logoutUrl}?redirect_uri=${redirectUrl}`;
-  }
+  public handleAuthCallback(code: string, state: string): Observable<TokenResponse> {
+    const savedState = sessionStorage.getItem('kc_state');
+    sessionStorage.removeItem('kc_state');
 
-  /**
-   * Refreshes the access token using the refresh token
-   */
-  public refreshToken(refreshToken: string): Observable<any> {
+    if (savedState !== state) {
+      return throwError(() => new Error('Invalid state parameter'));
+    }
+
     const tokenUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/token`;
-    const payload = {
+    const body = new URLSearchParams({
+      client_id: this.clientId,
+      grant_type: 'authorization_code',
+      redirect_uri: this.redirectUri,
+      scope: 'openid email profile phone',
+      code: code
+    });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http.post<TokenResponse>(tokenUrl, body.toString(), { headers }).pipe(
+      tap(token => {
+        this.saveToken(token);
+        this.isAuthenticatedSubject.next(true);
+      }),
+      catchError(err => this.handleTokenError(err))
+    );
+  }
+
+  public refreshToken(refreshToken: string): Observable<TokenResponse> {
+    const tokenUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/token`;
+    const body = new URLSearchParams({
       grant_type: 'refresh_token',
       client_id: this.clientId,
       refresh_token: refreshToken
-    };
-    
-    // Convert payload to form data
-    const formData = new URLSearchParams();
-    
-    // Безпечно додаємо кожне поле окремо
-    formData.append('grant_type', payload.grant_type);
-    formData.append('client_id', payload.client_id);
-    formData.append('refresh_token', payload.refresh_token);
-    
-    return this.http.post(tokenUrl, formData.toString(), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
     });
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    return this.http.post<TokenResponse>(tokenUrl, body.toString(), { headers }).pipe(
+      tap(token => {
+        this.saveToken(token);
+        this.isAuthenticatedSubject.next(true);
+      }),
+      catchError(err => {
+        this.clearStorage();
+        this.isAuthenticatedSubject.next(false);
+        return this.handleTokenError(err);
+      })
+    );
   }
 
-  /**
-   * Checks if the user is authenticated by verifying token expiration
-   */
+  public logout(): void {
+    const idToken = localStorage.getItem('kc_token');
+    const logoutUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/logout`;
+    const postLogoutRedirectUri = encodeURIComponent(window.location.origin);
+
+    this.clearStorage();
+    this.isAuthenticatedSubject.next(false);
+
+    const url = `${logoutUrl}?post_logout_redirect_uri=${postLogoutRedirectUri}` +
+      (idToken ? `&id_token_hint=${idToken}` : '');
+
+    window.location.href = url;
+  }
+
+  private saveToken(token: TokenResponse): void {
+    localStorage.setItem('kc_token', token.access_token);
+    localStorage.setItem('kc_refresh_token', token.refresh_token);
+
+    if (token.expires_in) {
+      const exp = Math.floor(Date.now() / 1000) + token.expires_in;
+      localStorage.setItem('kc_token_exp', exp.toString());
+    }
+  }
+
   private checkAuthentication(): void {
     const token = localStorage.getItem('kc_token');
-    const tokenExp = localStorage.getItem('kc_token_exp');
-    
-    if (token && tokenExp) {
+    const exp = localStorage.getItem('kc_token_exp');
+
+    if (token && exp) {
       const now = Math.floor(Date.now() / 1000);
-      const expired = parseInt(tokenExp, 10) < now;
-      
-      this.isAuthenticatedSubject.next(!expired);
+      this.isAuthenticatedSubject.next(parseInt(exp, 10) > now);
     } else {
       this.isAuthenticatedSubject.next(false);
     }
   }
 
-  /**
-   * Generates a random state string for CSRF protection
-   */
+  private clearStorage(): void {
+    localStorage.removeItem('kc_token');
+    localStorage.removeItem('kc_refresh_token');
+    localStorage.removeItem('kc_token_exp');
+    sessionStorage.removeItem('kc_state');
+    localStorage.removeItem('returnUrl');
+  }
+
+  private handleTokenError(error: HttpErrorResponse): Observable<never> {
+    const message =
+      error.error?.error_description || error.error?.error || error.message || 'Unknown token error';
+    return throwError(() => new Error(`Token error: ${message}`));
+  }
+
   private generateRandomState(): string {
-    const array = new Uint32Array(8);
-    window.crypto.getRandomValues(array);
-    return Array.from(array, dec => ('0' + dec.toString(16)).substr(-2)).join('');
+    return window.crypto.randomUUID();
+  }
+
+  public getRedirectUri(): string {
+    return this.redirectUri;
   }
 }
