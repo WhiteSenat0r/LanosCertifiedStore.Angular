@@ -64,12 +64,11 @@ export class CatalogComponent {
 
   /** Updates the maximum price filter */
   handleMaxPriceChange(max: number) {
-    console.log('wtf');
     this.updateVehicleSearch({ upperPriceLimit: max });
   }
 
   handleTransitionToProductPage(vehicle: Vehicle) {
-     this.router.navigate(['/catalog', vehicle.id]);
+    this.router.navigate(['/catalog', vehicle.id]);
   }
 
   /** Show or hide showBrandToolTip accordingly to the emptiness of vehicleFilterStore.models() */

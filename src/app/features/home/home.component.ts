@@ -21,7 +21,7 @@ import { ApiResponse } from '../../shared/models/interfaces/api/ApiResponse.inte
 export class HomeComponent implements OnInit {
   InfoObjectDataOptionated: {
     ApiCallOption: string;
-    DropDownElementUlInfo: string[];
+    DropDownElementUlInfo: Array<{ id: string; name: string }>;
   } = { ApiCallOption: '', DropDownElementUlInfo: [] };
 
   handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
@@ -44,10 +44,16 @@ export class HomeComponent implements OnInit {
             response: ApiResponse<
               Brand | Model | LocationRegion | TransmissionType | EngineType
             >
-          ) => response.items.map((item) => item.name)
+          ) =>
+            response.items.map((item) => {
+              return {
+                id: item.id,
+                name: item.name,
+              };
+            })
         )
       )
-      .subscribe((info: string[]) => {
+      .subscribe((info: { id: string; name: string }[]) => {
         this.InfoObjectDataOptionated = {
           ApiCallOption: ApiCallOption,
           DropDownElementUlInfo: info,

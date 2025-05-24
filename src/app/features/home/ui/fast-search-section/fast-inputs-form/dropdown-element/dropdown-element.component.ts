@@ -10,8 +10,11 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  signal,
+  SimpleChanges,
 } from '@angular/core';
 import { DropdownHeaderData } from '../../../../models/interfaces/DropdownHeaderData.interface';
 import { DropdownElementData } from '../../../../models/enums/DropdownElementData.enum';
@@ -41,17 +44,16 @@ import { DropdownElementData } from '../../../../models/enums/DropdownElementDat
     ]),
   ],
 })
-export class DropdownElementComponent implements OnInit {
+export class DropdownElementComponent {
   @Input() divInterfaceData!: DropdownHeaderData;
-  @Input() DropDownElementUlInfo?: string[];
+  @Input() DropDownElementUlInfo?: Array<{ id: string; name: string }>;
   @Output() getInfoForUlEvent: EventEmitter<DropdownElementData> =
     new EventEmitter<DropdownElementData>();
   uniqueId: string = `dropdown-${Math.random().toString(36).slice(2, 11)}`;
   isShown: boolean = false;
 
-  option: string = '';
+  option: { id: string; name: string } | number = 0;
 
-  ngOnInit() {}
   handleClick(ApiCallOption: DropdownElementData) {
     this.isShown = !this.isShown;
     if (
@@ -64,7 +66,10 @@ export class DropdownElementComponent implements OnInit {
       } else {
         this.DropDownElementUlInfo = Array.from(
           { length: 2024 - 1980 + 1 },
-          (_, i) => (1980 + i).toString()
+          (_, i) => {
+            const year = (1980 + i).toString();
+            return { id: year, name: year };
+          }
         );
       }
     }
@@ -79,14 +84,19 @@ export class DropdownElementComponent implements OnInit {
   }
 
   @Output() optionPickedEvent = new EventEmitter<{
-    option: string;
+    option: { id: string; name: string } | number;
     ApiCallOption: DropdownElementData;
   }>();
-  handleLiElementClick(option: string) {
+  handleLiElementClick(option: { id: string; name: string } | number) {
     this.optionPickedEvent.emit({
       option: option,
       ApiCallOption: this.divInterfaceData.ApiCallOption,
     });
-    this.option = option;
+
+    this.option = option
+  }
+
+  public isOptionObject(option: any): option is { id: string; name: string } {
+    return typeof option === 'object' && 'name' in option;
   }
 }

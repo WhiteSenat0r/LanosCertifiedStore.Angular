@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router) {}
 
-  ngOnInit( test: string = 'test'): void {
+  ngOnInit(test: string = 'test'): void {
     initFlowbite();
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

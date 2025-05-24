@@ -1,32 +1,24 @@
-<div
-  class="flex flex-col border-2 border-portGore-950 rounded-md gap-[8px] p-sm mb-[12px]"
->
-  <div class="flex flex-row gap-[6px] items-center">
+<div class="border-2 border-portGore-950 rounded-md gap-[8px] p-sm mb-[12px]">
+  <div class="grid grid-cols-[auto_1fr] grid-rows-[auto_auto_auto_auto] gap-[6px] items-start">
     <app-icon-outline-user
       class="size-[28px] min-w-[28px] min-h-[28px] text-portGore-500 stroke-portGore-500"
     ></app-icon-outline-user>
-    <span class="font-bold text-lg">{{ owner() }}</span>
-  </div>
-  <div class="flex flex-row gap-[6px] items-center">
+    <span class="font-bold text-lg self-end">{{ owner() }}</span>
     <app-icon-mail-pin
       class="size-[24px] min-w-[24px] min-h-[24px] stroke-portGore-500"
     ></app-icon-mail-pin>
     <span>{{ location() }}</span>
-  </div>
-  <div class="flex flex-row gap-[6px] items-center">
     <app-icon-outline-mail
       class="size-[22px] min-w-[22px] min-h-[22px] text-portGore-500"
     ></app-icon-outline-mail>
-    <a href="mailto:{{ vehicle()?.ownerData?.email }}">{{
-      vehicle()?.ownerData?.email
-    }}</a>
-  </div>
-  <div class="flex flex-row gap-[6px] items-center">
+    <a href="mailto:{{ vehicle()?.ownerData?.email }}">
+      {{ vehicle()?.ownerData?.email }}
+    </a>
     <app-icon-phone
       class="size-[20px] min-w-[20px] min-h-[20px] stroke-portGore-500"
     ></app-icon-phone>
-    <a href="tel:{{ vehicle()?.ownerData?.phoneNumber }}">{{
-      vehicle()?.ownerData?.phoneNumber
-    }}</a>
+    <a href="tel:{{ vehicle()?.ownerData?.phoneNumber }}">
+      {{ vehicle()?.ownerData?.phoneNumber }}
+    </a>
   </div>
 </div>

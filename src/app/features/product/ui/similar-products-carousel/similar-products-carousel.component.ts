@@ -44,6 +44,8 @@ export class SimilarProductsCarouselComponent implements OnChanges {
       pagination: false,
       arrows: false,
       drag: false,
+      speed: 2500,
+      easing: "ease",
       breakpoints: {
         1280: {
           perPage: 3,

@@ -27,6 +27,7 @@ export class ProductComponent {
   models = signal<Model[]>([]);
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.route.paramMap.subscribe((params) => {
       const productId = params.get('id');
       if (productId) {
@@ -52,6 +53,19 @@ export class ProductComponent {
   }
 
   handleGoToVehiclePage(id: string) {
-     this.router.navigate(['/catalog', id]);
+    this.router.navigate(['/catalog', id]);
+  }
+
+  handleModelClicked(model: Model) {
+    const brandName = model.vehicleBrand;
+    this.router.navigate(['/catalog'], {
+      queryParams: { brandName: brandName, modelId: model.id },
+    });
+  }
+
+  handleBrandClicked(brandName: string) {
+    this.router.navigate(['/catalog'], {
+      queryParams: { brandName: brandName },
+    });
   }
 }

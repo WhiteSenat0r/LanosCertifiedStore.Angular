@@ -1,10 +1,13 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -18,7 +21,7 @@ import { SearchAdvancedParams } from '../../../models/interfaces/SearchAdvancedP
   templateUrl: './fast-inputs-form.component.html',
   styleUrl: './fast-inputs-form.component.css',
 })
-export class FastInputsFormComponent {
+export class FastInputsFormComponent implements AfterViewInit {
   gridDivArraysInfo: DropdownHeaderData[] = [
     {
       iconUrl: 'calendar',
@@ -99,36 +102,45 @@ export class FastInputsFormComponent {
   @Output() getInfoForUlEvent = new EventEmitter<DropdownElementData>();
   @Input() InfoObjectDataOptionated?: {
     ApiCallOption: string;
-    DropDownElementUlInfo: string[];
+    DropDownElementUlInfo: Array<{ id: string; name: string }>;
   };
 
   handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
     this.getInfoForUlEvent.emit(ApiCallOption);
   }
 
-  handleOptionPicked(option: string, ApiCallOption: DropdownElementData) {
-    switch (ApiCallOption) {
-      case DropdownElementData.engine:
-        this.searchParams.engine = option;
-        break;
-      case DropdownElementData.brand:
-        this.searchParams.brand = option;
-        break;
-      case DropdownElementData.model:
-        this.searchParams.model = option;
-        break;
-      case DropdownElementData.location:
-        this.searchParams.region = option;
-        break;
-      case DropdownElementData.transmission:
-        this.searchParams.transmission = option;
-        break;
-      case DropdownElementData.year:
-        this.searchParams.year = Number(option);
-        break;
-      default:
-        console.error('There is not such an ApiCallOption');
-        break;
+  handleOptionPicked(
+    option: { id: string; name: string } | number,
+    ApiCallOption: DropdownElementData
+  ) {
+    if (typeof option === 'number') {
+      this.searchParams.year = Number(option);
+    } else {
+      switch (ApiCallOption) {
+        case DropdownElementData.engine:
+          this.searchParams.engine = option.name;
+          this.searchParams.engineId = option.id;
+          break;
+        case DropdownElementData.brand:
+          this.searchParams.brand = option.name;
+          this.searchParams.brandId = option.id;
+          break;
+        case DropdownElementData.model:
+          this.searchParams.model = option.name;
+          this.searchParams.modelId = option.id;
+          break;
+        case DropdownElementData.location:
+          this.searchParams.region = option.name;
+          this.searchParams.regionId = option.id;
+          break;
+        case DropdownElementData.transmission:
+          this.searchParams.transmission = option.name;
+          this.searchParams.transmissionId = option.id;
+          break;
+        default:
+          console.error('There is not such an ApiCallOption');
+          break;
+      }
     }
   }
 

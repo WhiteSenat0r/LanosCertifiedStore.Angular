@@ -10,7 +10,9 @@
   <div class="flex flex-row justify-between w-full py-[14px] px-[12px]">
     <div class="flex flex-row-reverse gap-base items-center">
       <span class="text-md text-content-primary font-medium">
-        @if(option) {
+        @if(isOptionObject(option)) {
+        {{ option.name }}
+        } @else if (option) {
         {{ option }}
         } @else
         {{{
@@ -40,7 +42,7 @@
       (click)="handleLiElementClick(info)"
       class="py-sm pl-sm transition-all duration-75 hover:bg-redy-800 text-content-primary text-md hover:text-kimberly-50 rounded group"
     >
-      {{ info }}
+      {{ info.name }}
     </li>
     } }
   </ul>

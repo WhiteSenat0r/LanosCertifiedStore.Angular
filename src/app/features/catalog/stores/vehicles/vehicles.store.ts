@@ -11,6 +11,7 @@ import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties
 import { VehicleSearchCriterias } from '../../models/classes/VehicleSearchCriterias.class';
 import { VehicleCountSummary } from '../../models/interfaces/VehicleCountSummary.interface';
 import { CatalogService } from '../../services/catalog.service';
+import { take, tap } from 'rxjs';
 type VehicleState = {
   vehicles: Vehicle[];
   vehicleSearchCriterias: VehicleSearchCriterias;
@@ -32,6 +33,8 @@ export const VehicleStore = signalStore(
   withMethods((store, catalogService = inject(CatalogService)) => ({
     loadVehicles() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
+
+      console.log(store.vehicleSearchCriterias());
       this.loadVehicleCount();
       catalogService.getVehicles(vehicleSearchCriterias).subscribe({
         next: (response: PaginatedResult<Vehicle>) => {
@@ -39,6 +42,7 @@ export const VehicleStore = signalStore(
             vehicles: response.items,
             pageIndex: response.pageIndex,
           });
+          window.scrollTo(0, 0);
         },
         error: (error) => {
           console.error(error);
@@ -69,16 +73,5 @@ export const VehicleStore = signalStore(
         },
       });
     },
-  })),
-  withHooks({
-    onInit(store) {
-      store.loadVehicles();
-    },
-    onDestroy(store) {
-      patchState(store, {
-        vehicles: [],
-        filteredTotalVehicleCount: 0,
-      });
-    },
-  })
+  }))
 );

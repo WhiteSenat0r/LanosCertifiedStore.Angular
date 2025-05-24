@@ -10,6 +10,7 @@
         <div class="relative">
           <app-filter-dropdown
             placeHolder="Виберіть марку авто"
+            [selectedItemName]="vehicleFilterStore.brand()?.name"
             [items]="vehicleFilterStore.brands()"
             [dependentFilter]="filterTypeEnum.brandFilter"
             [filterReset]="vehicleFilterStore.brandFilterReset()"
@@ -39,6 +40,7 @@
         <div #modelFilter>
           <app-filter-dropdown
             [placeHolder]="'Виберіть модель авто'"
+            [selectedItemName]="vehicleFilterStore.model()?.name"
             [items]="vehicleFilterStore.models()"
             [dependentFilter]="filterTypeEnum.modelFilter"
             [lockingDropDown]="!vehicleFilterStore.brand()"
@@ -116,6 +118,7 @@
         <div class="relative">
           <app-filter-dropdown
             placeHolder="Оберіть область"
+            [selectedItemName]="vehicleFilterStore.region()?.name"
             [items]="vehicleFilterStore.regions()"
             [dependentFilter]="filterTypeEnum.regionFilter"
             [filterReset]="vehicleFilterStore.regionFilterReset()"
@@ -138,6 +141,7 @@
           <app-filter-dropdown
             placeHolder="Оберіть місто"
             [items]="vehicleFilterStore.towns()"
+            [selectedItemName]="vehicleFilterStore.town()?.name"
             [dependentFilter]="filterTypeEnum.townFilter"
             [lockingDropDown]="!vehicleFilterStore.region()"
             [filterReset]="vehicleFilterStore.townFilterReset()"
