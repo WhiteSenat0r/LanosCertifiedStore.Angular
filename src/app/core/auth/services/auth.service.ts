@@ -1,5 +1,4 @@
-// src/app/core/auth/services/auth.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -12,8 +11,52 @@ import { jwtDecode } from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
+
+  private userProfileSignal = signal<UserProfile | null>(null);
+  private isLoadingSignal = signal<boolean>(false);
+  private errorSignal = signal<string | null>(null);
+  private authStateSignal = signal<'authenticated' | 'unauthenticated' | 'loading'>('loading');
+
+  public readonly userProfile = computed(() => this.userProfileSignal());
+  public readonly isAuthenticated = computed(() => {
+    const user = this.userProfileSignal();
+    return !!user && user.isAuthenticated;
+  });
+  public readonly isLoading = computed(() => this.isLoadingSignal());
+  public readonly error = computed(() => this.errorSignal());
+  public readonly authState = computed(() => this.authStateSignal());
+  public readonly userRoles = computed(() => {
+    const token = localStorage.getItem('kc_token');
+    if (!token) return [];
+
+    try {
+      const decodedToken: any = jwtDecode(token);
+      return this.extractRoles(decodedToken);
+    } catch {
+      return [];
+    }
+  });
+  public readonly displayName = computed(() => {
+    const user = this.userProfileSignal();
+    if (!user) return '';
+
+    const firstName = user.firstName || '';
+    const lastName = user.lastName || '';
+
+    if (firstName && lastName) {
+      return `${firstName} ${lastName}`;
+    } else if (firstName) {
+      return firstName;
+    } else if (lastName) {
+      return lastName;
+    } else {
+      return user.email || 'User';
+    }
+  });
+
   private userSubject = new BehaviorSubject<UserProfile | null>(null);
   public user$ = this.userSubject.asObservable();
+
   private tokenRefreshTimeout: any;
 
   constructor(
@@ -21,117 +64,173 @@ export class AuthService {
     private router: Router,
     private keycloakService: KeycloakService
   ) {
-    // Initialize user from stored token on service creation
     this.initUser();
   }
 
-  /**
-   * Initialize user from stored token
-   */
   private initUser(): void {
+    this.setLoadingState(true);
+    this.clearError();
+
     const token = localStorage.getItem('kc_token');
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
+
+        const now = Math.floor(Date.now() / 1000);
+        if (decodedToken.exp && decodedToken.exp < now) {
+          this.attemptTokenRefresh();
+          return;
+        }
+
         const user: UserProfile = {
           id: decodedToken.sub,
-          username: decodedToken.preferred_username || '',
           email: decodedToken.email || '',
           firstName: decodedToken.given_name || '',
           lastName: decodedToken.family_name || '',
-          roles: this.extractRoles(decodedToken),
           isAuthenticated: true
         };
-        this.userSubject.next(user);
+
+        this.setUser(user);
+        this.setAuthState('authenticated');
         this.scheduleTokenRefresh();
       } catch (error) {
-        console.error('Error decoding token:', error);
-        this.userSubject.next(null);
+        this.clearUserData();
+        this.setError('Помилка декодування токена');
+        this.setAuthState('unauthenticated');
       }
     } else {
-      this.userSubject.next(null);
+      this.clearUserData();
+      this.setAuthState('unauthenticated');
     }
+
+    this.setLoadingState(false);
   }
 
-  /**
-   * Initiate login process
-   */
+  private setUser(user: UserProfile | null): void {
+    this.userProfileSignal.set(user);
+    this.userSubject.next(user);
+  }
+
+  private setLoadingState(loading: boolean): void {
+    this.isLoadingSignal.set(loading);
+  }
+
+  private setError(error: string | null): void {
+    this.errorSignal.set(error);
+  }
+
+  private setAuthState(state: 'authenticated' | 'unauthenticated' | 'loading'): void {
+    this.authStateSignal.set(state);
+  }
+
+  private clearUserData(): void {
+    this.setUser(null);
+    localStorage.removeItem('kc_token');
+    localStorage.removeItem('kc_refresh_token');
+    localStorage.removeItem('kc_token_exp');
+    localStorage.removeItem('kc_refresh_token_exp');
+    localStorage.removeItem('kc_state');
+    this.setAuthState('unauthenticated');
+  }
+
   public login(): void {
+    this.setLoadingState(true);
+    this.clearError();
+    this.setAuthState('loading');
     this.keycloakService.login();
   }
 
-  /**
-   * Handle the authentication callback
-   */
   public handleAuthCallback(code: string, state: string): Observable<boolean> {
+    this.setLoadingState(true);
+    this.clearError();
+    this.setAuthState('loading');
+
     return this.keycloakService.handleAuthCallback(code, state).pipe(
-      tap((tokenResponse: TokenResponse) => this.storeTokens(tokenResponse)),
+      tap((tokenResponse: TokenResponse) => {
+        console.log('handleAuthCallback: Token response received', tokenResponse);
+
+        if (!tokenResponse.access_token) {
+          throw new Error('Access token не отримано');
+        }
+        if (!tokenResponse.refresh_token) {
+          throw new Error('Refresh token не отримано');
+        }
+
+        this.storeTokens(tokenResponse);
+      }),
       map(() => true),
       catchError(error => {
-        console.error('Auth callback error:', error);
+        let errorMsg = 'Помилка під час авторизації';
+        if (error?.message) {
+          errorMsg = error.message;
+        }
+
+        this.setError(errorMsg);
+        this.setAuthState('unauthenticated');
+        this.setLoadingState(false);
         return of(false);
+      }),
+      tap(() => {
+        this.setLoadingState(false);
       })
     );
   }
 
-  /**
-   * Logout the user
-   */
   public logout(): void {
+    this.setLoadingState(true);
+
     if (this.tokenRefreshTimeout) {
       clearTimeout(this.tokenRefreshTimeout);
     }
+
+    this.clearUserData();
     this.keycloakService.logout();
   }
 
-  /**
-   * Store tokens from auth response
-   */
   private storeTokens(tokenResponse: TokenResponse): void {
+    if (!tokenResponse.access_token) {
+      throw new Error('Access token відсутній в відповіді сервера');
+    }
+
+    if (!tokenResponse.refresh_token) {
+      throw new Error('Refresh token відсутній в відповіді сервера');
+    }
+
     localStorage.setItem('kc_token', tokenResponse.access_token);
     localStorage.setItem('kc_refresh_token', tokenResponse.refresh_token);
-    
-    // Calculate token expiration time
-    const now = Math.floor(Date.now() / 1000);
-    const expiresAt = now + tokenResponse.expires_in;
+
+    const expiresAt = Math.floor(Date.now() / 1000) + tokenResponse.expires_in;
     localStorage.setItem('kc_token_exp', expiresAt.toString());
-    
-    // Update user profile
-    this.initUser();
-    this.scheduleTokenRefresh();
-  }
 
-  /**
-   * Schedule token refresh before expiration
-   */
-  private scheduleTokenRefresh(): void {
-    if (this.tokenRefreshTimeout) {
-      clearTimeout(this.tokenRefreshTimeout);
+    if (tokenResponse.refresh_expires_in) {
+      const refreshExpiresAt = Math.floor(Date.now() / 1000) + tokenResponse.refresh_expires_in;
+      localStorage.setItem('kc_refresh_token_exp', refreshExpiresAt.toString());
     }
 
-    const tokenExp = localStorage.getItem('kc_token_exp');
-    if (!tokenExp) {
-      return;
-    }
+    try {
+      const decodedToken: any = jwtDecode(tokenResponse.access_token);
 
-    const expiresAt = parseInt(tokenExp, 10);
-    const now = Math.floor(Date.now() / 1000);
-    
-    // Refresh 30 seconds before expiration
-    const timeUntilRefresh = Math.max(0, (expiresAt - now - 30) * 1000);
-    
-    this.tokenRefreshTimeout = setTimeout(() => {
-      this.refreshToken();
-    }, timeUntilRefresh);
+      const user: UserProfile = {
+        id: decodedToken.sub,
+        email: decodedToken.email || '',
+        firstName: decodedToken.given_name || '',
+        lastName: decodedToken.family_name || '',
+        isAuthenticated: true
+      };
+
+      this.setUser(user);
+      this.setAuthState('authenticated');
+      this.scheduleTokenRefresh();
+    } catch (error) {
+      this.clearUserData();
+      throw new Error('Помилка декодування токена доступу');
+    }
   }
 
-  /**
-   * Refresh the access token
-   */
-  private refreshToken(): void {
+  private attemptTokenRefresh(): void {
     const refreshToken = localStorage.getItem('kc_refresh_token');
     if (!refreshToken) {
-      this.logout();
+      this.clearUserData();
       return;
     }
 
@@ -139,15 +238,49 @@ export class AuthService {
       next: (response: TokenResponse) => {
         this.storeTokens(response);
       },
-      error: () => {
-        this.logout();
+      error: (error) => {
+        this.clearUserData();
+        this.setError('Не вдалося оновити токен. Увійдіть знову.');
       }
     });
   }
 
-  /**
-   * Extract roles from the token
-   */
+  private scheduleTokenRefresh(): void {
+    if (this.tokenRefreshTimeout) {
+      clearTimeout(this.tokenRefreshTimeout);
+    }
+
+    const expiresAtStr = localStorage.getItem('kc_token_exp');
+    if (!expiresAtStr) return;
+
+    const expiresAt = parseInt(expiresAtStr, 10);
+    const now = Math.floor(Date.now() / 1000);
+
+    const timeToExpiry = Math.max(0, (expiresAt - now - 30) * 1000);
+
+    this.tokenRefreshTimeout = setTimeout(() => {
+      this.refreshToken();
+    }, timeToExpiry);
+  }
+
+  private refreshToken(): void {
+    const refreshToken = localStorage.getItem('kc_refresh_token');
+    if (!refreshToken) {
+      this.clearUserData();
+      return;
+    }
+
+    this.keycloakService.refreshToken(refreshToken).subscribe({
+      next: (tokenResponse) => {
+        this.storeTokens(tokenResponse);
+      },
+      error: (error) => {
+        this.clearUserData();
+        this.setError('Не вдалося оновити токен. Увійдіть знову.');
+      }
+    });
+  }
+
   private extractRoles(decodedToken: any): string[] {
     if (decodedToken && decodedToken.realm_access && Array.isArray(decodedToken.realm_access.roles)) {
       return decodedToken.realm_access.roles;
@@ -155,33 +288,20 @@ export class AuthService {
     return [];
   }
 
-  /**
-   * Check if user has specific role
-   */
   public hasRole(role: string): boolean {
-    const user = this.userSubject.getValue();
-    return user ? user.roles.includes(role) : false;
+    const roles = this.userRoles();
+    return roles.includes(role);
   }
 
-  /**
-   * Check if the user is authenticated
-   */
-  public isAuthenticated(): boolean {
-    const user = this.userSubject.getValue();
-    return !!user && user.isAuthenticated;
-  }
-
-  /**
-   * Get the current authentication token
-   */
   public getToken(): string | null {
     return localStorage.getItem('kc_token');
   }
 
-  /**
-   * Get the current user profile
-   */
   public getCurrentUser(): UserProfile | null {
-    return this.userSubject.getValue();
+    return this.userProfileSignal();
+  }
+
+  public clearError(): void {
+    this.setError(null);
   }
 }

@@ -13,10 +13,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // Get the auth token from the service
     const token = this.authService.getToken();
     
-    // Add authorization header to requests if token exists
     if (token) {
       const authRequest = this.addAuthorizationHeader(request, token);
       return next.handle(authRequest);

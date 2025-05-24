@@ -101,13 +101,15 @@ export class HeaderComponent implements OnInit {
   /**
    * Toggle user menu
    */
-  toggleUserMenu(): void {
-    if (this.user) {
-      this.showUserMenu = !this.showUserMenu;
-    } else {
-      this.login();
-    }
+toggleUserMenu(event: MouseEvent): void {
+  event.stopPropagation(); // щоб клік по іконці не закривав меню через HostListener
+  if (this.user) {
+    this.showUserMenu = !this.showUserMenu;
+  } else {
+    this.login();
   }
+}
+
 
   /**
    * Login

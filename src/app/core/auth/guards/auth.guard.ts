@@ -6,7 +6,7 @@ import {
   Router, 
   UrlTree 
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -22,15 +22,18 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.isAuthenticated()) {
+    
+    const isAuthenticated = this.authService.isAuthenticated();
+    
+    if (isAuthenticated) {
       return true;
     }
     
-    // Store the attempted URL for redirecting
     const returnUrl = state.url;
-    localStorage.setItem('returnUrl', returnUrl);
+    if (returnUrl !== '/auth-callback') {
+      localStorage.setItem('returnUrl', returnUrl);
+    }
     
-    // Redirect to login
     this.authService.login();
     return false;
   }
