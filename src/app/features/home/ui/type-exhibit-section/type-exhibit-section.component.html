@@ -37,14 +37,14 @@
         type="line-scale"
         class="transition-opacity duration-200"
         [fullScreen]="false"
-        [class]="spinnerIsLoading() ? 'opacity-100' : 'opacity-0'"
+        [class]="isSpinnerActive() ? 'opacity-100' : 'opacity-0'"
       ></ngx-spinner>
     </div>
 
     <app-slider-default
       [vehicles]="vehicles"
       (vehicleCardClick)="handleVehicleCardClick($event)"
-      [spinnerIsLoading]="spinnerIsLoading()"
+      [spinnerIsLoading]="isSpinnerActive()"
     ></app-slider-default>
   </div>
 </section>

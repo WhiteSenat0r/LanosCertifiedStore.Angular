@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
       this.spinnerPageLoading.set(false);
       setTimeout(() => {
         this.spinner.hide('mainPageLoaderSpinner');
-      }, 5000);
+      }, 1000);
     }, 1000);
   }
 }

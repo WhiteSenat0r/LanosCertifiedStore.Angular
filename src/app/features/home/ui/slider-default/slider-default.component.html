@@ -1,6 +1,9 @@
 <div
-  class="transition-opacity duration-300 h-full w-full"
-  [class]="spinnerIsLoading() ? 'opacity-0' : 'opacity-100'"
+  class="h-full w-full"
+  [ngClass]="{
+    'opacity-0': spinnerIsLoading(),
+    'opacity-100 transition-opacity duration-300': !spinnerIsLoading()
+  }"
 >
   @if(vehicles.length !== 0) {
   <div class="overflow-hidden max-w-[1200px] max-h-[344px]">
