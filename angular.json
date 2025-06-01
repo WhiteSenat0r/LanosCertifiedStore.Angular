@@ -38,7 +38,8 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/@splidejs/splide/dist/css/splide.min.css"
+              "node_modules/@splidejs/splide/dist/css/splide.min.css",
+              "node_modules/ngx-spinner/animations/line-scale.css"
             ],
             "scripts": []
           },

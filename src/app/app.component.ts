@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { filter } from 'rxjs';
 
 @Component({
@@ -11,6 +12,9 @@ import { filter } from 'rxjs';
 export class AppComponent implements OnInit {
   title: string = 'web-app';
   isMainPage!: boolean;
+  readonly spinner = inject(NgxSpinnerService);
+
+  spinnerPageLoading= signal<boolean>(true);
 
   constructor(private router: Router) {}
 
@@ -23,5 +27,15 @@ export class AppComponent implements OnInit {
         // console.log('URL changed:', this.router.url);
         // console.log('isMainPage:', this.isMainPage);
       });
+
+    this.spinnerPageLoading.set(true);
+    this.spinner.show('mainPageLoaderSpinner');
+
+    setTimeout(() => {
+      this.spinnerPageLoading.set(false);
+      setTimeout(() => {
+        this.spinner.hide('mainPageLoaderSpinner');
+      }, 5000);
+    }, 1000);
   }
 }

@@ -13,10 +13,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbHolderComponent } from './shared/ui/breadcrumb-holder/breadcrumb-holder.component';
 import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.component';
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -28,6 +27,7 @@ import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.compone
     NgxPaginationModule,
     BreadcrumbHolderComponent,
     SvgIconDisplayComponent,
+    NgxSpinnerModule,
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],

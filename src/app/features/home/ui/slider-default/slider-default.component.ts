@@ -1,10 +1,14 @@
 import {
   Component,
+  effect,
   ElementRef,
+  inject,
+  input,
   Input,
   OnChanges,
   OnDestroy,
   output,
+  signal,
   SimpleChanges,
 } from '@angular/core';
 import Splide from '@splidejs/splide';
@@ -34,6 +38,7 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
     }
   }
   @Input() vehicles: Vehicle[] = [];
+  spinnerIsLoading = input.required<boolean>()
   vehicleCardClick = output<Vehicle>();
 
   splide?: Splide;
@@ -98,6 +103,6 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
   }
 
   vehicleClick(vehicle: Vehicle) {
-    this.vehicleCardClick.emit(vehicle)
+    this.vehicleCardClick.emit(vehicle);
   }
 }

@@ -1,5 +1,18 @@
-<div class="wrapper">
+<ngx-spinner
+  name="mainPageLoaderSpinner"
+  bdColor="rgba(255,255,255,0.4)"
+  size="medium"
+  color="#FCACAD"
+  type="line-scale"
+  class="transition-opacity duration-200"
+  [class]="spinnerPageLoading() ? 'opacity-100' : 'opacity-0'"
+></ngx-spinner>
+<div
+  class="wrapper transition-opacity duration-200"
+  [class]="spinnerPageLoading() ? 'opacity-0' : 'opacity-100'"
+>
   <app-header></app-header>
+
   <div class="pt-sm pb-[14px]">
     <app-breadcrumb-holder [isMainPage]="isMainPage"></app-breadcrumb-holder>
   </div>
