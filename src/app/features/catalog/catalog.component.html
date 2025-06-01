@@ -230,6 +230,7 @@
     @if(vehicleStore.vehicles()) {
     <app-vehicle-data-view
       [vehicles]="vehicleStore.vehicles()"
+      [isLoading]="this.vehicleStore.loading()"
       (goToProductPage)="handleTransitionToProductPage($event)"
     ></app-vehicle-data-view>
     } @else {
@@ -238,7 +239,10 @@
     </div>
     }
     <!--PAGINATION-->
-    <div class="flex mt-xl mb-2xl justify-center">
+    <div
+      *ngIf="this.vehicleStore.vehicles().length !== 0"
+      class="flex mt-xl mb-2xl justify-center"
+    >
       <app-pagination
         [totalPages]="
           vehicleStore.filteredTotalVehicleCount() /

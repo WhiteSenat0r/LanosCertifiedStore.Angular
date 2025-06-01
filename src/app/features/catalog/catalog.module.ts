@@ -16,6 +16,7 @@ import { ImageErrorDirective } from '../../shared/directives/image-error.directi
 import { TooltipComponent } from '../../shared/ui/tooltip/tooltip.component';
 import { TooltipUpsideDownComponent } from '../../shared/ui/tooltip-upside-down/tooltip-upside-down.component';
 import { InfoChipsComponent } from './ui/view-mode-selectors/info-chips/info-chips.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { InfoChipsComponent } from './ui/view-mode-selectors/info-chips/info-chi
     ImageErrorDirective,
     TooltipComponent,
     TooltipUpsideDownComponent,
+    NgxSpinnerModule
   ],
   providers: [CatalogService],
 })

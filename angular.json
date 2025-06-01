@@ -39,7 +39,13 @@
             "styles": [
               "src/styles.css",
               "node_modules/@splidejs/splide/dist/css/splide.min.css",
-              "node_modules/ngx-spinner/animations/line-scale.css"
+              "node_modules/ngx-spinner/animations/line-scale.css",
+              "node_modules/ngx-spinner/animations/ball-fussion.css",
+              "node_modules/ngx-spinner/animations/ball-scale-pulse.css",
+              "node_modules/ngx-spinner/animations/ball-elastic-dots.css",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate-pulse.css",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate-multiple.css",
+              "node_modules/ngx-spinner/animations/ball-clip-rotate.css"
             ],
             "scripts": []
           },

@@ -10,14 +10,11 @@
   <div class="flex flex-row justify-between w-full py-[14px] px-[12px]">
     <div class="flex flex-row-reverse gap-base items-center">
       <span class="text-md text-content-primary font-medium">
-        @if(isOptionObject(option)) {
+        @if (option.id !== '0' && option.name !== '9999') {
         {{ option.name }}
-        } @else if (option) {
-        {{ option }}
         } @else
-        {{{
-              divInterfaceData.info
-        }}
+        {
+          {{ divInterfaceData.info}}
         }
       </span>
 

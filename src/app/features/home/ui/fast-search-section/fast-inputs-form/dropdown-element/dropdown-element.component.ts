@@ -44,7 +44,13 @@ import { DropdownElementData } from '../../../../models/enums/DropdownElementDat
     ]),
   ],
 })
-export class DropdownElementComponent {
+export class DropdownElementComponent implements OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['DropDownElementUlInfo'])
+    {
+      console.log(this.DropDownElementUlInfo);
+    }
+  }
   @Input() divInterfaceData!: DropdownHeaderData;
   @Input() DropDownElementUlInfo?: Array<{ id: string; name: string }>;
   @Output() getInfoForUlEvent: EventEmitter<DropdownElementData> =
@@ -52,7 +58,7 @@ export class DropdownElementComponent {
   uniqueId: string = `dropdown-${Math.random().toString(36).slice(2, 11)}`;
   isShown: boolean = false;
 
-  option: { id: string; name: string } | number = 0;
+  option: { id: string; name: string } = {id: '0', name:'9999'};
 
   handleClick(ApiCallOption: DropdownElementData) {
     this.isShown = !this.isShown;
@@ -84,10 +90,10 @@ export class DropdownElementComponent {
   }
 
   @Output() optionPickedEvent = new EventEmitter<{
-    option: { id: string; name: string } | number;
+    option: { id: string; name: string };
     ApiCallOption: DropdownElementData;
   }>();
-  handleLiElementClick(option: { id: string; name: string } | number) {
+  handleLiElementClick(option: { id: string; name: string }) {
     this.optionPickedEvent.emit({
       option: option,
       ApiCallOption: this.divInterfaceData.ApiCallOption,

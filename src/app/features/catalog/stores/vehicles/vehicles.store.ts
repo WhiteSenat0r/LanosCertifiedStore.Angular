@@ -11,8 +11,9 @@ import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties
 import { VehicleSearchCriterias } from '../../models/classes/VehicleSearchCriterias.class';
 import { VehicleCountSummary } from '../../models/interfaces/VehicleCountSummary.interface';
 import { CatalogService } from '../../services/catalog.service';
-import { take, tap } from 'rxjs';
+import { delay, finalize, take, tap } from 'rxjs';
 type VehicleState = {
+  loading: boolean;
   vehicles: Vehicle[];
   vehicleSearchCriterias: VehicleSearchCriterias;
   currentPageItemsQuantity: number;
@@ -21,6 +22,7 @@ type VehicleState = {
 };
 
 const initialState: VehicleState = {
+  loading: false,
   vehicles: [],
   vehicleSearchCriterias: new VehicleSearchCriterias(),
   currentPageItemsQuantity: 10,
@@ -33,21 +35,26 @@ export const VehicleStore = signalStore(
   withMethods((store, catalogService = inject(CatalogService)) => ({
     loadVehicles() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
-
-      console.log(store.vehicleSearchCriterias());
       this.loadVehicleCount();
-      catalogService.getVehicles(vehicleSearchCriterias).subscribe({
-        next: (response: PaginatedResult<Vehicle>) => {
-          patchState(store, {
-            vehicles: response.items,
-            pageIndex: response.pageIndex,
-          });
-          window.scrollTo(0, 0);
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+      catalogService
+        .getVehicles(vehicleSearchCriterias)
+        .pipe(
+          tap(() => patchState(store, { loading: true })),
+          delay(500),
+          finalize(() => patchState(store, { loading: false }))
+        )
+        .subscribe({
+          next: (response: PaginatedResult<Vehicle>) => {
+            patchState(store, {
+              vehicles: response.items,
+              pageIndex: response.pageIndex,
+            });
+            window.scrollTo(0, 0);
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
     },
     loadVehicleCount() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();

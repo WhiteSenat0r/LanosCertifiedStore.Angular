@@ -110,11 +110,11 @@ export class FastInputsFormComponent implements AfterViewInit {
   }
 
   handleOptionPicked(
-    option: { id: string; name: string } | number,
+    option: { id: string; name: string },
     ApiCallOption: DropdownElementData
   ) {
-    if (typeof option === 'number') {
-      this.searchParams.year = Number(option);
+    if (option.id === option.name) {
+      this.searchParams.year = Number(option.name);
     } else {
       switch (ApiCallOption) {
         case DropdownElementData.engine:
@@ -138,6 +138,7 @@ export class FastInputsFormComponent implements AfterViewInit {
           this.searchParams.transmissionId = option.id;
           break;
         default:
+          console.log(typeof option);
           console.error('There is not such an ApiCallOption');
           break;
       }

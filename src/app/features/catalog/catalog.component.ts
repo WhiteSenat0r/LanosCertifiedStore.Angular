@@ -18,19 +18,25 @@ import { VehicleSearchCriterias } from './models/classes/VehicleSearchCriterias.
 import { VehicleStore } from './stores/vehicles/vehicles.store';
 import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { Router } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
   providers: [VehicleStore, VehicleFilterStore],
 })
-export class CatalogComponent {
+export class CatalogComponent implements OnInit {
   // Injected stores
   readonly vehicleStore = inject(VehicleStore);
   readonly vehicleFilterStore = inject(VehicleFilterStore);
 
   // Injections
   readonly router = inject(Router);
+
+  ngOnInit(): void {
+    this.vehicleStore
+      .loadVehicles()
+  }
 
   // Enums
   readonly filterTypeEnum = FilterType;
