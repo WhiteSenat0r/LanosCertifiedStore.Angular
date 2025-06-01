@@ -20,7 +20,7 @@
       </div>
 
       <input [formControl]="searchControl" class="bg-kimberly-50 focus:outline-none w-full" placeholder="Пошук..." />
-      
+
       <div *ngIf="searchControl.value" (click)="clearSearch()"
         class="mr-3 cursor-pointer text-portGore-500 hover:text-portGore-700 flex items-center justify-center"
         style="min-width: 16px; font-size: 16px; line-height: 1;">
@@ -70,11 +70,37 @@
     </div>
 
     <div class="hidden sm:flex flex-row gap-[12px] items-center">
-      <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34"
-        [height]="28"></kolesko-icon>
-      <div class="flex flex-row items-center cursor-pointer">
-        <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36"></kolesko-icon>
-        <kolesko-icon class="text-portGore-700" name="arrow-down-main" [width]="22" [height]="20"></kolesko-icon>
+      <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34" [height]="28">
+      </kolesko-icon>
+
+      <div #userMenu class="relative">
+        <div class="flex flex-row items-center">
+          <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36">
+          </kolesko-icon>
+
+          <kolesko-icon class="text-portGore-700 cursor-pointer" name="arrow-down-main" [width]="22" [height]="20"
+            (click)="toggleUserMenu($event)">
+          </kolesko-icon>
+        </div>
+
+        <div *ngIf="showUserMenu"
+          class="absolute right-0 z-50 mt-3 w-28 min-w-[112px] rounded-lg shadow-xl bg-white border border-snuff-200">
+          <div class="py-2">
+            <div class="flex flex-col space-y-1">
+              <a (click)="login()"
+                class="flex items-center justify-center w-full h-[36px] text-base font-medium text-black hover:bg-snuff-100 hover:text-portGore-600 transition-colors duration-200 rounded-md cursor-pointer">
+                Увійти
+              </a>
+
+              <div class="border-t border-gray-200 my-1"></div>
+
+              <a (click)="logout()"
+                class="flex items-center justify-center w-full h-[36px] text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-200 rounded-md cursor-pointer">
+                Вийти
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

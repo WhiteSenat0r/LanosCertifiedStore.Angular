@@ -14,6 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbHolderComponent } from './shared/ui/breadcrumb-holder/breadcrumb-holder.component';
 import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.component';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { AuthModule } from './core/auth/auth.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,6 +30,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
     BreadcrumbHolderComponent,
     SvgIconDisplayComponent,
     NgxSpinnerModule,
+    AuthModule,
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
