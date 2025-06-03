@@ -1,0 +1,140 @@
+<ul class="flex flex-col gap-[18px]">
+  @for(vehicle of vehicles(); track $index) {
+  <li
+    class="flex flex-row h-[220px] relative border-[1px] border-portGore-950 border-opacity-25 bg-kimberly-50 rounded-md shadow-sm overflow-hidden"
+    [class]="
+      isLoading()
+        ? ''
+        : 'cursor-pointer hover:border-opacity-100 hover:drop-shadow-sm hover:shadow'
+    "
+    (click)="!isLoading() && handleCardClick(vehicle)"
+  >
+    <!--Loading tip-->
+    <div
+      [class]="isLoading() ? 'block' : 'hidden'"
+      class="bg-kimberly-50 z-50 absolute top-0 left-0 w-full h-full opacity-40"
+    ></div>
+    <!--Card flesh-->
+    <div class="overflow-hidden h-full basis-2/5 grow-0 shrink-0">
+      <img
+        src="{{ vehicle.mainImageUrl }}"
+        class="w-full h-full object-cover"
+        alt="Vehicle Image"
+        appImageError="assets/images/Home/car-placeholder2.png"
+      />
+    </div>
+    <div class="flex flex-col grow p-[16px]">
+      <!--NAME + PRICE-->
+      <div class="flex flex-row justify-between items-start pb-[16px]">
+        <div
+          class="flex flex-col justify-between gap-xs font-medium text-lg text-[#000000]"
+        >
+          <span class="line-clamp-1 hover:underline underline-offset-4">{{ vehicle.fullName | uppercase }}</span>
+          <div>
+            <span>{{ vehicle.price | number : "0.0" }}</span>
+            <span class="">{{ "$" }}</span>
+          </div>
+        </div>
+        <app-icon-bookmark-main
+          innerClass="text-kimberly-50 size-lg cursor-pointer transition-all duration-200 hover:text-portGore-700"
+          class="relative -top-[4px] stroke-portGore-800"
+        ></app-icon-bookmark-main>
+      </div>
+
+      <!--Chips (change the name in the future!!!)-->
+      <div
+        class="inline-flex w-9/12 flex-row flex-wrap max-h-[60px] overflow-hidden gap-sm mt-[8px] pb-[16px]"
+      >
+        <!--1-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm rounded gap-xs bg-kimberly-100 text-sm"
+        >
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/ion_car-sport-outline.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.mileage | number : "0.0" }}км</span>
+        </div>
+        <!--2-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm rounded gap-xs bg-kimberly-100 text-sm"
+        >
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/lucide_fuel.svg"
+          ></kolesko-icon>
+          <span class="truncate">{{ vehicle.engineType }}</span>
+        </div>
+        <!--3-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm rounded gap-xs bg-kimberly-100 text-sm"
+        >
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/map-pin.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.locationTownName }}</span>
+        </div>
+        <!--4-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm gap-xs rounded bg-kimberly-100 text-sm"
+        >
+          <kolesko-icon
+            class="text-portGore-700"
+            src="assets/icons/features/catalog/vehicle_icons/mdi_engine-outline.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.displacement }}л</span>
+        </div>
+        <!--5-->
+        <div
+          class="flex flex-row items-center w-fit py-xs px-sm rounded gap-xs bg-kimberly-100 text-sm"
+        >
+          <kolesko-icon
+            class="text-transparent"
+            src="assets/icons/features/catalog/vehicle_icons/tabler_manual-gearbox.svg"
+          ></kolesko-icon>
+          <span>{{ vehicle.bodyType }}</span>
+        </div>
+      </div>
+      <!--Other buttons-->
+      <!--More than lg-->
+      <div class="hidden lg:flex flex-row-reverse justify-start items-center mt-auto gap-[24px]">
+        <div
+          class="group/icon cursor-pointer hover:text-portGore-700 flex flex-row gap-[2px] text-sm items-center font-medium pr-[6px] pl-[2px] py-[1px] rounded bg-kimberly-100 hover:bg-portGore-50"
+        >
+          <kolesko-icon
+            name="email-c"
+            class="inline-block p-xs text-portGore-500 group-hover/icon:text-portGore-700"
+            [size]="20"
+          ></kolesko-icon>
+          <span>Написати</span>
+        </div>
+        <div
+          class="flex flex-row gap-[2px] text-sm  group/icon hover:text-portGore-700 items-center font-medium pr-[6px] hover:bg-portGore-50 pl-[2px] py-[1px] rounded bg-kimberly-100"
+        >
+          <kolesko-icon
+            name="phone-c"
+            class="cursor-pointer inline-block p-xs text-transparent stroke-portGore-700 group-hover/icon:text-portGore-700"
+            [size]="20"
+          ></kolesko-icon>
+          <span>Контакти</span>
+        </div>
+      </div>
+
+      <!--Less than lg-->
+      <div class="lg:hidden flex flex-row-reverse gap-[6px] justify-start items-center mt-auto">
+        <kolesko-icon
+          name="email-c"
+          class="cursor-pointer inline-block p-xs text-portGore-500 transition-all duration-200 hover:text-portGore-700"
+          [size]="24"
+        ></kolesko-icon>
+        <kolesko-icon
+          name="phone-c"
+          class="mt-auto cursor-pointer inline-block px-xs py-[2.5px] text-transparent stroke-portGore-700 transition-all duration-200 hover:text-portGore-500"
+          [size]="24"
+        ></kolesko-icon>
+      </div>
+    </div>
+  </li>
+  }
+</ul>

@@ -5,8 +5,11 @@ import {
   effect,
   ElementRef,
   HostListener,
+  Inject,
   inject,
   OnInit,
+  Renderer2,
+  signal,
   viewChild,
   ViewChild,
 } from '@angular/core';
@@ -19,10 +22,12 @@ import { VehicleStore } from './stores/vehicles/vehicles.store';
 import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
+  styleUrl: './catalog.component.css',
   providers: [VehicleStore, VehicleFilterStore],
 })
 export class CatalogComponent implements OnInit {
@@ -33,9 +38,21 @@ export class CatalogComponent implements OnInit {
   // Injections
   readonly router = inject(Router);
 
+  constructor(@Inject(DOCUMENT) private document: Document) {
+    effect(() => {
+      console.log('showModal:', this.showModal());
+      const html = this.document.documentElement;
+
+      if (this.showModal()) {
+        html.classList.add('modal-open');
+      } else {
+        html.classList.remove('modal-open');
+      }
+    });
+  }
+
   ngOnInit(): void {
-    this.vehicleStore
-      .loadVehicles()
+    this.vehicleStore.loadVehicles();
   }
 
   // Enums
@@ -46,6 +63,12 @@ export class CatalogComponent implements OnInit {
   @ViewChild('modelFilter') modelFilter!: ElementRef;
   townFilter = viewChild.required<ElementRef>('townFilter');
   currentViewMode: ViewMode = ViewMode.grid;
+
+  showModal = signal(false);
+  @ViewChild('modalAside')
+  modalAside!: ElementRef<HTMLDivElement>;
+  @ViewChild('exitModalButton')
+  exitModalButton!: ElementRef<HTMLDivElement>;
 
   /** Toggles the current view mode (grid or list) */
   handleViewModeToggle(option: ViewMode) {
@@ -99,6 +122,34 @@ export class CatalogComponent implements OnInit {
     } else if (this.vehicleFilterStore.showRegionToolTip()) {
       this.vehicleFilterStore.changeShowRegionToolTip(false);
     }
+
+    // Modal
+    if (this.showModal() === true) {
+      const clickedElement = event.target as HTMLElement;
+      const modalElement = this.modalAside.nativeElement;
+      const exitElement = this.exitModalButton.nativeElement;
+
+      const isClickOutsideModal =
+        modalElement && !modalElement.contains(clickedElement);
+      const isClickOnExitModalButton =
+        exitElement && exitElement.contains(clickedElement);
+      const isClickOutsideFilterButton =
+        !this.filterButtonRef ||
+        !this.filterButtonRef.nativeElement.contains(clickedElement);
+
+      if (
+        isClickOnExitModalButton ||
+        (isClickOutsideModal && isClickOutsideFilterButton)
+      ) {
+        this.showModal.set(false);
+      }
+    }
+  }
+
+  filterButtonRef!: ElementRef<HTMLDivElement>;
+  handleFilterClicked(ref: ElementRef<HTMLDivElement>) {
+    this.showModal.update((value) => !value);
+    this.filterButtonRef = ref;
   }
 
   /** Updates vehicle search criteria and reloads vehicles */

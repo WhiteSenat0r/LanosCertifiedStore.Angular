@@ -83,7 +83,6 @@ export class FilterDropdownComponent<T extends { id: string; name: string }>{
 
   /** Handle selection of an item */
   handleNewChoicePicked(item: T): void {
-
     switch (this.dependentFilter()) {
       case FilterType.modelFilter: {
         this.callForModelPatchState.emit(item);

@@ -1,0 +1,46 @@
+<div
+  class="relative z-40"
+  #dropdownContainer
+  (click)="handleSortingDropDownClick()"
+>
+  <div
+    class="flex flex-row gap-xs border-transparent cursor-pointer "
+    [class]="isShown() ? 'text-portGore-500' : 'hover:text-portGore-500'"
+  >
+    <kolesko-icon
+      [size]="24"
+      src="assets/icons/features/catalog/outline-filter.svg"
+      class="mr-[2px]"
+    ></kolesko-icon>
+    <span class="hidden sm:block">{{
+      chosenSorting().charAt(0).toUpperCase() +
+        chosenSorting().slice(1).toLowerCase()
+    }}</span>
+    <kolesko-icon
+      [size]="24"
+      src="assets/icons/features/catalog/outline-chevron-down.svg"
+    ></kolesko-icon>
+  </div>
+  <div
+    class="absolute top-[calc(110%+10px)] overflow-hidden right-0 bg-kimberly-50 rounded border-[1px] border-portGore-950 w-fit flex flex-col"
+    *ngIf="isShown()"
+  >
+    @for(sortingType of sortingTypes; track $index) {
+    <div
+      class="relative w-full group/sortingType z-10 flex flex-row justify-between items-center px-sm py-[10px] cursor-pointer"
+      [class]="
+        chosenSorting() === sortingType ? 'bg-portGore-500 text-white' : ''
+      "
+      (click)="handleChosenSortingEvent(sortingType)"
+    >
+      <span class="text-nowrap">{{ sortingType }}</span>
+      @if(chosenSorting() !== sortingType) {
+      <div
+        class="absolute z-50 inset-0 h-full w-full transition-all duration-150 bg-portGore-300 opacity-0 group-hover/sortingType:opacity-25"
+      ></div>
+      }
+    </div>
+
+    }
+  </div>
+</div>

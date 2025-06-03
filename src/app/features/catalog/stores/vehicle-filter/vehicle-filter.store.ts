@@ -28,17 +28,20 @@ import { CatalogService } from '../../services/catalog.service';
 
 //Util functions
 import { updateItemStatusById } from '../../utils/UpdateItemStatusById';
+import { SortDirection } from '../../models/enums/SortDirection.enum';
 
 type VehicleFilterState = {
   lowerPrice: number | undefined;
   upperPrice: number | undefined;
   color: VehicleColor | undefined;
+  sortingType: SortDirection;
 };
 
 const initialFilterState: VehicleFilterState = {
   color: undefined,
   lowerPrice: undefined,
   upperPrice: undefined,
+  sortingType: SortDirection.AscPrice,
 };
 
 export const VehicleFilterStore = signalStore(
@@ -250,6 +253,11 @@ export const VehicleFilterStore = signalStore(
     },
     setUpperPrice(upperPrice: number | undefined) {
       patchState(store, { upperPrice });
+    },
+    handleCallForSortingTypeChange(chosenSorting: SortDirection) {
+      patchState(store, { sortingType: chosenSorting });
+      vehicleStore.setVehicleSearchCriterias({ sortingType: chosenSorting });
+      vehicleStore.loadVehicles();
     },
   })),
   withHooks({
