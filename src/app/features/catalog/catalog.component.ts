@@ -30,7 +30,7 @@ import { DOCUMENT } from '@angular/common';
   styleUrl: './catalog.component.css',
   providers: [VehicleStore, VehicleFilterStore],
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent {
   // Injected stores
   readonly vehicleStore = inject(VehicleStore);
   readonly vehicleFilterStore = inject(VehicleFilterStore);
@@ -40,7 +40,6 @@ export class CatalogComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: Document) {
     effect(() => {
-      console.log('showModal:', this.showModal());
       const html = this.document.documentElement;
 
       if (this.showModal()) {
@@ -49,10 +48,6 @@ export class CatalogComponent implements OnInit {
         html.classList.remove('modal-open');
       }
     });
-  }
-
-  ngOnInit(): void {
-    this.vehicleStore.loadVehicles();
   }
 
   // Enums

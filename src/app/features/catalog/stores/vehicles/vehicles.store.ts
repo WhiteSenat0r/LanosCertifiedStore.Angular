@@ -35,6 +35,7 @@ export const VehicleStore = signalStore(
   withMethods((store, catalogService = inject(CatalogService)) => ({
     loadVehicles() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
+      console.log('times');
       this.loadVehicleCount();
       catalogService
         .getVehicles(vehicleSearchCriterias)
