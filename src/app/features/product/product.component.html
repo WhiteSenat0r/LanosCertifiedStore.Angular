@@ -34,6 +34,6 @@
       <app-icon-outline-zoom-in class="size-md text-portGore-500"></app-icon-outline-zoom-in>
       <span class="font-bold text-md text-portGore-950">Інші моделі {{ vehicle().brand }}</span>
     </div>
-    <app-other-models [models]="models()"></app-other-models>
+    <app-other-models [models]="models()" [brandName]="vehicle().brand" (modelClicked)="handleModelClicked($event)" (brandClicked)="handleBrandClicked($event)"></app-other-models>
   </div>
 </div>

@@ -7,4 +7,11 @@ export interface SearchAdvancedParams{
     engine?: string;
     region?: string;
     transmission?: string;
+
+    //ids
+    brandId?: string;
+    modelId?: string;
+    engineId?: string;
+    regionId?: string;
+    transmissionId?: string;
 }

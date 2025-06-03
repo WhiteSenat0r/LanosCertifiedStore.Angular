@@ -20,6 +20,7 @@ import { LiveBodyType } from '../../../models/interfaces/vehicleProperties/LiveB
 import { LiveDrivetrainType } from '../../../models/interfaces/vehicleProperties/LiveDrivetrainType.interface';
 import { LiveTransmissionType } from '../../../models/interfaces/vehicleProperties/LiveTransmissionType.interface';
 import { LiveVType } from '../../../models/interfaces/vehicleProperties/LiveVType.interface';
+import { tap } from 'rxjs';
 
 type OtherFilterValuesState = {
   colors: VehicleColor[];
@@ -28,13 +29,6 @@ type OtherFilterValuesState = {
   allBodyTypes: LiveBodyType[];
   allTransmissionTypes: LiveTransmissionType[];
   allVTypes: LiveVType[];
-
-  // Related to UI checkbox filters
-  chosenEngines: LiveEngineType[];
-  chosenDriveTrains: LiveDrivetrainType[];
-  chosenBodyTypes: LiveBodyType[];
-  chosenTransmissionTypes: LiveTransmissionType[];
-  chosenVTypes: LiveVType[];
 };
 
 export function withOtherFilterValuesState() {
@@ -46,11 +40,6 @@ export function withOtherFilterValuesState() {
       allBodyTypes: [],
       allTransmissionTypes: [],
       allVTypes: [],
-      chosenEngines: [],
-      chosenDriveTrains: [],
-      chosenBodyTypes: [],
-      chosenTransmissionTypes: [],
-      chosenVTypes: [],
     }),
     withMethods(
       (
@@ -64,29 +53,39 @@ export function withOtherFilterValuesState() {
           });
         },
         loadEngines() {
-          catalogService.getEngines().subscribe((response) => {
-            patchState(store, { allEngines: response.items });
-          });
+          return catalogService.getEngines().pipe(
+            tap((response) => {
+              patchState(store, { allEngines: response.items });
+            })
+          );
         },
         loadDrivetrains() {
-          catalogService.getDrivetrains().subscribe((response) => {
-            patchState(store, { allDriveTrains: response.items });
-          });
+          return catalogService.getDrivetrains().pipe(
+            tap((response) => {
+              patchState(store, { allDriveTrains: response.items });
+            })
+          );
         },
         loadBodyTypes() {
-          catalogService.getBodyTypes().subscribe((response) => {
-            patchState(store, { allBodyTypes: response.items });
-          });
+          return catalogService.getBodyTypes().pipe(
+            tap((response) => {
+              patchState(store, { allBodyTypes: response.items });
+            })
+          );
         },
         loadTransmissionTypes() {
-          catalogService.getTranmissionTypes().subscribe((response) => {
-            patchState(store, { allTransmissionTypes: response.items });
-          });
+          return catalogService.getTranmissionTypes().pipe(
+            tap((response) => {
+              patchState(store, { allTransmissionTypes: response.items });
+            })
+          );
         },
         loadVTypes() {
-          catalogService.getVTypes().subscribe((response) => {
-            patchState(store, { allVTypes: response.items });
-          });
+          return catalogService.getVTypes().pipe(
+            tap((response) => {
+              patchState(store, { allVTypes: response.items });
+            })
+          );
         },
         deleteEntryFromCheckbox(entry: {
           id: string;
@@ -94,11 +93,6 @@ export function withOtherFilterValuesState() {
           status?: boolean;
         }) {
           // --- Engines
-          let updatedEngines = store
-            .chosenEngines()
-            .filter((item) => item.id !== entry.id);
-          patchState(store, { chosenEngines: updatedEngines });
-
           if (entry.status) {
             const updatedAll = store
               .allEngines()
@@ -107,16 +101,7 @@ export function withOtherFilterValuesState() {
               );
             patchState(store, { allEngines: updatedAll });
           }
-
-          vehicleStore.setVehicleSearchCriterias({
-            engineTypeIds: updatedEngines.map((i) => i.id),
-          });
-
           // --- Drivetrain Types
-          let updatedDrivetrains = store
-            .chosenDriveTrains()
-            .filter((item) => item.id !== entry.id);
-          patchState(store, { chosenDriveTrains: updatedDrivetrains });
 
           if (entry.status) {
             const updatedAll = store
@@ -127,16 +112,7 @@ export function withOtherFilterValuesState() {
             patchState(store, { allDriveTrains: updatedAll });
           }
 
-          vehicleStore.setVehicleSearchCriterias({
-            drivetrainTypeIds: updatedDrivetrains.map((i) => i.id),
-          });
-
           // --- Body Types
-          let updatedBodyTypes = store
-            .chosenBodyTypes()
-            .filter((item) => item.id !== entry.id);
-          patchState(store, { chosenBodyTypes: updatedBodyTypes });
-
           if (entry.status) {
             const updatedAll = store
               .allBodyTypes()
@@ -146,16 +122,7 @@ export function withOtherFilterValuesState() {
             patchState(store, { allBodyTypes: updatedAll });
           }
 
-          vehicleStore.setVehicleSearchCriterias({
-            bodyTypeIds: updatedBodyTypes.map((i) => i.id),
-          });
-
           // --- Transmission Types
-          let updatedTransmissions = store
-            .chosenTransmissionTypes()
-            .filter((item) => item.id !== entry.id);
-          patchState(store, { chosenTransmissionTypes: updatedTransmissions });
-
           if (entry.status) {
             const updatedAll = store
               .allTransmissionTypes()
@@ -164,17 +131,7 @@ export function withOtherFilterValuesState() {
               );
             patchState(store, { allTransmissionTypes: updatedAll });
           }
-
-          vehicleStore.setVehicleSearchCriterias({
-            transmissionTypeIds: updatedTransmissions.map((i) => i.id),
-          });
-
           // --- VTypes
-          let updatedVTypes = store
-            .chosenVTypes()
-            .filter((item) => item.id !== entry.id);
-          patchState(store, { chosenVTypes: updatedVTypes });
-
           if (entry.status) {
             const updatedAll = store
               .allVTypes()
@@ -184,10 +141,14 @@ export function withOtherFilterValuesState() {
             patchState(store, { allVTypes: updatedAll });
           }
 
-          vehicleStore.setVehicleSearchCriterias({
-            vTypeIds: updatedVTypes.map((i) => i.id),
-          });
-
+          this.updateSearchCriteria('allEngines', 'engineTypeIds');
+          this.updateSearchCriteria('allDriveTrains', 'drivetrainTypeIds');
+          this.updateSearchCriteria('allBodyTypes', 'bodyTypeIds');
+          this.updateSearchCriteria(
+            'allTransmissionTypes',
+            'transmissionTypeIds'
+          );
+          this.updateSearchCriteria('allVTypes', 'vTypeIds');
           vehicleStore.loadVehicles();
         },
         handleCheckboxChanged(event: {
@@ -201,108 +162,114 @@ export function withOtherFilterValuesState() {
         }) {
           if (event.item.status === true) {
             if (event.filterType === 'Тип двигуна') {
-              if (!store.chosenEngines().some((i) => i.id === event.item.id)) {
-                const updated = [...store.chosenEngines(), event.item];
-                patchState(store, { chosenEngines: updated });
-
-                vehicleStore.setVehicleSearchCriterias({
-                  engineTypeIds: updated.map((i) => i.id),
-                });
-              }
+              const updatedEngines = store
+                .allEngines()
+                .map((i) =>
+                  i.id === event.item.id && i.status !== true
+                    ? { ...i, status: true }
+                    : i
+                );
+              patchState(store, { allEngines: updatedEngines });
             } else if (event.filterType === 'Тип приводу') {
-              if (
-                !store.chosenDriveTrains().some((i) => i.id === event.item.id)
-              ) {
-                const updated = [...store.chosenDriveTrains(), event.item];
-                patchState(store, { chosenDriveTrains: updated });
-                vehicleStore.setVehicleSearchCriterias({
-                  drivetrainTypeIds: updated.map((i) => i.id),
-                });
-              }
+              const updated = store
+                .allDriveTrains()
+                .map((i) =>
+                  i.id === event.item.id && i.status !== true
+                    ? { ...i, status: true }
+                    : i
+                );
+              patchState(store, { allDriveTrains: updated });
             } else if (event.filterType === 'Тип кузова') {
-              if (
-                !store.chosenBodyTypes().some((i) => i.id === event.item.id)
-              ) {
-                const updated = [...store.chosenBodyTypes(), event.item];
-                patchState(store, { chosenBodyTypes: updated });
-                vehicleStore.setVehicleSearchCriterias({
-                  bodyTypeIds: updated.map((i) => i.id),
-                });
-              }
+              const updated = store
+                .allBodyTypes()
+                .map((i) =>
+                  i.id === event.item.id && i.status !== true
+                    ? { ...i, status: true }
+                    : i
+                );
+              patchState(store, { allBodyTypes: updated });
             } else if (event.filterType === 'Тип трансмісії') {
-              if (
-                !store
-                  .chosenTransmissionTypes()
-                  .some((i) => i.id === event.item.id)
-              ) {
-                const updated = [
-                  ...store.chosenTransmissionTypes(),
-                  event.item,
-                ];
-                patchState(store, { chosenTransmissionTypes: updated });
-                vehicleStore.setVehicleSearchCriterias({
-                  transmissionTypeIds: updated.map((i) => i.id),
-                });
-              }
+              const updated = store
+                .allTransmissionTypes()
+                .map((i) =>
+                  i.id === event.item.id && i.status !== true
+                    ? { ...i, status: true }
+                    : i
+                );
+              patchState(store, { allTransmissionTypes: updated });
             } else if (event.filterType === 'Тип транспортного засобу') {
-              if (!store.chosenVTypes().some((i) => i.id === event.item.id)) {
-                const updated = [...store.chosenVTypes(), event.item];
-                patchState(store, { chosenVTypes: updated });
-                vehicleStore.setVehicleSearchCriterias({
-                  vTypeIds: updated.map((i) => i.id),
-                });
-              }
+              const updated = store
+                .allVTypes()
+                .map((i) =>
+                  i.id === event.item.id && i.status !== true
+                    ? { ...i, status: true }
+                    : i
+                );
+              patchState(store, { allVTypes: updated });
             }
           } else {
             if (event.filterType === 'Тип двигуна') {
-              const updated = store
-                .chosenEngines()
-                .filter((item) => item.id !== event.item.id);
-              patchState(store, { chosenEngines: updated });
-
-              const updatedEngineTypeIds = updated.map((item) => item.id);
-              vehicleStore.setVehicleSearchCriterias({
-                engineTypeIds: updatedEngineTypeIds,
-              });
+              const updatedEngines = store
+                .allEngines()
+                .map((i) =>
+                  i.id === event.item.id ? { ...i, status: false } : i
+                );
+              patchState(store, { allEngines: updatedEngines });
             } else if (event.filterType === 'Тип приводу') {
               const updated = store
-                .chosenDriveTrains()
-                .filter((item) => item.id !== event.item.id);
-              patchState(store, { chosenDriveTrains: updated });
-              const updatedDriveTrainIds = updated.map((item) => item.id);
-              vehicleStore.setVehicleSearchCriterias({
-                drivetrainTypeIds: updatedDriveTrainIds,
-              });
+                .allDriveTrains()
+                .map((i) =>
+                  i.id === event.item.id ? { ...i, status: false } : i
+                );
+              patchState(store, { allDriveTrains: updated });
             } else if (event.filterType === 'Тип кузова') {
               const updated = store
-                .chosenBodyTypes()
-                .filter((item) => item.id !== event.item.id);
-              patchState(store, { chosenBodyTypes: updated });
-              const updatedBodyTypeIds = updated.map((item) => item.id);
-              vehicleStore.setVehicleSearchCriterias({
-                bodyTypeIds: updatedBodyTypeIds,
-              });
+                .allBodyTypes()
+                .map((i) =>
+                  i.id === event.item.id ? { ...i, status: false } : i
+                );
+              patchState(store, { allBodyTypes: updated });
             } else if (event.filterType === 'Тип трансмісії') {
               const updated = store
-                .chosenTransmissionTypes()
-                .filter((item) => item.id !== event.item.id);
-              patchState(store, { chosenTransmissionTypes: updated });
-              const updatedTransmissionTypeIds = updated.map((item) => item.id);
-              vehicleStore.setVehicleSearchCriterias({
-                transmissionTypeIds: updatedTransmissionTypeIds,
-              });
+                .allTransmissionTypes()
+                .map((i) =>
+                  i.id === event.item.id ? { ...i, status: false } : i
+                );
+              patchState(store, { allTransmissionTypes: updated });
             } else if (event.filterType === 'Тип транспортного засобу') {
               const updated = store
-                .chosenVTypes()
-                .filter((item) => item.id !== event.item.id);
-              patchState(store, { chosenVTypes: updated });
-              const updatedVTypeIds = updated.map((item) => item.id);
-              vehicleStore.setVehicleSearchCriterias({
-                vTypeIds: updatedVTypeIds,
-              });
+                .allVTypes()
+                .map((i) =>
+                  i.id === event.item.id ? { ...i, status: false } : i
+                );
+              patchState(store, { allVTypes: updated });
             }
           }
+
+          this.updateSearchCriteria('allEngines', 'engineTypeIds');
+          this.updateSearchCriteria('allDriveTrains', 'drivetrainTypeIds');
+          this.updateSearchCriteria('allBodyTypes', 'bodyTypeIds');
+          this.updateSearchCriteria(
+            'allTransmissionTypes',
+            'transmissionTypeIds'
+          );
+          this.updateSearchCriteria('allVTypes', 'vTypeIds');
           vehicleStore.loadVehicles();
+        },
+        updateSearchCriteria(
+          storeKey: keyof OtherFilterValuesState,
+          criteriaKey: keyof Parameters<
+            typeof vehicleStore.setVehicleSearchCriterias
+          >[0]
+        ) {
+          const selectedIds = store[storeKey]()
+            .filter((item) => 'status' in item && (item as any).status === true)
+            .map((item) => item.id);
+
+          vehicleStore.setVehicleSearchCriterias({
+            [criteriaKey]: selectedIds,
+          });
+    
         },
       })
     ),

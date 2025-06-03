@@ -70,21 +70,19 @@ export class FilterDropdownComponent<T extends { id: string; name: string }>{
   filterResetWasUsed = output<FilterType>();
 
   // State
-  selectedItemName?: string;
+  selectedItemName = input<string | undefined>();
   isShown = signal(false);
   animationState = signal('closed');
 
   // Reset for filters
   resetFilterEffect = effect(() => {
     if (this.filterReset()) {
-      this.selectedItemName = undefined;
       this.filterResetWasUsed.emit(this.dependentFilter()!);
     }
   });
 
   /** Handle selection of an item */
   handleNewChoicePicked(item: T): void {
-    this.selectedItemName = item.name;
 
     switch (this.dependentFilter()) {
       case FilterType.modelFilter: {

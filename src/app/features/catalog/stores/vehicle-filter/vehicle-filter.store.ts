@@ -23,6 +23,11 @@ import { withCustomCurrency } from './custom-store-features/withCustomCurrency.c
 import { FilterProperty } from '../../models/enums/FilterProperty';
 import { VehicleInfoArrays } from '../../models/interfaces/VehicleInfoArrays.interface';
 import { ActivatedRoute } from '@angular/router';
+import { lastValueFrom, tap } from 'rxjs';
+import { CatalogService } from '../../services/catalog.service';
+
+//Util functions
+import { updateItemStatusById } from '../../utils/UpdateItemStatusById';
 
 type VehicleFilterState = {
   lowerPrice: number | undefined;
@@ -57,11 +62,19 @@ export const VehicleFilterStore = signalStore(
     }),
     vehicleInfoArrayOptions: computed<VehicleInfoArrays>(() => {
       return {
-        engineTypeIds: store.chosenEngines(),
-        drivetrainTypeIds: store.chosenDriveTrains(),
-        bodyTypeIds: store.chosenBodyTypes(),
-        transmissionTypeIds: store.chosenTransmissionTypes(),
-        vTypeIds: store.chosenVTypes(),
+        engineTypeIds: store
+          .allEngines()
+          .filter((item) => item.status === true),
+        drivetrainTypeIds: store
+          .allDriveTrains()
+          .filter((item) => item.status === true),
+        bodyTypeIds: store
+          .allBodyTypes()
+          .filter((item) => item.status === true),
+        transmissionTypeIds: store
+          .allTransmissionTypes()
+          .filter((item) => item.status === true),
+        vTypeIds: store.allVTypes().filter((item) => item.status === true),
       };
     }),
   })),
@@ -138,13 +151,6 @@ export const VehicleFilterStore = signalStore(
             regionFilterReset: true,
             modelFilterReset: true,
             brandFilterReset: true,
-
-            // Очистити обрані фільтри
-            chosenEngines: [],
-            chosenDriveTrains: [],
-            chosenBodyTypes: [],
-            chosenTransmissionTypes: [],
-            chosenVTypes: [],
 
             // Обнулити status у всіх доступних фільтрах
             allEngines: store
@@ -247,26 +253,129 @@ export const VehicleFilterStore = signalStore(
     },
   })),
   withHooks({
-    onInit(
+    async onInit(
       store,
       route = inject(ActivatedRoute),
-      vehicleStore = inject(VehicleStore)
+      vehicleStore = inject(VehicleStore),
+      catalogService = inject(CatalogService)
     ) {
-      route.queryParamMap.subscribe((params) => {
-        params.keys.forEach((key) => {
+      await lastValueFrom(store.loadBrands());
+      await lastValueFrom(store.loadEngines());
+      await lastValueFrom(store.loadDrivetrains());
+      await lastValueFrom(store.loadBodyTypes());
+      await lastValueFrom(store.loadTransmissionTypes());
+      await lastValueFrom(store.loadVTypes());
+      // await lastValueFrom(store.loadRegions());
+      // await lastValueFrom(store.loadTransmissions());
+      route.queryParamMap.subscribe(async (params) => {
+        for (let i = 0; i < params.keys.length; i++) {
+          const key = params.keys[i];
           const value = params.get(key);
-          if (value === null) return;
-
+          if (value === null) continue;
           switch (key) {
             case 'highestPrice':
               patchState(store, { upperPrice: Number(value) });
               break;
-            // Додаткові поля в майбутньому
-            // case 'brand':
-            //   patchState(store, { brand: value });
-            //   break;
+            case 'brandName':
+              const ourBrand = store
+                .brands()
+                .find((brand) => brand.name === value);
+              patchState(store, { brand: ourBrand });
+              await lastValueFrom(
+                catalogService.getModels(store.brand()!.id).pipe(
+                  tap((response) => {
+                    patchState(store, { models: response.items });
+                  })
+                )
+              );
+              break;
+            case 'brandId':
+              const brand = store.brands().find((brand) => brand.id === value);
+              patchState(store, { brand });
+              vehicleStore.setVehicleSearchCriterias({
+                brandId: brand?.id,
+              });
+              await lastValueFrom(
+                catalogService.getModels(store.brand()!.id).pipe(
+                  tap((response) => {
+                    patchState(store, { models: response.items });
+                  })
+                )
+              );
+              break;
+            case 'modelId':
+              const model = store.models().find((model) => model.id === value);
+              patchState(store, { model });
+              vehicleStore.setVehicleSearchCriterias({
+                modelId: model?.id,
+              });
+              break;
+            case 'engineId':
+              patchState(store, {
+                allEngines: updateItemStatusById(store.allEngines(), value),
+              });
+              store.updateSearchCriteria('allEngines', 'engineTypeIds');
+              break;
+            case 'transmissionId':
+              patchState(store, {
+                allTransmissionTypes: updateItemStatusById(
+                  store.allTransmissionTypes(),
+                  value
+                ),
+              });
+              store.updateSearchCriteria(
+                'allTransmissionTypes',
+                'transmissionTypeIds'
+              );
+              break;
+            case 'bodyTypeId':
+              patchState(store, {
+                allBodyTypes: updateItemStatusById(store.allBodyTypes(), value),
+              });
+              store.updateSearchCriteria('allBodyTypes', 'bodyTypeIds');
+              break;
+            case 'drivetrainId':
+              patchState(store, {
+                allDriveTrains: updateItemStatusById(
+                  store.allDriveTrains(),
+                  value
+                ),
+              });
+              store.updateSearchCriteria('allDriveTrains', 'drivetrainTypeIds');
+              break;
+            case 'vTypeId':
+              patchState(store, {
+                allVTypes: updateItemStatusById(store.allVTypes(), value),
+              });
+              store.updateSearchCriteria('allVTypes', 'vTypeIds');
+              break;
+            case 'regionId': {
+              const region = store
+                .regions()
+                .find((region) => region.id === value);
+              patchState(store, { region: region });
+              vehicleStore.setVehicleSearchCriterias({
+                locationRegionId: region?.id,
+              });
+              break;
+            }
+            case 'townId': {
+              const town = store.towns().find((town) => town.id === value);
+              patchState(store, { town: town });
+              vehicleStore.setVehicleSearchCriterias({
+                locationRegionId: town?.id,
+              });
+              break;
+            }
           }
-        });
+        }
+
+        vehicleStore.loadVehicles();
+        //Reload page with filled values
+        // setTimeout(() => {
+        //   console.log(store.brand);
+        //   vehicleStore.loadVehicles();
+        // }, 5000);
       });
     },
   })

@@ -11,7 +11,9 @@ import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties
 import { VehicleSearchCriterias } from '../../models/classes/VehicleSearchCriterias.class';
 import { VehicleCountSummary } from '../../models/interfaces/VehicleCountSummary.interface';
 import { CatalogService } from '../../services/catalog.service';
+import { delay, finalize, take, tap } from 'rxjs';
 type VehicleState = {
+  loading: boolean;
   vehicles: Vehicle[];
   vehicleSearchCriterias: VehicleSearchCriterias;
   currentPageItemsQuantity: number;
@@ -20,6 +22,7 @@ type VehicleState = {
 };
 
 const initialState: VehicleState = {
+  loading: false,
   vehicles: [],
   vehicleSearchCriterias: new VehicleSearchCriterias(),
   currentPageItemsQuantity: 10,
@@ -33,17 +36,25 @@ export const VehicleStore = signalStore(
     loadVehicles() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
       this.loadVehicleCount();
-      catalogService.getVehicles(vehicleSearchCriterias).subscribe({
-        next: (response: PaginatedResult<Vehicle>) => {
-          patchState(store, {
-            vehicles: response.items,
-            pageIndex: response.pageIndex,
-          });
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+      catalogService
+        .getVehicles(vehicleSearchCriterias)
+        .pipe(
+          tap(() => patchState(store, { loading: true })),
+          delay(500),
+          finalize(() => patchState(store, { loading: false }))
+        )
+        .subscribe({
+          next: (response: PaginatedResult<Vehicle>) => {
+            patchState(store, {
+              vehicles: response.items,
+              pageIndex: response.pageIndex,
+            });
+            window.scrollTo(0, 0);
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
     },
     loadVehicleCount() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
@@ -69,16 +80,5 @@ export const VehicleStore = signalStore(
         },
       });
     },
-  })),
-  withHooks({
-    onInit(store) {
-      store.loadVehicles();
-    },
-    onDestroy(store) {
-      patchState(store, {
-        vehicles: [],
-        filteredTotalVehicleCount: 0,
-      });
-    },
-  })
+  }))
 );

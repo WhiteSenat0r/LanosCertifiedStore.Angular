@@ -12,7 +12,7 @@ import { SearchAdvancedParams } from '../../models/interfaces/SearchAdvancedPara
 export class FastSearchSectionComponent {
   @Input() InfoObjectDataOptionated?: {
     ApiCallOption: string;
-    DropDownElementUlInfo: string[];
+    DropDownElementUlInfo: Array<{ id: string; name: string }>;
   };
   @Input() priceRange$!: Observable<PriceRange>;
 

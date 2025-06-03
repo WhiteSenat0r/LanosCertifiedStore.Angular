@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { NotFoundComponent } from './core/ui/not-found/not-found.component';
 import { AuthCallbackComponent } from './core/auth/component/auth-callback.component';
@@ -36,8 +36,13 @@ const routes: Routes = [
   { path: '**', component: NotFoundComponent },
 ];
 
+const routerOptions: ExtraOptions = {
+  scrollPositionRestoration: 'enabled',
+  anchorScrolling: 'enabled',
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

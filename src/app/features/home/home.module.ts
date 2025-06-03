@@ -18,6 +18,7 @@ import { HomeService } from './services/home.service';
 import { DropdownElementComponent } from './ui/fast-search-section/fast-inputs-form/dropdown-element/dropdown-element.component';
 import { FastSearchSectionComponent } from './ui/fast-search-section/fast-search-section.component';
 import { FastInputsFormComponent } from './ui/fast-search-section/fast-inputs-form/fast-inputs-form.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { FastInputsFormComponent } from './ui/fast-search-section/fast-inputs-fo
     ReactiveFormsModule,
     SvgIconDisplayComponent,
     NgOptimizedImage,
+    NgxSpinnerModule,
   ],
   exports: [HomeComponent],
   providers: [HomeService],

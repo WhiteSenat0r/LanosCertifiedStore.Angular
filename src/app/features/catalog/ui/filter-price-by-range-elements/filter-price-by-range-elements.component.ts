@@ -28,10 +28,6 @@ export class FilterPriceByRangeElementsComponent implements OnInit {
   minValueAnchor = input<number | undefined>();
   maxValueAnchor = input<number | undefined>();
 
-  def = effect(() => {
-    console.log(this.maxValueAnchor());
-  });
-
   MinValueAnchorEffect = effect(() => {
     if (this.minValueAnchor() === undefined) {
       this.minValue = this.minPrice();

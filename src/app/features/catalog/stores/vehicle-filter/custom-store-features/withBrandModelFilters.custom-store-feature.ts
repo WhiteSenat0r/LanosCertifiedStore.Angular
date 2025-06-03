@@ -9,6 +9,7 @@ import { Brand } from '../../../../../shared/models/interfaces/vehicle-propertie
 import { Model } from '../../../../../shared/models/interfaces/vehicle-properties/Model.interface';
 import { inject } from '@angular/core';
 import { CatalogService } from '../../../services/catalog.service';
+import { tap } from 'rxjs';
 
 type BrandModelFilters = {
   brands: Brand[];
@@ -35,9 +36,11 @@ export function withBrandModelFilters() {
     withState(initialState),
     withMethods((store, catalogService = inject(CatalogService)) => ({
       loadBrands() {
-        catalogService.getBrands().subscribe((response) => {
-          patchState(store, { brands: response.items });
-        });
+        return catalogService.getBrands().pipe(
+          tap((response) => {
+            patchState(store, { brands: response.items });
+          })
+        );
       },
       changeShowBrandToolTip(showBrandToolTip: boolean) {
         patchState(store, { showBrandToolTip });
@@ -51,11 +54,6 @@ export function withBrandModelFilters() {
           });
         }
       },
-    })),
-    withHooks({
-      onInit(store) {
-        store.loadBrands();
-      }
-    })
+    }))
   );
 }

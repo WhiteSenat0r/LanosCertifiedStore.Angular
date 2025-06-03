@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { BodyType } from '../../shared/models/interfaces/vehicle-properties/BodyType.interface';
-import { filter, forkJoin, map, Observable } from 'rxjs';
+import { filter, finalize, forkJoin, map, Observable, tap } from 'rxjs';
 import { EngineType } from '../../shared/models/interfaces/vehicle-properties/EngineType.interface';
 import { PriceRange } from './models/interfaces/PriceRange.interface';
 import { DropdownElementData } from './models/enums/DropdownElementData.enum';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { SearchAdvancedParams } from './models/interfaces/SearchAdvancedParams.interface';
 import { HomeService } from './services/home.service';
 import { ApiResponse } from '../../shared/models/interfaces/api/ApiResponse.interface';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,7 @@ import { ApiResponse } from '../../shared/models/interfaces/api/ApiResponse.inte
 export class HomeComponent implements OnInit {
   InfoObjectDataOptionated: {
     ApiCallOption: string;
-    DropDownElementUlInfo: string[];
+    DropDownElementUlInfo: Array<{ id: string; name: string }>;
   } = { ApiCallOption: '', DropDownElementUlInfo: [] };
 
   handleGetInfoForUlEvent(ApiCallOption: DropdownElementData) {
@@ -44,10 +45,16 @@ export class HomeComponent implements OnInit {
             response: ApiResponse<
               Brand | Model | LocationRegion | TransmissionType | EngineType
             >
-          ) => response.items.map((item) => item.name)
+          ) =>
+            response.items.map((item) => {
+              return {
+                id: item.id,
+                name: item.name,
+              };
+            })
         )
       )
-      .subscribe((info: string[]) => {
+      .subscribe((info: { id: string; name: string }[]) => {
         this.InfoObjectDataOptionated = {
           ApiCallOption: ApiCallOption,
           DropDownElementUlInfo: info,
