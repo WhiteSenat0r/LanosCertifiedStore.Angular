@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ViewMode } from '../../models/enums/ViewMode.enum';
 
 @Component({
   selector: 'app-vehicle-data-view',
@@ -18,8 +19,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class VehicleDataViewComponent {
   readonly spinner = inject(NgxSpinnerService);
 
-  @Input({ required: true }) vehicles!: Vehicle[];
+  @Input({ required: true }) vehicles!: Vehicle[] | undefined;
   isLoading = input.required<boolean>();
+  viewMode = input.required<ViewMode>();
 
   spinnerEffect = effect(() => {
     if (this.isLoading()) {

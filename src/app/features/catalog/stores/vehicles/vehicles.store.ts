@@ -14,7 +14,7 @@ import { CatalogService } from '../../services/catalog.service';
 import { delay, finalize, take, tap } from 'rxjs';
 type VehicleState = {
   loading: boolean;
-  vehicles: Vehicle[];
+  vehicles: Vehicle[] | undefined;
   vehicleSearchCriterias: VehicleSearchCriterias;
   currentPageItemsQuantity: number;
   pageIndex: number;
@@ -23,7 +23,7 @@ type VehicleState = {
 
 const initialState: VehicleState = {
   loading: false,
-  vehicles: [],
+  vehicles: undefined,
   vehicleSearchCriterias: new VehicleSearchCriterias(),
   currentPageItemsQuantity: 10,
   pageIndex: 1,
@@ -35,6 +35,7 @@ export const VehicleStore = signalStore(
   withMethods((store, catalogService = inject(CatalogService)) => ({
     loadVehicles() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
+      console.log('times');
       this.loadVehicleCount();
       catalogService
         .getVehicles(vehicleSearchCriterias)
@@ -69,7 +70,6 @@ export const VehicleStore = signalStore(
         },
       });
     },
-
     setVehicleSearchCriterias(
       updatedCriteria: Partial<VehicleSearchCriterias>
     ) {

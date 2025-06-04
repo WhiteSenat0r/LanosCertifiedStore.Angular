@@ -1,0 +1,13 @@
+.catalogModalFiltersScroller {
+  overflow-x: hidden !important;
+}
+.catalogModalFiltersScroller::-webkit-scrollbar {
+  @apply w-[5px];
+}
+.catalogModalFiltersScroller::-webkit-scrollbar-track {
+  @apply bg-portGore-300;
+}
+
+.catalogModalFiltersScroller::-webkit-scrollbar-thumb {
+  @apply bg-portGore-500;
+}

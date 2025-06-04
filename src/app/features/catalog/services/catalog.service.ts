@@ -204,6 +204,21 @@ export class CatalogService {
       if (vehicleSearchCriterias.townId) {
         params = params.set('LocationTownId', vehicleSearchCriterias.townId);
       }
+      if (vehicleSearchCriterias.sortingType) {
+        if (vehicleSearchCriterias.sortingType === 'за більшою ціною') {
+          params = params.set('SortingType', 'price-desc');
+        } else if (vehicleSearchCriterias.sortingType === 'за меншою ціною') {
+          params = params.set('SortingType', 'price-asc');
+        } else if (
+          vehicleSearchCriterias.sortingType === 'рік випуску за зростанням'
+        ) {
+          params = params.set('SortingType', 'production-year-asc');
+        } else if (
+          vehicleSearchCriterias.sortingType === 'рік випуску за спаданням'
+        ) {
+          params = params.set('SortingType', 'production-year-desc');
+        }
+      }
     }
     return params;
   }

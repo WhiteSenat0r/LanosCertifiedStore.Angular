@@ -1,3 +1,5 @@
+import { SortDirection } from "../enums/SortDirection.enum";
+
 export class VehicleSearchCriterias {
   typeId = '';
   brandId = '';
@@ -17,4 +19,6 @@ export class VehicleSearchCriterias {
   upperPriceLimit: number | undefined = undefined;
   pageIndex = 1;
   currentPageItemsQuantity = 10;
+
+  sortingType: SortDirection = SortDirection.AscPrice;
 }

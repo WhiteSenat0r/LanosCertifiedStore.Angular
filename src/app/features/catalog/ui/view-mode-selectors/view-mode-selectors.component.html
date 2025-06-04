@@ -1,27 +1,51 @@
 <div class="mb-[14px]">
-  <div class="flex flex-row justify-between mb-[14px] max-h-[24px]">
-    <div><span class="capitalize text-portGore-950">{{filteredTotalResults() | number:"0.0"}} результатів</span></div>
-    <!--VIEW MODE SELECTORS-->
-    <div class="flex flex-row gap-[6px]">
-      <!--By some criteria-->
-      <div
-        class="flex flex-row gap-xs border-b-[1px] border-transparent cursor-pointer hover:border-portGore-950 hover:text-portGore-950"
-      >
-        <kolesko-icon
-          [size]="24"
-          src="assets/icons/features/catalog/outline-filter.svg"
-          class="mr-[2px]"
-        ></kolesko-icon>
-        <span>За ціною</span>
-        <kolesko-icon
-          [size]="24"
-          src="assets/icons/features/catalog/outline-chevron-down.svg"
-        ></kolesko-icon>
+  <div
+    class="flex flex-row justify-between mb-[14px] max-h-[40px] items-center"
+  >
+    <div class="flex sm:flex-row gap-sm items-center">
+      <div #filterButton (click)="onFilterButtonClick()" class="md:hidden flex flex-row font-medium gap-[6px] items-center bg-portGore-500 text-white py-sm px-[16px] rounded-full">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.0"
+          class="size-[16px]"
+          viewBox="0 0 512.000000 512.000000"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <g
+            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+            fill="currentColor"
+            stroke="none"
+          >
+            <path
+              d="M1091 4674 c-153 -41 -291 -172 -338 -320 l-17 -54 -300 0 c-220 0 -308 -4 -326 -13 -14 -7 -33 -29 -44 -51 -16 -32 -17 -44 -7 -76 20 -66 12 -64 358 -70 l314 -5 26 -65 c50 -126 137 -222 248 -275 118 -56 215 -68 334 -40 170 40 307 164 362 329 l18 51 1649 5 c1375 4 1652 7 1665 19 9 7 22 30 28 51 10 32 9 44 -7 76 -11 22 -30 44 -44 51 -20 10 -377 13 -1661 13 l-1636 0 -7 30 c-29 145 -180 295 -345 344 -67 20 -197 20 -270 0z m265 -227 c59 -30 109 -83 136 -145 26 -57 22 -177 -7 -237 -65 -133 -235 -196 -370 -136 -243 107 -229 444 22 537 57 21 157 13 219 -19z"
+            />
+            <path
+              d="M3473 3046 c-161 -39 -295 -163 -352 -327 l-19 -54 -1489 -5 c-1395 -5 -1491 -6 -1516 -22 -64 -43 -54 -154 17 -183 31 -13 238 -15 1514 -15 l1478 0 18 -50 c114 -318 509 -431 781 -223 61 46 129 140 156 214 l22 59 446 0 c509 0 504 -1 530 76 13 37 12 44 -5 80 -14 28 -29 42 -54 51 -25 8 -162 12 -476 12 l-442 1 -6 34 c-20 106 -139 255 -246 308 -112 56 -242 71 -357 44z m252 -221 c63 -30 99 -69 133 -144 21 -45 24 -64 20 -125 -11 -163 -123 -269 -283 -269 -118 0 -203 51 -254 155 -50 99 -42 202 21 295 78 115 232 153 363 88z"
+            />
+            <path
+              d="M2155 1420 c-114 -25 -199 -73 -275 -156 -50 -55 -102 -151 -115 -211 l-7 -33 -819 0 c-915 0 -858 5 -880 -70 -10 -32 -9 -44 7 -76 11 -22 30 -44 44 -51 19 -10 211 -13 843 -13 791 0 817 -1 817 -19 0 -10 16 -49 34 -87 62 -124 179 -219 320 -259 77 -23 218 -17 298 13 144 52 257 173 311 335 6 16 69 17 1129 17 875 0 1129 3 1148 13 14 7 33 29 44 51 16 32 17 44 7 76 -22 75 69 70 -1187 72 l-1126 3 -22 61 c-55 152 -166 264 -312 314 -66 24 -198 34 -259 20z m211 -230 c58 -25 111 -75 142 -134 36 -70 38 -179 4 -247 -87 -177 -307 -223 -450 -94 -68 62 -96 121 -96 210 0 212 206 349 400 265z"
+            />
+          </g>
+        </svg>
+        <span class="cursor-default">Фільтр</span>
       </div>
-      <div class="min-w-[1px] h-full bg-portGore-950"></div>
+      <span class="capitalize text-portGore-950"
+        >{{ filteredTotalResults() | number : "0.0" }} результатів</span
+      >
+    </div>
+    <!--VIEW MODE SELECTORS-->
+    <div class="flex flex-row gap-[6px] h-[28px] items-center">
+      <!--By some criteria-->
+      <app-sorting-dropdown
+        [chosenSorting]="chosenSorting()"
+        (choseSortingEvent)="handleChoseSortingEvent($event)"
+      ></app-sorting-dropdown>
+      <div class="w-[1px] min-w-[1px] h-full bg-portGore-950"></div>
       <!--LIST VIEW-->
       <kolesko-icon
-        [ngClass]="{ 'text-portGore-950 opacity-100': (ourViewMode() === ViewMode.list) }"
+        [ngClass]="{
+          'text-portGore-950 opacity-100': ourViewMode() === ViewMode.list
+        }"
         [size]="24"
         src="assets/icons/features/catalog/line-md_list.svg"
         [stroke]="true"
@@ -30,7 +54,9 @@
       ></kolesko-icon>
       <!--GRID VIEW-->
       <kolesko-icon
-        [ngClass]="{ 'text-portGore-950 opacity-100': (ourViewMode() === ViewMode.grid)  }"
+        [ngClass]="{
+          'text-portGore-950 opacity-100': ourViewMode() === ViewMode.grid
+        }"
         [size]="24"
         src="assets/icons/features/catalog/rivet-icons_grid-vertical.svg"
         class="my-auto cursor-pointer text-portGore-400 opacity-90 transition-all hover:text-portGore-950 hover:opacity-100"
@@ -40,5 +66,10 @@
   </div>
 
   <!--INFO CHIPS-->
-  <app-info-chips [infoChips]="currentInfoChips()" [infoArrays]="currentInfoArrays()" (chipClick)="handleChipClick($event)" (arrayedChipClick)="handleArrayedChipClick($event)"></app-info-chips>
+  <app-info-chips
+    [infoChips]="currentInfoChips()"
+    [infoArrays]="currentInfoArrays()"
+    (chipClick)="handleChipClick($event)"
+    (arrayedChipClick)="handleArrayedChipClick($event)"
+  ></app-info-chips>
 </div>

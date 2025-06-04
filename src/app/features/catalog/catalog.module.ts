@@ -17,6 +17,9 @@ import { TooltipComponent } from '../../shared/ui/tooltip/tooltip.component';
 import { TooltipUpsideDownComponent } from '../../shared/ui/tooltip-upside-down/tooltip-upside-down.component';
 import { InfoChipsComponent } from './ui/view-mode-selectors/info-chips/info-chips.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ListViewVehiclesOptionComponent } from './ui/vehicle-data-view/list-view-vehicles-option/list-view-vehicles-option.component';
+import { IconBookmarkMainComponent } from "../../shared/icons/icon-bookmark-main/icon-bookmark-main.component";
+import { SortingDropdownComponent } from './ui/view-mode-selectors/sorting-dropdown/sorting-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ColorPaletteComponent,
     FilterCheckboxesComponent,
     InfoChipsComponent,
+    ListViewVehiclesOptionComponent,
+    SortingDropdownComponent,
   ],
   imports: [
     CommonModule,
@@ -37,8 +42,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ImageErrorDirective,
     TooltipComponent,
     TooltipUpsideDownComponent,
-    NgxSpinnerModule
-  ],
+    NgxSpinnerModule,
+    IconBookmarkMainComponent
+],
   providers: [CatalogService],
 })
 export class CatalogModule {}
