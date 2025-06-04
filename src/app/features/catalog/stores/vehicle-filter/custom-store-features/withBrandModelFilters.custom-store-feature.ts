@@ -7,7 +7,7 @@ import {
 } from '@ngrx/signals';
 import { Brand } from '../../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../../../shared/models/interfaces/vehicle-properties/Model.interface';
-import { inject } from '@angular/core';
+import { effect, inject } from '@angular/core';
 import { CatalogService } from '../../../services/catalog.service';
 import { tap } from 'rxjs';
 
@@ -54,6 +54,13 @@ export function withBrandModelFilters() {
           });
         }
       },
-    }))
+    })),
+    withHooks({
+      onInit(store) {
+        const newEffect = effect(() => {
+          console.log(store.showBrandToolTip());
+        })
+      }
+    })
   );
 }

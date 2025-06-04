@@ -1,14 +1,10 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   effect,
   ElementRef,
   HostListener,
   Inject,
   inject,
-  OnInit,
-  Renderer2,
   signal,
   viewChild,
   ViewChild,
@@ -23,6 +19,7 @@ import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehic
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-catalog',
@@ -56,8 +53,11 @@ export class CatalogComponent {
 
   // UI State
   @ViewChild('modelFilter') modelFilter!: ElementRef;
+  @ViewChild('modelFilter2') modelFilter2!: ElementRef;
   townFilter = viewChild.required<ElementRef>('townFilter');
+  townFilter2 = viewChild.required<ElementRef>('townFilter2');
   currentViewMode: ViewMode = ViewMode.grid;
+  mobiledEraseIsCalled = signal<boolean>(false);
 
   showModal = signal(false);
   @ViewChild('modalAside')
@@ -100,8 +100,10 @@ export class CatalogComponent {
   onDocumentClick(event: Event) {
     // Brands and models
     if (
-      this.modelFilter?.nativeElement.contains(event.target) &&
-      !this.vehicleFilterStore.brand()
+      (this.modelFilter?.nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.brand()) ||
+      (this.modelFilter2?.nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.brand())
     ) {
       this.vehicleFilterStore.changeShowBrandToolTip(true);
     } else if (this.vehicleFilterStore.showBrandToolTip()) {
@@ -110,8 +112,10 @@ export class CatalogComponent {
 
     // Regions and towns
     if (
-      this.townFilter().nativeElement.contains(event.target) &&
-      !this.vehicleFilterStore.region()
+      ((this.townFilter().nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.region())) ||
+      ((this.townFilter2().nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.region()))
     ) {
       this.vehicleFilterStore.changeShowRegionToolTip(true);
     } else if (this.vehicleFilterStore.showRegionToolTip()) {
@@ -151,5 +155,14 @@ export class CatalogComponent {
   private updateVehicleSearch(criteria: Partial<VehicleSearchCriterias>) {
     this.vehicleStore.setVehicleSearchCriterias(criteria);
     this.vehicleStore.loadVehicles();
+  }
+
+  onClearClicked(option: string): void {
+    this.mobiledEraseIsCalled.set(true);
+
+    setTimeout(() => {
+      this.vehicleFilterStore.setPropertyStateToDefault(option);
+      this.mobiledEraseIsCalled.set(false);
+    }, 500);
   }
 }
