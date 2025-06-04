@@ -26,6 +26,14 @@ export class TypeExhibitSectionComponent
   implements OnInit, OnChanges, OnDestroy
 {
   ngOnInit(): void {
+    this.spinner.show('sliderDefaultSpinner');
+    this.isSpinnerActive.set(true);
+
+    setTimeout(() => {
+      this.spinner.hide('sliderDefaultSpinner');
+      this.isSpinnerActive.set(false);
+    }, 300);
+
     this.vehiclesChange$.pipe(switchMap(() => timer(1000))).subscribe(() => {
       this.spinner.hide('sliderDefaultSpinner');
       this.isSpinnerActive.set(false);
