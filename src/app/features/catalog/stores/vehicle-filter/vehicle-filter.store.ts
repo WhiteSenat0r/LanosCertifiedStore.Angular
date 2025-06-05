@@ -1,4 +1,4 @@
-import { computed, effect, inject } from '@angular/core';
+import { computed, effect, inject, untracked } from '@angular/core';
 import {
   patchState,
   signalStore,
@@ -189,8 +189,6 @@ export const VehicleFilterStore = signalStore(
             transmissionTypeIds: [],
             vTypeIds: [],
           });
-
-          vehicleStore.loadVehicles();
           break;
         }
       }
@@ -267,6 +265,14 @@ export const VehicleFilterStore = signalStore(
       vehicleStore = inject(VehicleStore),
       catalogService = inject(CatalogService)
     ) {
+      effect(() => {
+        if (store.priceRange()) {
+          untracked(() => {
+            patchState(store, { lowerPrice: store.priceRange().lowest });
+            patchState(store, { upperPrice: store.priceRange().highest });
+          });
+        }
+      });
       await lastValueFrom(store.loadBrands());
       await lastValueFrom(store.loadEngines());
       await lastValueFrom(store.loadDrivetrains());
@@ -289,6 +295,9 @@ export const VehicleFilterStore = signalStore(
                 .brands()
                 .find((brand) => brand.name === value);
               patchState(store, { brand: ourBrand });
+              vehicleStore.setVehicleSearchCriterias({
+                brandId: ourBrand?.id,
+              });
               await lastValueFrom(
                 catalogService.getModels(store.brand()!.id).pipe(
                   tap((response) => {
@@ -378,6 +387,8 @@ export const VehicleFilterStore = signalStore(
           }
         }
 
+
+        store.loadPriceRange();
         vehicleStore.loadVehicles();
         //Reload page with filled values
         // setTimeout(() => {

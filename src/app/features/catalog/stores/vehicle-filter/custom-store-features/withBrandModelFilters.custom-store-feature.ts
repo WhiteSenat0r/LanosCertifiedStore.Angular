@@ -55,12 +55,5 @@ export function withBrandModelFilters() {
         }
       },
     })),
-    withHooks({
-      onInit(store) {
-        const newEffect = effect(() => {
-          console.log(store.showBrandToolTip());
-        })
-      }
-    })
   );
 }

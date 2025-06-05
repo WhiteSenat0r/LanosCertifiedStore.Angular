@@ -6,8 +6,12 @@ import {
   inject,
   input,
   InputSignal,
+  OnChanges,
   OnInit,
   output,
+  signal,
+  SimpleChanges,
+  untracked,
   ViewChild,
 } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -28,27 +32,19 @@ export class FilterPriceByRangeElementsComponent implements OnInit {
   minValueAnchor = input<number | undefined>();
   maxValueAnchor = input<number | undefined>();
 
-  MinValueAnchorEffect = effect(() => {
-    if (this.minValueAnchor() === undefined) {
-      this.minValue = this.minPrice();
-    }
-  });
-  MaxValueAnchoreEffect = effect(() => {
-    if (this.maxValueAnchor() === undefined) {
-      this.maxValue = this.maxPrice();
-    }
-  });
-
+  // UI state
   minValue: number = 0;
   maxValue: number = 100;
 
-  changePriceMin: EffectRef = effect(() => {
-    if (
-      this.maxValueAnchor() !== undefined &&
-      this.maxPrice() > this.maxValueAnchor()! &&
-      this.minPrice() < this.maxValueAnchor()!
-    ) {
-      this.maxValue = this.maxValueAnchor()!;
+  MinValueAnchorEffect = effect(() => {
+    if (this.minValueAnchor() !== undefined) {
+      this.minValue = this.minValueAnchor()!;
+    }
+  });
+  MaxValueAnchorEffect = effect(() => {
+    const newMaxValueAnchor = this.maxValueAnchor();
+    if (newMaxValueAnchor !== undefined) {
+      this.maxValue = newMaxValueAnchor;
     }
   });
 
@@ -60,17 +56,16 @@ export class FilterPriceByRangeElementsComponent implements OnInit {
 
   private minValueChange$ = new Subject<number>();
   private maxValueChange$ = new Subject<number>();
-
   ngOnInit() {
     this.minValueChange$
-      .pipe(debounceTime(1000), distinctUntilChanged())
+      .pipe(debounceTime(700), distinctUntilChanged())
       .subscribe((value) => {
         this.onMinValueChangeEmitter.emit(value);
         this.onMinValueChangeInfoChipEmitter.emit(value);
       });
 
     this.maxValueChange$
-      .pipe(debounceTime(1000), distinctUntilChanged())
+      .pipe(debounceTime(700), distinctUntilChanged())
       .subscribe((value) => {
         this.onMaxValueChangeEmitter.emit(value);
         this.onMaxValueChangeInfoChipEmitter.emit(value);

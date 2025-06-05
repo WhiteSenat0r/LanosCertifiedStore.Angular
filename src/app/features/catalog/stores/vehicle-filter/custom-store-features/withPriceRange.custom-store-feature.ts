@@ -7,7 +7,7 @@ import {
 } from '@ngrx/signals';
 import { PriceRange } from '../../../../home/models/interfaces/PriceRange.interface';
 import { CatalogService } from '../../../services/catalog.service';
-import { inject } from '@angular/core';
+import { effect, inject } from '@angular/core';
 import { VehicleStore } from '../../vehicles/vehicles.store';
 
 export function withPriceRange() {
@@ -31,9 +31,9 @@ export function withPriceRange() {
       })
     ),
     withHooks({
-        onInit(store) {
-            store.loadPriceRange();
-        }
+      onInit(store) {
+        store.loadPriceRange();
+      },
     })
   );
 }

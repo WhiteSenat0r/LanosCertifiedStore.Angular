@@ -10,11 +10,11 @@
     <div class="flex flex-nowrap">
       @if(entry.property === "lowerPrice") {
       <span class="block"
-        >Ціна від {{ entry.value!.toString() | number : "0.0" }}</span
+        >Ціна від {{ entry.value?.toString() | number : "0.0" }}</span
       >
       } @else {
       <span class="block"
-        >Ціна до {{ entry.value!.toString() | number : "0.0" }}</span
+        >Ціна до {{ entry.value?.toString() | number : "0.0" }}</span
       >
       }
       <span class="">{{ "$" }}</span>

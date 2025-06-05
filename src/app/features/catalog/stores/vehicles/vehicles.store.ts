@@ -5,7 +5,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { inject } from '@angular/core';
+import { effect, inject } from '@angular/core';
 import { PaginatedResult } from '../../../../shared/models/interfaces/api/PaginatedResult.interface';
 import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { VehicleSearchCriterias } from '../../models/classes/VehicleSearchCriterias.class';
@@ -79,5 +79,5 @@ export const VehicleStore = signalStore(
         },
       });
     },
-  }))
+  })),
 );
