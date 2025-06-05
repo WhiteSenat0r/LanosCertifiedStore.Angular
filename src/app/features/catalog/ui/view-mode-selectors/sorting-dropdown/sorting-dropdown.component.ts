@@ -3,6 +3,7 @@ import {
   effect,
   ElementRef,
   HostListener,
+  inject,
   input,
   OnChanges,
   output,
@@ -11,12 +12,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { SortDirection } from '../../../models/enums/SortDirection.enum';
+import { VehicleFilterStore } from '../../../stores/vehicle-filter/vehicle-filter.store';
 
 @Component({
   selector: 'app-sorting-dropdown',
   templateUrl: './sorting-dropdown.component.html',
 })
 export class SortingDropdownComponent {
+  vehicleFilterStore = inject(VehicleFilterStore);
   @ViewChild('dropdownContainer')
   dropdownContainer!: ElementRef<HTMLDivElement>;
   isShown = signal(false);

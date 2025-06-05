@@ -59,7 +59,7 @@ export class ProductComponent {
   handleModelClicked(model: Model) {
     const brandName = model.vehicleBrand;
     this.router.navigate(['/catalog'], {
-      queryParams: { brandName: brandName, modelId: model.id },
+      queryParams: { brand: brandName, modelId: model.id },
     });
   }
 

@@ -209,7 +209,7 @@
       <!--COLORS GRID PICKER-->
       <app-color-palette
         [colors]="this.vehicleFilterStore.colors()"
-        (onColorChange)="handleColorChange($event)"
+        (onColorChange)="this.vehicleFilterStore.setColor($event)"
         [chosenColor]="vehicleFilterStore.color()"
       ></app-color-palette>
     </div>
@@ -434,7 +434,7 @@
       <!--COLORS GRID PICKER-->
       <app-color-palette
         [colors]="this.vehicleFilterStore.colors()"
-        (onColorChange)="handleColorChange($event)"
+        (onColorChange)="this.vehicleFilterStore.setColor($event)"
         [chosenColor]="vehicleFilterStore.color()"
       ></app-color-palette>
     </div>

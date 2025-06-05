@@ -6,14 +6,14 @@
       class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
       type="number"
       placeholder="0"
-      [value]="minValue"
+      [value]="minValue()"
       (input)="onMinValueChange($event)"
     />
     <input
       class="flex-1 min-w-[0px] appearance-none outline-none h-[36px] border-[1px] border-kimberly-500 rounded focus:border-portGore-950 focus:ring-0"
       type="number"
       placeholder="100"
-      [value]="maxValue"
+      [value]="maxValue()"
       (input)="onMaxValueChange($event)"
     />
   </div>
@@ -37,7 +37,7 @@
         type="range"
         [min]="minPrice()"
         [max]="maxPrice()"
-        [value]="minValue"
+        [value]="minValue()"
       />
       <input
         #maxRange
@@ -46,15 +46,16 @@
         type="range"
         [min]="minPrice()"
         [max]="maxPrice()"
-        [value]="maxValue"
+        [value]="maxValue()"
       />
       <!--ACTIVE RANGE-->
       <div
         class="absolute top-[0px] bg-portGore-700 h-[4px] rounded-xl z-10"
         [ngStyle]="{
           left:
-            ((minValue - minPrice()) * 100) / (maxPrice() - minPrice()) + '%',
-          width: ((maxValue - minValue) * 100) / (maxPrice() - minPrice()) + '%'
+            ((minValue() - minPrice()) * 100) / (maxPrice() - minPrice()) + '%',
+          width:
+            ((maxValue() - minValue()) * 100) / (maxPrice() - minPrice()) + '%'
         }"
       ></div>
       <!--BACKGROUND RANGE-->

@@ -72,23 +72,19 @@ export class CatalogComponent {
 
   //** Change the page in pagination */
   handlePageChange(pageIndex: number) {
-    this.updateVehicleSearch({ pageIndex });
+    this.vehicleStore.setVehicleSearchCriterias({ pageIndex });
+    this.vehicleStore.loadVehicles();
   }
-
-  /** Updates the selected vehicle color */
-  handleColorChange(color: VehicleColor) {
-    this.updateVehicleSearch({ colorId: color.id });
-    this.vehicleFilterStore.setColor(color);
-  }
-
   /** Updates the minimum price filter */
   handleMinPriceChange(min: number) {
-    this.updateVehicleSearch({ lowerPriceLimit: min });
+    this.vehicleStore.setVehicleSearchCriterias({ lowerPriceLimit: min });
+    this.vehicleStore.loadVehicles();
   }
 
   /** Updates the maximum price filter */
   handleMaxPriceChange(max: number) {
-    this.updateVehicleSearch({ upperPriceLimit: max });
+    this.vehicleStore.setVehicleSearchCriterias({ upperPriceLimit: max });
+    this.vehicleStore.loadVehicles();
   }
 
   handleTransitionToProductPage(vehicle: Vehicle) {
@@ -112,10 +108,10 @@ export class CatalogComponent {
 
     // Regions and towns
     if (
-      ((this.townFilter().nativeElement.contains(event.target) &&
-        !this.vehicleFilterStore.region())) ||
-      ((this.townFilter2().nativeElement.contains(event.target) &&
-        !this.vehicleFilterStore.region()))
+      (this.townFilter().nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.region()) ||
+      (this.townFilter2().nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.region())
     ) {
       this.vehicleFilterStore.changeShowRegionToolTip(true);
     } else if (this.vehicleFilterStore.showRegionToolTip()) {
@@ -149,12 +145,6 @@ export class CatalogComponent {
   handleFilterClicked(ref: ElementRef<HTMLDivElement>) {
     this.showModal.update((value) => !value);
     this.filterButtonRef = ref;
-  }
-
-  /** Updates vehicle search criteria and reloads vehicles */
-  private updateVehicleSearch(criteria: Partial<VehicleSearchCriterias>) {
-    this.vehicleStore.setVehicleSearchCriterias(criteria);
-    this.vehicleStore.loadVehicles();
   }
 
   onClearClicked(option: string): void {

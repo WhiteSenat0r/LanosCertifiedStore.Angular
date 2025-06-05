@@ -7,7 +7,7 @@ import {
 } from '@ngrx/signals';
 import { Brand } from '../../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../../../shared/models/interfaces/vehicle-properties/Model.interface';
-import { effect, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { CatalogService } from '../../../services/catalog.service';
 import { tap } from 'rxjs';
 

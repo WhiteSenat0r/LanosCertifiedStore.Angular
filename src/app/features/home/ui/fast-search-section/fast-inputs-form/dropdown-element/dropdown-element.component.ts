@@ -10,11 +10,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  OnChanges,
-  OnInit,
   Output,
-  signal,
-  SimpleChanges,
 } from '@angular/core';
 import { DropdownHeaderData } from '../../../../models/interfaces/DropdownHeaderData.interface';
 import { DropdownElementData } from '../../../../models/enums/DropdownElementData.enum';
@@ -44,13 +40,7 @@ import { DropdownElementData } from '../../../../models/enums/DropdownElementDat
     ]),
   ],
 })
-export class DropdownElementComponent implements OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['DropDownElementUlInfo'])
-    {
-      console.log(this.DropDownElementUlInfo);
-    }
-  }
+export class DropdownElementComponent {
   @Input() divInterfaceData!: DropdownHeaderData;
   @Input() DropDownElementUlInfo?: Array<{ id: string; name: string }>;
   @Output() getInfoForUlEvent: EventEmitter<DropdownElementData> =
