@@ -30,10 +30,24 @@
       <div
         class="flex flex-row justify-between font-medium text-lg text-[#000000] mb-[14px]"
       >
-        <span class="line-clamp-1 hover:underline underline-offset-4">{{ vehicle.fullName | uppercase }}</span>
+        <span class="line-clamp-1 hover:underline underline-offset-4">{{
+          vehicle.fullName | uppercase
+        }}</span>
         <div>
-          <span>{{ vehicle.price | number : "0.0" }}</span>
-          <span class="">{{ "$" }}</span>
+          @if (currentCurrencyHolder().type === 'грн') {
+          <span>{{
+            vehicle.price * currentCurrencyHolder().rates[0] | number : "1.0-0"
+          }}</span>
+          <span>{{ "грн" }}</span>
+          } @else if (currentCurrencyHolder().type === '€') {
+          <span>{{
+            vehicle.price * currentCurrencyHolder().rates[1] | number : "1.0-0"
+          }}</span>
+          <span>{{ "€" }}</span>
+          } @else {
+          <span>{{ vehicle.price | number : "1.0-0" }}</span>
+          <span>{{ "$" }}</span>
+          }
         </div>
       </div>
       <!--Chips (change the name in the future!!!)-->

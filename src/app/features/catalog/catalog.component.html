@@ -507,6 +507,7 @@
       [isLoading]="this.vehicleStore.loading()"
       (goToProductPage)="handleTransitionToProductPage($event)"
       [viewMode]="currentViewMode"
+      [currentCurrencyHolder]="vehicleFilterStore.currentCurrencyHolder()"
     ></app-vehicle-data-view>
     <!--PAGINATION-->
     <div
