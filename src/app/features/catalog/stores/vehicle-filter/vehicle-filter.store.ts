@@ -41,7 +41,6 @@ type VehicleFilterState = {
   upperPrice: number | undefined;
   color: VehicleColor | undefined;
   sortingType: SortDirection;
-  colorReloading: boolean;
   generalReload: boolean;
   highestPricePlug: boolean | null;
   highestPriceUrlInit: number | undefined;
@@ -55,7 +54,6 @@ const initialFilterState: VehicleFilterState = {
   lowerPrice: undefined,
   upperPrice: undefined,
   sortingType: SortDirection.AscPrice,
-  colorReloading: false,
   generalReload: false,
   highestPricePlug: false,
   highestPriceUrlInit: undefined,
@@ -116,11 +114,9 @@ export const VehicleFilterStore = signalStore(
         });
       },
       setColor(color: VehicleColor) {
-        patchState(store, { colorReloading: true });
         patchState(store, { color });
         vehicleStore.setVehicleSearchCriterias({ colorId: color.id });
         this._updateQueryParams({ colorId: color.id });
-        store.loadPriceRange();
       },
       setPropertyStateToDefault(propertyName: string): void {
         switch (propertyName) {
@@ -565,11 +561,7 @@ export const VehicleFilterStore = signalStore(
               upperPriceLimit: store.upperPrice(),
             });
 
-            // other conditions
-            if (store.colorReloading()) {
-              vehicleStore.loadVehicles();
-              patchState(store, { colorReloading: false });
-            }
+            //other conditions
             if (store.generalReload()) {
               vehicleStore.loadVehicles();
               patchState(store, { generalReload: false });
