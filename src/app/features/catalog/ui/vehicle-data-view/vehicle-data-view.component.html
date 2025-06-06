@@ -131,6 +131,7 @@
   [vehicles]="vehicles"
   [isLoading]="isLoading()"
   (goToProductPage)="handleCardClick($event)"
+  [currentCurrencyHolder]="currentCurrencyHolder()"
 ></app-list-view-vehicles-option>
 } @if(isLoading() && (vehicles === undefined || vehicles!.length === 0)) {
 <div

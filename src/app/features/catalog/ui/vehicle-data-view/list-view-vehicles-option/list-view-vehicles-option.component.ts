@@ -9,6 +9,8 @@ export class ListViewVehiclesOptionComponent {
   vehicles = input.required<Vehicle[] | undefined>();
   isLoading = input.required<boolean>();
 
+  currentCurrencyHolder = input.required<{ type: string; rates: number[] }>();
+
   goToProductPage = output<Vehicle>();
 
   handleCardClick(vehicle: Vehicle) {

@@ -29,10 +29,26 @@
         <div
           class="flex flex-col justify-between gap-xs font-medium text-lg text-[#000000]"
         >
-          <span class="line-clamp-1 hover:underline underline-offset-4">{{ vehicle.fullName | uppercase }}</span>
+          <span class="line-clamp-1 hover:underline underline-offset-4">{{
+            vehicle.fullName | uppercase
+          }}</span>
           <div>
-            <span>{{ vehicle.price | number : "0.0" }}</span>
-            <span class="">{{ "$" }}</span>
+            @if (currentCurrencyHolder().type === 'грн') {
+            <span>{{
+              vehicle.price * currentCurrencyHolder().rates[0]
+                | number : "1.0-0"
+            }}</span>
+            <span>{{ "грн" }}</span>
+            } @else if (currentCurrencyHolder().type === '€') {
+            <span>{{
+              vehicle.price * currentCurrencyHolder().rates[1]
+                | number : "1.0-0"
+            }}</span>
+            <span>{{ "€" }}</span>
+            } @else {
+            <span>{{ vehicle.price | number : "1.0-0" }}</span>
+            <span>{{ "$" }}</span>
+            }
           </div>
         </div>
         <app-icon-bookmark-main
@@ -98,7 +114,9 @@
       </div>
       <!--Other buttons-->
       <!--More than lg-->
-      <div class="hidden lg:flex flex-row-reverse justify-start items-center mt-auto gap-[24px]">
+      <div
+        class="hidden lg:flex flex-row-reverse justify-start items-center mt-auto gap-[24px]"
+      >
         <div
           class="group/icon cursor-pointer hover:text-portGore-700 flex flex-row gap-[2px] text-sm items-center font-medium pr-[6px] pl-[2px] py-[1px] rounded bg-kimberly-100 hover:bg-portGore-50"
         >
@@ -110,7 +128,7 @@
           <span>Написати</span>
         </div>
         <div
-          class="flex flex-row gap-[2px] text-sm  group/icon hover:text-portGore-700 items-center font-medium pr-[6px] hover:bg-portGore-50 pl-[2px] py-[1px] rounded bg-kimberly-100"
+          class="flex flex-row gap-[2px] text-sm group/icon hover:text-portGore-700 items-center font-medium pr-[6px] hover:bg-portGore-50 pl-[2px] py-[1px] rounded bg-kimberly-100"
         >
           <kolesko-icon
             name="phone-c"
@@ -122,7 +140,9 @@
       </div>
 
       <!--Less than lg-->
-      <div class="lg:hidden flex flex-row-reverse gap-[6px] justify-start items-center mt-auto">
+      <div
+        class="lg:hidden flex flex-row-reverse gap-[6px] justify-start items-center mt-auto"
+      >
         <kolesko-icon
           name="email-c"
           class="cursor-pointer inline-block p-xs text-portGore-500 transition-all duration-200 hover:text-portGore-700"
