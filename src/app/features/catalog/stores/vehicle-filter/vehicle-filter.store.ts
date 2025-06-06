@@ -45,6 +45,9 @@ type VehicleFilterState = {
   generalReload: boolean;
   highestPricePlug: boolean | null;
   highestPriceUrlInit: number | undefined;
+
+  //
+  sortingTypeChanging: boolean;
 };
 
 const initialFilterState: VehicleFilterState = {
@@ -56,6 +59,7 @@ const initialFilterState: VehicleFilterState = {
   generalReload: false,
   highestPricePlug: false,
   highestPriceUrlInit: undefined,
+  sortingTypeChanging: false,
 };
 
 const priceRangeInitialized$ = new Subject<void>();
@@ -355,8 +359,10 @@ export const VehicleFilterStore = signalStore(
             SortDirection[k as keyof typeof SortDirection] === chosenSorting
         );
         if (key) {
+          patchState(store, { sortingTypeChanging: true });
           this._updateQueryParams({ sortingType: key });
         }
+        vehicleStore.loadVehicles();
       },
       handleCheckboxChanged(event: {
         item:
@@ -711,8 +717,12 @@ export const VehicleFilterStore = signalStore(
           }
         }
 
-        patchState(store, { generalReload: true });
-        store.loadPriceRange();
+        if (store.sortingTypeChanging() === false) {
+          patchState(store, { generalReload: true });
+          store.loadPriceRange();
+        } else {
+          patchState(store, { sortingTypeChanging: false });
+        }
       });
     },
   })
