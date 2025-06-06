@@ -113,6 +113,13 @@ export const VehicleFilterStore = signalStore(
           queryParamsHandling: 'merge',
         });
       },
+      updateQueryParamsForPage(pageIndex: number) {
+        if (pageIndex === 1) {
+          this._updateQueryParams({ page: undefined });
+        } else {
+          this._updateQueryParams({ page: pageIndex });
+        }
+      },
       setColor(color: VehicleColor) {
         patchState(store, { color });
         vehicleStore.setVehicleSearchCriterias({ colorId: color.id });
@@ -242,6 +249,7 @@ export const VehicleFilterStore = signalStore(
               transmissionTypeIds: [],
               vTypeIds: [],
               sortingType: SortDirection.AscPrice,
+              pageIndex: 1
             });
 
             this._updateQueryParams({
@@ -260,6 +268,7 @@ export const VehicleFilterStore = signalStore(
               transmissionTypeIds: undefined,
               vTypeIds: undefined,
               sortingType: undefined,
+              page: undefined
             });
             break;
           }
