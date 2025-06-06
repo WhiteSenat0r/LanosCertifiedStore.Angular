@@ -40,10 +40,5 @@ export function withPriceRange() {
         },
       })
     ),
-    withHooks({
-      onInit(store) {
-        store.loadPriceRange();
-      },
-    })
   );
 }

@@ -42,6 +42,8 @@ type VehicleFilterState = {
   sortingType: SortDirection;
   colorReloading: boolean;
   generalReload: boolean;
+  highestPricePlug: boolean | null;
+  highestPriceUrlInit: number | undefined;
 };
 
 const initialFilterState: VehicleFilterState = {
@@ -51,6 +53,8 @@ const initialFilterState: VehicleFilterState = {
   sortingType: SortDirection.AscPrice,
   colorReloading: false,
   generalReload: false,
+  highestPricePlug: false,
+  highestPriceUrlInit: undefined,
 };
 
 const priceRangeInitialized$ = new Subject<void>();
@@ -528,25 +532,36 @@ export const VehicleFilterStore = signalStore(
       effect(() => {
         if (store.priceRange()) {
           untracked(() => {
+            // to lowerPrice
             patchState(store, { lowerPrice: store.priceRange().lowest });
             vehicleStore.setVehicleSearchCriterias({
               lowerPriceLimit: store.lowerPrice(),
             });
-            route.queryParamMap.subscribe((params) => {
-              const highestPrice = params.get('highestPrice');
+            // to upperPrice
+            if (!store.highestPricePlug()) {
+              patchState(store, { upperPrice: store.priceRange().highest });
+            } else {
               if (
-                highestPrice !== null &&
-                Number(highestPrice) < store.priceRange().highest &&
-                Number(highestPrice) > store.priceRange().lowest
+                store.highestPriceUrlInit() !== undefined &&
+                Number(store.highestPriceUrlInit()) <
+                  store.priceRange().highest &&
+                Number(store.highestPriceUrlInit()) > store.priceRange().lowest
               ) {
-                patchState(store, { upperPrice: Number(highestPrice) });
+                patchState(store, {
+                  upperPrice: Number(store.highestPriceUrlInit()),
+                });
               } else {
                 patchState(store, { upperPrice: store.priceRange().highest });
               }
-              vehicleStore.setVehicleSearchCriterias({
-                upperPriceLimit: store.upperPrice(),
-              });
+              patchState(store, { highestPricePlug: null });
+              patchState(store, { highestPriceUrlInit: undefined });
+              console.log(store.highestPriceUrlInit());
+            }
+            vehicleStore.setVehicleSearchCriterias({
+              upperPriceLimit: store.upperPrice(),
             });
+
+            // other conditions
             if (store.colorReloading()) {
               vehicleStore.loadVehicles();
               patchState(store, { colorReloading: false });
@@ -555,6 +570,8 @@ export const VehicleFilterStore = signalStore(
               vehicleStore.loadVehicles();
               patchState(store, { generalReload: false });
             }
+            console.log(store.upperPrice());
+            console.log(store.lowerPrice());
           });
         }
       });
@@ -571,6 +588,12 @@ export const VehicleFilterStore = signalStore(
           const value = params.get(key);
           if (value === null) continue;
           switch (key) {
+            case 'highestPrice':
+              if (store.highestPricePlug() !== null) {
+                patchState(store, { highestPriceUrlInit: Number(value) });
+                patchState(store, { highestPricePlug: true });
+              }
+              break;
             case 'colorId':
               const ourColor = store
                 .colors()
@@ -639,7 +662,6 @@ export const VehicleFilterStore = signalStore(
                 modelId: model?.id,
               });
               break;
-
             case 'townId': {
               const town = store.towns().find((town) => town.id === value);
               patchState(store, { town });
