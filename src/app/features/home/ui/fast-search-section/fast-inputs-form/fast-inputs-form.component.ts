@@ -118,8 +118,7 @@ export class FastInputsFormComponent implements AfterViewInit {
     } else {
       switch (ApiCallOption) {
         case DropdownElementData.engine:
-          this.searchParams.engine = option.name;
-          this.searchParams.engineId = option.id;
+          this.searchParams.engineTypeIds = option.id;
           break;
         case DropdownElementData.brand:
           this.searchParams.brand = option.name;
@@ -130,12 +129,11 @@ export class FastInputsFormComponent implements AfterViewInit {
           this.searchParams.modelId = option.id;
           break;
         case DropdownElementData.location:
-          this.searchParams.region = option.name;
-          this.searchParams.regionId = option.id;
+          this.searchParams.locationRegion = option.name;
+          this.searchParams.locationRegionId = option.id;
           break;
         case DropdownElementData.transmission:
-          this.searchParams.transmission = option.name;
-          this.searchParams.transmissionId = option.id;
+          this.searchParams.transmissionTypeIds = option.id;
           break;
         default:
           console.log(typeof option);

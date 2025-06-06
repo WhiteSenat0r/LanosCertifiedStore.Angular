@@ -34,6 +34,7 @@ import { LiveDrivetrainType } from '../../models/interfaces/vehicleProperties/Li
 import { LiveEngineType } from '../../models/interfaces/vehicleProperties/LiveEngineType.interface';
 import { LiveTransmissionType } from '../../models/interfaces/vehicleProperties/LiveTransmissionType.interface';
 import { LiveVType } from '../../models/interfaces/vehicleProperties/LiveVType.interface';
+import { updateItemsStatusByIds } from '../../utils/UpdateItemsStatusByIds';
 
 type VehicleFilterState = {
   lowerPrice: number | undefined;
@@ -366,90 +367,57 @@ export const VehicleFilterStore = signalStore(
           | LiveTransmissionType;
         filterType: string;
       }) {
-        if (event.item.status === true) {
-          if (event.filterType === 'Тип двигуна') {
-            const updatedEngines = store
-              .allEngines()
-              .map((i) =>
-                i.id === event.item.id && i.status !== true
-                  ? { ...i, status: true }
-                  : i
-              );
-            patchState(store, { allEngines: updatedEngines });
-          } else if (event.filterType === 'Тип приводу') {
-            const updated = store
-              .allDriveTrains()
-              .map((i) =>
-                i.id === event.item.id && i.status !== true
-                  ? { ...i, status: true }
-                  : i
-              );
-            patchState(store, { allDriveTrains: updated });
-          } else if (event.filterType === 'Тип кузова') {
-            const updated = store
-              .allBodyTypes()
-              .map((i) =>
-                i.id === event.item.id && i.status !== true
-                  ? { ...i, status: true }
-                  : i
-              );
-            patchState(store, { allBodyTypes: updated });
-          } else if (event.filterType === 'Тип трансмісії') {
-            const updated = store
-              .allTransmissionTypes()
-              .map((i) =>
-                i.id === event.item.id && i.status !== true
-                  ? { ...i, status: true }
-                  : i
-              );
-            patchState(store, { allTransmissionTypes: updated });
-          } else if (event.filterType === 'Тип транспортного засобу') {
-            const updated = store
-              .allVTypes()
-              .map((i) =>
-                i.id === event.item.id && i.status !== true
-                  ? { ...i, status: true }
-                  : i
-              );
-            patchState(store, { allVTypes: updated });
-          }
+        const { item, filterType } = event;
+
+        // Визначаємо параметр query для кожного типу
+        let queryParam = '';
+        let stateKey = '';
+
+        switch (filterType) {
+          case 'Тип двигуна':
+            queryParam = 'engineTypeIds';
+            stateKey = 'allEngines';
+            break;
+          case 'Тип приводу':
+            queryParam = 'drivetrainTypeIds';
+            stateKey = 'allDriveTrains';
+            break;
+          case 'Тип кузова':
+            queryParam = 'bodyTypeIds';
+            stateKey = 'allBodyTypes';
+            break;
+          case 'Тип трансмісії':
+            queryParam = 'transmissionTypeIds';
+            stateKey = 'allTransmissionTypes';
+            break;
+          case 'Тип транспортного засобу':
+            queryParam = 'vTypeIds';
+            stateKey = 'allVTypes';
+            break;
+        }
+
+        if (!queryParam || !stateKey) return;
+
+        if (item.status === true) {
+          // Встановлюємо статус true, якщо він ще не true
+          const updated = (store as any)
+            [stateKey]()
+            .map((i: any) =>
+              i.id === item.id && i.status !== true ? { ...i, status: true } : i
+            );
+          patchState(store, { [stateKey]: updated });
+
+          // Додаємо id до query param
+          this._addIdToQueryParam(queryParam, item.id);
         } else {
-          if (event.filterType === 'Тип двигуна') {
-            const updatedEngines = store
-              .allEngines()
-              .map((i) =>
-                i.id === event.item.id ? { ...i, status: false } : i
-              );
-            patchState(store, { allEngines: updatedEngines });
-          } else if (event.filterType === 'Тип приводу') {
-            const updated = store
-              .allDriveTrains()
-              .map((i) =>
-                i.id === event.item.id ? { ...i, status: false } : i
-              );
-            patchState(store, { allDriveTrains: updated });
-          } else if (event.filterType === 'Тип кузова') {
-            const updated = store
-              .allBodyTypes()
-              .map((i) =>
-                i.id === event.item.id ? { ...i, status: false } : i
-              );
-            patchState(store, { allBodyTypes: updated });
-          } else if (event.filterType === 'Тип трансмісії') {
-            const updated = store
-              .allTransmissionTypes()
-              .map((i) =>
-                i.id === event.item.id ? { ...i, status: false } : i
-              );
-            patchState(store, { allTransmissionTypes: updated });
-          } else if (event.filterType === 'Тип транспортного засобу') {
-            const updated = store
-              .allVTypes()
-              .map((i) =>
-                i.id === event.item.id ? { ...i, status: false } : i
-              );
-            patchState(store, { allVTypes: updated });
-          }
+          // Встановлюємо статус false
+          const updated = (store as any)().map((i: any) =>
+            i.id === item.id ? { ...i, status: false } : i
+          );
+          patchState(store, { [stateKey]: updated });
+
+          // Видаляємо id з query param
+          this._removeIdFromQueryParam(queryParam, item.id);
         }
 
         store.updateSearchCriteria('allEngines', 'engineTypeIds');
@@ -463,50 +431,81 @@ export const VehicleFilterStore = signalStore(
         patchState(store, { generalReload: true });
         store.loadPriceRange();
       },
+      _addIdToQueryParam(param: string, id: string): void {
+        const current = route.snapshot.queryParamMap.get(param);
+        const ids = current ? current.split(',') : [];
+
+        if (!ids.includes(id)) {
+          ids.push(id);
+          this._updateQueryParams({ [param]: ids.join(',') });
+        }
+      },
+      _removeIdFromQueryParam(param: string, id: string): void {
+        const current = route.snapshot.queryParamMap.get(param);
+        const ids = current ? current.split(',') : [];
+
+        const filtered = ids.filter((existingId) => existingId !== id);
+        this._updateQueryParams({
+          [param]: filtered.length ? filtered.join(',') : null,
+        });
+      },
       deleteEntryFromCheckbox(entry: {
         id: string;
         name: string;
         status?: boolean;
       }) {
-        // --- Engines
         if (entry.status) {
-          const updatedAll = store
-            .allEngines()
-            .map((engine) =>
-              engine.id === entry.id ? { ...engine, status: false } : engine
-            );
-          patchState(store, { allEngines: updatedAll });
-        }
-        // --- Drivetrain Types
+          // --- Engines
+          const updatedEngines = store.allEngines().map((engine) => {
+            if (engine.id === entry.id) {
+              this._removeIdFromQueryParam('engineTypeIds', entry.id);
+              return { ...engine, status: false };
+            }
+            return engine;
+          });
+          patchState(store, { allEngines: updatedEngines });
 
-        if (entry.status) {
-          const updatedAll = store
-            .allDriveTrains()
-            .map((dt) => (dt.id === entry.id ? { ...dt, status: false } : dt));
-          patchState(store, { allDriveTrains: updatedAll });
-        }
+          // --- Drivetrain Types
+          const updatedDrivetrains = store.allDriveTrains().map((dt) => {
+            if (dt.id === entry.id) {
+              this._removeIdFromQueryParam('drivetrainTypeIds', entry.id);
+              return { ...dt, status: false };
+            }
+            return dt;
+          });
+          patchState(store, { allDriveTrains: updatedDrivetrains });
 
-        // --- Body Types
-        if (entry.status) {
-          const updatedAll = store
-            .allBodyTypes()
-            .map((bt) => (bt.id === entry.id ? { ...bt, status: false } : bt));
-          patchState(store, { allBodyTypes: updatedAll });
-        }
+          // --- Body Types
+          const updatedBodyTypes = store.allBodyTypes().map((bt) => {
+            if (bt.id === entry.id) {
+              this._removeIdFromQueryParam('bodyTypeIds', entry.id);
+              return { ...bt, status: false };
+            }
+            return bt;
+          });
+          patchState(store, { allBodyTypes: updatedBodyTypes });
 
-        // --- Transmission Types
-        if (entry.status) {
-          const updatedAll = store
+          // --- Transmission Types
+          const updatedTransmissions = store
             .allTransmissionTypes()
-            .map((tt) => (tt.id === entry.id ? { ...tt, status: false } : tt));
-          patchState(store, { allTransmissionTypes: updatedAll });
-        }
-        // --- VTypes
-        if (entry.status) {
-          const updatedAll = store
-            .allVTypes()
-            .map((vt) => (vt.id === entry.id ? { ...vt, status: false } : vt));
-          patchState(store, { allVTypes: updatedAll });
+            .map((tt) => {
+              if (tt.id === entry.id) {
+                this._removeIdFromQueryParam('transmissionTypeIds', entry.id);
+                return { ...tt, status: false };
+              }
+              return tt;
+            });
+          patchState(store, { allTransmissionTypes: updatedTransmissions });
+
+          // --- VTypes
+          const updatedVTypes = store.allVTypes().map((vt) => {
+            if (vt.id === entry.id) {
+              this._removeIdFromQueryParam('vTypeIds', entry.id);
+              return { ...vt, status: false };
+            }
+            return vt;
+          });
+          patchState(store, { allVTypes: updatedVTypes });
         }
 
         store.updateSearchCriteria('allEngines', 'engineTypeIds');
@@ -555,7 +554,6 @@ export const VehicleFilterStore = signalStore(
               }
               patchState(store, { highestPricePlug: null });
               patchState(store, { highestPriceUrlInit: undefined });
-              console.log(store.highestPriceUrlInit());
             }
             vehicleStore.setVehicleSearchCriterias({
               upperPriceLimit: store.upperPrice(),
@@ -570,8 +568,6 @@ export const VehicleFilterStore = signalStore(
               vehicleStore.loadVehicles();
               patchState(store, { generalReload: false });
             }
-            console.log(store.upperPrice());
-            console.log(store.lowerPrice());
           });
         }
       });
@@ -670,15 +666,15 @@ export const VehicleFilterStore = signalStore(
               });
               break;
             }
-            case 'engineId':
+            case 'engineTypeIds':
               patchState(store, {
-                allEngines: updateItemStatusById(store.allEngines(), value),
+                allEngines: updateItemsStatusByIds(store.allEngines(), value),
               });
               store.updateSearchCriteria('allEngines', 'engineTypeIds');
               break;
-            case 'transmissionId':
+            case 'transmissionTypeIds':
               patchState(store, {
-                allTransmissionTypes: updateItemStatusById(
+                allTransmissionTypes: updateItemsStatusByIds(
                   store.allTransmissionTypes(),
                   value
                 ),
@@ -688,22 +684,25 @@ export const VehicleFilterStore = signalStore(
                 'transmissionTypeIds'
               );
               break;
-            case 'bodyTypeId':
+            case 'bodyTypeIds':
               patchState(store, {
-                allBodyTypes: updateItemStatusById(store.allBodyTypes(), value),
+                allBodyTypes: updateItemsStatusByIds(
+                  store.allBodyTypes(),
+                  value
+                ),
               });
               store.updateSearchCriteria('allBodyTypes', 'bodyTypeIds');
               break;
-            case 'drivetrainId':
+            case 'drivetrainTypeIds':
               patchState(store, {
-                allDriveTrains: updateItemStatusById(
+                allDriveTrains: updateItemsStatusByIds(
                   store.allDriveTrains(),
                   value
                 ),
               });
               store.updateSearchCriteria('allDriveTrains', 'drivetrainTypeIds');
               break;
-            case 'vTypeId':
+            case 'vTypeIds':
               patchState(store, {
                 allVTypes: updateItemStatusById(store.allVTypes(), value),
               });

@@ -5,13 +5,12 @@ export interface SearchAdvancedParams{
     brand?: string;
     model?: string;
     engine?: string;
-    region?: string;
-    transmission?: string;
+    locationRegion?: string;
 
     //ids
     brandId?: string;
     modelId?: string;
-    engineId?: string;
-    regionId?: string;
-    transmissionId?: string;
+    engineTypeIds?: string;
+    locationRegionId?: string;
+    transmissionTypeIds?: string;
 }
