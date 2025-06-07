@@ -36,9 +36,9 @@
       >
         <!-- List Items -->
         @for (item of items(); track $index) {
-          <li class="pr-xs w-full">
+          <li class="pr-xs w-full" [class]="(item.name === selectedItemName()) && (deleteItemFromList()[0] && deleteItemFromList()[1]) ? 'hidden' : 'block'">
             <div
-              class="pl-sm py-xs pr-xs hover:bg-portGore-50 text-sm rounded-sm w-full"
+              class="pl-sm py-xs pr-xs text-sm hover:bg-portGore-50 rounded-sm w-full"
               (click)="handleNewChoicePicked(item)"
             >
               {{ item.name }}

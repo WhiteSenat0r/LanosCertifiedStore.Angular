@@ -22,6 +22,11 @@ export class VehicleDataViewComponent {
   @Input({ required: true }) vehicles!: Vehicle[] | undefined;
   isLoading = input.required<boolean>();
   viewMode = input.required<ViewMode>();
+  currentCurrencyHolder = input.required<{type: string; rates: number[]}>();
+
+  effecs = effect(() => {
+    console.log(this.currentCurrencyHolder());
+  })
 
   spinnerEffect = effect(() => {
     if (this.isLoading()) {

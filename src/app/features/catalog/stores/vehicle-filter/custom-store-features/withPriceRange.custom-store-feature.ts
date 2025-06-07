@@ -7,8 +7,9 @@ import {
 } from '@ngrx/signals';
 import { PriceRange } from '../../../../home/models/interfaces/PriceRange.interface';
 import { CatalogService } from '../../../services/catalog.service';
-import { inject } from '@angular/core';
+import { effect, inject } from '@angular/core';
 import { VehicleStore } from '../../vehicles/vehicles.store';
+import { Observable, tap } from 'rxjs';
 
 export function withPriceRange() {
   return signalStoreFeature(
@@ -28,12 +29,16 @@ export function withPriceRange() {
               patchState(store, { priceRange: response });
             });
         },
+        loadPriceRangePipe(): Observable<any> {
+          return catalogService
+            .getPriceRanges(vehicleStore.vehicleSearchCriterias())
+            .pipe(
+              tap((response) => {
+                patchState(store, { priceRange: response });
+              })
+            );
+        },
       })
     ),
-    withHooks({
-        onInit(store) {
-            store.loadPriceRange();
-        }
-    })
   );
 }

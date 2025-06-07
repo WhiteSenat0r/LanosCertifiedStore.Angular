@@ -50,8 +50,11 @@ import { LocationTown } from '../../../../shared/models/interfaces/vehicle-prope
     ]),
   ],
 })
-export class FilterDropdownComponent<T extends { id: string; name: string }>{
-  @ViewChild('dropdownContainer') dropdownContainer!: ElementRef<HTMLDivElement>;
+export class FilterDropdownComponent<T extends { id: string; name: string }> {
+  deleteItemFromList = signal<boolean[]>([false, false]);
+
+  @ViewChild('dropdownContainer')
+  dropdownContainer!: ElementRef<HTMLDivElement>;
 
   // Inputs
   items = input<T[]>();
@@ -101,6 +104,8 @@ export class FilterDropdownComponent<T extends { id: string; name: string }>{
         break;
       }
     }
+
+    this.deleteItemFromList.set([true, false]);
   }
 
   /** Toggle dropdown visibility */
@@ -132,5 +137,11 @@ export class FilterDropdownComponent<T extends { id: string; name: string }>{
 
   onAnimationDropDownDone(event: AnimationEvent) {
     this.animationState.set(event.toState);
+
+    this.deleteItemFromList.update((value) => {
+      const newValue = [...value];
+      newValue[1] = true;
+      return newValue;
+    });
   }
 }

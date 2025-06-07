@@ -1,14 +1,10 @@
 import {
-  AfterViewChecked,
-  AfterViewInit,
   Component,
   effect,
   ElementRef,
   HostListener,
   Inject,
   inject,
-  OnInit,
-  Renderer2,
   signal,
   viewChild,
   ViewChild,
@@ -23,6 +19,7 @@ import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehic
 import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-catalog',
@@ -56,8 +53,11 @@ export class CatalogComponent {
 
   // UI State
   @ViewChild('modelFilter') modelFilter!: ElementRef;
+  @ViewChild('modelFilter2') modelFilter2!: ElementRef;
   townFilter = viewChild.required<ElementRef>('townFilter');
+  townFilter2 = viewChild.required<ElementRef>('townFilter2');
   currentViewMode: ViewMode = ViewMode.grid;
+  mobiledEraseIsCalled = signal<boolean>(false);
 
   showModal = signal(false);
   @ViewChild('modalAside')
@@ -72,23 +72,20 @@ export class CatalogComponent {
 
   //** Change the page in pagination */
   handlePageChange(pageIndex: number) {
-    this.updateVehicleSearch({ pageIndex });
+    this.vehicleStore.setVehicleSearchCriterias({ pageIndex });
+    this.vehicleFilterStore.updateQueryParamsForPage(pageIndex);
+    this.vehicleStore.loadVehicles();
   }
-
-  /** Updates the selected vehicle color */
-  handleColorChange(color: VehicleColor) {
-    this.updateVehicleSearch({ colorId: color.id });
-    this.vehicleFilterStore.setColor(color);
-  }
-
   /** Updates the minimum price filter */
   handleMinPriceChange(min: number) {
-    this.updateVehicleSearch({ lowerPriceLimit: min });
+    this.vehicleStore.setVehicleSearchCriterias({ lowerPriceLimit: min });
+    this.vehicleStore.loadVehicles();
   }
 
   /** Updates the maximum price filter */
   handleMaxPriceChange(max: number) {
-    this.updateVehicleSearch({ upperPriceLimit: max });
+    this.vehicleStore.setVehicleSearchCriterias({ upperPriceLimit: max });
+    this.vehicleStore.loadVehicles();
   }
 
   handleTransitionToProductPage(vehicle: Vehicle) {
@@ -100,8 +97,10 @@ export class CatalogComponent {
   onDocumentClick(event: Event) {
     // Brands and models
     if (
-      this.modelFilter?.nativeElement.contains(event.target) &&
-      !this.vehicleFilterStore.brand()
+      (this.modelFilter?.nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.brand()) ||
+      (this.modelFilter2?.nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.brand())
     ) {
       this.vehicleFilterStore.changeShowBrandToolTip(true);
     } else if (this.vehicleFilterStore.showBrandToolTip()) {
@@ -110,8 +109,10 @@ export class CatalogComponent {
 
     // Regions and towns
     if (
-      this.townFilter().nativeElement.contains(event.target) &&
-      !this.vehicleFilterStore.region()
+      (this.townFilter().nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.region()) ||
+      (this.townFilter2().nativeElement.contains(event.target) &&
+        !this.vehicleFilterStore.region())
     ) {
       this.vehicleFilterStore.changeShowRegionToolTip(true);
     } else if (this.vehicleFilterStore.showRegionToolTip()) {
@@ -147,9 +148,12 @@ export class CatalogComponent {
     this.filterButtonRef = ref;
   }
 
-  /** Updates vehicle search criteria and reloads vehicles */
-  private updateVehicleSearch(criteria: Partial<VehicleSearchCriterias>) {
-    this.vehicleStore.setVehicleSearchCriterias(criteria);
-    this.vehicleStore.loadVehicles();
+  onClearClicked(option: string): void {
+    this.mobiledEraseIsCalled.set(true);
+
+    setTimeout(() => {
+      this.vehicleFilterStore.setPropertyStateToDefault(option);
+      this.mobiledEraseIsCalled.set(false);
+    }, 500);
   }
 }

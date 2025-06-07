@@ -13,7 +13,7 @@
 >
   <app-header></app-header>
   <div class="relative">
-    <div class="pt-sm pb-[14px]">
+    <div [class]="isMainPage ? '' : 'pt-sm pb-[14px]'">
       <app-breadcrumb-holder [isMainPage]="isMainPage"></app-breadcrumb-holder>
     </div>
 

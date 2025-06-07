@@ -5,7 +5,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { inject } from '@angular/core';
+import { effect, inject, untracked } from '@angular/core';
 import { PaginatedResult } from '../../../../shared/models/interfaces/api/PaginatedResult.interface';
 import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { VehicleSearchCriterias } from '../../models/classes/VehicleSearchCriterias.class';
@@ -35,7 +35,6 @@ export const VehicleStore = signalStore(
   withMethods((store, catalogService = inject(CatalogService)) => ({
     loadVehicles() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
-      console.log('times');
       this.loadVehicleCount();
       catalogService
         .getVehicles(vehicleSearchCriterias)
@@ -80,5 +79,5 @@ export const VehicleStore = signalStore(
         },
       });
     },
-  }))
+  })),
 );

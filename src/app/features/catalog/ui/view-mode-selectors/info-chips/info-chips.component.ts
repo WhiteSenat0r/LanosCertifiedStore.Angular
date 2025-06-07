@@ -1,11 +1,7 @@
-import {
-  Component,
-  computed,
-  input,
-  output,
-} from '@angular/core';
+import { Component, computed, effect, inject, input, output } from '@angular/core';
 import { VehicleInfoOptions } from '../../../models/interfaces/VehicleInfoOptions.interface';
 import { VehicleInfoArrays } from '../../../models/interfaces/VehicleInfoArrays.interface';
+import { VehicleFilterStore } from '../../../stores/vehicle-filter/vehicle-filter.store';
 
 // type InfoChipEntry = {
 //   property: string;
@@ -17,13 +13,16 @@ import { VehicleInfoArrays } from '../../../models/interfaces/VehicleInfoArrays.
   templateUrl: './info-chips.component.html',
 })
 export class InfoChipsComponent {
+  //FOR filter-price-sake!
+  readonly vehicleFilterStore = inject(VehicleFilterStore);
+
   // Inputs
   infoChips = input<VehicleInfoOptions>();
   infoArrays = input<VehicleInfoArrays>();
 
   // Outputs
   chipClick = output<string>();
-  arrayedChipClick = output< { id: string; name: string }>();
+  arrayedChipClick = output<{ id: string; name: string }>();
 
   // Computed
   infoChipsEntries = computed<any>(() => {
@@ -31,7 +30,13 @@ export class InfoChipsComponent {
     if (!data) return [];
 
     return Object.entries(data)
-      .filter(([_, value]) => {
+      .filter(([property, value]) => {
+        if (property === 'lowerPrice') {
+          return value !== this.vehicleFilterStore.priceRange().lowest;
+        }
+        if (property === 'upperPrice') {
+          return value !== this.vehicleFilterStore.priceRange().highest;
+        }
         return value !== undefined;
       })
       .map(([property, value]) => ({
@@ -76,7 +81,11 @@ export class InfoChipsComponent {
     this.chipClick.emit('eraseAll');
   }
 
-  handleCheckboxChipClick(entry: { id: string; name: string; status?: boolean}) {
+  handleCheckboxChipClick(entry: {
+    id: string;
+    name: string;
+    status?: boolean;
+  }) {
     this.arrayedChipClick.emit(entry);
   }
 }
