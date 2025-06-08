@@ -65,7 +65,7 @@ export class ProductComponent {
 
   handleBrandClicked(brandName: string) {
     this.router.navigate(['/catalog'], {
-      queryParams: { brandName: brandName },
+      queryParams: { brand: brandName },
     });
   }
 }

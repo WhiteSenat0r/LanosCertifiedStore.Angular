@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { CatalogComponent } from './catalog.component';
 
 const routes: Routes = [
-  { path: '', title: 'Catalog', component: CatalogComponent },
+  { path: '', title: 'Каталог', component: CatalogComponent },
   {
     path: ':id',
-    title: 'product',
+    title: 'Купити машину',
     loadChildren: () =>
       import('../product/product.module').then(
         (m) => m.ProductModule

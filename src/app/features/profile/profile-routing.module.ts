@@ -2,13 +2,25 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './profile.component';
 
-
 const routes: Routes = [
-  { path: '', title: 'Profile', component: ProfileComponent},
+  {
+    path: '',
+    title: 'Профіль користувача',
+    component: ProfileComponent,
+    data: { breadcrumb: { label: 'Профіль' } },
+  },
+  {
+    path: 'add-product',
+    loadChildren: () =>
+      import('../../features/add-product/add-product.module').then(
+        (m) => m.AddProductModule
+      ),
+    data: { breadcrumb: { label: 'Створення оголошення' } },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ProfileRoutingModule { }
+export class ProfileRoutingModule {}

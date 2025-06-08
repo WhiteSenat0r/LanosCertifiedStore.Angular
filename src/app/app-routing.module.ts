@@ -7,31 +7,30 @@ import { AuthCallbackComponent } from './core/auth/component/auth-callback.compo
 const routes: Routes = [
   {
     path: '',
-    title: 'Home',
+    title: 'Kolesko - Маркетплейс вживаних автомобілів',
     component: HomeComponent,
     data: { breadcrumb: { label: 'Колеско', info: 'home_xng' } },
   },
   {
     path: 'catalog',
-    title: 'catalog',
     loadChildren: () =>
       import('./features/catalog/catalog.module').then((m) => m.CatalogModule),
     data: { breadcrumb: { label: 'Каталог' } },
   },
   {
     path: 'profile',
-    title: 'profile',
     loadChildren: () =>
       import('./features/profile/profile.module').then((m) => m.ProfileModule),
     data: { breadcrumb: { label: 'Профіль' } },
   },
   {
     path: 'auth-callback',
-    component: AuthCallbackComponent
+    component: AuthCallbackComponent,
   },
   {
     path: 'auth',
-    loadChildren: () => import('./core/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () =>
+      import('./core/auth/auth.module').then((m) => m.AuthModule),
   },
   { path: '**', component: NotFoundComponent },
 ];
