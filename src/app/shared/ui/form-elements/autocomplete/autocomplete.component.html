@@ -1,0 +1,8 @@
+<div class="flex flex-col gap-xs w-full">
+  <div class="flex flex-row gap-[4px]" [class]="showError() ? 'text-redy-500' : 'text-black'">
+    <span>{{ label() }}</span>
+    <span>*</span>
+  </div>
+
+  <input [formControl]="formControlRef()" [placeholder]="placeholder()" />
+</div>

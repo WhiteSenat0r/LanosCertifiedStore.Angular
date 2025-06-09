@@ -13,8 +13,8 @@ import { FilterPriceByRangeElementsComponent } from './ui/filter-price-by-range-
 import { ColorPaletteComponent } from './ui/color-palette/color-palette.component';
 import { FilterCheckboxesComponent } from './ui/filter-checkboxes/filter-checkboxes.component';
 import { ImageErrorDirective } from '../../shared/directives/image-error.directive';
-import { TooltipComponent } from '../../shared/ui/tooltip/tooltip.component';
-import { TooltipUpsideDownComponent } from '../../shared/ui/tooltip-upside-down/tooltip-upside-down.component';
+import { TooltipComponent } from '../../shared/ui/other/tooltip/tooltip.component';
+import { TooltipUpsideDownComponent } from '../../shared/ui/other/tooltip-upside-down/tooltip-upside-down.component';
 import { InfoChipsComponent } from './ui/view-mode-selectors/info-chips/info-chips.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ListViewVehiclesOptionComponent } from './ui/vehicle-data-view/list-view-vehicles-option/list-view-vehicles-option.component';

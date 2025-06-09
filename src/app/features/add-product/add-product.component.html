@@ -6,5 +6,14 @@
   <app-stepper-element></app-stepper-element>
   <div class="pb-md"></div>
   <!--Form-->
-  <app-stepper-form></app-stepper-form>
+  @if(formStage() !== AddProductStages.photosUploadRequest) {
+  <app-stepper-form
+    [formStage]="formStage()"
+    (nextButtonClick)="handleNextButtonClick()"
+    (prevButtonClick)="handlePrevButtonClick()"
+    (saveButtonClick)=" handleSaveButtonOnStepperFormClick()"
+  ></app-stepper-form>
+  }@else {
+  <app-photo-upload-form></app-photo-upload-form>
+  }
 </div>

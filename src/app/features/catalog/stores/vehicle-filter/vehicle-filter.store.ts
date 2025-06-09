@@ -23,7 +23,7 @@ import { withCustomCurrency } from './custom-store-features/withCustomCurrency.c
 import { FilterProperty } from '../../models/enums/FilterProperty';
 import { VehicleInfoArrays } from '../../models/interfaces/VehicleInfoArrays.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { lastValueFrom, Subject, tap } from 'rxjs';
+import { lastValueFrom, Subject, Subscription, tap } from 'rxjs';
 import { CatalogService } from '../../services/catalog.service';
 
 //Util functions
@@ -47,6 +47,9 @@ type VehicleFilterState = {
 
   //
   sortingTypeChanging: boolean;
+
+  //
+  queryParamsSubscription: Subscription | null;
 };
 
 const initialFilterState: VehicleFilterState = {
@@ -58,6 +61,7 @@ const initialFilterState: VehicleFilterState = {
   highestPricePlug: false,
   highestPriceUrlInit: undefined,
   sortingTypeChanging: false,
+  queryParamsSubscription: null,
 };
 
 const priceRangeInitialized$ = new Subject<void>();
@@ -249,7 +253,7 @@ export const VehicleFilterStore = signalStore(
               transmissionTypeIds: [],
               vTypeIds: [],
               sortingType: SortDirection.AscPrice,
-              pageIndex: 1
+              pageIndex: 1,
             });
 
             this._updateQueryParams({
@@ -268,7 +272,7 @@ export const VehicleFilterStore = signalStore(
               transmissionTypeIds: undefined,
               vTypeIds: undefined,
               sortingType: undefined,
-              page: undefined
+              page: undefined,
             });
             break;
           }
@@ -585,146 +589,176 @@ export const VehicleFilterStore = signalStore(
       await lastValueFrom(store.loadTransmissionTypes());
       await lastValueFrom(store.loadVTypes());
       await lastValueFrom(store.loadRegions());
-      route.queryParamMap.subscribe(async (params) => {
-        for (let i = 0; i < params.keys.length; i++) {
-          const key = params.keys[i];
-          const value = params.get(key);
-          if (value === null) continue;
-          switch (key) {
-            case 'highestPrice':
-              if (store.highestPricePlug() !== null) {
-                patchState(store, { highestPriceUrlInit: Number(value) });
-                patchState(store, { highestPricePlug: true });
+      const queryParamsSubscription = route.queryParamMap.subscribe(
+        async (params) => {
+          let brandFound: boolean = false;
+          for (let i = 0; i < params.keys.length; i++) {
+            const key = params.keys[i];
+            const value = params.get(key);
+            if (value === null) continue;
+            switch (key) {
+              case 'highestPrice':
+                if (store.highestPricePlug() !== null) {
+                  patchState(store, { highestPriceUrlInit: Number(value) });
+                  patchState(store, { highestPricePlug: true });
+                }
+                break;
+              case 'colorId':
+                const ourColor = store
+                  .colors()
+                  .find((color) => color.id === value);
+                patchState(store, { color: ourColor });
+                vehicleStore.setVehicleSearchCriterias({
+                  colorId: ourColor?.id,
+                });
+                break;
+              case 'sortingType':
+                const enumValue =
+                  SortDirection[value as keyof typeof SortDirection];
+                patchState(store, { sortingType: enumValue });
+                break;
+              case 'brand':
+                if (!brandFound) {
+                  const ourBrand = store
+                    .brands()
+                    .find((brand) => brand.name === value);
+                  if (ourBrand) {
+                    patchState(store, { brand: ourBrand });
+                    vehicleStore.setVehicleSearchCriterias({
+                      brandId: ourBrand?.id,
+                    });
+                    await lastValueFrom(
+                      catalogService.getModels(store.brand()!.id).pipe(
+                        tap((response) => {
+                          patchState(store, { models: response.items });
+                        })
+                      )
+                    );
+                  }
+                }
+
+                break;
+              case 'brandId':
+                if (!brandFound) {
+                  const brand = store
+                    .brands()
+                    .find((brand) => brand.id === value);
+                  if (brand) {
+                    patchState(store, { brand });
+                    vehicleStore.setVehicleSearchCriterias({
+                      brandId: brand?.id,
+                    });
+                    await lastValueFrom(
+                      catalogService.getModels(store.brand()!.id).pipe(
+                        tap((response) => {
+                          patchState(store, { models: response.items });
+                        })
+                      )
+                    );
+                  }
+                }
+
+                break;
+              case 'locationRegionId': {
+                const region = store
+                  .regions()
+                  .find((region) => region.id === value);
+                patchState(store, { region: region });
+                vehicleStore.setVehicleSearchCriterias({
+                  locationRegionId: region?.id,
+                });
+                await lastValueFrom(
+                  catalogService.getTowns(store.region()!.id).pipe(
+                    tap((response) => {
+                      patchState(store, { towns: response.items });
+                    })
+                  )
+                );
+                break;
               }
-              break;
-            case 'colorId':
-              const ourColor = store
-                .colors()
-                .find((color) => color.id === value);
-              patchState(store, { color: ourColor });
-              vehicleStore.setVehicleSearchCriterias({
-                colorId: ourColor?.id,
-              });
-              break;
-            case 'sortingType':
-              const enumValue =
-                SortDirection[value as keyof typeof SortDirection];
-              patchState(store, { sortingType: enumValue });
-              break;
-            case 'brand':
-              const ourBrand = store
-                .brands()
-                .find((brand) => brand.name === value);
-              patchState(store, { brand: ourBrand });
-              vehicleStore.setVehicleSearchCriterias({
-                brandId: ourBrand?.id,
-              });
-              await lastValueFrom(
-                catalogService.getModels(store.brand()!.id).pipe(
-                  tap((response) => {
-                    patchState(store, { models: response.items });
-                  })
-                )
-              );
-              break;
-            case 'brandId':
-              const brand = store.brands().find((brand) => brand.id === value);
-              patchState(store, { brand });
-              vehicleStore.setVehicleSearchCriterias({
-                brandId: brand?.id,
-              });
-              await lastValueFrom(
-                catalogService.getModels(store.brand()!.id).pipe(
-                  tap((response) => {
-                    patchState(store, { models: response.items });
-                  })
-                )
-              );
-              break;
-            case 'locationRegionId': {
-              const region = store
-                .regions()
-                .find((region) => region.id === value);
-              patchState(store, { region: region });
-              vehicleStore.setVehicleSearchCriterias({
-                locationRegionId: region?.id,
-              });
-              await lastValueFrom(
-                catalogService.getTowns(store.region()!.id).pipe(
-                  tap((response) => {
-                    patchState(store, { towns: response.items });
-                  })
-                )
-              );
-              break;
+              case 'modelId':
+                const model = store
+                  .models()
+                  .find((model) => model.id === value);
+                if (model) {
+                  patchState(store, { model });
+                  vehicleStore.setVehicleSearchCriterias({
+                    modelId: model?.id,
+                  });
+                }
+                break;
+              case 'townId': {
+                const town = store.towns().find((town) => town.id === value);
+                patchState(store, { town });
+                vehicleStore.setVehicleSearchCriterias({
+                  townId: town?.id,
+                });
+                break;
+              }
+              case 'engineTypeIds':
+                patchState(store, {
+                  allEngines: updateItemsStatusByIds(store.allEngines(), value),
+                });
+                store.updateSearchCriteria('allEngines', 'engineTypeIds');
+                break;
+              case 'transmissionTypeIds':
+                patchState(store, {
+                  allTransmissionTypes: updateItemsStatusByIds(
+                    store.allTransmissionTypes(),
+                    value
+                  ),
+                });
+                store.updateSearchCriteria(
+                  'allTransmissionTypes',
+                  'transmissionTypeIds'
+                );
+                break;
+              case 'bodyTypeIds':
+                patchState(store, {
+                  allBodyTypes: updateItemsStatusByIds(
+                    store.allBodyTypes(),
+                    value
+                  ),
+                });
+                store.updateSearchCriteria('allBodyTypes', 'bodyTypeIds');
+                break;
+              case 'drivetrainTypeIds':
+                patchState(store, {
+                  allDriveTrains: updateItemsStatusByIds(
+                    store.allDriveTrains(),
+                    value
+                  ),
+                });
+                store.updateSearchCriteria(
+                  'allDriveTrains',
+                  'drivetrainTypeIds'
+                );
+                break;
+              case 'vTypeIds':
+                patchState(store, {
+                  allVTypes: updateItemStatusById(store.allVTypes(), value),
+                });
+                store.updateSearchCriteria('allVTypes', 'vTypeIds');
+                break;
             }
-            case 'modelId':
-              const model = store.models().find((model) => model.id === value);
-              patchState(store, { model });
-              vehicleStore.setVehicleSearchCriterias({
-                modelId: model?.id,
-              });
-              break;
-            case 'townId': {
-              const town = store.towns().find((town) => town.id === value);
-              patchState(store, { town });
-              vehicleStore.setVehicleSearchCriterias({
-                townId: town?.id,
-              });
-              break;
-            }
-            case 'engineTypeIds':
-              patchState(store, {
-                allEngines: updateItemsStatusByIds(store.allEngines(), value),
-              });
-              store.updateSearchCriteria('allEngines', 'engineTypeIds');
-              break;
-            case 'transmissionTypeIds':
-              patchState(store, {
-                allTransmissionTypes: updateItemsStatusByIds(
-                  store.allTransmissionTypes(),
-                  value
-                ),
-              });
-              store.updateSearchCriteria(
-                'allTransmissionTypes',
-                'transmissionTypeIds'
-              );
-              break;
-            case 'bodyTypeIds':
-              patchState(store, {
-                allBodyTypes: updateItemsStatusByIds(
-                  store.allBodyTypes(),
-                  value
-                ),
-              });
-              store.updateSearchCriteria('allBodyTypes', 'bodyTypeIds');
-              break;
-            case 'drivetrainTypeIds':
-              patchState(store, {
-                allDriveTrains: updateItemsStatusByIds(
-                  store.allDriveTrains(),
-                  value
-                ),
-              });
-              store.updateSearchCriteria('allDriveTrains', 'drivetrainTypeIds');
-              break;
-            case 'vTypeIds':
-              patchState(store, {
-                allVTypes: updateItemStatusById(store.allVTypes(), value),
-              });
-              store.updateSearchCriteria('allVTypes', 'vTypeIds');
-              break;
+          }
+
+          if (store.sortingTypeChanging() === false) {
+            patchState(store, { generalReload: true });
+            store.loadPriceRange();
+          } else {
+            patchState(store, { sortingTypeChanging: false });
           }
         }
-
-        if (store.sortingTypeChanging() === false) {
-          patchState(store, { generalReload: true });
-          store.loadPriceRange();
-        } else {
-          patchState(store, { sortingTypeChanging: false });
-        }
-      });
+      );
+      // Save the subscription to the store for cleanup
+      patchState(store, { queryParamsSubscription });
+    },
+    onDestroy(store) {
+      const subscription = store.queryParamsSubscription?.();
+      if (subscription) {
+        subscription.unsubscribe();
+      }
     },
   })
 );
