@@ -42,23 +42,7 @@
       [options]="years()"
     ></app-autocomplete>
     <!--Mileage-->
-    <div class="flex flex-col gap-xs w-full">
-      <div class="flex flex-row gap-[4px]">
-        <span>Пробіг {{ "(км)" }}</span>
-        <span>*</span>
-      </div>
-
-      <div
-        class="flex flex-row items-center justify-between pr-[12px] gap-xs border border-portGore-950 rounded-[6px] text-portGore-500"
-      >
-        <input
-          type="text"
-          class="w-full bg-transparent border-0 focus:outline-none focus:ring-0"
-          formControlName="mileage"
-        />
-        <span> км </span>
-      </div>
-    </div>
+    <app-input-with-symbol [label]="'Пробіг (км)'" [symbol]="'км'" formControlName="mileage"></app-input-with-symbol>
   </div>
   <!--VALIDATION GENERAL TIP-->
   <div class="flex flex-row gap-[4px] pt-base text-portGore-500">

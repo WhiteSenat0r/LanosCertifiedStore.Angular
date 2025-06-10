@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Brand } from '../../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../../../shared/models/interfaces/vehicle-properties/Model.interface';
@@ -6,12 +6,15 @@ import { VType } from '../../../../../shared/models/interfaces/vehicle-propertie
 import { BodyType } from '../../../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
 import { VehicleLookupService } from '../../../../../shared/services/vehicle-lookup.service';
 import { ApiResponse } from '../../../../../shared/models/interfaces/api/ApiResponse.interface';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-start-step',
   templateUrl: './start-step.component.html',
 })
-export class StartStepComponent implements OnInit {
+export class StartStepComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject<void>();
+
   readonly vehicleLookup = inject(VehicleLookupService);
 
   startGroup = input.required<
@@ -37,6 +40,18 @@ export class StartStepComponent implements OnInit {
     this.getVTypes();
     this.getBodyTypes();
     this.getYears();
+
+    this.startGroup()
+      .controls.brand.valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((brand) => {
+        if (brand) {
+          this.vehicleLookup.getModels(brand.id).subscribe((response) => {
+            this.models.set(response.items);
+          });
+        } else {
+          this.models.set(undefined);
+        }
+      });
   }
 
   //Methods
@@ -69,5 +84,10 @@ export class StartStepComponent implements OnInit {
   }
   getYears() {
     this.years.set(this.vehicleLookup.getAvailableYearsMock());
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

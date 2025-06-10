@@ -25,7 +25,7 @@ export class StepperFormComponent {
       year: new FormControl<number | null>(null, Validators.required),
       mileage: new FormControl<number | null>(null, [
         Validators.required,
-        Validators.maxLength(10),
+        Validators.max(9999999999),
       ]),
     }),
     additionalInfo: new FormGroup({}),

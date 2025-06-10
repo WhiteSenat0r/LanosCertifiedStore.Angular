@@ -1,0 +1,25 @@
+<div class="flex flex-col gap-xs w-full">
+  <div class="flex flex-row items-end gap-[4px] text-portGore-950">
+    @if(showError()) {
+    <span class="text-sm text-red-500">{{ errorMessage() }}</span>
+    <span class="text-red-500">*</span>
+    }@else { @if(this.ngControl.control?.value !== null) {
+    <span>{{ label() }}</span> <span>✓</span>} @else {
+    <span>{{ label() }}</span> <span>*</span>} }
+  </div>
+  <div
+    class="relative flex flex-row w-full border rounded-[6px] py-[6px] px-sm bg-white transition-all duration-[0.120s]"
+    [class]="inputIsFocused() ? 'border-portGore-950' : 'border-kimberly-200'"
+  >
+    <input
+      [value]="inputText()"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      [placeholder]="placeholder() ?? ''"
+      class="focus:ring-0 focus:outline-none w-full bg-transparent"
+    />
+    <!--SYMBOL-->
+    <span class="text-portGore-700 pr-[2px]">{{ symbol() }}</span>
+  </div>
+</div>
