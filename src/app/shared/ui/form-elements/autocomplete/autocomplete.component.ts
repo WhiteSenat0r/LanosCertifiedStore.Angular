@@ -111,12 +111,6 @@ export class AutocompleteComponent<T extends HasIdAndName>
     if (errors['required']) {
       return `Поле "${this.label()}" є обов'язковим`;
     }
-    if (errors['maxlength']) {
-      return `Максимальна довжина: ${errors['maxlength'].requiredLength}`;
-    }
-    if (errors['minlength']) {
-      return `Мінімальна довжина: ${errors['minlength'].requiredLength}`;
-    }
 
     return 'Невірне значення';
   });
