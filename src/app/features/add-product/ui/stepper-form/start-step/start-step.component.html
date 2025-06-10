@@ -1,66 +1,68 @@
-<!--Step name + Step brief description-->
-<div class="flex flex-col gap-sm pb-[30px]">
-  <div class="flex flex-row gap-[12px]">
-    <app-icon-car-sport [svgClass]="'size-[34px]'"></app-icon-car-sport>
-    <span class="text-h4 font-code">Основна Інформація</span>
-  </div>
-  <span class="text-sm text-portGore-800"
-    >Вкажіть основну інформацію про Ваш автомобіль</span
-  >
-</div>
-<!--"Inputs"-->
-<div class="grid grid-cols-2 grid-rows-3 gap-y-md gap-x-2xl">
-  <!--Brand-->
-  <app-autocomplete
-    [label]="'Марка автомобіля'"
-    [formControlRef]="brand()"
-    [options]="brands()"
-  ></app-autocomplete>
-  <!--Model-->
-  <app-autocomplete
-    [label]="'Модель автомобіля'"
-    [formControlRef]="model()"
-    [options]="models()"
-  ></app-autocomplete>
-  <!--Vehicle Type-->
-  <app-autocomplete
-    [label]="'Тип транспорту'"
-    [formControlRef]="vType()"
-    [options]="vTypes()"
-  ></app-autocomplete>
-  <!--Body Type-->
-  <app-autocomplete
-    [label]="'Тип кузова'"
-    [formControlRef]="bodyType()"
-    [options]="bodyTypes()"
-  ></app-autocomplete>
-  <!--Year-->
-  <app-autocomplete
-    [label]="'Рік випуску'"
-    [formControlRef]="year()"
-    [options]="years()"
-  ></app-autocomplete>
-  <!--Mileage-->
-  <div class="flex flex-col gap-xs w-full">
-    <div class="flex flex-row gap-[4px]">
-      <span>Пробіг {{ "(км)" }}</span>
-      <span>*</span>
+<div [formGroup]="startGroup()">
+  <!--Step name + Step brief description-->
+  <div class="flex flex-col gap-sm pb-[30px]">
+    <div class="flex flex-row gap-[12px]">
+      <app-icon-car-sport [svgClass]="'size-[34px]'"></app-icon-car-sport>
+      <span class="text-h4 font-code">Основна Інформація</span>
     </div>
-
-    <div
-      class="flex flex-row items-center justify-between pr-[12px] gap-xs border border-portGore-950 rounded-[6px] text-portGore-500"
+    <span class="text-sm text-portGore-800"
+      >Вкажіть основну інформацію про Ваш автомобіль</span
     >
-      <input
-        type="text"
-        class="w-full bg-transparent border-0 focus:outline-none focus:ring-0"
-        [formControl]="mileage()"
-      />
-      <span> км </span>
+  </div>
+  <!--"Inputs"-->
+  <div class="grid grid-cols-2 grid-rows-3 gap-y-md gap-x-2xl">
+    <!--Brand-->
+    <app-autocomplete
+      [label]="'Марка автомобіля'"
+      formControlName="brand"
+      [options]="brands()"
+    ></app-autocomplete>
+    <!--Model-->
+    <app-autocomplete
+      [label]="'Модель автомобіля'"
+      formControlName="model"
+      [options]="models()"
+    ></app-autocomplete>
+    <!--Vehicle Type-->
+    <app-autocomplete
+      [label]="'Тип транспорту'"
+      formControlName="vType"
+      [options]="vTypes()"
+    ></app-autocomplete>
+    <!--Body Type-->
+    <app-autocomplete
+      [label]="'Тип кузова'"
+      formControlName="bodyType"
+      [options]="bodyTypes()"
+    ></app-autocomplete>
+    <!--Year-->
+    <app-autocomplete
+      [label]="'Рік випуску'"
+      formControlName="year"
+      [options]="years()"
+    ></app-autocomplete>
+    <!--Mileage-->
+    <div class="flex flex-col gap-xs w-full">
+      <div class="flex flex-row gap-[4px]">
+        <span>Пробіг {{ "(км)" }}</span>
+        <span>*</span>
+      </div>
+
+      <div
+        class="flex flex-row items-center justify-between pr-[12px] gap-xs border border-portGore-950 rounded-[6px] text-portGore-500"
+      >
+        <input
+          type="text"
+          class="w-full bg-transparent border-0 focus:outline-none focus:ring-0"
+          formControlName="mileage"
+        />
+        <span> км </span>
+      </div>
     </div>
   </div>
-</div>
-<!--VALIDATION GENERAL TIP-->
-<div class="flex flex-row gap-[4px] pt-base text-portGore-500">
-  <span>*</span>
-  <span>поля обов'язкові до заповнення</span>
+  <!--VALIDATION GENERAL TIP-->
+  <div class="flex flex-row gap-[4px] pt-base text-portGore-500">
+    <span>*</span>
+    <span>поля обов'язкові до заповнення</span>
+  </div>
 </div>

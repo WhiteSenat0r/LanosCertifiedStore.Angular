@@ -47,8 +47,9 @@ export class StepperFormComponent {
   handleNextButtonClick() {
     if (this.formStage() === AddProductStages.start) {
       const startGroup = this.form.controls.startInfo as FormGroup;
-
+      startGroup.markAllAsTouched();
       if (startGroup.invalid) {
+        console.log(startGroup.controls);
       } else {
         this.nextButtonClick.emit();
       }

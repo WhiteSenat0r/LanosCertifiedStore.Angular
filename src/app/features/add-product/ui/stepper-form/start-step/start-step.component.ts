@@ -1,5 +1,5 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Brand } from '../../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../../../shared/models/interfaces/vehicle-properties/Model.interface';
 import { VType } from '../../../../../shared/models/interfaces/vehicle-properties/VType.interface';
@@ -14,12 +14,16 @@ import { ApiResponse } from '../../../../../shared/models/interfaces/api/ApiResp
 export class StartStepComponent implements OnInit {
   readonly vehicleLookup = inject(VehicleLookupService);
 
-  brand = input.required<FormControl<Brand | null>>();
-  model = input.required<FormControl<Model | null>>();
-  vType = input.required<FormControl<VType | null>>();
-  bodyType = input.required<FormControl<BodyType | null>>();
-  year = input.required<FormControl<number | null>>();
-  mileage = input.required<FormControl<number | null>>();
+  startGroup = input.required<
+    FormGroup<{
+      brand: FormControl<Brand | null>;
+      model: FormControl<Model | null>;
+      vType: FormControl<VType | null>;
+      bodyType: FormControl<BodyType | null>;
+      year: FormControl<number | null>;
+      mileage: FormControl<number | null>;
+    }>
+  >();
 
   brands = signal<Brand[] | undefined>(undefined);
   models = signal<Model[] | undefined>(undefined);
@@ -42,9 +46,10 @@ export class StartStepComponent implements OnInit {
     });
   }
   getModels() {
-    if (this.brand().value) {
+    const brand = this.startGroup().controls.brand.value;
+    if (brand) {
       this.vehicleLookup
-        .getModels(this.brand().value!.id)
+        .getModels(brand.id)
         .subscribe((response: ApiResponse<Brand>) => {
           this.brands.set(response.items);
         });

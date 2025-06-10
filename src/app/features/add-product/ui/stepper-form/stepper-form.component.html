@@ -5,12 +5,7 @@
 >
   @if(formStage() === AddProductStages.start){
   <app-start-step
-    [brand]="form.controls.startInfo.controls.brand"
-    [model]="form.controls.startInfo.controls.model"
-    [vType]="form.controls.startInfo.controls.vType"
-    [year]="form.controls.startInfo.controls.year"
-    [bodyType]="form.controls.startInfo.controls.bodyType"
-    [mileage]="form.controls.startInfo.controls.mileage"
+  [startGroup]="form.controls.startInfo"
   ></app-start-step>
   } @if(formStage() === AddProductStages.additional){
   <app-additional-step></app-additional-step>
@@ -63,3 +58,6 @@
     </button>
   </div>
 </form>
+<div>
+  {{ form.value | json }}
+</div>
