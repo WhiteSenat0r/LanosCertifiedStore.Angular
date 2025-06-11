@@ -1,111 +1,44 @@
-<div class="container mx-auto py-8 px-4">
-    <div class="max-w-[1200px] mx-auto">
-        <div class="w-full rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
-            <div class="w-full md:w-1/3 h-[242px]">
-                <img src="bmw.png" alt="BMW M2 2023" class="object-cover w-full h-full" />
-            </div>
+<div class="flex justify-between items-center p-sm rounded-md">
 
-            <div class="w-full md:w-2/3 flex flex-col md:flex-row">
-                <div class="w-full md:w-2/3 p-6 flex flex-col justify-between">
-                    <div class="mb-4">
-                        <h2 class="text-xl font-semibold text-gray-900">BMW M2 2023</h2>
-                        <p class="text-lg font-semibold mt-1 flex items-baseline">
-                            65 000<span class="text-[#550665] pl-1">$</span>
-                        </p>
-                    </div>
+    <div class="flex flex-row items-center justify-center">
+        <button (click)="onTabChange('myOffers')" [ngClass]="{
+      'bg-gray-200': selectedTab === 'myOffers',
+      'bg-white': selectedTab !== 'myOffers'
+    }" class="border border-black text-black font-bold py-sm px-lg rounded-r-[18px] z-2" type="button">Мої
+            пропозиції</button>
+        <button (click)="onTabChange('favorites')" [ngClass]="{
+      'bg-gray-200': selectedTab === 'favorites',
+      'bg-white': selectedTab !== 'favorites'
+    }" class="border-t border-r border-b border-black text-black font-bold py-sm pl-[6px] pr-lg rounded-r-[18px] ml-[-8px]"
+            type="button">Обране</button>
+    </div>
 
-                    <div class="flex flex-wrap gap-2 text-md text-gray-700 mb-4">
-                        <span class="flex items-center gap-1 bg-[#ECE9F1] p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                class="text-[#353888]">
-                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2"
-                                    d="M3 22h12M4 9h10m0 13V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18m10-9h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5" />
-                            </svg> Бензин
-                        </span>
-                        <span class="flex items-center gap-1 bg-[#ECE9F1] p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256"
-                                class="text-[#353888]">
-                                <path fill="currentColor"
-                                    d="M128 64a40 40 0 1 0 40 40a40 40 0 0 0-40-40m0 64a24 24 0 1 1 24-24a24 24 0 0 1-24 24m0-112a88.1 88.1 0 0 0-88 88c0 31.4 14.51 64.68 42 96.25a254.2 254.2 0 0 0 41.45 38.3a8 8 0 0 0 9.18 0a254.2 254.2 0 0 0 41.37-38.3c27.45-31.57 42-64.85 42-96.25a88.1 88.1 0 0 0-88-88m0 206c-16.53-13-72-60.75-72-118a72 72 0 0 1 144 0c0 57.23-55.47 105-72 118" />
-                            </svg> Нетішин
-                        </span>
-                        <span class="flex items-center gap-1 bg-[#ECE9F1] p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                class="text-[#353888]">
-                                <path fill="currentColor"
-                                    d="M8 10h8v8h-5l-2-2H7v-5m0-7v2h3v2H7l-2 2v3H3v-3H1v8h2v-3h2v3h3l2 2h8v-4h2v3h3V9h-3v3h-2V8h-6V6h3V4z" />
-                            </svg> 3.0 л
-                        </span>
-                        <span class="flex items-center gap-1 bg-[#ECE9F1] p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"
-                                class="text-[#353888]">
-                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="32"
-                                    d="M469.71 234.6c-7.33-9.73-34.56-16.43-46.08-33.94s-20.95-55.43-50.27-70S288 112 256 112s-88 4-117.36 18.63s-38.75 52.52-50.27 70s-38.75 24.24-46.08 33.97S29.8 305.84 32.94 336s9 48 9 48h86c14.08 0 18.66-5.29 47.46-8c31.6-3 62.6-4 80.6-4s50 1 81.58 4c28.8 2.73 33.53 8 47.46 8h85s5.86-17.84 9-48s-2.04-91.67-9.33-101.4M400 384h56v16h-56zm-344 0h56v16H56z" />
-                                <path fill="currentColor"
-                                    d="M364.47 309.16c-5.91-6.83-25.17-12.53-50.67-16.35S279 288 256.2 288s-33.17 1.64-57.61 4.81s-42.79 8.81-50.66 16.35C136.12 320.6 153.42 333.44 167 335c13.16 1.5 39.47.95 89.31.95s76.15.55 89.31-.95c13.56-1.65 29.62-13.6 18.85-25.84m67.1-66.11a3.23 3.23 0 0 0-3.1-3c-11.81-.42-23.8.42-45.07 6.69a93.9 93.9 0 0 0-30.08 15.06c-2.28 1.78-1.47 6.59 1.39 7.1a455 455 0 0 0 52.82 3.1c10.59 0 21.52-3 23.55-12.44a52.4 52.4 0 0 0 .49-16.51m-351.14 0a3.23 3.23 0 0 1 3.1-3c11.81-.42 23.8.42 45.07 6.69a93.9 93.9 0 0 1 30.08 15.06c2.28 1.78 1.47 6.59-1.39 7.1a455 455 0 0 1-52.82 3.1c-10.59 0-21.52-3-23.55-12.44a52.4 52.4 0 0 1-.49-16.51" />
-                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="32"
-                                    d="M432 192h16m-384 0h16m-2 19s46.35-12 178-12s178 12 178 12" />
-                            </svg> 50 тис. км
-                        </span>
-                        <span class="flex items-center gap-1 bg-[#ECE9F1] p-1 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                class="text-[#353888]">
-                                <g fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2">
-                                    <path
-                                        d="M3 6a2 2 0 1 0 4 0a2 2 0 1 0-4 0m7 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0m7 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0M3 18a2 2 0 1 0 4 0a2 2 0 1 0-4 0m7 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0M5 8v8m7-8v8" />
-                                    <path d="M19 8v2a2 2 0 0 1-2 2H5" />
-                                </g>
-                            </svg> Автомат
-                        </span>
-                    </div>
 
-                    <div class="mt-auto flex justify-end gap-2">
-                        <button class="flex bg-[#ECE9F1] items-center gap-2 p-1 rounded text-sm text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                class="text-[#353888]">
-                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="1.5"
-                                    d="M18.118 14.702L14 15.5c-2.782-1.396-4.5-3-5.5-5.5l.77-4.13L7.815 2H4.064c-1.128 0-2.016.932-1.847 2.047c.42 2.783 1.66 7.83 5.283 11.453c3.805 3.805 9.286 5.456 12.302 6.113c1.165.253 2.198-.655 2.198-1.848v-3.584z" />
-                            </svg> Контакти
-                        </button>
-                        <button class="flex bg-[#ECE9F1] items-center gap-2 p-1 rounded text-sm text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"
-                                class="text-[#353888]">
-                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="32"
-                                    d="M441.6 171.61L266.87 85.37a24.57 24.57 0 0 0-21.74 0L70.4 171.61A40 40 0 0 0 48 207.39V392c0 22.09 18.14 40 40.52 40h335c22.38 0 40.52-17.91 40.52-40V207.39a40 40 0 0 0-22.44-35.78" />
-                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="32"
-                                    d="M397.33 368L268.07 267.46a24 24 0 0 0-29.47 0L109.33 368m200-73l136-103m-384 0l139 105" />
-                            </svg> Написати
-                        </button>
-                    </div>
-                </div>
+    <button
+        class="flex items-center justify-center gap-xs border border-black rounded-full px-base py-sm w-[300px] text-md font-medium font-black">
+        <span class="text-portGore-600 text-lg">+</span>
+        Створити нове оголошення
+    </button>
+</div>
 
-                <div class="w-full md:w-1/3 p-6 flex flex-col justify-between gap-2">
-                    <div></div> <button
-                        class="flex border border-[#353888] items-center justify-center gap-2 p-1 rounded text-sm text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20"
-                            class="text-[#353888]">
-                            <path fill="currentColor"
-                                d="M17.181 2.927a2.975 2.975 0 0 0-4.259-.054l-9.375 9.375a2.44 2.44 0 0 0-.656 1.194l-.877 3.95a.5.5 0 0 0 .596.597l3.927-.873a2.5 2.5 0 0 0 1.234-.678l9.358-9.358a2.975 2.975 0 0 0 .052-4.153m-3.552.653a1.975 1.975 0 1 1 2.793 2.793l-.671.671l-2.793-2.792zm-1.378 1.38l2.793 2.792l-7.98 7.98a1.5 1.5 0 0 1-.744.409l-3.16.702l.708-3.183c.059-.267.193-.511.386-.704z" />
-                        </svg> Редагувати
-                    </button>
-                    <button
-                        class="flex border border-[#353888] items-center justify-center gap-2 p-1 rounded text-sm text-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20"
-                            class="text-[#353888]">
-                            <path fill="currentColor"
-                                d="m9.129 0l1.974.005c.778.094 1.46.46 2.022 1.078c.459.504.7 1.09.714 1.728h5.475a.69.69 0 0 1 .686.693a.69.69 0 0 1-.686.692l-1.836-.001v11.627c0 2.543-.949 4.178-3.041 4.178H5.419c-2.092 0-3.026-1.626-3.026-4.178V4.195H.686A.69.69 0 0 1 0 3.505c0-.383.307-.692.686-.692h5.47c.014-.514.205-1.035.554-1.55C7.23.495 8.042.074 9.129 0m6.977 4.195H3.764v11.627c0 1.888.52 2.794 1.655 2.794h9.018c1.139 0 1.67-.914 1.67-2.794zM6.716 6.34c.378 0 .685.31.685.692v8.05a.69.69 0 0 1-.686.692a.69.69 0 0 1-.685-.692v-8.05c0-.382.307-.692.685-.692m2.726 0c.38 0 .686.31.686.692v8.05a.69.69 0 0 1-.686.692a.69.69 0 0 1-.685-.692v-8.05c0-.382.307-.692.685-.692m2.728 0c.378 0 .685.31.685.692v8.05a.69.69 0 0 1-.685.692a.69.69 0 0 1-.686-.692v-8.05a.69.69 0 0 1 .686-.692M9.176 1.382c-.642.045-1.065.264-1.334.662c-.198.291-.297.543-.313.768l4.938-.001c-.014-.291-.129-.547-.352-.792c-.346-.38-.73-.586-1.093-.635z" />
-                        </svg> Видалити
-                    </button>
-                </div>
-            </div>
-        </div>
+
+<!-- Контент для вкладки "Мої пропозиції" -->
+<div *ngIf="selectedTab === 'myOffers'">
+    <div class="flex flex-col gap-md">
+        <app-carcard
+            *ngFor="let vehicle of vehicles"
+            [vehicle]="vehicle">
+        </app-carcard>
+    </div>
+</div>
+
+<!-- Контент для вкладки "Обране" -->
+<div *ngIf="selectedTab === 'favorites'">
+    <div class="flex flex-col gap-md">
+        <app-carcard
+            *ngFor="let vehicle of vehicles"
+            [vehicle]="vehicle">
+        </app-carcard>
     </div>
 </div>
 
