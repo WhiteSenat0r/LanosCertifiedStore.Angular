@@ -1,11 +1,15 @@
-<!--Step name + Step brief description-->
-<div class="flex flex-col gap-sm pb-[30px]">
-  <div class="flex flex-row gap-[12px]">
-    <app-icon-document-text [svgClass]="'size-[34px]'"></app-icon-document-text>
-    <span class="capitalize text-h4 font-code ">Додаткова інформація</span>
+<div [formGroup]="firstRequestGroup()">
+  <!--Step name + Step brief description-->
+  <div class="flex flex-col gap-sm pb-[30px]">
+    <div class="flex flex-row gap-[12px]">
+      <app-icon-document-text
+        [svgClass]="'size-[34px]'"
+      ></app-icon-document-text>
+      <span class="capitalize text-h4 font-code">Додаткова інформація</span>
+    </div>
+    <span class="text-sm text-portGore-800"
+      >Вкажіть додаткову інформацію про Ваш автомобіль</span
+    >
   </div>
-  <span class="text-sm text-portGore-800"
-    >Вкажіть додаткову інформацію про Ваш автомобіль</span
-  >
+  <div>Наші поля</div>
 </div>
-<div>Наші поля</div>

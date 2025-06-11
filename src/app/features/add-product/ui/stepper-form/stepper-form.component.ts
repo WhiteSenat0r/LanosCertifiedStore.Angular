@@ -6,6 +6,11 @@ import { Brand } from '../../../../shared/models/interfaces/vehicle-properties/B
 import { Model } from '../../../../shared/models/interfaces/vehicle-properties/Model.interface';
 import { VType } from '../../../../shared/models/interfaces/vehicle-properties/VType.interface';
 import { BodyType } from '../../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
+import { EngineType } from '../../../../shared/models/interfaces/vehicle-properties/EngineType.interface';
+import { DrivetrainType } from '../../../../shared/models/interfaces/vehicle-properties/DrivetrainType.interface';
+import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
+import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
+import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 
 @Component({
   selector: 'app-stepper-form',
@@ -25,10 +30,40 @@ export class StepperFormComponent {
       year: new FormControl<number | null>(null, Validators.required),
       mileage: new FormControl<number | null>(null, [
         Validators.required,
+        Validators.min(0),
         Validators.max(9999999999),
+        Validators.pattern(/^\d+$/),
       ]),
     }),
-    additionalInfo: new FormGroup({}),
+    additionalInfo: new FormGroup({
+      engineType: new FormControl<EngineType | null>(null, Validators.required),
+      drivetrainType: new FormControl<DrivetrainType | null>(
+        null,
+        Validators.required
+      ),
+      transmissionType: new FormControl<TransmissionType | null>(
+        null,
+        Validators.required
+      ),
+      displacement: new FormControl<string | null>(null, [
+        Validators.required, // Accept numbers like "1", "0.5", "2.4" but not "2.45", negative, zero or letters
+        Validators.pattern(/^(0\.[5-9]|[1-9](\.[0-9])?)$/),
+      ]),
+    }),
+    firstRequestInfo: new FormGroup({
+      color: new FormControl<VehicleColor | null>(null, Validators.required),
+      town: new FormControl<LocationTown | null>(null, Validators.required),
+      price: new FormControl<number | null>(null, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(1000000000),
+      ]),
+      description: new FormControl<string | null>(null, [
+        Validators.required,
+        Validators.minLength(50),
+        Validators.maxLength(2000),
+      ]),
+    }),
   });
 
   //Inputs
@@ -41,7 +76,20 @@ export class StepperFormComponent {
 
   //Methods
   onSubmit() {
-    console.log('published');
+    const startGroup = this.form.controls.startInfo as FormGroup;
+    const additionalGroup = this.form.controls.additionalInfo as FormGroup;
+    const firstRequestGroup = this.form.controls.firstRequestInfo as FormGroup;
+    firstRequestGroup.markAllAsTouched();
+    if (
+      firstRequestGroup.invalid ||
+      startGroup.invalid ||
+      additionalGroup.invalid
+    ) {
+      console.log('invalid values somewhere');
+    } else {
+      console.log('published');
+      // this.saveButtonClick.emit();
+    }
   }
 
   handleNextButtonClick() {
@@ -50,6 +98,14 @@ export class StepperFormComponent {
       startGroup.markAllAsTouched();
       if (startGroup.invalid) {
         console.log(startGroup.controls);
+      } else {
+        this.nextButtonClick.emit();
+      }
+    } else if (this.formStage() === AddProductStages.additional) {
+      const additionalGroup = this.form.controls.additionalInfo as FormGroup;
+      additionalGroup.markAllAsTouched();
+      if (additionalGroup.invalid) {
+        console.log(additionalGroup.controls);
       } else {
         this.nextButtonClick.emit();
       }

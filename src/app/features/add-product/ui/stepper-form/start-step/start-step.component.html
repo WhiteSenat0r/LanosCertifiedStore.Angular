@@ -12,11 +12,14 @@
   <!--"Inputs"-->
   <div class="grid grid-cols-2 grid-rows-3 gap-y-md gap-x-2xl">
     <!--Brand-->
-    <app-autocomplete
-      [label]="'Марка автомобіля'"
-      formControlName="brand"
-      [options]="brands()"
-    ></app-autocomplete>
+    <div class="w-full h-fit relative">
+      <app-autocomplete
+        [label]="'Марка автомобіля'"
+        formControlName="brand"
+        [options]="brands()"
+      ></app-autocomplete>
+    </div>
+
     <!--Model-->
     <app-autocomplete
       [label]="'Модель автомобіля'"
@@ -42,7 +45,11 @@
       [options]="years()"
     ></app-autocomplete>
     <!--Mileage-->
-    <app-input-with-symbol [label]="'Пробіг (км)'" [symbol]="'км'" formControlName="mileage"></app-input-with-symbol>
+    <app-input-with-symbol
+      [label]="'Пробіг (км)'"
+      [symbol]="'км'"
+      formControlName="mileage"
+    ></app-input-with-symbol>
   </div>
   <!--VALIDATION GENERAL TIP-->
   <div class="flex flex-row gap-[4px] pt-base text-portGore-500">

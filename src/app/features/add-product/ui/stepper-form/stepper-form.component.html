@@ -4,13 +4,11 @@
   class="bg-kimberly-50 rounded-xl p-[14px]"
 >
   @if(formStage() === AddProductStages.start){
-  <app-start-step
-  [startGroup]="form.controls.startInfo"
-  ></app-start-step>
+  <app-start-step [startGroup]="form.controls.startInfo"></app-start-step>
   } @if(formStage() === AddProductStages.additional){
-  <app-additional-step></app-additional-step>
+  <app-additional-step [additionalGroup]="form.controls.additionalInfo"></app-additional-step>
   } @if(formStage() === AddProductStages.firstRequest){
-  <app-first-request-step></app-first-request-step>
+  <app-first-request-step [firstRequestGroup]="form.controls.firstRequestInfo" ></app-first-request-step>
   }
   <!--NAVIGATION BUTTONS-->
   <div
@@ -32,23 +30,23 @@
     </button>
     <button
       type="button"
-      class="flex flex-row gap-[10px] bg-portGore-950 text-kimberly-50 px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
+      class="flex flex-row gap-[10px] bg-portGore-950 text-kimberly-50 px-[11px] py-[7px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
       (click)="handleNextButtonClick()"
       [class]="
-        formStage() !== AddProductStages.firstRequest
-          ? 'block'
-          : 'hidden'
+        formStage() !== AddProductStages.firstRequest ? 'block' : 'hidden'
       "
     >
-      <span>Далі</span>
+      <span class="capitalize">Перейти далі</span>
       <app-icon-outline-chevron-right
         [svgClass]="'size-[24px]'"
       ></app-icon-outline-chevron-right>
     </button>
     <button
       type="submit"
-      class="flex flex-row items-center gap-[10px] bg-portGore-950 text-kimberly-50 px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
-      [class]="formStage() === AddProductStages.firstRequest ? 'block' : 'hidden'"
+      class="flex flex-row items-center gap-[10px] bg-portGore-950 text-kimberly-50 px-[11px] py-[7px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
+      [class]="
+        formStage() === AddProductStages.firstRequest ? 'block' : 'hidden'
+      "
       (click)="saveButtonClick.emit()"
     >
       <span>Створити оголошення</span>
@@ -58,6 +56,6 @@
     </button>
   </div>
 </form>
-<div>
+<!-- <div>
   {{ form.value | json }}
-</div>
+</div> -->

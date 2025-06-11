@@ -10,6 +10,7 @@ import { Model } from '../models/interfaces/vehicle-properties/Model.interface';
 import { TransmissionType } from '../models/interfaces/vehicle-properties/TransmissionType.interface';
 import { BodyType } from '../models/interfaces/vehicle-properties/BodyType.interface';
 import { ApiResponse } from '../models/interfaces/api/ApiResponse.interface';
+import { LocationTown } from '../models/interfaces/vehicle-properties/LocationTown.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,9 @@ export class VehicleLookupService {
   }
   getBodyTypes() {
     return this.http.get<ApiResponse<BodyType>>(this.baseUrl + 'body-types');
+  }
+  getLocationTowns() {
+    return this.http.get<ApiResponse<LocationTown>>(this.baseUrl + 'location-towns')
   }
   getAvailableYearsMock(): number[] {
     const currentYear = new Date().getFullYear();

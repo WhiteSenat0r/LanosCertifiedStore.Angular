@@ -1,4 +1,11 @@
-import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Brand } from '../../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { Model } from '../../../../../shared/models/interfaces/vehicle-properties/Model.interface';
@@ -41,15 +48,21 @@ export class StartStepComponent implements OnInit, OnDestroy {
     this.getBodyTypes();
     this.getYears();
 
+    const modelControl = this.startGroup().controls.model;
+    modelControl.disable();
+
     this.startGroup()
       .controls.brand.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe((brand) => {
         if (brand) {
           this.vehicleLookup.getModels(brand.id).subscribe((response) => {
             this.models.set(response.items);
+            modelControl.enable();
           });
         } else {
           this.models.set(undefined);
+          modelControl.disable();
+          modelControl.setValue(null);
         }
       });
   }

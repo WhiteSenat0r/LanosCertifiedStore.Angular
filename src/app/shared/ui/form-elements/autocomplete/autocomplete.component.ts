@@ -81,6 +81,8 @@ export class AutocompleteComponent<T extends HasIdAndName>
 
   readonly controlErrors = signal<Record<string, any> | null>(null);
 
+  disabled = signal<boolean | undefined>(undefined);
+
   //Inputs
   label = input.required<string>();
   placeholder = input<string>();
@@ -188,6 +190,13 @@ export class AutocompleteComponent<T extends HasIdAndName>
     this.onTouched = fn;
   }
 
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled.set(isDisabled);
+    if (isDisabled) {
+      this.showDropdown.set(false);
+    }
+  }
+
   //Private methods
   private initControl() {
     const control = this.ngControl?.control;
@@ -211,6 +220,12 @@ export class AutocompleteComponent<T extends HasIdAndName>
         this.controlErrors.set(control.errors);
       });
   }
+
+  // private clearValue() {
+  //   this.inputText.set('');
+  //   this.onChange(null);
+  //   this.showDropdown.set(false);
+  // }
 
   ngOnDestroy(): void {
     this.destroy$.next();

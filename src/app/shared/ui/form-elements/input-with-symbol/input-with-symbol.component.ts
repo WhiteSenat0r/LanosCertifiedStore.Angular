@@ -68,6 +68,18 @@ export class InputWithSymbolComponent
       return `Мінімальна довжина: ${errors['minlength'].requiredLength}`;
     }
 
+    if (errors['pattern']) {
+      const required = errors['pattern'].requiredPattern;
+      switch (required) {
+        case '/^\\d+$/':
+          return 'Тільки цілі невід’ємні числа (без пробілів, літер і десяткових)';
+        case '/^(0\\.[5-9]|[1-9](\\.[0-9])?)$/':
+          return 'Неправильний формат обʼєму двигуна. Приклади: 0.5, 1, 2.4';
+        default:
+          return 'Невірний формат';
+      }
+    }
+
     if (errors['max']) {
       return `Максимальне значення: ${errors['max'].max}`;
     }

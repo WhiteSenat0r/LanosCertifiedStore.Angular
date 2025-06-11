@@ -3,6 +3,11 @@ import { VType } from '../../../../shared/models/interfaces/vehicle-properties/V
 import { Model } from '../../../../shared/models/interfaces/vehicle-properties/Model.interface';
 import { Brand } from '../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
 import { BodyType } from '../../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
+import { EngineType } from '../../../../shared/models/interfaces/vehicle-properties/EngineType.interface';
+import { DrivetrainType } from '../../../../shared/models/interfaces/vehicle-properties/DrivetrainType.interface';
+import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
+import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
+import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 export interface StepperForm {
   startInfo: FormGroup<{
     brand: FormControl<Brand | null>;
@@ -12,5 +17,16 @@ export interface StepperForm {
     year: FormControl<number | null>;
     mileage: FormControl<number | null>;
   }>;
-  additionalInfo: FormGroup<{}>;
+  additionalInfo: FormGroup<{
+    engineType: FormControl<EngineType | null>;
+    drivetrainType: FormControl<DrivetrainType | null>;
+    transmissionType: FormControl<TransmissionType | null>;
+    displacement: FormControl<string | null>;
+  }>;
+  firstRequestInfo: FormGroup<{
+    color: FormControl<VehicleColor | null>;
+    town: FormControl<LocationTown | null>;
+    price: FormControl<number | null>;
+    description: FormControl<string | null>;
+  }>;
 }
