@@ -49,7 +49,6 @@ export class StartStepComponent implements OnInit, OnDestroy {
     this.getYears();
 
     const modelControl = this.startGroup().controls.model;
-    modelControl.disable();
 
     this.startGroup()
       .controls.brand.valueChanges.pipe(takeUntil(this.destroy$))

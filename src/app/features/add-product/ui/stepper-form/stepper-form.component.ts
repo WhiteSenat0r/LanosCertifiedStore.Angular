@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, OnInit, output, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddProductStages } from '../../models/enums/AddProductStages.enum';
 import { StepperForm } from '../../models/interfaces/StepperForm.interface';
@@ -16,7 +16,7 @@ import { LocationTown } from '../../../../shared/models/interfaces/vehicle-prope
   selector: 'app-stepper-form',
   templateUrl: './stepper-form.component.html',
 })
-export class StepperFormComponent {
+export class StepperFormComponent implements OnInit {
   //Enums
   AddProductStages = AddProductStages;
 
@@ -73,6 +73,13 @@ export class StepperFormComponent {
   nextButtonClick = output<void>();
   prevButtonClick = output<void>();
   saveButtonClick = output<void>();
+
+  //Hooks
+  ngOnInit(): void {
+    if (this.form.controls.startInfo.controls.brand.value === null) {
+      this.form.controls.startInfo.controls.model.disable();
+    }
+  }
 
   //Methods
   onSubmit() {

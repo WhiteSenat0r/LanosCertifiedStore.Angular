@@ -1,1 +1,47 @@
-<p>stepper-element works!</p>
+<div class="w-full">
+  <div class="flex flex-row w-full items-center">
+    @for (step of steps; track step; let i = $index) {
+    <!-- Step -->
+    <div class="flex flex-col items-center mb-auto gap-xs relative z-10">
+      <!-- Icon -->
+      <div
+        class="p-[10px] w-fit rounded-full transition-colors"
+        [class.bg-portGore-300]="getStepStatus(i) === 'active'"
+        [class.bg-portGore-100]="getStepStatus(i) !== 'active'"
+      >
+        @if (getStepStatus(i) === 'completed') {
+        <!-- Completed icon -->
+        <app-icon-outline-check svgClass="size-[50px]"></app-icon-outline-check>
+        } @else { @switch (step.icon) { @case ('car') {
+        <app-icon-car-sport svgClass="size-[50px]"></app-icon-car-sport>
+        } @case ('cog') {
+        <app-icon-cog svgClass="size-[50px]"></app-icon-cog>
+        } @case ('doc') {
+        <app-icon-document-text svgClass="size-[50px]"></app-icon-document-text>
+        } @case ('camera') {
+        <app-icon-photo-camera svgClass="size-[50px]"></app-icon-photo-camera>
+        } } }
+      </div>
+
+      <!-- Description -->
+      <div class="flex flex-col items-center">
+        @for (line of step.lines; track $index) {
+        <span>{{ line }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- Progress Line -->
+    @if (i < steps.length - 1) {
+    <div class="flex-1 relative z-0">
+      <div
+        class="absolute top-1/2 left-0 w-full h-[2px] bg-portGore-100 -translate-y-1/2 rounded"
+      ></div>
+      <div
+        class="absolute top-1/2 left-0 h-[2px] bg-portGore-300 -translate-y-1/2 rounded transition-all duration-300"
+        [style.width.%]="getProgressWidth(i)"
+      ></div>
+    </div>
+    } }
+  </div>
+</div>
