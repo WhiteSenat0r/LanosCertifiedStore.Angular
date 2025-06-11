@@ -76,8 +76,9 @@
 
       <div #userMenu class="relative">
         <div class="flex flex-row items-center">
-          <kolesko-icon class="text-portGore-700" name="profile-main" [size]="36">
-          </kolesko-icon>
+          <a [routerLink]="['/profile']">
+            <kolesko-icon class="text-portGore-700 cursor-pointer" name="profile-main" [size]="36">
+            </kolesko-icon></a>
 
           <kolesko-icon class="text-portGore-700 cursor-pointer" name="arrow-down-main" [width]="22" [height]="20"
             (click)="toggleUserMenu($event)">
