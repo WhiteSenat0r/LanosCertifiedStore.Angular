@@ -1,4 +1,11 @@
-import { Component, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { BodyType } from '../../../../../shared/models/interfaces/vehicle-properties/BodyType.interface';
 import { Brand } from '../../../../../shared/models/interfaces/vehicle-properties/Brand.interface';
@@ -8,18 +15,23 @@ import { VehicleColor } from '../../../../../shared/models/interfaces/vehicle-pr
 import { LocationTown } from '../../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 import { VehicleLookupService } from '../../../../../shared/services/vehicle-lookup.service';
 import { ApiResponse } from '../../../../../shared/models/interfaces/api/ApiResponse.interface';
+import { LocationRegion } from '../../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-first-request-step',
   templateUrl: './first-request-step.component.html',
 })
-export class FirstRequestStepComponent {
+export class FirstRequestStepComponent implements OnInit, OnDestroy {
+  private readonly destroy$ = new Subject<void>();
+
   readonly vehicleLookup = inject(VehicleLookupService);
 
   firstRequestGroup = input.required<
     FormGroup<{
       color: FormControl<VehicleColor | null>;
       town: FormControl<LocationTown | null>;
+      region: FormControl<LocationRegion | null>;
       price: FormControl<number | null>;
       description: FormControl<string | null>;
     }>
@@ -27,11 +39,28 @@ export class FirstRequestStepComponent {
 
   colors = signal<VehicleColor[] | undefined>(undefined);
   towns = signal<LocationTown[] | undefined>(undefined);
+  regions = signal<LocationRegion[] | undefined>(undefined);
 
   //Hooks
   ngOnInit(): void {
     this.getColors();
-    this.getTowns();
+    this.getRegions();
+
+    const townControl = this.firstRequestGroup().controls.town;
+    this.firstRequestGroup()
+      .controls.region.valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((region) => {
+        if (region) {
+          this.vehicleLookup.getLocationTowns(region.id).subscribe((response) => {
+            this.towns.set(response.items);
+            townControl.enable();
+          });
+        } else {
+          this.towns.set(undefined);
+          townControl.disable();
+          townControl.setValue(null);
+        }
+      });
   }
 
   //Methods
@@ -42,11 +71,15 @@ export class FirstRequestStepComponent {
         this.colors.set(response.items);
       });
   }
-  getTowns() {
+  getRegions() {
     this.vehicleLookup
-      .getLocationTowns()
-      .subscribe((response: ApiResponse<LocationTown>) => {
-        this.towns.set(response.items);
+      .getLocationRegions()
+      .subscribe((response: ApiResponse<LocationRegion>) => {
+        this.regions.set(response.items);
       });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

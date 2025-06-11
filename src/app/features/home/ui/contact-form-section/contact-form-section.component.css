@@ -13,7 +13,7 @@ ul::-webkit-scrollbar-track {
 }
 
 textarea::-webkit-scrollbar-track {
-  @apply bg-portGore-200 rounded-sm
+  @apply bg-portGore-200 rounded-sm cursor-default
 }
 
 ul::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {

@@ -11,6 +11,7 @@ import { DrivetrainType } from '../../../../shared/models/interfaces/vehicle-pro
 import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
 import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
+import { LocationRegion } from '../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
 
 @Component({
   selector: 'app-stepper-form',
@@ -53,10 +54,12 @@ export class StepperFormComponent implements OnInit {
     firstRequestInfo: new FormGroup({
       color: new FormControl<VehicleColor | null>(null, Validators.required),
       town: new FormControl<LocationTown | null>(null, Validators.required),
+      region: new FormControl<LocationRegion | null>(null, Validators.required),
       price: new FormControl<number | null>(null, [
         Validators.required,
         Validators.min(0),
         Validators.max(1000000000),
+        Validators.pattern(/^\d+$/),
       ]),
       description: new FormControl<string | null>(null, [
         Validators.required,
@@ -73,29 +76,26 @@ export class StepperFormComponent implements OnInit {
   nextButtonClick = output<void>();
   prevButtonClick = output<void>();
   saveButtonClick = output<void>();
+  // cancel = output<void>();
 
   //Hooks
   ngOnInit(): void {
     if (this.form.controls.startInfo.controls.brand.value === null) {
       this.form.controls.startInfo.controls.model.disable();
     }
+    if (this.form.controls.firstRequestInfo.controls.region.value === null) {
+      this.form.controls.firstRequestInfo.controls.town.disable();
+    }
   }
 
   //Methods
   onSubmit() {
-    const startGroup = this.form.controls.startInfo as FormGroup;
-    const additionalGroup = this.form.controls.additionalInfo as FormGroup;
     const firstRequestGroup = this.form.controls.firstRequestInfo as FormGroup;
     firstRequestGroup.markAllAsTouched();
-    if (
-      firstRequestGroup.invalid ||
-      startGroup.invalid ||
-      additionalGroup.invalid
-    ) {
+    if (firstRequestGroup.invalid) {
       console.log('invalid values somewhere');
     } else {
       console.log('published');
-      // this.saveButtonClick.emit();
     }
   }
 

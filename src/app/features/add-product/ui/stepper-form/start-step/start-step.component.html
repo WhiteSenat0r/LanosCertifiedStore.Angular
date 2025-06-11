@@ -17,38 +17,43 @@
         [label]="'Марка автомобіля'"
         formControlName="brand"
         [options]="brands()"
+        [placeholder]="'Оберіть марку...'"
       ></app-autocomplete>
     </div>
-
     <!--Model-->
     <app-autocomplete
       [label]="'Модель автомобіля'"
       formControlName="model"
       [options]="models()"
+      [placeholder]="'Оберіть модель...'"
     ></app-autocomplete>
     <!--Vehicle Type-->
     <app-autocomplete
       [label]="'Тип транспорту'"
       formControlName="vType"
       [options]="vTypes()"
+      [placeholder]="'Оберіть тип транспорту...'"
     ></app-autocomplete>
     <!--Body Type-->
     <app-autocomplete
       [label]="'Тип кузова'"
       formControlName="bodyType"
       [options]="bodyTypes()"
+      [placeholder]="'Оберіть тип кузова...'"
     ></app-autocomplete>
     <!--Year-->
     <app-autocomplete
       [label]="'Рік випуску'"
       formControlName="year"
       [options]="years()"
+      [placeholder]="'Оберіть рік випуску...'"
     ></app-autocomplete>
     <!--Mileage-->
     <app-input-with-symbol
       [label]="'Пробіг (км)'"
       [symbol]="'км'"
       formControlName="mileage"
+      [placeholder]="'Введіть кількість пробігу...'"
     ></app-input-with-symbol>
   </div>
   <!--VALIDATION GENERAL TIP-->

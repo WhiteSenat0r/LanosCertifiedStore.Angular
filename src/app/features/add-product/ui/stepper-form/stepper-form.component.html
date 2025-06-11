@@ -1,22 +1,21 @@
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  class="bg-kimberly-50 rounded-xl p-[14px]"
+  class="bg-kimberly-50 rounded-xl p-[14px] mb-[48px]"
 >
   @if(formStage() === AddProductStages.start){
   <app-start-step [startGroup]="form.controls.startInfo"></app-start-step>
   } @if(formStage() === AddProductStages.additional){
-  <app-additional-step [additionalGroup]="form.controls.additionalInfo"></app-additional-step>
+  <app-additional-step
+    [additionalGroup]="form.controls.additionalInfo"
+  ></app-additional-step>
   } @if(formStage() === AddProductStages.firstRequest){
-  <app-first-request-step [firstRequestGroup]="form.controls.firstRequestInfo" ></app-first-request-step>
+  <app-first-request-step
+    [firstRequestGroup]="form.controls.firstRequestInfo"
+  ></app-first-request-step>
   }
   <!--NAVIGATION BUTTONS-->
-  <div
-    class="flex flex-row items-center pt-base"
-    [class]="
-      formStage() === AddProductStages.start ? 'justify-end' : 'justify-between'
-    "
-  >
+  <div class="flex flex-row items-center pt-base justify-between">
     <button
       type="button"
       class="flex flex-row gap-[10px] bg-transparent border border-portGore-950 text-portGore-950 border- px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-portGore-100"
@@ -28,6 +27,19 @@
       ></app-icon-outline-chevron-right>
       <span>Назад</span>
     </button>
+    <!--PLUG-->
+    <div></div>
+    <!-- <button
+      type="button"
+      class="flex flex-row gap-[10px] bg-transparent border border-portGore-950 text-portGore-950 border- px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-redy-700 hover:text-kimberly-50 hover:border-transparent"
+      [class]="formStage() === AddProductStages.start ? 'block' : 'hidden'"
+      (click)="cancel.emit()"
+    >
+      <app-icon-exit-photo-form
+        [svgClass]="'size-[24px]'"
+      ></app-icon-exit-photo-form>
+      <span>Повернутися назад</span>
+    </button> -->
     <button
       type="button"
       class="flex flex-row gap-[10px] bg-portGore-950 text-kimberly-50 px-[11px] py-[7px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
@@ -47,7 +59,6 @@
       [class]="
         formStage() === AddProductStages.firstRequest ? 'block' : 'hidden'
       "
-      (click)="saveButtonClick.emit()"
     >
       <span>Створити оголошення</span>
       <app-icon-outline-check

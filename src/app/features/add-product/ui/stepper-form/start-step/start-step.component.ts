@@ -72,16 +72,6 @@ export class StartStepComponent implements OnInit, OnDestroy {
       this.brands.set(response.items);
     });
   }
-  getModels() {
-    const brand = this.startGroup().controls.brand.value;
-    if (brand) {
-      this.vehicleLookup
-        .getModels(brand.id)
-        .subscribe((response: ApiResponse<Brand>) => {
-          this.brands.set(response.items);
-        });
-    }
-  }
   getVTypes() {
     this.vehicleLookup.getVTypes().subscribe((response: ApiResponse<VType>) => {
       this.vTypes.set(response.items);

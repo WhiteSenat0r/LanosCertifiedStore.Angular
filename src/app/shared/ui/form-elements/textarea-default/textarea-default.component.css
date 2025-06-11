@@ -1,0 +1,21 @@
+textarea {
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+}
+
+.textareaScroller::-webkit-scrollbar {
+  @apply w-[5px];
+}
+.textareaScroller::-webkit-scrollbar-track {
+  @apply bg-portGore-300 rounded-r-full cursor-default;
+}
+
+.textareaScroller::-webkit-scrollbar-thumb {
+  @apply bg-portGore-500 rounded-full cursor-default;
+}

@@ -14,15 +14,13 @@
         ? 'border-portGore-950'
         : 'border-kimberly-200') +
       ' ' +
-      (disabled()
-        ? 'bg-kimberly-200 bg-opacity-50'
-        : 'bg-white')
+      (disabled() ? 'bg-kimberly-200 bg-opacity-50' : 'bg-white')
     "
   >
     <input
       [value]="inputText()"
       (input)="onInput($event)"
-      [placeholder]="placeholder() ?? ''"
+      [placeholder]="placeholder() && !disabled() ? placeholder() : ''"
       (focus)="onFocus()"
       class="focus:ring-0 focus:outline-none w-full bg-transparent pl-sm py-[6px]"
       [disabled]="disabled()"
@@ -30,6 +28,7 @@
 
     @if (this.ngControl.control?.value !== null) {
     <button
+      type="button"
       (click)="crossElementClicked()"
       [disabled]="disabled()"
       class="w-fit h-fit pl-base py-[6px] pr-sm"
@@ -42,6 +41,7 @@
 
     } @else {
     <button
+      type="button"
       [disabled]="disabled()"
       (click)="onSimpleArrowClick()"
       class="w-fit h-fit pl-base py-[6px] pr-sm"

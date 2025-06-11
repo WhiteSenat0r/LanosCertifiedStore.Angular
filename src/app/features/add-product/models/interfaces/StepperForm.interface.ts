@@ -8,6 +8,7 @@ import { DrivetrainType } from '../../../../shared/models/interfaces/vehicle-pro
 import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-properties/TransmissionType.interface';
 import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
+import { LocationRegion } from '../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
 export interface StepperForm {
   startInfo: FormGroup<{
     brand: FormControl<Brand | null>;
@@ -26,6 +27,7 @@ export interface StepperForm {
   firstRequestInfo: FormGroup<{
     color: FormControl<VehicleColor | null>;
     town: FormControl<LocationTown | null>;
+    region: FormControl<LocationRegion | null>;
     price: FormControl<number | null>;
     description: FormControl<string | null>;
   }>;

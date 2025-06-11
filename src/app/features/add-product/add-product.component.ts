@@ -11,7 +11,7 @@ export class AddProductComponent {
   //Enums
   AddProductStages = AddProductStages;
   //State
-  formStage = signal<AddProductStages>(AddProductStages.additional);
+  formStage = signal<AddProductStages>(AddProductStages.firstRequest);
 
   handlePrevButtonClick() {
     this.formStage.update((stage) => stage - 1);

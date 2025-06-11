@@ -11,6 +11,7 @@ import { TransmissionType } from '../models/interfaces/vehicle-properties/Transm
 import { BodyType } from '../models/interfaces/vehicle-properties/BodyType.interface';
 import { ApiResponse } from '../models/interfaces/api/ApiResponse.interface';
 import { LocationTown } from '../models/interfaces/vehicle-properties/LocationTown.interface';
+import { LocationRegion } from '../models/interfaces/vehicle-properties/LocationRegion.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,16 @@ export class VehicleLookupService {
     return this.http.get<ApiResponse<Model>>(this.baseUrl + 'models', {
       params,
     });
+  }
+  getLocationTowns(regionId: string) {
+    const params = new HttpParams()
+      .set('LocationRegionId', regionId)
+      .set('PageIndex', 1)
+      .set('ItemQuantity', 100);
+    return this.http.get<ApiResponse<LocationTown>>(
+      this.baseUrl + 'location-towns',
+      { params }
+    );
   }
   getVTypes() {
     return this.http.get<ApiResponse<VType>>(this.baseUrl + 'types');
@@ -55,9 +66,12 @@ export class VehicleLookupService {
   getBodyTypes() {
     return this.http.get<ApiResponse<BodyType>>(this.baseUrl + 'body-types');
   }
-  getLocationTowns() {
-    return this.http.get<ApiResponse<LocationTown>>(this.baseUrl + 'location-towns')
+  getLocationRegions() {
+    return this.http.get<ApiResponse<LocationRegion>>(
+      this.baseUrl + 'location-regions'
+    );
   }
+
   getAvailableYearsMock(): number[] {
     const currentYear = new Date().getFullYear();
     const startYear = 1980;

@@ -19,9 +19,10 @@ import { PhotoUploadFormComponent } from './ui/photo-upload-form/photo-upload-fo
 import { IconExitPhotoFormComponent } from "./icons/icon-exit-photo-form/icon-exit-photo-form.component";
 import { AutocompleteComponent } from "../../shared/ui/form-elements/autocomplete/autocomplete.component";
 import { InputWithSymbolComponent } from "../../shared/ui/form-elements/input-with-symbol/input-with-symbol.component";
+import { TextareaDefaultComponent } from "../../shared/ui/form-elements/textarea-default/textarea-default.component";
 
 @NgModule({
   declarations: [AddProductComponent, StepperFormComponent, InfoTitleComponent, StepperElementComponent, AdditionalStepComponent, StartStepComponent, FirstRequestStepComponent, PhotoUploadFormComponent],
-  imports: [CommonModule, AddProductRoutingModule, IconCogComponent, IconCarSportComponent, IconDocumentTextComponent, IconPhotoCameraComponent, IconOutlineCheckComponent, IconOutlineChevronRightComponent, ReactiveFormsModule, IconExitPhotoFormComponent, AutocompleteComponent, InputWithSymbolComponent],
+  imports: [CommonModule, AddProductRoutingModule, IconCogComponent, IconCarSportComponent, IconDocumentTextComponent, IconPhotoCameraComponent, IconOutlineCheckComponent, IconOutlineChevronRightComponent, ReactiveFormsModule, IconExitPhotoFormComponent, AutocompleteComponent, InputWithSymbolComponent, TextareaDefaultComponent],
 })
 export class AddProductModule {}
