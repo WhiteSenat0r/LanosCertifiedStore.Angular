@@ -11,15 +11,11 @@ import {
 } from '@angular/core';
 import { ViewMode } from './models/enums/ViewMode.enum';
 import { VehicleFilterStore } from './stores/vehicle-filter/vehicle-filter.store';
-import { VehicleColor } from '../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { FilterType } from './models/enums/FilterType.enum';
-import { VehicleSearchCriterias } from './models/classes/VehicleSearchCriterias.class';
 import { VehicleStore } from './stores/vehicles/vehicles.store';
 import { Vehicle } from '../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-catalog',

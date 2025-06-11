@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
-import { CoreModule } from '../../../core/core.module';
 import { CommonModule } from '@angular/common';
-import { SvgIconDisplayComponent } from '../../utils/svg-icon-display.component';
+import { SvgIconDisplayComponent } from '../../../utils/svg-icon-display.component';
 @Component({
   selector: 'app-breadcrumb-holder',
   templateUrl: './breadcrumb-holder.component.html',

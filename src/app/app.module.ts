@@ -11,10 +11,10 @@ import { provideHttpClient } from '@angular/common/http';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BreadcrumbHolderComponent } from './shared/ui/breadcrumb-holder/breadcrumb-holder.component';
 import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { AuthModule } from './core/auth/auth.module';
+import { BreadcrumbHolderComponent } from './shared/ui/other/breadcrumb-holder/breadcrumb-holder.component';
 
 @NgModule({
   declarations: [AppComponent],

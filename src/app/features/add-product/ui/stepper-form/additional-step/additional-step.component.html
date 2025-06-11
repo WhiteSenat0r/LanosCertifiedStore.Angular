@@ -1,0 +1,49 @@
+@let displacementLable = "Об'єм двигуна"; @let displacementPlaceholder =
+"Надайте об'єм двигуна...";
+<div [formGroup]="additionalGroup()">
+  <!--Step name + Step brief description-->
+  <div class="flex flex-col gap-sm pb-[30px]">
+    <div class="flex flex-row gap-[12px]">
+      <app-icon-cog [svgClass]="'size-[34px]'"></app-icon-cog>
+      <span class="text-h4 font-code">Технічні характеристики</span>
+    </div>
+    <span class="text-sm text-portGore-800"
+      >Вкажіть технічні характеристики вашого автомобілю</span
+    >
+  </div>
+  <div class="grid grid-cols-2 grid-rows-2 gap-y-md gap-x-2xl">
+    <!--Engine Type-->
+    <app-autocomplete
+      [label]="'Тип двигуна'"
+      formControlName="engineType"
+      [options]="engines()"
+      [placeholder]="'Оберіть тип двигуна...'"
+    ></app-autocomplete>
+    <!--Displacement-->
+    <app-input-with-symbol
+      [label]="displacementLable"
+      [symbol]="'л'"
+      formControlName="displacement"
+      [placeholder]="displacementPlaceholder"
+    ></app-input-with-symbol>
+    <!--Transmission Type-->
+    <app-autocomplete
+      [label]="'Коробка передач'"
+      formControlName="transmissionType"
+      [options]="transmissions()"
+      [placeholder]="'Оберіть коробку передач...'"
+    ></app-autocomplete>
+    <!--Drivetrain Type-->
+    <app-autocomplete
+      [label]="'Привід'"
+      formControlName="drivetrainType"
+      [options]="drivetrains()"
+      [placeholder]="'Оберіть тип приводу...'"
+    ></app-autocomplete>
+  </div>
+  <!--VALIDATION GENERAL TIP-->
+  <div class="flex flex-row gap-[4px] pt-base text-portGore-500">
+    <span>*</span>
+    <span>поля обов'язкові до заповнення</span>
+  </div>
+</div>

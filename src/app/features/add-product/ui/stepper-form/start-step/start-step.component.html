@@ -1,0 +1,64 @@
+<div [formGroup]="startGroup()">
+  <!--Step name + Step brief description-->
+  <div class="flex flex-col gap-sm pb-[30px]">
+    <div class="flex flex-row gap-[12px]">
+      <app-icon-car-sport [svgClass]="'size-[34px]'"></app-icon-car-sport>
+      <span class="text-h4 font-code">Основна Інформація</span>
+    </div>
+    <span class="text-sm text-portGore-800"
+      >Вкажіть основну інформацію про Ваш автомобіль</span
+    >
+  </div>
+  <!--"Inputs"-->
+  <div class="grid grid-cols-2 grid-rows-3 gap-y-md gap-x-2xl">
+    <!--Brand-->
+    <div class="w-full h-fit relative">
+      <app-autocomplete
+        [label]="'Марка автомобіля'"
+        formControlName="brand"
+        [options]="brands()"
+        [placeholder]="'Оберіть марку...'"
+      ></app-autocomplete>
+    </div>
+    <!--Model-->
+    <app-autocomplete
+      [label]="'Модель автомобіля'"
+      formControlName="model"
+      [options]="models()"
+      [placeholder]="'Оберіть модель...'"
+    ></app-autocomplete>
+    <!--Vehicle Type-->
+    <app-autocomplete
+      [label]="'Тип транспорту'"
+      formControlName="vType"
+      [options]="vTypes()"
+      [placeholder]="'Оберіть тип транспорту...'"
+    ></app-autocomplete>
+    <!--Body Type-->
+    <app-autocomplete
+      [label]="'Тип кузова'"
+      formControlName="bodyType"
+      [options]="bodyTypes()"
+      [placeholder]="'Оберіть тип кузова...'"
+    ></app-autocomplete>
+    <!--Year-->
+    <app-autocomplete
+      [label]="'Рік випуску'"
+      formControlName="year"
+      [options]="years()"
+      [placeholder]="'Оберіть рік випуску...'"
+    ></app-autocomplete>
+    <!--Mileage-->
+    <app-input-with-symbol
+      [label]="'Пробіг (км)'"
+      [symbol]="'км'"
+      formControlName="mileage"
+      [placeholder]="'Введіть кількість пробігу...'"
+    ></app-input-with-symbol>
+  </div>
+  <!--VALIDATION GENERAL TIP-->
+  <div class="flex flex-row gap-[4px] pt-base text-portGore-500">
+    <span>*</span>
+    <span>поля обов'язкові до заповнення</span>
+  </div>
+</div>

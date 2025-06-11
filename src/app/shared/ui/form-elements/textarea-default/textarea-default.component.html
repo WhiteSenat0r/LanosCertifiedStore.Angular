@@ -1,0 +1,23 @@
+<div class="flex flex-col gap-xs w-full">
+  <div class="flex flex-row items-end gap-[4px] text-portGore-950">
+    @if(showError()) {
+    <span class="text-sm text-red-500">{{ errorMessage() }}</span>
+    <span class="text-red-500">*</span>
+    }@else { @if(this.ngControl.control?.value !== null) {
+    <span>{{ label() }}</span> <span>✓</span>} @else {
+    <span>{{ label() }}</span> <span>*</span>} }
+  </div>
+  <div
+    class="relative flex flex-row w-full border rounded-[6px] bg-white transition-all duration-[0.120s] overflow-hidden"
+    [class]="inputIsFocused() ? 'border-portGore-950' : 'border-kimberly-200'"
+  >
+    <textarea
+      [value]="inputText()"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      [placeholder]="placeholder() ?? ''"
+      class="textareaScroller h-[156px] focus:ring-0 focus:outline-none border-none w-full bg-transparent px-sm pt-[6px] pb-[6px]"
+    ></textarea>
+  </div>
+</div>

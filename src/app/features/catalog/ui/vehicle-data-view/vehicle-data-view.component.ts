@@ -23,11 +23,6 @@ export class VehicleDataViewComponent {
   isLoading = input.required<boolean>();
   viewMode = input.required<ViewMode>();
   currentCurrencyHolder = input.required<{type: string; rates: number[]}>();
-
-  effecs = effect(() => {
-    console.log(this.currentCurrencyHolder());
-  })
-
   spinnerEffect = effect(() => {
     if (this.isLoading()) {
       this.spinner.show('catalogSpinner');
@@ -36,7 +31,6 @@ export class VehicleDataViewComponent {
       this.spinner.hide('catalogSpinner');
     }
   });
-
   goToProductPage = output<Vehicle>();
 
   handleCardClick(vehicle: Vehicle) {

@@ -1,0 +1,17 @@
+.Scroller {
+  max-height: 180px !important;
+  overflow-x: hidden !important;
+}
+.Scroller:empty {
+  display: none;
+}
+.Scroller::-webkit-scrollbar {
+  @apply w-[5px];
+}
+.Scroller::-webkit-scrollbar-track {
+  @apply bg-portGore-300 rounded-full;
+}
+
+.Scroller::-webkit-scrollbar-thumb {
+  @apply bg-portGore-500 rounded-full;
+}
