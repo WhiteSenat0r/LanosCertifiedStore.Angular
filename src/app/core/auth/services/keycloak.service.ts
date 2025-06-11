@@ -45,6 +45,13 @@ export class KeycloakService {
 
     window.location.href = `${authUrl}?${params.toString()}`;
   }
+public getAccessToken(): string | null {
+  return localStorage.getItem('kc_token');
+}
+
+  public isAuthenticated(): boolean {
+  return this.isAuthenticatedSubject.value;
+}
 
   public handleAuthCallback(code: string, state: string): Observable<TokenResponse> {
     const savedState = sessionStorage.getItem('kc_state');
