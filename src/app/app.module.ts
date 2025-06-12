@@ -7,14 +7,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './features/home/home.module';
-import { provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SvgIconDisplayComponent } from './shared/utils/svg-icon-display.component';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { AuthModule } from './core/auth/auth.module';
 import { BreadcrumbHolderComponent } from './shared/ui/other/breadcrumb-holder/breadcrumb-holder.component';
+import { AuthInterceptor } from './core/auth/interceptor/auth.interceptor';
+import { AuthService } from './core/auth/services/auth.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +39,15 @@ import { BreadcrumbHolderComponent } from './shared/ui/other/breadcrumb-holder/b
     NgxSpinnerModule,
     AuthModule,
   ],
-  providers: [provideHttpClient()],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    provideHttpClient(withInterceptorsFromDi())
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

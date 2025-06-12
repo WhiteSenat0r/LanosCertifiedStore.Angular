@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { SearchAdvancedParams } from './models/interfaces/SearchAdvancedParams.interface';
 import { HomeService } from './services/home.service';
 import { ApiResponse } from '../../shared/models/interfaces/api/ApiResponse.interface';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',

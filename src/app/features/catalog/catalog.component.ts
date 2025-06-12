@@ -52,7 +52,7 @@ export class CatalogComponent {
   @ViewChild('modelFilter2') modelFilter2!: ElementRef;
   townFilter = viewChild.required<ElementRef>('townFilter');
   townFilter2 = viewChild.required<ElementRef>('townFilter2');
-  currentViewMode: ViewMode = ViewMode.grid;
+  currentViewMode: ViewMode = ViewMode.list;
   mobiledEraseIsCalled = signal<boolean>(false);
 
   showModal = signal(false);
