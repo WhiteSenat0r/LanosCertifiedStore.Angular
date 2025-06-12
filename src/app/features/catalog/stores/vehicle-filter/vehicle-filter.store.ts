@@ -44,6 +44,7 @@ type VehicleFilterState = {
   generalReload: boolean;
   highestPricePlug: boolean | null;
   highestPriceUrlInit: number | undefined;
+  paginationReset: boolean;
 
   //
   sortingTypeChanging: boolean;
@@ -53,6 +54,7 @@ type VehicleFilterState = {
 };
 
 const initialFilterState: VehicleFilterState = {
+  paginationReset: true,
   color: undefined,
   lowerPrice: undefined,
   upperPrice: undefined,
@@ -283,18 +285,12 @@ export const VehicleFilterStore = signalStore(
             highestPrice: undefined,
           });
         });
-
-        patchState(store, { generalReload: true });
-        store.loadPriceRange();
       },
       handleCallForBrandChangeState(brand: Brand) {
         if (brand.id !== store.brand()?.id) {
           patchState(store, { brand });
-          vehicleStore.setVehicleSearchCriterias({ brandId: brand.id });
-          this._updateQueryParams({ brandId: brand.id, brand: brand.name });
 
-          store.loadPriceRange();
-          vehicleStore.loadVehicles();
+          this._updateQueryParams({ brandId: brand.id, brand: brand.name });
           patchState(store, { modelFilterReset: true });
           patchState(store, { model: undefined });
           setTimeout(() => {
@@ -534,6 +530,10 @@ export const VehicleFilterStore = signalStore(
         patchState(store, { generalReload: true });
         store.loadPriceRange();
       },
+      updatePaginationReset(value: boolean)
+      {
+        patchState(store, {paginationReset: false});
+      }
     })
   ),
   withHooks({
@@ -543,6 +543,9 @@ export const VehicleFilterStore = signalStore(
       vehicleStore = inject(VehicleStore),
       catalogService = inject(CatalogService)
     ) {
+      // effect(() => {
+      //   console.log(store.pageInitialization());
+      // })
       effect(() => {
         if (store.priceRange()) {
           untracked(() => {
@@ -591,12 +594,23 @@ export const VehicleFilterStore = signalStore(
       await lastValueFrom(store.loadRegions());
       const queryParamsSubscription = route.queryParamMap.subscribe(
         async (params) => {
+          if (store.paginationReset()) {
+            vehicleStore.setVehicleSearchCriterias({ pageIndex: 1 });
+            store.updateQueryParamsForPage(1);
+          } else {
+            patchState(store, { paginationReset: true });
+          }
           let brandFound: boolean = false;
           for (let i = 0; i < params.keys.length; i++) {
             const key = params.keys[i];
             const value = params.get(key);
             if (value === null) continue;
             switch (key) {
+              case 'page':
+                vehicleStore.setVehicleSearchCriterias({
+                  pageIndex: Number(value),
+                });
+                break;
               case 'highestPrice':
                 if (store.highestPricePlug() !== null) {
                   patchState(store, { highestPriceUrlInit: Number(value) });

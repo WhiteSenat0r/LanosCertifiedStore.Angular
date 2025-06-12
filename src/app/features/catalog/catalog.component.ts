@@ -68,6 +68,7 @@ export class CatalogComponent {
 
   //** Change the page in pagination */
   handlePageChange(pageIndex: number) {
+    this.vehicleFilterStore.updatePaginationReset(false);
     this.vehicleStore.setVehicleSearchCriterias({ pageIndex });
     this.vehicleFilterStore.updateQueryParamsForPage(pageIndex);
     this.vehicleStore.loadVehicles();
