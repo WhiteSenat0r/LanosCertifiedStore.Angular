@@ -118,7 +118,13 @@
           [size]="20"
         ></kolesko-icon>
         <app-icon-bookmark-main
-          innerClass="text-kimberly-50 w-[24px] py-xs cursor-pointer transition-all duration-200 hover:text-portGore-700"
+          (click)="handleBookmarkButtonClick(vehicle.id); $event.stopPropagation()"
+          [class]="
+            vehicle.isPresentInWishlist
+              ? 'text-redy-300 stroke-redy-500'
+              : 'text-kimberly-50 stroke-portGore-800'
+          "
+          innerClass="w-[24px] py-xs cursor-pointer transition-all duration-200"
           class="relative stroke-portGore-800"
         ></app-icon-bookmark-main>
       </div>
@@ -132,6 +138,7 @@
   [isLoading]="isLoading()"
   (goToProductPage)="handleCardClick($event)"
   [currentCurrencyHolder]="currentCurrencyHolder()"
+  (onBookmarkButtonClick)="handleBookmarkButtonClick($event)"
 ></app-list-view-vehicles-option>
 } @if(isLoading() && (vehicles === undefined || vehicles!.length === 0)) {
 <div

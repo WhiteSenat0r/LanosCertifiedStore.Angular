@@ -8,4 +8,5 @@ export interface Vehicle {
     mileage: number;
     price: number;
     bodyType: string;
+    isPresentInWishlist: boolean;
 }

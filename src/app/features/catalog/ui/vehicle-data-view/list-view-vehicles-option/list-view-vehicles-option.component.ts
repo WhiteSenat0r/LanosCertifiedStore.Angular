@@ -12,6 +12,7 @@ export class ListViewVehiclesOptionComponent {
   currentCurrencyHolder = input.required<{ type: string; rates: number[] }>();
 
   goToProductPage = output<Vehicle>();
+  onBookmarkButtonClick = output<string>();
 
   handleCardClick(vehicle: Vehicle) {
     this.goToProductPage.emit(vehicle);

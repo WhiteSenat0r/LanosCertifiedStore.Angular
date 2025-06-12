@@ -1,4 +1,4 @@
-import { Component, computed, input, OnInit } from '@angular/core';
+import { Component, computed, input, OnInit, output } from '@angular/core';
 import { ExtendedVehicle } from '../../../../shared/models/classes/vehicle-properties/ExtendedVehicle.class';
 
 @Component({
@@ -7,7 +7,12 @@ import { ExtendedVehicle } from '../../../../shared/models/classes/vehicle-prope
   styleUrl: './product-details.component.css',
 })
 export class ProductDetailsComponent {
+onBookmarkButtonClick() {
+throw new Error('Method not implemented.');
+}
   vehicle = input.required<ExtendedVehicle>();
+
+  bookmarkButtonClick = output<void>();
 
   vehicleDTO = computed<Partial<ExtendedVehicle>>(() => {
     return {
@@ -22,7 +27,7 @@ export class ProductDetailsComponent {
       vincode: this.vehicle().vincode,
       productionYear: this.vehicle().productionYear,
       type: this.vehicle().type,
-      engineType: this.vehicle().engineType
+      engineType: this.vehicle().engineType,
     };
   });
 }
