@@ -7,6 +7,7 @@ import { TabsComponent } from './tabs/tabs.component';
 import { ProfileComponent } from './profile.component';
 import { FormsModule } from '@angular/forms';
 import { CarcardComponent } from './carcard/carcard.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CarcardComponent } from './carcard/carcard.component';
     CommonModule,
     ProfileRoutingModule,
     FormsModule, 
+    RouterModule,
   ]
 })
 export class ProfileModule { }

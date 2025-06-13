@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DropdownElementData } from '../../models/enums/DropdownElementData.enum';
-import { PriceRange } from '../../models/interfaces/PriceRange.interface';
-import { SearchAdvancedParams } from '../../models/interfaces/SearchAdvancedParams.interface';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { SearchAdvancedParams } from "../../models/interfaces/SearchAdvancedParams.interface";
+import { DropdownElementData } from "../../models/enums/DropdownElementData.enum";
+import { PriceRange } from "../../models/interfaces/PriceRange.interface";
+import { Observable } from "rxjs";
+
 
 @Component({
   selector: 'app-fast-search-section',

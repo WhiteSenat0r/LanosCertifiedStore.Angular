@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from '../../../core/auth/services/keycloak.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+
 interface Vehicle {
   id: string;
   mileage: number;
@@ -29,7 +30,11 @@ interface VehiclesResponse {
 export class TabsComponent implements OnInit {
   selectedTab: 'myOffers' | 'favorites' = 'myOffers';
   vehicles: Vehicle[] = [];
+  displayedVehicles: Vehicle[] = [];
   userProfile: any;
+
+  pageSize = 3;
+  currentPage = 1;
 
   constructor(
     private http: HttpClient,
@@ -71,7 +76,8 @@ export class TabsComponent implements OnInit {
     this.http.get<VehiclesResponse>(`https://localhost:5001/api/vehicles?OwnerId=${ownerId}`, { headers })
       .subscribe({
         next: (response: VehiclesResponse) => {
-          this.vehicles = response.items; // Тепер беремо items з відповіді
+          this.vehicles = response.items;
+          this.resetPagination();
         },
         error: (err) => {
           console.error('Failed to load vehicles', err);
@@ -79,29 +85,30 @@ export class TabsComponent implements OnInit {
       });
   }
 
-
   loadFavoriteVehicles(): void {
     const token = this.keycloakService.getAccessToken();
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
 
-    // Використовуємо ендпоінт для отримання wishlist
     this.http.get<VehiclesResponse>(`https://localhost:5001/api/user/wishlist?UserId=${this.userProfile.id}`, { headers })
       .subscribe({
         next: (response: VehiclesResponse) => {
           this.vehicles = response.items;
+          this.resetPagination();
         },
         error: (err) => {
           console.error('Failed to load favorite vehicles', err);
-          // У випадку помилки показуємо порожній список
           this.vehicles = [];
+          this.resetPagination();
         }
       });
   }
-
   onTabChange(tab: 'myOffers' | 'favorites'): void {
     this.selectedTab = tab;
+    this.currentPage = 1;
+    this.vehicles = [];
+    this.displayedVehicles = [];
 
     if (tab === 'myOffers' && this.userProfile?.id) {
       this.loadVehiclesByOwner(this.userProfile.id);
@@ -110,5 +117,24 @@ export class TabsComponent implements OnInit {
     if (tab === 'favorites' && this.userProfile?.id) {
       this.loadFavoriteVehicles();
     }
+  }
+
+
+  loadMore(): void {
+    this.currentPage++;
+    this.updateDisplayedVehicles();
+  }
+
+  private resetPagination(): void {
+    this.currentPage = 1;
+    this.updateDisplayedVehicles();
+  }
+
+  private updateDisplayedVehicles(): void {
+    this.displayedVehicles = this.vehicles.slice(0, this.currentPage * this.pageSize);
+  }
+
+  onVehicleDeleted(vehicleId: string): void {
+    this.displayedVehicles = this.displayedVehicles.filter(vehicle => vehicle.id !== vehicleId);
   }
 }
