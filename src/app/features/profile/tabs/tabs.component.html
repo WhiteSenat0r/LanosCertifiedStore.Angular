@@ -1,44 +1,61 @@
-<div class="flex justify-between items-center p-sm rounded-md">
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-center p-sm rounded-md gap-sm">
 
-    <div class="flex flex-row items-center justify-center">
+    <div class="flex flex-row items-center justify-center w-full sm:w-auto">
         <button (click)="onTabChange('myOffers')" [ngClass]="{
-      'bg-gray-200': selectedTab === 'myOffers',
-      'bg-white': selectedTab !== 'myOffers'
-    }" class="border border-black text-black font-bold py-sm px-lg rounded-r-[18px] z-2" type="button">Мої
+      'bg-snuff-100': selectedTab === 'myOffers',
+      'bg-kimberly-100': selectedTab !== 'myOffers'
+    }" class="border border-black text-black font-bold py-xs px-sm sm:py-sm sm:px-md rounded-r-[18px] z-10 text-sm sm:text-md flex-1 sm:flex-none"
+            type="button">Мої
             пропозиції</button>
         <button (click)="onTabChange('favorites')" [ngClass]="{
-      'bg-gray-200': selectedTab === 'favorites',
-      'bg-white': selectedTab !== 'favorites'
-    }" class="border-t border-r border-b border-black text-black font-bold py-sm pl-[6px] pr-lg rounded-r-[18px] ml-[-8px]"
+      'bg-snuff-100': selectedTab === 'favorites',
+      'bg-kimberly-100': selectedTab !== 'favorites'
+    }" class="ml-[2px] border border-l-[0px] border-black text-black font-bold py-xs sm:py-sm sm:pl-[24px] sm:pr-lg rounded-r-[18px] ml-[-14px] text-sm sm:text-md flex-1 sm:flex-none"
             type="button">Обране</button>
     </div>
 
 
     <button
-        class="flex items-center justify-center gap-xs border border-black rounded-full px-base py-sm w-[300px] text-md font-medium font-black">
-        <span class="text-portGore-600 text-lg">+</span>
+        class="flex items-center justify-center gap-xs border border-black rounded-full px-sm py-xs sm:px-base sm:py-sm w-full sm:w-[300px] text-sm sm:text-md font-medium font-black"
+        routerLink="/profile/add-product">
+        <span class="text-portGore-600 text-md sm:text-lg">+</span>
         Створити нове оголошення
     </button>
 </div>
 
-
 <!-- Контент для вкладки "Мої пропозиції" -->
 <div *ngIf="selectedTab === 'myOffers'">
     <div class="flex flex-col gap-md">
-        <app-carcard
-            *ngFor="let vehicle of vehicles"
-            [vehicle]="vehicle">
-        </app-carcard>
+       <app-carcard *ngFor="let vehicle of displayedVehicles" 
+    [vehicle]="vehicle" 
+    tabType="my"
+    (vehicleDeleted)="onVehicleDeleted($event)">
+</app-carcard>
     </div>
 </div>
 
 <!-- Контент для вкладки "Обране" -->
 <div *ngIf="selectedTab === 'favorites'">
     <div class="flex flex-col gap-md">
-        <app-carcard
-            *ngFor="let vehicle of vehicles"
-            [vehicle]="vehicle">
+        <app-carcard 
+            *ngFor="let vehicle of displayedVehicles" 
+            [vehicle]="vehicle" 
+            tabType="favorite">
         </app-carcard>
     </div>
 </div>
 
+<div class="mt-md flex justify-center" *ngIf="displayedVehicles.length < vehicles.length">
+    <button class="btn btn-outline border border-black rounded-lg py-sm px-lg flex items-center gap-sm"
+        (click)="loadMore()">
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z"
+                    fill="#353888" />
+            </svg></span>Показати ще<span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M4.29289 8.29289C4.68342 7.90237 5.31658 7.90237 5.70711 8.29289L12 14.5858L18.2929 8.29289C18.6834 7.90237 19.3166 7.90237 19.7071 8.29289C20.0976 8.68342 20.0976 9.31658 19.7071 9.70711L12.7071 16.7071C12.3166 17.0976 11.6834 17.0976 11.2929 16.7071L4.29289 9.70711C3.90237 9.31658 3.90237 8.68342 4.29289 8.29289Z"
+                    fill="#353888" />
+            </svg></span></button>
+</div>
