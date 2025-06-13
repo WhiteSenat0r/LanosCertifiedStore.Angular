@@ -55,19 +55,17 @@ export class PhotoUploaderComponent
     const errors = this.controlErrors();
     if (!errors) return '';
 
-    if (errors['required']) {
-      return `Ви не додали жодного зображення`;
-    }
-
     if (errors['minFiles']) {
-      return `Мінімальна кількість фотографій: ${errors['minPhotos'].required}, зараз: ${errors['minPhotos'].actual}`;
+      return `Мінімальна кількість фотографій: ${errors['minFiles'].required}, зараз: ${errors['minFiles'].actual}`;
     }
 
     if (errors['maxFiles']) {
-      return `Максимальна кількість фотографій: ${errors['maxPhotos'].required}, зараз: ${errors['maxPhotos'].actual}`;
+      return `Ліміт фотографій перевищено на ${
+        errors['maxFiles'].actual - errors['maxFiles'].required
+      }`;
     }
 
-    return 'Невірне значення';
+    return '';
   });
 
   readonly slots = computed(() => {
@@ -111,8 +109,11 @@ export class PhotoUploaderComponent
     }
   }
 
+  isDraggingOver = signal(false);
+
   onDrop(e: DragEvent) {
     e.preventDefault();
+    this.isDraggingOver.set(false);
     if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
       this.addFiles(Array.from(e.dataTransfer.files));
       e.dataTransfer.clearData();
@@ -121,15 +122,33 @@ export class PhotoUploaderComponent
   }
   onDragOver(e: DragEvent) {
     e.preventDefault();
+    this.isDraggingOver.set(true);
   }
 
+  @HostListener('dragleave', ['$event'])
+  onDragLeave(e: DragEvent) {
+    e.preventDefault();
+    this.isDraggingOver.set(false);
+  }
+
+  private fileUrls = new Map<File, string>();
   getFileUrl(file: File): string {
-    return URL.createObjectURL(file);
+    if (!this.fileUrls.has(file)) {
+      this.fileUrls.set(file, URL.createObjectURL(file));
+    }
+    return this.fileUrls.get(file)!;
   }
 
   removeFile(index: number) {
     const updated = [...this.files()];
-    updated.splice(index, 1);
+    const [removedFile] = updated.splice(index, 1);
+
+    const url = this.fileUrls.get(removedFile);
+    if (url) {
+      URL.revokeObjectURL(url);
+      this.fileUrls.delete(removedFile);
+    }
+
     this.files.set(updated);
     this.onChange(updated);
   }

@@ -1,22 +1,39 @@
-@if(label()) {
-<div class="flex flex-row items-end gap-[4px] text-portGore-950">
-  @if(showError()) {
-  <span class="text-sm text-red-500">{{ errorMessage() }}</span>
-  <span class="text-red-500">*</span>
-  }@else { @if(this.ngControl.control?.value !== null) {
-  <span>{{ label() }}</span> <span>✓</span>} @else { <span>{{ label() }}</span>
-  <span>*</span>} }
-</div>
-} @if(files().length === 0) {
 <div
-  class="border-[2px] min-h-[268px] sm:h-[268px] py-sm sm:py-0 border-dashed border-portGore-950 rounded-lg flex flex-col gap-[12px] items-center justify-center relative cursor-default"
+  class="flex flex-row mb-xs"
+  [class]="label() ? 'justify-between' : 'justify-end'"
+>
+  @if(label()) {
+  <div class="flex flex-row items-end gap-[4px] text-portGore-950">
+    @if(showError() && errorMessage() !== '') {
+    <span class="text-redy-700">{{ errorMessage() }}</span>
+    <span class="text-redy-700">*</span>
+    }
+  </div>
+  }
+  <!--Photos number tip-->
+  @if(files().length > 0) {
+  <div>
+    <span
+      class="font-medium"
+      [class]="showError() ? 'text-redy-500' : 'text-portGore-950'"
+      >{{ files().length }} / {{ 5 }} Фото</span
+    >
+  </div>
+  }
+</div>
+@if(files().length === 0) {
+<div
+  class="border-[2px] min-h-[268px] sm:h-[268px] py-sm sm:py-0 border-dashed border-portGore-950 rounded-lg flex flex-col gap-[12px] items-center justify-center relative cursor-default transition-all duration-300"
+  [class]="isDraggingOver() ? 'bg-portGore-50 opacity-75': ''"
   (dragover)="onDragOver($event)"
   (drop)="onDrop($event)"
 >
   <app-icon-outline-upload
     [svgClass]="'size-[100px] text-portGore-100'"
   ></app-icon-outline-upload>
-  <div class="flex flex-col items-center justify-center gap-xs text-center px-xs">
+  <div
+    class="flex flex-col items-center justify-center gap-xs text-center px-xs"
+  >
     <span class="font-bold text-lg text-portGore-950"
       >Перетягніть фото сюди або натисніть для вибору</span
     >
