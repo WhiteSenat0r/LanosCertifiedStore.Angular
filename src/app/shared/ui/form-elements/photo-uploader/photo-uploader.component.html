@@ -24,7 +24,7 @@
 @if(files().length === 0) {
 <div
   class="border-[2px] min-h-[268px] sm:h-[268px] py-sm sm:py-0 border-dashed border-portGore-950 rounded-lg flex flex-col gap-[12px] items-center justify-center relative cursor-default transition-all duration-300"
-  [class]="isDraggingOver() ? 'bg-portGore-50 opacity-75': ''"
+  [class]="isDraggingOver() ? 'bg-portGore-50 opacity-75' : ''"
   (dragover)="onDragOver($event)"
   (drop)="onDrop($event)"
 >
@@ -44,7 +44,7 @@
   <input
     #fileInput
     type="file"
-    accept="image/*"
+    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
     multiple
     class="hidden"
     (change)="onFileSelected($event)"

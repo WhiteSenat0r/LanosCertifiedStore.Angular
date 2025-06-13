@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AddProductService } from './services/add-product.service';
 import { AdPostPayload } from './models/interfaces/AdPostPayload.interface';
 import { RawStepperForm } from './models/interfaces/RawStepperForm.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-product',
@@ -11,12 +12,14 @@ import { RawStepperForm } from './models/interfaces/RawStepperForm.interface';
   styles: ``,
 })
 export class AddProductComponent {
+  readonly toastr = inject(ToastrService);
   readonly router = inject(Router);
   readonly addProductService = inject(AddProductService);
   //Enums
   AddProductStages = AddProductStages;
   //State
-  formStage = signal<AddProductStages>(AddProductStages.additional);
+  formStage = signal<AddProductStages>(AddProductStages.start);
+  vehicleId = signal<string | undefined>(undefined);
 
   //Handlers
   // Stepper form handlers
@@ -45,13 +48,48 @@ export class AddProductComponent {
       vincode: rawForm.vincode ?? '',
     };
 
-    this.addProductService.postAd(payload).subscribe((response) => {
-      // console.log('Response is -> ' + JSON.stringify(response));
+    this.addProductService.postAd(payload).subscribe({
+      next: (response) => {
+        this.vehicleId.set(response);
+        this.formStage.set(AddProductStages.photosUploadRequest);
+        this.toastr.success('Оголошення створено!', 'Успіх', {
+          timeOut: 2000,
+        });
+      },
+      error: () => {
+        this.toastr.error('Не вдалося створити оголошення', 'Помилка', {
+          timeOut: 4000,
+        });
+        this.router.navigate(['/profile']);
+      },
     });
-    this.formStage.set(AddProductStages.photosUploadRequest);
   }
   // Photo-upload form handlers
-  handleCancelUploadedPhotos() {
+  handleGoToProfile() {
+    this.router.navigate(['/profile']);
+  }
+  handleUploadPhotos(photos: File[]) {
+    if (this.vehicleId()) {
+      const vehicleId = this.vehicleId() as string;
+      this.addProductService.uploadPhotos(vehicleId, photos).subscribe({
+        next: (response) => {
+          let message: string;
+          if ((photos.length = 1)) {
+            message = 'Фотографія завантажена!';
+          } else {
+            message = 'Фотографії завантажено!';
+          }
+          this.toastr.success(message, 'Успіх', { timeOut: 2000 });
+        },
+        error: () => {
+          this.toastr.error('Не вдалося завантажити фото', 'Помилка', {
+            timeOut: 2000,
+          });
+        },
+      });
+    } else {
+      this.toastr.error('Відсутній ID авто', 'Помилка', { timeOut: 4000 });
+    }
     this.router.navigate(['/profile']);
   }
 }

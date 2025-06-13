@@ -13,16 +13,14 @@ export class PhotoUploadFormComponent {
   });
 
   //Outputs
-  save = output<void>();
-  cancel = output<void>();
+  uploadPhotos = output<File[]>();
+  goToProfile = output<void>();
 
   onSubmit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      console.log('form is invalid');
-      return;
+    this.form.markAllAsTouched();
+    if (!this.form.invalid) {
+      const files = this.form.controls.photos.value;
+      this.uploadPhotos.emit(files!);
     }
-    const files = this.form.controls.photos.value;
-    console.log('Завантажено фото:', files);
   }
 }

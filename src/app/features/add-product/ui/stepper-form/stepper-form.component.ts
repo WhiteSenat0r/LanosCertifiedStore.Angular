@@ -1,4 +1,11 @@
-import { Component, input, OnInit, output, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddProductStages } from '../../models/enums/AddProductStages.enum';
 import { StepperForm } from '../../models/interfaces/StepperForm.interface';
@@ -15,12 +22,14 @@ import { LocationRegion } from '../../../../shared/models/interfaces/vehicle-pro
 import { AdPostPayload } from '../../models/interfaces/AdPostPayload.interface';
 import { RawStepperForm } from '../../models/interfaces/RawStepperForm.interface';
 import { vinCodeValidator } from '../../../../shared/utils/vinCodeValidator';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-stepper-form',
   templateUrl: './stepper-form.component.html',
 })
 export class StepperFormComponent implements OnInit {
+  readonly toastr = inject(ToastrService);
   //Enums
   AddProductStages = AddProductStages;
 
@@ -87,6 +96,9 @@ export class StepperFormComponent implements OnInit {
 
   //Hooks
   ngOnInit(): void {
+    // this.toastr.error('Не вдалося створити оголошення', 'Помилка', {
+    //   timeOut: 4000,
+    // });
     if (this.form.controls.startInfo.controls.brand.value === null) {
       this.form.controls.startInfo.controls.model.disable();
     }

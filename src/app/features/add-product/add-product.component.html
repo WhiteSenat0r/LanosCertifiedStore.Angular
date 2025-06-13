@@ -14,6 +14,6 @@
     (createAd)="handleCreateAdStepperFormButtonClick($event)"
   ></app-stepper-form>
   }@else {
-  <app-photo-upload-form (cancel)="handleCancelUploadedPhotos()"></app-photo-upload-form>
+  <app-photo-upload-form (goToProfile)="handleGoToProfile()" (uploadPhotos)="handleUploadPhotos($event)"></app-photo-upload-form>
   }
 </div>
