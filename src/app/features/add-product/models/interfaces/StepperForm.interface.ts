@@ -23,6 +23,7 @@ export interface StepperForm {
     drivetrainType: FormControl<DrivetrainType | null>;
     transmissionType: FormControl<TransmissionType | null>;
     displacement: FormControl<string | null>;
+    vincode: FormControl<string | null>;
   }>;
   firstRequestInfo: FormGroup<{
     color: FormControl<VehicleColor | null>;

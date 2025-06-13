@@ -12,6 +12,9 @@ import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-p
 import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 import { LocationRegion } from '../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
+import { AdPostPayload } from '../../models/interfaces/AdPostPayload.interface';
+import { RawStepperForm } from '../../models/interfaces/RawStepperForm.interface';
+import { vinCodeValidator } from '../../../../shared/utils/vinCodeValidator';
 
 @Component({
   selector: 'app-stepper-form',
@@ -50,6 +53,10 @@ export class StepperFormComponent implements OnInit {
         Validators.required, // Accept numbers like "1", "0.5", "2.4" but not "2.45", negative, zero or letters
         Validators.pattern(/^(0\.[5-9]|[1-9](\.[0-9])?)$/),
       ]),
+      vincode: new FormControl<string | null>(null, [
+        Validators.required,
+        vinCodeValidator(),
+      ]),
     }),
     firstRequestInfo: new FormGroup({
       color: new FormControl<VehicleColor | null>(null, Validators.required),
@@ -75,7 +82,7 @@ export class StepperFormComponent implements OnInit {
   //Outputs
   nextButtonClick = output<void>();
   prevButtonClick = output<void>();
-  saveButtonClick = output<void>();
+  createAd = output<RawStepperForm>();
   // cancel = output<void>();
 
   //Hooks
@@ -95,7 +102,13 @@ export class StepperFormComponent implements OnInit {
     if (firstRequestGroup.invalid) {
       console.log('invalid values somewhere');
     } else {
-      console.log('published');
+      const rawForm = {
+        ...this.form.controls.startInfo.value,
+        ...this.form.controls.additionalInfo.value,
+        ...this.form.controls.firstRequestInfo.value,
+      } as RawStepperForm;
+
+      this.createAd.emit(rawForm);
     }
   }
 
@@ -103,17 +116,13 @@ export class StepperFormComponent implements OnInit {
     if (this.formStage() === AddProductStages.start) {
       const startGroup = this.form.controls.startInfo as FormGroup;
       startGroup.markAllAsTouched();
-      if (startGroup.invalid) {
-        console.log(startGroup.controls);
-      } else {
+      if (!startGroup.invalid) {
         this.nextButtonClick.emit();
       }
     } else if (this.formStage() === AddProductStages.additional) {
       const additionalGroup = this.form.controls.additionalInfo as FormGroup;
       additionalGroup.markAllAsTouched();
-      if (additionalGroup.invalid) {
-        console.log(additionalGroup.controls);
-      } else {
+      if (!additionalGroup.invalid) {
         this.nextButtonClick.emit();
       }
     }
