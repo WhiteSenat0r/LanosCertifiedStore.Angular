@@ -45,13 +45,14 @@ export class KeycloakService {
 
     window.location.href = `${authUrl}?${params.toString()}`;
   }
-public getAccessToken(): string | null {
-  return localStorage.getItem('kc_token');
-}
+
+  public getAccessToken(): string | null {
+    return localStorage.getItem('kc_token');
+  }
 
   public isAuthenticated(): boolean {
-  return this.isAuthenticatedSubject.value;
-}
+    return this.isAuthenticatedSubject.value;
+  }
 
   public handleAuthCallback(code: string, state: string): Observable<TokenResponse> {
     const savedState = sessionStorage.getItem('kc_state');
@@ -66,7 +67,7 @@ public getAccessToken(): string | null {
       client_id: this.clientId,
       grant_type: 'authorization_code',
       redirect_uri: this.redirectUri,
-      scope: 'openid email profile phone',
+      scope: 'openid email profile',
       code: code
     });
 
@@ -108,19 +109,42 @@ public getAccessToken(): string | null {
     );
   }
 
-  public logout(): void {
-    const idToken = localStorage.getItem('kc_token');
+ public logout(): void {
+  const refreshToken = localStorage.getItem('kc_refresh_token');
+  
+  // Спочатку очищуємо локальний стан
+  this.clearStorage();
+  this.isAuthenticatedSubject.next(false);
+
+  // Робимо logout запит до Keycloak
+  if (refreshToken) {
     const logoutUrl = `${this.keycloakUrl}/realms/${this.realm}/protocol/openid-connect/logout`;
-    const postLogoutRedirectUri = encodeURIComponent(window.location.origin);
+    const body = new URLSearchParams({
+      client_id: this.clientId,
+      refresh_token: refreshToken
+    });
 
-    this.clearStorage();
-    this.isAuthenticatedSubject.next(false);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
 
-    const url = `${logoutUrl}?post_logout_redirect_uri=${postLogoutRedirectUri}` +
-      (idToken ? `&id_token_hint=${idToken}` : '');
-
-    window.location.href = url;
+    // Відправляємо POST запит для logout
+    this.http.post(logoutUrl, body.toString(), { headers }).subscribe({
+      next: () => {
+        // Успішний logout, перенаправляємо на головну
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Logout error:', error);
+        // Навіть якщо logout запит провалився, перенаправляємо користувача
+        this.router.navigate(['/']);
+      }
+    });
+  } else {
+    // Якщо немає refresh token, просто перенаправляємо
+    this.router.navigate(['/']);
   }
+}
 
   private saveToken(token: TokenResponse): void {
     localStorage.setItem('kc_token', token.access_token);
@@ -129,6 +153,11 @@ public getAccessToken(): string | null {
     if (token.expires_in) {
       const exp = Math.floor(Date.now() / 1000) + token.expires_in;
       localStorage.setItem('kc_token_exp', exp.toString());
+    }
+
+    if (token.refresh_expires_in) {
+      const refreshExp = Math.floor(Date.now() / 1000) + token.refresh_expires_in;
+      localStorage.setItem('kc_refresh_token_exp', refreshExp.toString());
     }
   }
 
@@ -148,6 +177,7 @@ public getAccessToken(): string | null {
     localStorage.removeItem('kc_token');
     localStorage.removeItem('kc_refresh_token');
     localStorage.removeItem('kc_token_exp');
+    localStorage.removeItem('kc_refresh_token_exp');
     sessionStorage.removeItem('kc_state');
     localStorage.removeItem('returnUrl');
   }

@@ -11,6 +11,7 @@ import { UserProfile } from '../../../core/auth/models/user.model';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
+  styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
   searchControl = new FormControl('');

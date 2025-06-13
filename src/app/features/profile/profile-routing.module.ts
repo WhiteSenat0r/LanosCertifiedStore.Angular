@@ -17,6 +17,15 @@ const routes: Routes = [
       ),
     data: { breadcrumb: { label: 'Створення оголошення' } },
   },
+  {
+    path: ':id',
+    title: 'Купити машину',
+    loadChildren: () =>
+      import('../product/product.module').then(
+        (m) => m.ProductModule
+      ),
+    data: { breadcrumb: { label: 'Машина' } },
+  },
 ];
 
 @NgModule({
