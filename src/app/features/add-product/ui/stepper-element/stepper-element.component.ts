@@ -16,6 +16,7 @@ export class StepperElementComponent {
   AddProductStages = AddProductStages;
 
   formStage = input.required<AddProductStages>();
+  stepperLoading = input.required<boolean>();
 
   readonly steps: StepMeta[] = [
     { icon: 'car', lines: ['Основна', 'Інформація'] },

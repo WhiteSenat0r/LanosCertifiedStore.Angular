@@ -16,14 +16,40 @@ import { AdditionalStepComponent } from './ui/stepper-form/additional-step/addit
 import { StartStepComponent } from './ui/stepper-form/start-step/start-step.component';
 import { FirstRequestStepComponent } from './ui/stepper-form/first-request-step/first-request-step.component';
 import { PhotoUploadFormComponent } from './ui/photo-upload-form/photo-upload-form.component';
-import { IconExitPhotoFormComponent } from "./icons/icon-exit-photo-form/icon-exit-photo-form.component";
-import { AutocompleteComponent } from "../../shared/ui/form-elements/autocomplete/autocomplete.component";
-import { InputWithSymbolComponent } from "../../shared/ui/form-elements/input-with-symbol/input-with-symbol.component";
-import { TextareaDefaultComponent } from "../../shared/ui/form-elements/textarea-default/textarea-default.component";
-import { PhotoUploaderComponent } from "../../shared/ui/form-elements/photo-uploader/photo-uploader.component";
+import { IconExitPhotoFormComponent } from './icons/icon-exit-photo-form/icon-exit-photo-form.component';
+import { AutocompleteComponent } from '../../shared/ui/form-elements/autocomplete/autocomplete.component';
+import { InputWithSymbolComponent } from '../../shared/ui/form-elements/input-with-symbol/input-with-symbol.component';
+import { TextareaDefaultComponent } from '../../shared/ui/form-elements/textarea-default/textarea-default.component';
+import { PhotoUploaderComponent } from '../../shared/ui/form-elements/photo-uploader/photo-uploader.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
-  declarations: [AddProductComponent, StepperFormComponent, InfoTitleComponent, StepperElementComponent, AdditionalStepComponent, StartStepComponent, FirstRequestStepComponent, PhotoUploadFormComponent],
-  imports: [CommonModule, AddProductRoutingModule, IconCogComponent, IconCarSportComponent, IconDocumentTextComponent, IconPhotoCameraComponent, IconOutlineCheckComponent, IconOutlineChevronRightComponent, ReactiveFormsModule, IconExitPhotoFormComponent, AutocompleteComponent, InputWithSymbolComponent, TextareaDefaultComponent, PhotoUploaderComponent],
+  declarations: [
+    AddProductComponent,
+    StepperFormComponent,
+    InfoTitleComponent,
+    StepperElementComponent,
+    AdditionalStepComponent,
+    StartStepComponent,
+    FirstRequestStepComponent,
+    PhotoUploadFormComponent,
+  ],
+  imports: [
+    CommonModule,
+    AddProductRoutingModule,
+    IconCogComponent,
+    IconCarSportComponent,
+    IconDocumentTextComponent,
+    IconPhotoCameraComponent,
+    IconOutlineCheckComponent,
+    IconOutlineChevronRightComponent,
+    ReactiveFormsModule,
+    IconExitPhotoFormComponent,
+    AutocompleteComponent,
+    InputWithSymbolComponent,
+    TextareaDefaultComponent,
+    PhotoUploaderComponent,
+    NgxSpinnerModule,
+  ],
 })
 export class AddProductModule {}

@@ -1,8 +1,21 @@
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  class="bg-kimberly-50 rounded-xl p-[14px] mb-[48px]"
+  class="bg-kimberly-50 rounded-xl p-[14px] mb-[48px] relative"
 >
+  <div
+    [class]="loading() ? 'block' : 'hidden'"
+    class="absolute inset-0 bg-white opacity-50 z-10 flex flex-row justify-center items-center"
+  >
+    <ngx-spinner
+      name="stepperFormSpinner"
+      bdColor="rgba(0, 0, 0, 0.0)"
+      size="default"
+      color="#1D1E49"
+      type="ball-clip-rotate"
+      [fullScreen]="false"
+    ></ngx-spinner>
+  </div>
   @if(formStage() === AddProductStages.start){
   <app-start-step [startGroup]="form.controls.startInfo"></app-start-step>
   } @if(formStage() === AddProductStages.additional){
@@ -21,6 +34,7 @@
       class="flex flex-row gap-[10px] bg-transparent border border-portGore-950 text-portGore-950 border- px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-portGore-100"
       [class]="formStage() !== AddProductStages.start ? 'block' : 'hidden'"
       (click)="prevButtonClick.emit()"
+      [disabled]="loading()"
     >
       <app-icon-outline-chevron-right
         [svgClass]="'size-[24px] rotate-180'"
@@ -59,6 +73,7 @@
       [class]="
         formStage() === AddProductStages.firstRequest ? 'block' : 'hidden'
       "
+      [disabled]="loading()"
     >
       <span>Створити оголошення</span>
       <app-icon-outline-check

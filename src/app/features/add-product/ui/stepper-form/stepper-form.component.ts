@@ -19,7 +19,6 @@ import { TransmissionType } from '../../../../shared/models/interfaces/vehicle-p
 import { VehicleColor } from '../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
 import { LocationTown } from '../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
 import { LocationRegion } from '../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
-import { AdPostPayload } from '../../models/interfaces/AdPostPayload.interface';
 import { RawStepperForm } from '../../models/interfaces/RawStepperForm.interface';
 import { vinCodeValidator } from '../../../../shared/utils/vinCodeValidator';
 import { ToastrService } from 'ngx-toastr';
@@ -34,6 +33,7 @@ export class StepperFormComponent implements OnInit {
   AddProductStages = AddProductStages;
 
   //State
+  loading = input.required<boolean>();
   form = new FormGroup<StepperForm>({
     startInfo: new FormGroup({
       brand: new FormControl<Brand | null>(null, Validators.required),
