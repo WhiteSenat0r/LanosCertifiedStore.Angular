@@ -1,10 +1,21 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { AddProductStages } from './models/enums/AddProductStages.enum';
 import { Router } from '@angular/router';
 import { AddProductService } from './services/add-product.service';
 import { AdPostPayload } from './models/interfaces/AdPostPayload.interface';
 import { RawStepperForm } from './models/interfaces/RawStepperForm.interface';
 import { ToastrService } from 'ngx-toastr';
+import { patchState } from '@ngrx/signals';
+import {
+  tap,
+  delay,
+  finalize,
+  catchError,
+  switchMap,
+  throwError,
+  timer,
+} from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-product',
@@ -15,11 +26,23 @@ export class AddProductComponent {
   readonly toastr = inject(ToastrService);
   readonly router = inject(Router);
   readonly addProductService = inject(AddProductService);
+  readonly spinner = inject(NgxSpinnerService);
   //Enums
   AddProductStages = AddProductStages;
   //State
   formStage = signal<AddProductStages>(AddProductStages.start);
   vehicleId = signal<string | undefined>(undefined);
+  stepperFormLoading = signal<boolean>(false);
+  photoUploaderLoading = signal<boolean>(false);
+
+  //Effects
+  spinnerEffect = effect(() => {
+    if (this.stepperFormLoading()) {
+      this.spinner.show('stepperFormSpinner');
+    } else {
+      this.spinner.hide('stepperFormSpinner');
+    }
+  });
 
   //Handlers
   // Stepper form handlers
@@ -47,22 +70,34 @@ export class AddProductComponent {
       mileage: rawForm.mileage ?? 0,
       vincode: rawForm.vincode ?? '',
     };
-
-    this.addProductService.postAd(payload).subscribe({
-      next: (response) => {
-        this.vehicleId.set(response);
-        this.formStage.set(AddProductStages.photosUploadRequest);
-        this.toastr.success('Оголошення створено!', 'Успіх', {
-          timeOut: 2000,
-        });
-      },
-      error: () => {
-        this.toastr.error('Не вдалося створити оголошення', 'Помилка', {
-          timeOut: 4000,
-        });
-        this.router.navigate(['/profile']);
-      },
+    this.stepperFormLoading.set(true);
+    this.addProductService
+      .postAd(payload)
+      .pipe(
+        delay(1000),
+        catchError((err) =>
+          timer(2000).pipe(
+            tap(() => this.handleError(err)),
+            switchMap(() => throwError(() => err))
+          )
+        ),
+        finalize(() => this.stepperFormLoading.set(false))
+      )
+      .subscribe({
+        next: (response) => {
+          this.vehicleId.set(response);
+          this.formStage.set(AddProductStages.photosUploadRequest);
+          this.toastr.success('Оголошення створено!', 'Успіх', {
+            timeOut: 2000,
+          });
+        },
+      });
+  }
+  private handleError(err: any) {
+    this.toastr.error('Не вдалося створити оголошення', 'Помилка', {
+      timeOut: 4000,
     });
+    this.router.navigate(['/profile']);
   }
   // Photo-upload form handlers
   handleGoToProfile() {

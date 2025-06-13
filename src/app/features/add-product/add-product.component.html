@@ -3,7 +3,7 @@
   <app-info-title></app-info-title>
   <div class="pb-lg"></div>
   <!--Stepper-->
-  <app-stepper-element [formStage]="formStage()"></app-stepper-element>
+  <app-stepper-element [formStage]="formStage()" [stepperLoading]="stepperFormLoading()"></app-stepper-element>
   <div class="pb-md"></div>
   <!--Form-->
   @if(formStage() !== AddProductStages.photosUploadRequest) {
@@ -12,6 +12,7 @@
     (nextButtonClick)="handleNextButtonClick()"
     (prevButtonClick)="handlePrevButtonClick()"
     (createAd)="handleCreateAdStepperFormButtonClick($event)"
+    [loading]="stepperFormLoading()"
   ></app-stepper-form>
   }@else {
   <app-photo-upload-form (goToProfile)="handleGoToProfile()" (uploadPhotos)="handleUploadPhotos($event)"></app-photo-upload-form>

@@ -6,19 +6,49 @@
       <!-- Icon -->
       <div
         class="p-[10px] w-fit rounded-full transition-colors"
+        [class]="stepperLoading() && getStepStatus(i) !== 'pending'  ? '!opacity-50' : ''"
         [class.bg-portGore-300]="getStepStatus(i) === 'active'"
         [class.bg-portGore-100]="getStepStatus(i) !== 'active'"
       >
-        @if (getStepStatus(i) === 'completed') {
         <!-- Completed icon -->
+        @if (getStepStatus(i) === 'completed') { @if(!stepperLoading()) {
         <app-icon-outline-check svgClass="size-[50px]"></app-icon-outline-check>
-        } @else { @switch (step.icon) { @case ('car') {
+
+        } @else {
+        <div
+          class="relative w-[50px] h-[50px] flex flex-row justify-center items-center"
+        >
+          <ngx-spinner
+            name="stepperFormSpinner"
+            bdColor="rgba(0, 0, 0, 0.0)"
+            size="default"
+            color="#1D1E49"
+            type="ball-clip-rotate"
+            [fullScreen]="false"
+          ></ngx-spinner>
+        </div>
+        } }
+        <!--OTHER ICONS-->
+        @else { @switch (step.icon) { @case ('car') {
         <app-icon-car-sport svgClass="size-[50px]"></app-icon-car-sport>
         } @case ('cog') {
         <app-icon-cog svgClass="size-[50px]"></app-icon-cog>
-        } @case ('doc') {
+        } @case ('doc') { @if(!stepperLoading()) {
         <app-icon-document-text svgClass="size-[50px]"></app-icon-document-text>
-        } @case ('camera') {
+        } @else {
+        <div
+          class="relative w-[50px] h-[50px] flex flex-row justify-center items-center"
+        >
+          <ngx-spinner
+            name="stepperFormSpinner"
+            bdColor="rgba(0, 0, 0, 0.0)"
+            size="default"
+            color="#1D1E49"
+            type="ball-clip-rotate"
+            [fullScreen]="false"
+          ></ngx-spinner>
+        </div>
+        }} @case ('camera') {
         <app-icon-photo-camera svgClass="size-[50px]"></app-icon-photo-camera>
         } } }
       </div>
