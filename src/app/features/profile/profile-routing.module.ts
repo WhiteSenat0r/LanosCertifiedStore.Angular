@@ -17,6 +17,14 @@ const routes: Routes = [
       ),
     data: { breadcrumb: { label: 'Створення оголошення' } },
   },
+  {
+    path: 'edit-product',
+    loadChildren: () =>
+      import('../../features/edit-product/edit-product.module').then(
+        (m) => m.EditProductModule
+      ),
+    data: { breadcrumb: { label: 'Редагування оголошення' } },
+  },
 ];
 
 @NgModule({

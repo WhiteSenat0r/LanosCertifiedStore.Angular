@@ -4,6 +4,14 @@ const COLORS = require("./colors.js");
 module.exports = {
   content: ["./src/**/*.{html,ts}", "./node_modules/flowbite/**/*.js"],
   theme: {
+    screens: {
+      xs: "440px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1440px",
+    },
     container: {
       center: true,
       padding: {
@@ -11,13 +19,6 @@ module.exports = {
         md: "32px",
         lg: "32px",
         "2xl": "120px",
-      },
-      screens: {
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
-        "2xl": "1440px",
       },
     },
 
@@ -68,7 +69,7 @@ module.exports = {
     },
 
     spacing: {
-      "0": "0px", // 0px
+      0: "0px", // 0px
       xs: "0.25rem", // 4px
       sm: "0.5rem", // 8px
       base: "1rem", // 16px

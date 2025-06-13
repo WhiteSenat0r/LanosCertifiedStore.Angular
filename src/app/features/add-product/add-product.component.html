@@ -11,9 +11,9 @@
     [formStage]="formStage()"
     (nextButtonClick)="handleNextButtonClick()"
     (prevButtonClick)="handlePrevButtonClick()"
-    (saveButtonClick)=" handleSaveButtonOnStepperFormClick()"
+    (createAd)="handleCreateAdStepperFormButtonClick($event)"
   ></app-stepper-form>
   }@else {
-  <app-photo-upload-form></app-photo-upload-form>
+  <app-photo-upload-form (goToProfile)="handleGoToProfile()" (uploadPhotos)="handleUploadPhotos($event)"></app-photo-upload-form>
   }
 </div>

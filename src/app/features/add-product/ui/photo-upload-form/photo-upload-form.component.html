@@ -1,7 +1,7 @@
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  class="bg-kimberly-50 rounded-xl p-[14px]"
+  class="bg-kimberly-50 rounded-xl p-[14px] mb-[48px]"
 >
   <div class="flex flex-col gap-sm pb-[30px]">
     <div class="flex flex-row gap-[12px]">
@@ -13,22 +13,22 @@
       збільшують шанси швидкого продажу</span
     >
   </div>
-  <div>Наші поля</div>
+  <!--PHOTO UPLOADER-->
+  <app-photo-uploader formControlName="photos" [label]="'фотографії'"></app-photo-uploader>
   <div class="flex flex-row justify-between items-center w-full pt-base">
     <button
       type="button"
       class="flex flex-row gap-[10px] bg-transparent border border-portGore-950 text-portGore-950 border- px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-redy-700 hover:text-kimberly-50 hover:border-transparent"
-      (click)="cancel.emit()"
+      (click)="goToProfile.emit()"
     >
       <app-icon-exit-photo-form
         [svgClass]="'size-[24px]'"
       ></app-icon-exit-photo-form>
-      <span>Додати фотографії пізніше</span>
+      <span class="hidden sm:block">Додати фотографії пізніше</span>
     </button>
     <button
       type="submit"
-      class="flex flex-row items-center gap-[10px] bg-portGore-950 text-kimberly-50 px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
-      (click)="save.emit()"
+      class="flex flex-row items-center gap-[4px] xs:gap-[10px] bg-portGore-950 text-kimberly-50 px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
     >
       <span class="">Завантажити фотографії</span>
       <app-icon-outline-check
