@@ -18,6 +18,7 @@ const routes: Routes = [
     data: { breadcrumb: { label: 'Створення оголошення' } },
   },
   {
+
     path: ':id',
     title: 'Купити машину',
     loadChildren: () =>
@@ -25,6 +26,14 @@ const routes: Routes = [
         (m) => m.ProductModule
       ),
     data: { breadcrumb: { label: 'Машина' } },
+
+    path: 'edit-product',
+    loadChildren: () =>
+      import('../../features/edit-product/edit-product.module').then(
+        (m) => m.EditProductModule
+      ),
+    data: { breadcrumb: { label: 'Редагування оголошення' } },
+
   },
 ];
 

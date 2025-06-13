@@ -23,6 +23,7 @@ export class AdditionalStepComponent {
       drivetrainType: FormControl<DrivetrainType | null>;
       transmissionType: FormControl<TransmissionType | null>;
       displacement: FormControl<string | null>;
+      vincode: FormControl<string | null>;
     }>
   >();
 

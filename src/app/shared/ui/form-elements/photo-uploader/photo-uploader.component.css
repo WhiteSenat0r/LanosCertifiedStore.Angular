@@ -1,0 +1,7 @@
+.ghost-image {
+  @apply absolute opacity-100 border-2 border-solid border-portGore-200;
+  background-color: white;
+  opacity: 1 !important;
+  top: -9999px;
+  left: -9999px;
+}

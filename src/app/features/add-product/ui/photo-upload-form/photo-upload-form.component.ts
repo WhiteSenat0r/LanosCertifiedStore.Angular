@@ -1,5 +1,6 @@
 import { Component, output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { fileCountValidator } from '../../../../shared/utils/fileCountValidator';
 
 @Component({
   selector: 'app-photo-upload-form',
@@ -7,13 +8,19 @@ import { FormGroup } from '@angular/forms';
 })
 export class PhotoUploadFormComponent {
   //State
-  form = new FormGroup<any>({});
+  form = new FormGroup({
+    photos: new FormControl<File[] | null>(null, fileCountValidator(1, 5)),
+  });
 
   //Outputs
-  save = output<void>();
-  cancel = output<void>();
+  uploadPhotos = output<File[]>();
+  goToProfile = output<void>();
 
   onSubmit() {
-    console.log('published');
+    this.form.markAllAsTouched();
+    if (!this.form.invalid) {
+      const files = this.form.controls.photos.value;
+      this.uploadPhotos.emit(files!);
+    }
   }
 }

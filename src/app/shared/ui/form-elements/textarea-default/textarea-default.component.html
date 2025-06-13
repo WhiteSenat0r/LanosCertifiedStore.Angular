@@ -1,8 +1,8 @@
 <div class="flex flex-col gap-xs w-full">
   <div class="flex flex-row items-end gap-[4px] text-portGore-950">
     @if(showError()) {
-    <span class="text-sm text-red-500">{{ errorMessage() }}</span>
-    <span class="text-red-500">*</span>
+    <span class="text-sm text-redy-700">{{ errorMessage() }}</span>
+    <span class="text-redy-700">*</span>
     }@else { @if(this.ngControl.control?.value !== null) {
     <span>{{ label() }}</span> <span>✓</span>} @else {
     <span>{{ label() }}</span> <span>*</span>} }

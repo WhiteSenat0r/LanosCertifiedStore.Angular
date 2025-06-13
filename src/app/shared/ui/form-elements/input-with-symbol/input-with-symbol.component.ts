@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   computed,
+  Input,
   input,
   OnDestroy,
   Optional,
@@ -43,6 +44,7 @@ export class InputWithSymbolComponent
   placeholder = input<string>();
 
   // Signals
+  @Input() inputType: 'string' | 'number' = 'string';
   inputText = signal<string>('');
   showError = signal(false);
   readonly controlErrors = signal<Record<string, any> | null>(null);
@@ -75,6 +77,8 @@ export class InputWithSymbolComponent
           return 'Тільки цілі невід’ємні числа (без пробілів, літер і десяткових)';
         case '/^(0\\.[5-9]|[1-9](\\.[0-9])?)$/':
           return 'Неправильний формат обʼєму двигуна. Приклади: 0.5, 1, 2.4';
+        case '/^[A-HJ-NPR-Z0-9]{17}$/':
+          return 'VIN повинен містити 17 символів: цифри та великі літери (окрім I, O, Q)';
         default:
           return 'Невірний формат';
       }
@@ -99,19 +103,22 @@ export class InputWithSymbolComponent
   onInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
+
     this.inputText.set(value);
-    if (value !== '') {
-      this.onChange(Number(value));
+
+    if (this.inputType === 'number') {
+      const numericValue = value === '' ? null : Number(value);
+      this.onChange(numericValue);
     } else {
-      this.onChange(null);
+      this.onChange(value === '' ? null : value);
     }
   }
 
   // CVA Methods
-  onChange: (value: number | null) => void = () => {};
+  onChange: (value: string | number | null) => void = () => {};
   onTouched: () => void = () => {};
 
-  writeValue(value: number | null): void {
+  writeValue(value: string | number | null): void {
     if (value) {
       this.inputText.set(String(value));
     } else {

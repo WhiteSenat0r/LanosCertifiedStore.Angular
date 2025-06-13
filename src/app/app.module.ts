@@ -22,7 +22,7 @@ import { AuthModule } from './core/auth/auth.module';
 import { BreadcrumbHolderComponent } from './shared/ui/other/breadcrumb-holder/breadcrumb-holder.component';
 import { AuthInterceptor } from './core/auth/interceptor/auth.interceptor';
 import { AuthService } from './core/auth/services/auth.service';
-
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -38,6 +38,12 @@ import { AuthService } from './core/auth/services/auth.service';
     SvgIconDisplayComponent,
     NgxSpinnerModule,
     AuthModule,
+    ToastrModule.forRoot({
+      progressBar: true,
+      progressAnimation: 'decreasing',
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000,
+    }),
   ],
   providers: [
     AuthService,
@@ -46,7 +52,7 @@ import { AuthService } from './core/auth/services/auth.service';
       useClass: AuthInterceptor,
       multi: true,
     },
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withInterceptorsFromDi()),
   ],
   bootstrap: [AppComponent],
 })
