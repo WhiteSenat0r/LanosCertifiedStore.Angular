@@ -32,7 +32,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./core/auth/auth.module').then((m) => m.AuthModule),
   },
-  { path: '**', component: NotFoundComponent },
+  {
+    path: '**',
+    title: 'Попадалово',
+    component: NotFoundComponent,
+    data: { breadcrumb: { label: 'Попадалово' } },
+  },
 ];
 
 const routerOptions: ExtraOptions = {

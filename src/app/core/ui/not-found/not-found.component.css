@@ -1,0 +1,114 @@
+.face {
+  @apply w-[300px] h-[300px] border-4 border-portGore-100 rounded-[24px] bg-kimberly-50 mx-auto mt-[100px];
+}
+
+@media screen and (max-width: 400px) {
+  .face {
+    margin-top: 40px;
+    transform: scale(0.8);
+  }
+}
+
+.face .band {
+  width: 324px;
+  height: 27px;
+  border: 4px solid #383a41;
+  border-radius: 5px;
+  margin-left: -25px;
+  margin-top: 50px;
+  position: relative;
+}
+
+.face .band .red {
+  @apply w-full bg-redy-500;
+  height: calc(100% / 3);
+}
+
+.face .band .white {
+  @apply w-full bg-kimberly-50;
+  height: calc(100% / 3);
+}
+
+.face .band .blue {
+  @apply w-full bg-portGore-700;
+  height: calc(100% / 3);
+}
+
+.face .band:before {
+  content: "";
+  @apply inline-block h-[27px] w-[30px] bg-opacity-30 bg-kimberly-500 absolute z-[999];
+}
+
+.face .band:after {
+  content: "";
+  @apply inline-block h-[27px] w-[30px] bg-opacity-30 bg-kimberly-500 absolute z-[999] right-0 -mt-[27px];
+}
+
+.face .eyes {
+  width: 128px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.face .eyes:before {
+  content: "";
+  @apply inline-block w-[30px] h-[15px] border-[7px] border-portGore-950 mr-[20px] rounded-t-[22px] border-b-0;
+}
+
+.face .eyes:after {
+  content: "";
+  @apply inline-block w-[30px] h-[15px] border-[7px]  border-portGore-950 ml-[20px] rounded-t-[22px] border-b-0;
+}
+
+.face .dimples {
+  width: 180px;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+.face .dimples:before {
+  content: "";
+  @apply inline-block size-[10px] mr-[80px] rounded-full bg-redy-500;
+}
+
+.face .dimples:after {
+  content: "";
+  @apply inline-block size-[10px] ml-[80px] rounded-full bg-redy-500;
+}
+
+.face .mouth {
+  @apply w-[40px] h-[5px] rounded-[5px] bg-redy-900 mx-auto mt-[25px];
+}
+
+h1 {
+  font-weight: 800;
+  color: #383a41;
+  text-align: center;
+  font-size: 2.5em;
+  padding-top: 20px;
+}
+
+@media screen and (max-width: 400px) {
+  h1 {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 2em;
+  }
+}
+
+.btn {
+  @apply p-[20px] bg-portGore-300 text-white w-[320px] mx-auto text-center text-[1.2em] rounded-[5px] cursor-pointer mt-[80px] mb-[50px] transition-all duration-200 ease-linear;
+}
+
+@media screen and (max-width: 400px) {
+  .btn {
+    margin: 0 auto;
+    margin-top: 60px;
+    margin-bottom: 50px;
+    width: 200px;
+  }
+}
+
+.btn:hover {
+  @apply transition-all duration-200 bg-portGore-500;
+}

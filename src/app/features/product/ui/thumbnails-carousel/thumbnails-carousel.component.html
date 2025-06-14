@@ -64,7 +64,7 @@
     </div>
   </div>
 </div>
-} @else { @if(this.vehicle().images.length === 0) {
+} @else if(vehicleWasLoaded()) { @if(this.vehicle().images.length === 0) {
 <div class="min-w-[260px] h-[440px] lg:h-[560px] xl:h-[540px] relative">
   <img
     class="w-full h-full object-cover block"

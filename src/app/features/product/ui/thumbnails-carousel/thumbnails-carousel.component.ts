@@ -14,6 +14,7 @@ import { ExtendedVehicle } from '../../../../shared/models/classes/vehicle-prope
   styleUrl: './thumbnails-carousel.component.css',
 })
 export class ThumbnailsCarouselComponent implements OnChanges, OnDestroy {
+  vehicleWasLoaded = input.required<boolean>();
   vehicle = input.required<ExtendedVehicle>();
 
   private mainSplide?: Splide;
