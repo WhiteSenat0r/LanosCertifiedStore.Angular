@@ -21,7 +21,7 @@
             <div class="flex gap-[6px] ml-sm">
                 <button *ngIf="tabType === 'my'"
                     class="border border-black rounded bg-white flex items-center gap-[6px] p-[6px] lg:px-[12px] lg:py-[3px]"
-                    title="Редагувати">
+                    title="Редагувати" (click)="handleUpdateClick(vehicle, $event)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20"
                         class="text-[#353888] lg:w-5 lg:h-5">
                         <path fill="currentColor"
@@ -42,7 +42,7 @@
                 <ng-container *ngIf="tabType === 'favorite'">
                     <button
                         class="border border-portGore-500 rounded bg-white flex items-center gap-[6px] p-[6px] lg:px-[12px] lg:py-[3px]"
-                        (click)="removeFromFavorites()" title="Видалити з обраного">
+                        (click)="removeFromFavorites($event)" title="Видалити з обраного">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M7.29297 4.16732C7.0167 4.16732 6.75175 4.27706 6.5564 4.47241C6.36105 4.66776 6.2513 4.93272 6.2513 5.20898V20.1902L12.0355 17.2981C12.3287 17.1515 12.6739 17.1515 12.9672 17.2981L18.7513 20.1902V5.20898C18.7513 4.93272 18.6416 4.66777 18.4462 4.47241C18.2509 4.27706 17.9859 4.16732 17.7096 4.16732H7.29297ZM5.08326 2.99928C5.66931 2.41322 6.46417 2.08398 7.29297 2.08398H17.7096C18.5384 2.08398 19.3333 2.41322 19.9193 2.99928C20.5054 3.58533 20.8346 4.38018 20.8346 5.20898V21.8757C20.8346 22.2367 20.6477 22.5719 20.3406 22.7617C20.0335 22.9515 19.65 22.9688 19.3271 22.8073L12.5013 19.3944L5.67548 22.8073C5.35258 22.9688 4.9691 22.9515 4.662 22.7617C4.3549 22.5719 4.16797 22.2367 4.16797 21.8757V5.20898C4.16797 4.38018 4.49721 3.58533 5.08326 2.99928Z"

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from '../../../core/auth/services/keycloak.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { StatisticsService } from '../services/statistics.service';
 
 interface Vehicle {
   id: string;
@@ -38,7 +38,8 @@ export class TabsComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private keycloakService: KeycloakService
+    private keycloakService: KeycloakService,
+    private statisticsService: StatisticsService
   ) { }
 
   ngOnInit(): void {
@@ -104,6 +105,7 @@ export class TabsComponent implements OnInit {
         }
       });
   }
+
   onTabChange(tab: 'myOffers' | 'favorites'): void {
     this.selectedTab = tab;
     this.currentPage = 1;
@@ -118,7 +120,6 @@ export class TabsComponent implements OnInit {
       this.loadFavoriteVehicles();
     }
   }
-
 
   loadMore(): void {
     this.currentPage++;
@@ -136,5 +137,14 @@ export class TabsComponent implements OnInit {
 
   onVehicleDeleted(vehicleId: string): void {
     this.displayedVehicles = this.displayedVehicles.filter(vehicle => vehicle.id !== vehicleId);
+    // Сповіщаємо про видалення авто для оновлення статистики
+    this.statisticsService.notifyVehicleDeleted();
+  }
+
+  onVehicleRemovedFromFavorites(vehicleId: string): void {
+    this.vehicles = this.vehicles.filter(v => v.id !== vehicleId);
+    this.updateDisplayedVehicles();
+    // Сповіщаємо про оновлення wishlist для оновлення статистики
+    this.statisticsService.notifyWishlistUpdated();
   }
 }
