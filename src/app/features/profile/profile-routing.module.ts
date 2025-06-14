@@ -19,17 +19,9 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    title: 'Купити машину',
+    title: 'Редагування оголошення',
     loadChildren: () =>
-      import('../product/product.module').then((m) => m.ProductModule),
-    data: { breadcrumb: { label: 'Машина' } },
-  },
-  {
-    path: 'edit-product',
-    loadChildren: () =>
-      import('../../features/edit-product/edit-product.module').then(
-        (m) => m.EditProductModule
-      ),
+      import('../edit-product/edit-product.module').then((m) => m.EditProductModule),
     data: { breadcrumb: { label: 'Редагування оголошення' } },
   },
 ];
