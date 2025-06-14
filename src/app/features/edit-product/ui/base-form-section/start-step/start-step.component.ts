@@ -20,7 +20,7 @@ export class StartStepComponent implements OnInit, OnDestroy {
   startGroup = input.required<
     FormGroup<{
       brand: FormControl<Brand | null>;
-      model: FormControl<Model | null>;
+      model: FormControl<Partial<Model> | null>;
       vType: FormControl<VType | null>;
       bodyType: FormControl<BodyType | null>;
       year: FormControl<number | null>;

@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { StepperForm } from '../../../add-product/models/interfaces/StepperForm.interface';
+import { StepperForm } from '../../interfaces/StepperForm.interfaceReplica';
 
 @Component({
   selector: 'app-base-form-section',

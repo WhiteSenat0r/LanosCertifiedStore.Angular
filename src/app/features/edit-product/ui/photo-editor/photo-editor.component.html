@@ -1,0 +1,145 @@
+<div
+  class="flex flex-row mb-xs"
+  [class]="label() ? 'justify-between' : 'justify-end'"
+>
+  @if(label()) {
+  <div class="flex flex-row items-end gap-[4px] text-portGore-950">
+    @if(showError() && errorMessage() !== '') {
+    <span class="text-redy-700">{{ errorMessage() }}</span>
+    <span class="text-redy-700">*</span>
+    }
+  </div>
+  }
+  <!--Photos number tip-->
+  @if(files().length > 0) {
+  <div>
+    <span
+      class="font-medium"
+      [class]="showError() ? 'text-redy-500' : 'text-portGore-950'"
+      >{{ files().length }} / {{ 5 }} Фото</span
+    >
+  </div>
+  }
+</div>
+@if(files().length === 0) {
+<div
+  class="border-[2px] min-h-[268px] sm:h-[268px] py-sm sm:py-0 border-dashed border-portGore-950 rounded-lg flex flex-col gap-[12px] items-center justify-center relative cursor-default transition-all duration-300"
+  [class]="isDraggingOver() ? 'bg-portGore-50 opacity-75' : ''"
+  (dragover)="onDragOver($event)"
+  (drop)="onDrop($event)"
+>
+  <app-icon-outline-upload
+    [svgClass]="'size-[100px] text-portGore-100'"
+  ></app-icon-outline-upload>
+  <div
+    class="flex flex-col items-center justify-center gap-xs text-center px-xs"
+  >
+    <span class="font-bold text-lg text-portGore-950"
+      >Перетягніть фото сюди або натисніть для вибору</span
+    >
+    <span class="text-portGore-800 font-light text-md"
+      >Підтримуються формати JPG, PNG (до 5 МБ кожне)</span
+    >
+  </div>
+  <input
+    #fileInput
+    type="file"
+    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+    multiple
+    class="hidden"
+    (change)="onFileSelected($event)"
+  />
+  <button
+    type="button"
+    (click)="fileInput.click()"
+    class="px-[21px] py-[12px] text-xl font-bold bg-portGore-100 rounded-[6px] transition-all duration-300 hover:bg-portGore-300"
+  >
+    Вибрати фото
+  </button>
+</div>
+} @else {
+<!--LIST VIEW-->
+<div
+  class="flex flex-col mx-auto xs:grid xs:grid-cols-2 sm:grid-cols-3 sm:flex sm:flex-row sm:flex-wrap justify-start gap-x-[20px] xl:gap-x-0 xl:justify-between gap-y-base items-center w-full"
+>
+  @for (file of files(); track $index) {
+  <div
+    class="relative w-full xs:size-[160px] md:size-[200px] rounded border border-portGore-700 overflow-hidden group cursor-grab"
+    [class.opacity-50]="draggedIndex() === $index || hoveredIndex() === $index"
+    draggable="true"
+    (dragstart)="onDragStart($event, $index)"
+    (dragover)="onDragOverReorder($event, $index)"
+    (drop)="onDropReorder($event, $index)"
+    (dragend)="onDragEnd($event)"
+  >
+    @if($index === 0) {
+    <div
+      class="z-50 absolute top-[6px] left-[6px] text-xs font-bold text-p bg-portGore-100 text-portGore-950 px-[6px] py-[2px] rounded-[6px]"
+    >
+      Основна фотографія
+    </div>
+    } @else {
+    <div
+      class="z-50 absolute top-[6px] left-[6px] text-xs font-bold text-p bg-portGore-100 text-portGore-950 px-[6px] py-[2px] rounded-[6px]"
+    >
+      Фото {{ $index + 1 }}
+    </div>
+    }
+
+    <img
+      [src]="getFileUrl(file)"
+      alt="preview"
+      class="w-full h-full object-cover group-hover:opacity-50"
+    />
+    <!-- Можна додати кнопку видалення -->
+    <button
+      type="button"
+      (click)="removeFile($index)"
+      class="group/B absolute top-1/2 left-1/2 -translate-x-1/2 p-sm -translate-y-1/2 bg-redy-300 rounded-[6px] hover:bg-red-500 hover:text-white transition-all duration-300 group-hover:block hidden"
+    >
+      <app-icon-outline-trash
+        svgClass="size-[24px] group-hover/B:text-kimberly-50 text-portGore-950 transition-all duration-300"
+      ></app-icon-outline-trash>
+    </button>
+  </div>
+  }
+  <!--ADD PHOTOS BUTTONS-->
+  @for (slot of addableSlots(); track slot.id) { @if(isScreenXsOrLarger()) {
+  <div
+    class="w-full h-[144px] xs:size-[160px] md:size-[200px] border-2 border-portGore-950 border-dashed rounded-[6px] flex items-center justify-center"
+  >
+    <button
+      class="bg-portGore-100 rounded-[6px] px-[10px] py-xs transition-all duration-300 hover:bg-portGore-300"
+      type="button"
+      (click)="openFileInput($event)"
+    >
+      Додайте фото
+    </button>
+    <input
+      type="file"
+      accept="image/*"
+      class="hidden"
+      (change)="onFileSelected($event, $index)"
+    />
+  </div>
+  } @else if($index === 0) {
+  <div
+    class="w-full h-[144px] xs:size-[160px] md:size-[200px] border-2 border-portGore-950 border-dashed rounded-[6px] flex items-center justify-center"
+  >
+    <button
+      class="bg-portGore-100 rounded-[6px] px-[10px] py-xs transition-all duration-300 hover:bg-portGore-300"
+      type="button"
+      (click)="openFileInput($event)"
+    >
+      Додайте фото
+    </button>
+    <input
+      type="file"
+      accept="image/*"
+      class="hidden"
+      (change)="onFileSelected($event, $index)"
+    />
+  </div>
+  } }
+</div>
+}
