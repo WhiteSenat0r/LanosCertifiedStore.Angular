@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { KeycloakService } from '../../../core/auth/services/keycloak.service';
+import { Router } from '@angular/router';
+import { Vehicle } from '../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 
 @Component({
   selector: 'app-carcard',
@@ -11,31 +13,33 @@ export class CarcardComponent {
   @Input() vehicle: any;
   @Input() tabType: 'my' | 'favorite' = 'my';
   @Output() vehicleDeleted = new EventEmitter<string>();
-  
+
   showDeleteModal = false;
 
   constructor(
     private http: HttpClient,
-    private keycloakService: KeycloakService // Замініть на ваш актуальний сервіс
-  ) {}
+    private keycloakService: KeycloakService,
+    private router: Router
+  ) { }
 
-  // Відкриття модалки
+   handleCardClick(vehicle: Vehicle) {
+    this.router.navigateByUrl(`/profile/${vehicle.id}`);
+  }
+
+
   openDeleteModal(): void {
     this.showDeleteModal = true;
   }
 
-  // Закриття модалки
   closeDeleteModal(): void {
     this.showDeleteModal = false;
   }
 
-  // Підтвердження видалення
   confirmDelete(): void {
     this.deleteVehicle();
     this.showDeleteModal = false;
   }
 
-  // Метод видалення через API
   deleteVehicle(): void {
     const token = this.keycloakService.getAccessToken();
     const headers = new HttpHeaders({
@@ -54,7 +58,6 @@ export class CarcardComponent {
       });
   }
 
-  // Метод для видалення з обраного
   removeFromFavorites(): void {
     // логіка видалення з обраного через API
   }
