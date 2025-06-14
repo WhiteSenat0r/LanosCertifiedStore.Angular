@@ -17,12 +17,13 @@ export class StepperElementComponent {
 
   formStage = input.required<AddProductStages>();
   stepperLoading = input.required<boolean>();
+  uploadPhotosLoading = input.required<boolean>();
 
   readonly steps: StepMeta[] = [
     { icon: 'car', lines: ['Основна', 'Інформація'] },
     { icon: 'cog', lines: ['Технічні', 'Характеристики'] },
     { icon: 'doc', lines: ['Додаткова', 'Інформація'] },
-    { icon: 'camera', lines: ['Фотографії']},
+    { icon: 'camera', lines: ['Фотографії'] },
   ];
 
   getStepStatus(index: number): StepStatus {

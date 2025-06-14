@@ -5,7 +5,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { inject} from '@angular/core';
+import { inject } from '@angular/core';
 import { PaginatedResult } from '../../../../shared/models/interfaces/api/PaginatedResult.interface';
 import { Vehicle } from '../../../../shared/models/interfaces/vehicle-properties/Vehicle.interface';
 import { VehicleSearchCriterias } from '../../models/classes/VehicleSearchCriterias.class';
@@ -19,6 +19,7 @@ type VehicleState = {
   currentPageItemsQuantity: number;
   pageIndex: number;
   filteredTotalVehicleCount: number;
+  addIncomplete: number;
 };
 
 const initialState: VehicleState = {
@@ -28,6 +29,7 @@ const initialState: VehicleState = {
   currentPageItemsQuantity: 10,
   pageIndex: 1,
   filteredTotalVehicleCount: 0,
+  addIncomplete: 0,
 };
 
 export const VehicleStore = signalStore(
@@ -63,6 +65,15 @@ export const VehicleStore = signalStore(
           patchState(store, {
             filteredTotalVehicleCount: response.filteredItemsCount,
           });
+          if (store.filteredTotalVehicleCount() % 10 !== 0) {
+            patchState(store, {
+              addIncomplete: 1,
+            });
+          } else {
+            patchState(store, {
+              addIncomplete: 0,
+            });
+          }
         },
         error: (error) => {
           console.error(error);
@@ -79,5 +90,5 @@ export const VehicleStore = signalStore(
         },
       });
     },
-  })),
+  }))
 );

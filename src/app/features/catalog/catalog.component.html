@@ -519,8 +519,8 @@
     >
       <app-pagination
         [totalPages]="
-          vehicleStore.filteredTotalVehicleCount() /
-          vehicleStore.currentPageItemsQuantity()
+          (vehicleStore.filteredTotalVehicleCount() /
+          vehicleStore.currentPageItemsQuantity()) + vehicleStore.addIncomplete()
         "
         [currentPage]="vehicleStore.pageIndex()"
         (onPageChangeEvent)="handlePageChange($event)"

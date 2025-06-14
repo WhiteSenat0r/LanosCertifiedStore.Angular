@@ -7,7 +7,7 @@
       '!bg-portGore-300 !opacity-85 hover:!bg-portGore-300 hover:!opacity-85':
         this.currentPage() === 1
     }"
-    class="py-xs px-[6px] cursor-pointer transition-all duration-300 bg-portGore-500 opacity-90 hover:bg-portGore-900 hover:opacity-100 rounded"
+    class="py-xs px-[6px] cursor-pointer bg-portGore-500 opacity-90 hover:bg-portGore-900 hover:opacity-100 rounded"
     (click)="onChangePageButtonClick('previous')"
   >
     <kolesko-icon
@@ -27,7 +27,7 @@
     </li>
     } @else { @for(page of pageNumbers(); track $index) { @if($index <= 4) {
     <li
-      class="transition-all duration-300 py-xs px-[12px] border-[2px] border-portGore-600 bg-transparent cursor-pointer bg-portGore-400 opacity-90 hover:bg-portGore-900 hover:opacity-100 hover:text-kimberly-50 rounded"
+      class="py-xs px-[12px] border-[2px] border-portGore-600 bg-transparent cursor-pointer bg-portGore-400 opacity-90 hover:bg-portGore-900 hover:opacity-100 hover:text-kimberly-50 rounded"
       [class.active]="currentPage() === $index + 1"
       (click)="onPageChange($index)"
     >
@@ -39,7 +39,7 @@
     </li>
     }@else if($index === pageNumbers.length - 1){
     <li
-      class="transition-all duration-300 py-xs px-[12px] border-[2px] border-portGore-600 bg-transparent cursor-pointer bg-portGore-400 opacity-90 hover:bg-portGore-900 hover:opacity-100 hover:text-kimberly-50 rounded"
+      class="py-xs px-[12px] border-[2px] border-portGore-600 bg-transparent cursor-pointer bg-portGore-400 opacity-90 hover:bg-portGore-900 hover:opacity-100 hover:text-kimberly-50 rounded"
     >
       {{ page }}
     </li>
@@ -52,10 +52,10 @@
       '!bg-portGore-300 !opacity-85 hover:!bg-portGore-300 hover:!opacity-85':
         this.currentPage() === this.totalPages() || totalPages() < 1
     }"
-    class="transition-all duration-300 py-xs px-[6px] cursor-pointer bg-portGore-500 opacity-90 hover:bg-portGore-900 hover:opacity-100 rounded"
+    class="py-xs px-[6px] cursor-pointer bg-portGore-500 opacity-90 hover:bg-portGore-900 hover:opacity-100 rounded"
     (click)="onChangePageButtonClick('next')"
   >
     <kolesko-icon class="text-kimberly-50" [size]="24"></kolesko-icon>
   </button>
 </div>
-} 
+}
