@@ -7,61 +7,85 @@
       <span class="text-h5 text-clip text-portGore-950 font-code">Kolesko</span>
     </div>
 
-    <div #searchContainer
-      class="w-full relative border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-visible hidden sm:flex items-center justify-start">
+   <div #searchContainer
+     class="w-full relative border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-visible hidden sm:flex items-center justify-start">
 
-      <div class="relative group inline-block left-[-1px] cursor-pointer">
-        <kolesko-icon name="figure-bookmark-type-blue"
-          class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34"
-          [height]="28" />
-        <kolesko-icon
-          class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2"
-          name="search-short-stick" [size]="14" />
-      </div>
+     <!-- Іконка лупи/закладки або хрестика -->
+     <div class="relative group inline-block left-[-1px] cursor-pointer" (click)="searchControl.value ? clearSearch() : null">
+       <kolesko-icon name="figure-bookmark-type-blue"
+         class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34"
+         [height]="28" />
+       
+       <!-- Лупа коли немає тексту -->
+       <kolesko-icon *ngIf="!searchControl.value"
+         class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2"
+         name="search-short-stick" [size]="14" />
+       
+       <!-- Хрестик коли є текст -->
+       <div *ngIf="searchControl.value"
+         class="absolute top-1/2 text-white transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+         style="font-size: 12px; line-height: 1;">
+         ✕
+       </div>
+     </div>
 
-      <input [formControl]="searchControl" class="bg-kimberly-50 focus:outline-none w-full" placeholder="Пошук..." />
+     <!-- Поле вводу -->
+     <input [formControl]="searchControl" 
+            class="bg-kimberly-50 focus:outline-none w-full px-2" 
+            placeholder="Пошук..." />
 
-      <div *ngIf="searchControl.value" (click)="clearSearch()"
-        class="mr-3 cursor-pointer text-portGore-500 hover:text-portGore-700 flex items-center justify-center"
-        style="min-width: 16px; font-size: 16px; line-height: 1;">
-        ✕
-      </div>
+     <!-- Результати пошуку -->
+     <div *ngIf="showResults"
+       class="absolute top-full left-0 right-0 z-50 mt-1 bg-kimberly-50 border border-gray-200 rounded-md shadow-sm  mt-sm"
+       style="width: 100%; margin-left: 16px; margin-right: 16px; width: calc(100% - 32px);">
+       
+       <!-- Лоадер -->
+       <div *ngIf="isLoading" class="flex justify-center p-4">
+         <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-portGore-700"></div>
+       </div>
 
-      <div *ngIf="showResults"
-        class="absolute top-full left-0 right-0 z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-96 overflow-y-auto"
-        style="width: 100%;">
-        <div *ngIf="isLoading" class="flex justify-center p-3">
-          <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-portGore-700"></div>
-        </div>
+       <!-- Немає результатів -->
+       <div *ngIf="!isLoading && searchResults.length === 0" class="p-4 text-center text-gray-600">
+         Немає результатів за вашим запитом
+       </div>
 
-        <div *ngIf="!isLoading && searchResults.length === 0" class="p-3 text-center text-gray-600">
-          Немає результатів за вашим запитом
-        </div>
+       <!-- Список результатів з скролом -->
+       <div *ngIf="!isLoading && searchResults.length > 0" 
+            class="overflow-y-auto custom-scrollbar" 
+            style="padding: 12px; padding-right: 8px; max-height: 320px;">
+         
+         <div *ngFor="let vehicle of searchResults"
+           class="flex items-center hover:bg-portGore-50 cursor-pointer transition-colors duration-200 border border-gray-100 rounded-md mb-2 last:mb-0"
+           style="padding: 8px;" 
+           (click)="navigateToVehicle(vehicle.id)">
 
-        <div *ngIf="!isLoading && searchResults.length > 0" style="padding: 4px;">
-          <div *ngFor="let vehicle of searchResults"
-            class="flex items-center hover:bg-gray-50 cursor-pointer transition-colors duration-150 border border-gray-100 rounded"
-            style="margin: 4px; padding: 4px;" (click)="navigateToVehicle(vehicle.id)">
+           <!-- Зображення машини -->
+           <div class="flex-shrink-0" style="margin-right: 12px;">
+             <img [src]="vehicle.mainImageUrl" 
+                  [alt]="vehicle.fullName"
+                  class="w-[110px] h-[70px] object-cover rounded-md border border-gray-200">
+           </div>
 
-            <div class="flex-shrink-0" style="padding: 4px;">
-              <img [src]="vehicle.mainImageUrl" [alt]="vehicle.fullName"
-                class="w-[110px] h-[70px] object-cover rounded">
-            </div>
+           <!-- Інформація про машину -->
+           <div class="flex-grow">
+             <div class="font-medium text-portGore-900 text-sm mb-1">
+               {{ vehicle.fullName }}
+             </div>
+             <div class="text-portGore-700 text-sm font-medium">
+               {{ vehicle.price | currency:'USD':'symbol':'1.0-0' }}
+             </div>
+           </div>
+         </div>
 
-            <div class="flex-grow ml-3">
-              <span class="font-medium text-portGore-900 block">{{ vehicle.fullName }}</span>
-              <span class="text-portGore-700">{{ vehicle.price | currency:'USD':'symbol':'1.0-0' }}</span>
-            </div>
-          </div>
-
-          <div *ngIf="!showingAll && allSearchResults.length > 3"
-            class="text-center py-2 cursor-pointer text-portGore-700 hover:text-portGore-900 border-t border-gray-100"
-            (click)="loadMoreResults()">
-            <span>Переглянути ще</span>
-          </div>
-        </div>
-      </div>
-    </div>
+         <!-- Кнопка "Переглянути ще" -->
+         <div *ngIf="!showingAll && allSearchResults.length > 3"
+           class="text-center py-sm cursor-pointer text-portGore-700 hover:text-portGore-900 hover:bg-portGore-50 border-t border-gray-100 transition-colors duration-200 rounded-b-md"
+           (click)="loadMoreResults()">
+           <span class="text-sm font-medium">Переглянути ще</span>
+         </div>
+       </div>
+     </div>
+   </div>
 
     <div
       routerLink="/profile/add-product"
