@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { KeycloakService } from '../../../core/auth/services/keycloak.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { StatisticsService } from '../services/statistics.service';
 
 @Component({
   selector: 'app-banner',
   templateUrl: './banner.component.html',
   styleUrl: './banner.component.css'
 })
-export class BannerComponent implements OnInit {
+export class BannerComponent implements OnInit, OnDestroy {
   userProfile: any;
   isProfileModalOpen = false;
   profileForm = {
@@ -21,9 +23,12 @@ export class BannerComponent implements OnInit {
   totalViewsCount = 0;
   wishlistCount = 0;
 
+  private subscriptions: Subscription[] = [];
+
   constructor(
     private keycloakService: KeycloakService,
-    private http: HttpClient
+    private http: HttpClient,
+    private statisticsService: StatisticsService
   ) { }
 
   ngOnInit() {
@@ -32,6 +37,27 @@ export class BannerComponent implements OnInit {
     } else {
       this.loadUserProfile();
     }
+
+    // Підписуємося на оновлення статистики
+    this.subscriptions.push(
+      this.statisticsService.wishlistUpdated$.subscribe(() => {
+        if (this.userProfile?.id) {
+          this.loadWishlistCount(this.userProfile.id);
+        }
+      })
+    );
+
+    this.subscriptions.push(
+      this.statisticsService.vehicleDeleted$.subscribe(() => {
+        if (this.userProfile?.id) {
+          this.loadActiveListingsCount(this.userProfile.id);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   loadUserProfile() {
@@ -58,13 +84,18 @@ export class BannerComponent implements OnInit {
       });
   }
 
-   loadUserStatistics(ownerId: string) {
+  loadUserStatistics(ownerId: string) {
+    this.loadActiveListingsCount(ownerId);
+    this.loadWishlistCount(ownerId);
+    this.totalViewsCount = 0;
+  }
+
+  private loadActiveListingsCount(ownerId: string) {
     const token = this.keycloakService.getAccessToken();
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
 
-    // Завантаження активних оголошень
     this.http.get<any>(`https://localhost:5001/api/vehicles/count?OwnerId=${ownerId}`, { headers })
       .subscribe({
         next: (response: any) => {
@@ -75,8 +106,14 @@ export class BannerComponent implements OnInit {
           this.activeListingsCount = 0;
         }
       });
+  }
 
-    // Завантаження кількості обраних оголошень
+  private loadWishlistCount(ownerId: string) {
+    const token = this.keycloakService.getAccessToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
     this.http.get<any>(`https://localhost:5001/api/user/wishlist/count?UserId=${ownerId}`, { headers })
       .subscribe({
         next: (response: any) => {
@@ -87,9 +124,8 @@ export class BannerComponent implements OnInit {
           this.wishlistCount = 0;
         }
       });
-
-    this.totalViewsCount = 0;
   }
+
   openProfileModal() {
     if (this.userProfile) {
       this.profileForm = {
@@ -137,7 +173,6 @@ export class BannerComponent implements OnInit {
         }
       });
   }
-
 
   onCancel() {
     this.closeProfileModal();

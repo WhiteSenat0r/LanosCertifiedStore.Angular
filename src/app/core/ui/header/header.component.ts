@@ -1,5 +1,4 @@
 import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -7,6 +6,7 @@ import { SearchVehicle } from '../../../shared/models/SearchModels/search-vehicl
 import { VehicleSearchService, SearchResponse } from '../../vehicle-search.service';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { UserProfile } from '../../../core/auth/models/user.model';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -22,19 +22,21 @@ export class HeaderComponent implements OnInit {
   showingAll = false;
   user: UserProfile | null = null;
   showUserMenu = false;
-  
+
   @ViewChild('searchContainer') searchContainer!: ElementRef;
   @ViewChild('userMenu') userMenu!: ElementRef;
-  
+
   constructor(
     private router: Router,
     private searchService: VehicleSearchService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute,
+
   ) {
     this.searchControl.valueChanges.pipe(
-      debounceTime(300), 
-      distinctUntilChanged(), 
-      filter((term: string | null) => !!term && term.length >= 2), 
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter((term: string | null) => !!term && term.length >= 2),
       tap(() => {
         this.isLoading = true;
         this.showResults = true;
@@ -62,33 +64,27 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Subscribe to user changes
     this.authService.user$.subscribe(user => {
       this.user = user;
     });
-    
-    // Check for authentication callback
+
     this.handleAuthCallback();
   }
 
-  /**
-   * Handle authentication callback from Keycloak
-   */
+ 
   private handleAuthCallback(): void {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const state = urlParams.get('state');
-    
+
     if (code && state) {
-      // Process the authentication callback
       this.authService.handleAuthCallback(code, state).subscribe({
         next: (success) => {
           if (success) {
-            // Clear URL parameters
+
             const returnUrl = localStorage.getItem('returnUrl') || '/';
             localStorage.removeItem('returnUrl');
-            
-            // Remove the code and state from the URL
+
             this.router.navigate([returnUrl], { replaceUrl: true });
           }
         },
@@ -99,57 +95,49 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  /**
-   * Toggle user menu
-   */
-toggleUserMenu(event: MouseEvent): void {
-  event.stopPropagation(); // щоб клік по іконці не закривав меню через HostListener
-  if (this.user) {
-    this.showUserMenu = !this.showUserMenu;
-  } else {
-    this.login();
+
+  toggleUserMenu(event: MouseEvent): void {
+    event.stopPropagation(); 
+    if (this.user) {
+      this.showUserMenu = !this.showUserMenu;
+    } else {
+      this.login();
+    }
   }
-}
 
-
-  /**
-   * Login
-   */
   login(): void {
     this.authService.login();
   }
 
-  /**
-   * Logout
-   */
+
   logout(): void {
     this.authService.logout();
   }
 
   loadMoreResults(): void {
     if (this.showingAll) return;
-    
+
     this.showingAll = true;
     this.searchResults = this.allSearchResults;
   }
 
   @HostListener('document:click', ['$event'])
   clickOutside(event: Event): void {
-    // Close search results if click outside search container
     if (this.searchContainer && !this.searchContainer.nativeElement.contains(event.target)) {
       this.showResults = false;
     }
-    
-    // Close user menu if click outside menu
+
     if (this.userMenu && !this.userMenu.nativeElement.contains(event.target)) {
       this.showUserMenu = false;
     }
   }
 
   navigateToVehicle(vehicleId: string): void {
-    this.router.navigate(['/vehicle', vehicleId]);
+
+    const currentUrl = this.router.url;
+    this.router.navigate([currentUrl, vehicleId]);
     this.showResults = false;
-    this.searchControl.setValue('', { emitEvent: false }); 
+    this.searchControl.setValue('', { emitEvent: false });
   }
 
   clearSearch(): void {
