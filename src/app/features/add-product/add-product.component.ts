@@ -30,7 +30,7 @@ export class AddProductComponent {
   //Enums
   AddProductStages = AddProductStages;
   //State
-  formStage = signal<AddProductStages>(AddProductStages.firstRequest);
+  formStage = signal<AddProductStages>(AddProductStages.start);
   vehicleId = signal<string | undefined>(undefined);
   stepperFormLoading = signal<boolean>(false);
   photoUploaderLoading = signal<boolean>(false);

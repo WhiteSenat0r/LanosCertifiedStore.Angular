@@ -21,7 +21,7 @@ export class ThumbnailsCarouselComponent implements OnChanges, OnDestroy {
   currentSlide = 0;
 
   ngAfterViewInit() {
-    if (this.vehicle().images.length) {
+    if (this.vehicle().images.length > 1) {
       this.initSplides();
     }
   }

@@ -1,3 +1,4 @@
+@if(this.vehicle().images.length > 1) {
 <div class="flex flex-row lg:flex-col gap-[12px]">
   <!-- Main slider constrained -->
   <div class="h-[282px] min-w-[260px] lg:h-[440px] relative">
@@ -33,6 +34,7 @@
                 [src]="img.imageUrl"
                 alt="Main image"
                 class="object-cover h-full w-full"
+                appImageError="assets/images/Home/car-placeholder2.png"
               />
             </div>
           </li>
@@ -55,9 +57,27 @@
             [src]="img.imageUrl"
             alt="Thumbnail"
             class="w-full h-full object-cover block"
+            appImageError="assets/images/Home/car-placeholder2.png"
           />
         </li>
       </ul>
     </div>
   </div>
 </div>
+} @else { @if(this.vehicle().images.length === 0) {
+<div class="min-w-[260px] h-[440px] lg:h-[560px] xl:h-[540px] relative">
+  <img
+    class="w-full h-full object-cover block"
+    src="assets/images/Home/car-placeholder2.png"
+    alt="Error Image"
+  />
+</div>
+}@else {
+<div class="min-w-[260px] h-[440px] lg:h-[560px] xl:h-[540px] relative">
+  <img
+    class="w-full h-full object-cover block"
+    [src]="this.vehicle().images[0].imageUrl"
+    alt="Main image"
+  />
+</div>
+} }

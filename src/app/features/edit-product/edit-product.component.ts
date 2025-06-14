@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BodyType } from '../../shared/models/interfaces/vehicle-properties/BodyType.interface';
 import { Brand } from '../../shared/models/interfaces/vehicle-properties/Brand.interface';
@@ -17,8 +17,17 @@ import { StepperForm } from '../add-product/models/interfaces/StepperForm.interf
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
 })
-export class EditProductComponent {
+export class EditProductComponent implements OnInit {
   onSubmit() {}
+
+  ngOnInit(): void {
+    if (this.form.controls.startInfo.controls.brand.value === null) {
+      this.form.controls.startInfo.controls.model.disable();
+    }
+    if (this.form.controls.firstRequestInfo.controls.region.value === null) {
+      this.form.controls.firstRequestInfo.controls.town.disable();
+    }
+  }
 
   form = new FormGroup<StepperForm>({
     startInfo: new FormGroup({
