@@ -1,0 +1,57 @@
+@let displacementLable = "Об'єм двигуна"; @let displacementPlaceholder =
+"Надайте об'єм двигуна...";
+<div [formGroup]="additionalGroup()">
+  <!--Step name + Step brief description-->
+  <div class="flex flex-col gap-sm pb-[24px] sm:pb-[30px]">
+    <div class="flex items-center flex-row gap-[12px]">
+      <app-icon-cog [svgClass]="'size-[34px]'"></app-icon-cog>
+      <span class="text-h6 xs:text-h5 sm:text-h4 font-code"
+        >Технічні характеристики</span
+      >
+    </div>
+    <span class="text-sm text-portGore-800"
+      >Вкажіть технічні характеристики вашого автомобілю</span
+    >
+  </div>
+  <div
+    class="sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:gap-y-md sm:gap-x-2xl flex flex-col gap-y-[20px]"
+  >
+    <!--Engine Type-->
+    <app-autocomplete
+      [label]="'Тип двигуна'"
+      formControlName="engineType"
+      [options]="engines()"
+      [placeholder]="'Оберіть тип двигуна...'"
+    ></app-autocomplete>
+    <!--Drivetrain Type-->
+    <app-autocomplete
+      [label]="'Привід'"
+      formControlName="drivetrainType"
+      [options]="drivetrains()"
+      [placeholder]="'Оберіть тип приводу...'"
+    ></app-autocomplete>
+    <!--Transmission Type-->
+    <app-autocomplete
+      [label]="'Коробка передач'"
+      formControlName="transmissionType"
+      [options]="transmissions()"
+      [placeholder]="'Оберіть коробку передач...'"
+    ></app-autocomplete>
+    <!--Displacement-->
+    <app-input-with-symbol
+      [label]="displacementLable"
+      [symbol]="'л'"
+      [inputType]="'number'"
+      formControlName="displacement"
+      [placeholder]="displacementPlaceholder"
+    ></app-input-with-symbol>
+    <!--VIN code-->
+    <app-input-with-symbol
+      [label]="'VIN-код'"
+      [symbol]="'VIN'"
+      [inputType]="'string'"
+      formControlName="vincode"
+      [placeholder]="'Введіть VIN-code вашого авто...'"
+    ></app-input-with-symbol>
+  </div>
+</div>
