@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from '../../../core/auth/services/keycloak.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-banner',
@@ -19,6 +19,7 @@ export class BannerComponent implements OnInit {
 
   activeListingsCount = 0;
   totalViewsCount = 0;
+  wishlistCount = 0;
 
   constructor(
     private keycloakService: KeycloakService,
@@ -47,7 +48,7 @@ export class BannerComponent implements OnInit {
 
     this.http.get('https://localhost:5001/api/identity/me', { headers })
       .subscribe({
-        next: (profile:any) => {
+        next: (profile: any) => {
           this.userProfile = profile;
           this.loadUserStatistics(profile.id);
         },
@@ -57,25 +58,38 @@ export class BannerComponent implements OnInit {
       });
   }
 
-  loadUserStatistics(ownerId: string) {
+   loadUserStatistics(ownerId: string) {
     const token = this.keycloakService.getAccessToken();
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
 
+    // Завантаження активних оголошень
     this.http.get<any>(`https://localhost:5001/api/vehicles/count?OwnerId=${ownerId}`, { headers })
       .subscribe({
         next: (response: any) => {
           this.activeListingsCount = response.filteredItemsCount || 0;
         },
         error: (err) => {
+          console.error('Failed to load active listings count', err);
           this.activeListingsCount = 0;
+        }
+      });
+
+    // Завантаження кількості обраних оголошень
+    this.http.get<any>(`https://localhost:5001/api/user/wishlist/count?UserId=${ownerId}`, { headers })
+      .subscribe({
+        next: (response: any) => {
+          this.wishlistCount = response.totalItemsCount || response.count || 0;
+        },
+        error: (err) => {
+          console.error('Failed to load wishlist count', err);
+          this.wishlistCount = 0;
         }
       });
 
     this.totalViewsCount = 0;
   }
-
   openProfileModal() {
     if (this.userProfile) {
       this.profileForm = {

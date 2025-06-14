@@ -2,9 +2,9 @@
     <div class="max-w-[1200px] mx-auto px-base">
         <div class="flex flex-col md:flex-row gap-lg">
             <!-- User Info Card -->
-            <div class="w-full md:w-3/5 rounded-3xl border-2 border-black p-lg flex items-start gap-lg">
+            <div class="w-full md:w-3/5 rounded-3xl border-2 border-black p-md flex items-start gap-md md:gap-lg">
                 <div
-                    class="w-[160px] h-[160px] border-2 border-black rounded-full flex items-center justify-center flex-shrink-0">
+                    class="w-[80px] h-[80px] md:w-[160px] md:h-[160px] border-2 border-black rounded-full flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 150 150" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M75 25C70.0272 25 65.2581 26.9754 61.7417 30.4917C58.2254 34.0081 56.25 38.7772 56.25 43.75C56.25 48.7228 58.2254 53.4919 61.7417 57.0083C65.2581 60.5246 70.0272 62.5 75 62.5C79.9728 62.5 84.742 60.5246 88.2583 57.0083C91.7746 53.4919 93.75 48.7228 93.75 43.75C93.75 38.7772 91.7746 34.0081 88.2583 30.4917C84.742 26.9754 79.9728 25 75 25ZM52.9029 21.6529C58.7634 15.7924 66.712 12.5 75 12.5C83.288 12.5 91.2366 15.7924 97.0971 21.6529C102.958 27.5134 106.25 35.462 106.25 43.75C106.25 52.038 102.958 59.9866 97.0971 65.8471C91.2366 71.7076 83.288 75 75 75C66.712 75 58.7634 71.7076 52.9029 65.8471C47.0424 59.9866 43.75 52.038 43.75 43.75C43.75 35.462 47.0424 27.5134 52.9029 21.6529ZM39.6447 95.8947C49.0215 86.5178 61.7392 81.25 75 81.25C88.2608 81.25 100.979 86.5178 110.355 95.8947C119.732 105.271 125 117.989 125 131.25C125 134.702 122.202 137.5 118.75 137.5H31.25C29.5924 137.5 28.0027 136.842 26.8306 135.669C25.6585 134.497 25 132.908 25 131.25C25 117.989 30.2678 105.271 39.6447 95.8947ZM75 93.75C65.0544 93.75 55.5161 97.7009 48.4835 104.733C42.9417 110.275 39.3135 117.373 38.0243 125H111.976C110.686 117.373 107.058 110.275 101.517 104.733C94.4839 97.7009 84.9456 93.75 75 93.75Z"
@@ -12,10 +12,10 @@
                     </svg>
                 </div>
 
-                <div class="flex-1">
-                    <div class="flex items-center justify-between mb-md">
-                        <h1 class="text-h3 font-medium">{{userProfile.firstName}}</h1>
-                        <button class="text-indigo-700 hover:text-indigo-900 transition-colors"
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between mb-sm md:mb-md">
+                        <h1 class="text-lg md:text-h3 font-medium truncate">{{userProfile.firstName}}</h1>
+                        <button class="text-indigo-700 hover:text-indigo-900 transition-colors ml-sm flex-shrink-0"
                             (click)="openProfileModal()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none">
@@ -25,17 +25,17 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="space-y-sm">
-                        <div class="flex items-center gap-sm text-lg text-indigo-900">
+                    <div class="space-y-xs md:space-y-sm">
+                        <div class="flex items-center gap-xs md:gap-sm text-sm md:text-lg text-indigo-900">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20"
                                 fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M2.40029 4.06524C2.86913 3.5964 3.50502 3.33301 4.16806 3.33301H15.8347C16.4978 3.33301 17.1336 3.5964 17.6025 4.06524C18.0713 4.53408 18.3347 5.16997 18.3347 5.83301V6.65341C18.3348 6.66152 18.3348 6.66964 18.3347 6.67774V14.1663C18.3347 14.8294 18.0713 15.4653 17.6025 15.9341C17.1337 16.4029 16.4978 16.6663 15.8347 16.6663H4.16806C3.50502 16.6663 2.86913 16.4029 2.40029 15.9341C1.93145 15.4653 1.66806 14.8294 1.66806 14.1663V6.67773C1.66794 6.66963 1.66794 6.66153 1.66806 6.65342V5.83301C1.66806 5.16997 1.93145 4.53408 2.40029 4.06524ZM3.33472 8.22344V14.1663C3.33472 14.3874 3.42252 14.5993 3.5788 14.7556C3.73508 14.9119 3.94704 14.9997 4.16806 14.9997H15.8347C16.0557 14.9997 16.2677 14.9119 16.424 14.7556C16.5803 14.5993 16.6681 14.3874 16.6681 14.1663V8.22344L11.3889 11.7429C11.3888 11.7429 11.3887 11.743 11.3886 11.743C10.9779 12.017 10.4952 12.1633 10.0014 12.1633C9.50762 12.1633 9.02491 12.017 8.61414 11.743C8.61406 11.743 8.61397 11.7429 8.61389 11.7429L3.33472 8.22344ZM16.6681 6.22035L10.4641 10.3563L10.4639 10.3565C10.3269 10.4478 10.166 10.4966 10.0014 10.4966C9.83677 10.4966 9.67583 10.4478 9.53889 10.3565L9.53864 10.3563L3.33472 6.22035V5.83301C3.33472 5.61199 3.42252 5.40003 3.5788 5.24375C3.73508 5.08747 3.94704 4.99967 4.16806 4.99967H15.8347C16.0557 4.99967 16.2677 5.08747 16.424 5.24375C16.5803 5.40003 16.6681 5.61199 16.6681 5.83301V6.22035Z"
                                     fill="#353888" />
                             </svg>
-                            <span>{{userProfile.email}}</span>
+                            <span class="truncate">{{userProfile.email}}</span>
                         </div>
-                        <div class="flex items-center gap-sm text-lg text-indigo-900">
+                        <div class="flex items-center gap-xs md:gap-sm text-sm md:text-lg text-indigo-900">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
                                 fill="none">
                                 <path
@@ -43,9 +43,10 @@
                                     stroke="#353888" stroke-width="1.5" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
-                            <span *ngIf="userProfile.phoneNumber; else addPhone">{{ userProfile.phoneNumber }}</span>
+                            <span *ngIf="userProfile.phoneNumber; else addPhone" class="truncate">{{
+                                userProfile.phoneNumber }}</span>
                             <ng-template #addPhone>
-                                <button class="text-red-600 underline" (click)="openProfileModal()">
+                                <button class="text-red-600 underline text-sm md:text-lg" (click)="openProfileModal()">
                                     Додайте номер
                                 </button>
                             </ng-template>
@@ -53,14 +54,13 @@
                     </div>
                 </div>
             </div>
-
             <!-- Stats Card -->
-            <div class="w-full md:w-2/5 rounded-3xl border-2 border-black p-lg">
-                <div class="flex flex-col gap-lg">
+            <div class="w-full md:w-2/5 rounded-3xl border-2 border-black p-md md:p-lg">
+                <div class="flex flex-col sm:flex-row md:flex-col gap-md md:gap-lg">
                     <!-- Active Listings Stat -->
-                    <div class="flex items-center gap-md">
-                        <div class=" p-sm rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 30 30"
+                    <div class="flex items-center gap-sm md:gap-md flex-1">
+                        <div class="p-xs md:p-sm rounded-full flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30"
                                 fill="none">
                                 <path
                                     d="M27.5219 13.7461C27.0924 13.176 25.4969 12.7834 24.8219 11.7574C24.1469 10.7314 23.5944 8.50957 21.8764 7.65586C20.1584 6.80215 16.8749 6.5625 14.9999 6.5625C13.1249 6.5625 9.8436 6.79688 8.12329 7.6541C6.40298 8.51133 5.85278 10.7314 5.17778 11.7557C4.50278 12.7799 2.90728 13.176 2.47778 13.7461C2.04829 14.3162 1.74595 17.9203 1.92993 19.6875C2.11392 21.4547 2.45727 22.5 2.45727 22.5H7.49634C8.32134 22.5 8.5897 22.19 10.2772 22.0312C12.1288 21.8555 13.9452 21.7969 14.9999 21.7969C16.0545 21.7969 17.9295 21.8555 19.7799 22.0312C21.4674 22.1912 21.7446 22.5 22.5608 22.5H27.5413C27.5413 22.5 27.8846 21.4547 28.0686 19.6875C28.2526 17.9203 27.9491 14.3162 27.5219 13.7461ZM23.4374 22.5H26.7186V23.4375H23.4374V22.5ZM3.2811 22.5H6.56235V23.4375H3.2811V22.5Z"
@@ -73,25 +73,29 @@
                                     stroke="black" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <div>
-                            <p class="text-lg font-medium text-indigo-900 mb-xs">Активні оголошення</p>
-                            <p class="text-h5 font-semibold">{{ activeListingsCount }}</p>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-sm">
+                                <p class="text-md md:text-xl font-medium text-indigo-900">Активні оголошення</p>
+                                <p class="text-lg md:text-h5 font-semibold">{{ activeListingsCount }}</p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Total Views Stat -->
-                    <div class="flex items-center gap-md">
-                        <div class=" p-sm rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 30 30"
+                    <div class="flex items-center gap-sm md:gap-md flex-1">
+                        <div class="p-xs md:p-sm rounded-full flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30"
                                 fill="none">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M8.75 5C8.41848 5 8.10054 5.1317 7.86612 5.36612C7.6317 5.60054 7.5 5.91848 7.5 6.25V24.2275L14.441 20.757C14.7929 20.581 15.2071 20.581 15.559 20.757L22.5 24.2275V6.25C22.5 5.91848 22.3683 5.60054 22.1339 5.36612C21.8995 5.1317 21.5815 5 21.25 5H8.75ZM6.09835 3.59835C6.80161 2.89509 7.75544 2.5 8.75 2.5H21.25C22.2446 2.5 23.1984 2.89509 23.9016 3.59835C24.6049 4.30161 25 5.25544 25 6.25V26.25C25 26.6832 24.7757 27.0856 24.4072 27.3133C24.0386 27.5411 23.5785 27.5618 23.191 27.368L15 23.2725L6.80902 27.368C6.42153 27.5618 5.96136 27.5411 5.59284 27.3133C5.22432 27.0856 5 26.6832 5 26.25V6.25C5 5.25544 5.39509 4.30161 6.09835 3.59835Z"
                                     fill="black" />
                             </svg>
                         </div>
-                        <div>
-                            <p class="text-lg font-medium text-indigo-900 mb-xs">Обрані оголошення
-                            <p class="text-h5 font-semibold">0</p>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-sm">
+                                <p class="text-md md:text-xl font-medium text-indigo-900">Обрані оголошення</p>
+                                <p class="text-lg md:text-h5 font-semibold">{{wishlistCount}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,100 +104,100 @@
     </div>
 
 
-    <div *ngIf="isProfileModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-portGore-50 rounded-2xl shadow-2xl" style="width: 500px; height: 578px;">
+  <div *ngIf="isProfileModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-portGore-50 rounded-2xl shadow-2xl" style="width: 450px; height: 500px;">
 
-            <div class="flex items-center justify-between p-base border-portGore-200">
-                <h2 class="text-md font-medium text-content-primary">Редагувати профіль</h2>
-                <button (click)="closeProfileModal()"
-                    class="w-6 h-6 flex items-center justify-center text-content-tertiary hover:text-content-secondary transition-all duration-200"
-                    type="button" aria-label="Закрити">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
-                            fill="currentColor" />
-                    </svg>
-                </button>
-            </div>
+        <div class="flex items-center justify-between p-base border-portGore-200">
+            <h2 class="text-md font-medium text-content-primary">Редагувати профіль</h2>
+            <button (click)="closeProfileModal()"
+                class="w-6 h-6 flex items-center justify-center text-content-tertiary hover:text-content-secondary transition-all duration-200"
+                type="button" aria-label="Закрити">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+                        fill="currentColor" />
+                </svg>
+            </button>
+        </div>
 
-            <div class="px-base pb-base pt-md">
-                <form (ngSubmit)="onSubmit()" class="space-y-md">
+        <div class="px-base pb-sm pt-md">
+            <form (ngSubmit)="onSubmit()" class="space-y-md">
 
-                    <div>
-                        <div class="text-sm font-medium text-content-primary mb-sm">Фото профілю</div>
-                        <div class="flex items-center space-x-base">
+                <div>
+                    <div class="text-sm font-medium text-content-primary mb-sm">Фото профілю</div>
+                    <div class="flex items-center space-x-base">
 
-                            <div class="w-16 h-16 rounded-full flex items-center justify-center border-2 ">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"
-                                    fill="none">
-                                    <circle cx="40" cy="40" r="39.5" fill="#E2E2F4" stroke="black" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M40.1987 20.3339C38.2228 20.3339 36.3279 21.1188 34.9307 22.5159C33.5336 23.9131 32.7487 25.808 32.7487 27.7839C32.7487 29.7597 33.5336 31.6547 34.9307 33.0518C36.3279 34.4489 38.2228 35.2339 40.1987 35.2339C42.1746 35.2339 44.0695 34.4489 45.4666 33.0518C46.8638 31.6547 47.6487 29.7597 47.6487 27.7839C47.6487 25.808 46.8638 23.9131 45.4666 22.5159C44.0695 21.1188 42.1746 20.3339 40.1987 20.3339ZM31.4188 19.0039C33.7474 16.6754 36.9056 15.3672 40.1987 15.3672C43.4918 15.3672 46.65 16.6754 48.9786 19.0039C51.3072 21.3325 52.6154 24.4907 52.6154 27.7839C52.6154 31.077 51.3072 34.2352 48.9786 36.5638C46.65 38.8923 43.4918 40.2005 40.1987 40.2005C36.9056 40.2005 33.7474 38.8923 31.4188 36.5638C29.0902 34.2352 27.782 31.077 27.782 27.7839C27.782 24.4907 29.0902 21.3325 31.4188 19.0039ZM26.1508 48.5027C29.8766 44.7769 34.9297 42.6839 40.1987 42.6839C45.4677 42.6839 50.5208 44.7769 54.2465 48.5027C57.9723 52.2284 60.0654 57.2816 60.0654 62.5505C60.0654 63.922 58.9535 65.0339 57.582 65.0339H22.8154C22.1567 65.0339 21.5251 64.7722 21.0594 64.3065C20.5937 63.8408 20.332 63.2091 20.332 62.5505C20.332 57.2816 22.4251 52.2284 26.1508 48.5027ZM40.1987 47.6505C36.247 47.6505 32.4571 49.2203 29.6628 52.0146C27.4609 54.2166 26.0193 57.0368 25.507 60.0672H54.8904C54.3781 57.0368 52.9365 54.2166 50.7346 52.0146C47.9403 49.2203 44.1504 47.6505 40.1987 47.6505Z"
-                                        fill="black" />
-                                </svg>
-                            </div>
-
-                            <label class="cursor-pointer">
-                                <div
-                                    class="flex items-center px-md py-xs border border-black rounded hover:bg-portGore-100 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
-                                        fill="none">
-                                        <g clip-path="url(#clip0_1653_1929)">
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M13.75 10C13.75 12.075 12.075 13.75 10 13.75C7.925 13.75 6.25 12.075 6.25 10C6.25 7.925 7.925 6.25 10 6.25C12.075 6.25 13.75 7.925 13.75 10ZM12.5 10C12.5001 10.3284 12.4355 10.6536 12.3099 10.957C12.1843 11.2604 12.0002 11.5361 11.768 11.7684C11.2992 12.2375 10.6632 12.5011 10 12.5013C9.67161 12.5013 9.34643 12.4367 9.043 12.3111C8.73958 12.1855 8.46387 12.0014 8.23161 11.7693C7.76253 11.3004 7.49892 10.6645 7.49875 10.0013C7.49858 9.33804 7.76188 8.70193 8.23072 8.23286C8.69957 7.76378 9.33554 7.50017 9.99875 7.5C10.662 7.49983 11.2981 7.76313 11.7671 8.23197C12.2362 8.70082 12.4998 9.33679 12.5 10Z"
-                                                fill="black" />
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M1.46437 4.52461C2.27562 3.90211 3.37687 3.77961 5.30187 3.75586L6.13312 2.43086C6.3583 2.07058 6.67158 1.77363 7.04339 1.56804C7.4152 1.36245 7.83326 1.25501 8.25812 1.25586H11.7331C12.5956 1.25586 13.3956 1.69961 13.8581 2.43086L14.6894 3.75586C16.6144 3.78086 17.7144 3.90211 18.5269 4.52461C18.7877 4.72545 19.0185 4.95628 19.2194 5.21711C19.9944 6.22711 19.9944 7.69211 19.9944 10.6296C19.9944 13.5671 19.9944 15.0296 19.2194 16.0421C19.0185 16.3029 18.7877 16.5338 18.5269 16.7346C17.5169 17.5096 16.0519 17.5096 13.1144 17.5096H6.86437C3.92687 17.5096 2.46437 17.5096 1.45187 16.7346C1.19176 16.535 0.958944 16.3022 0.759375 16.0421C-0.015625 15.0321 -0.015625 13.5671 -0.015625 10.6296C-0.015625 7.69211 -0.015625 6.22961 0.759375 5.21711C0.960208 4.95628 1.19104 4.72545 1.45187 4.52461H1.46437ZM13.6269 4.41836C13.8519 4.77961 14.2456 5.00086 14.6719 5.00586C16.6594 5.03086 17.3344 5.18461 17.7719 5.51711C17.9469 5.65045 18.1006 5.8042 18.2331 5.97836C18.4256 6.22836 18.5769 6.59336 18.6606 7.34086C18.7481 8.11336 18.7494 9.12836 18.7494 10.6284C18.7494 12.1284 18.7481 13.1409 18.6606 13.9159C18.5769 14.6634 18.4256 15.0271 18.2331 15.2784C18.0998 15.4534 17.946 15.6071 17.7719 15.7396C17.5206 15.9321 17.1569 16.0834 16.4094 16.1671C15.6369 16.2546 14.6219 16.2559 13.1219 16.2559H6.87187C5.37187 16.2559 4.35937 16.2534 3.58437 16.1671C2.83687 16.0821 2.47312 15.9321 2.22187 15.7396C2.04856 15.6063 1.89349 15.4508 1.76062 15.2771C1.56812 15.0271 1.41688 14.6634 1.33312 13.9146C1.24563 13.1434 1.24437 12.1271 1.24437 10.6271C1.24437 9.12711 1.24563 8.11461 1.33312 7.33961C1.41688 6.59336 1.56812 6.22961 1.76062 5.97711C1.89396 5.80378 2.04771 5.65045 2.22187 5.51711C2.65437 5.18586 3.32812 5.02961 5.32187 5.00461C5.53133 5.00209 5.7368 4.94697 5.9194 4.84431C6.102 4.74166 6.25587 4.59476 6.36687 4.41711L7.19812 3.09211C7.31049 2.91233 7.46673 2.76408 7.65216 2.66131C7.83759 2.55854 8.04612 2.50461 8.25812 2.50461H11.7331C11.9451 2.50461 12.1537 2.55854 12.3391 2.66131C12.5245 2.76408 12.6808 2.91233 12.7931 3.09211L13.6244 4.41711L13.6269 4.41836Z"
-                                                fill="black" />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_1653_1929">
-                                                <rect width="20" height="20" fill="white" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                    <span class="text-xs text-black px-xs">Змінити фото</span>
-                                </div>
-                                <input type="file" class="hidden" accept="image/*">
-                            </label>
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center border-2 ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"
+                                fill="none">
+                                <circle cx="40" cy="40" r="39.5" fill="#E2E2F4" stroke="black" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M40.1987 20.3339C38.2228 20.3339 36.3279 21.1188 34.9307 22.5159C33.5336 23.9131 32.7487 25.808 32.7487 27.7839C32.7487 29.7597 33.5336 31.6547 34.9307 33.0518C36.3279 34.4489 38.2228 35.2339 40.1987 35.2339C42.1746 35.2339 44.0695 34.4489 45.4666 33.0518C46.8638 31.6547 47.6487 29.7597 47.6487 27.7839C47.6487 25.808 46.8638 23.9131 45.4666 22.5159C44.0695 21.1188 42.1746 20.3339 40.1987 20.3339ZM31.4188 19.0039C33.7474 16.6754 36.9056 15.3672 40.1987 15.3672C43.4918 15.3672 46.65 16.6754 48.9786 19.0039C51.3072 21.3325 52.6154 24.4907 52.6154 27.7839C52.6154 31.077 51.3072 34.2352 48.9786 36.5638C46.65 38.8923 43.4918 40.2005 40.1987 40.2005C36.9056 40.2005 33.7474 38.8923 31.4188 36.5638C29.0902 34.2352 27.782 31.077 27.782 27.7839C27.782 24.4907 29.0902 21.3325 31.4188 19.0039ZM26.1508 48.5027C29.8766 44.7769 34.9297 42.6839 40.1987 42.6839C45.4677 42.6839 50.5208 44.7769 54.2465 48.5027C57.9723 52.2284 60.0654 57.2816 60.0654 62.5505C60.0654 63.922 58.9535 65.0339 57.582 65.0339H22.8154C22.1567 65.0339 21.5251 64.7722 21.0594 64.3065C20.5937 63.8408 20.332 63.2091 20.332 62.5505C20.332 57.2816 22.4251 52.2284 26.1508 48.5027ZM40.1987 47.6505C36.247 47.6505 32.4571 49.2203 29.6628 52.0146C27.4609 54.2166 26.0193 57.0368 25.507 60.0672H54.8904C54.3781 57.0368 52.9365 54.2166 50.7346 52.0146C47.9403 49.2203 44.1504 47.6505 40.1987 47.6505Z"
+                                    fill="black" />
+                            </svg>
                         </div>
-                    </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-content-primary mb-xs">Ім'я</label>
-                        <input type="text" [(ngModel)]="profileForm.firstName" name="firstName"
-                            class="w-full bg-portGore-50 px-sm py-xs border border-kimberly-300 rounded focus:ring-1 focus:ring-kimberly-500 focus:border-kimberly-500 outline-none transition-colors text-sm"
-                            style="height: 36px; width: 424px;" placeholder="Введіть ім'я">
+                        <label class="cursor-pointer">
+                            <div
+                                class="flex items-center px-md py-xs border border-black rounded hover:bg-portGore-100 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+                                    fill="none">
+                                    <g clip-path="url(#clip0_1653_1929)">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M13.75 10C13.75 12.075 12.075 13.75 10 13.75C7.925 13.75 6.25 12.075 6.25 10C6.25 7.925 7.925 6.25 10 6.25C12.075 6.25 13.75 7.925 13.75 10ZM12.5 10C12.5001 10.3284 12.4355 10.6536 12.3099 10.957C12.1843 11.2604 12.0002 11.5361 11.768 11.7684C11.2992 12.2375 10.6632 12.5011 10 12.5013C9.67161 12.5013 9.34643 12.4367 9.043 12.3111C8.73958 12.1855 8.46387 12.0014 8.23161 11.7693C7.76253 11.3004 7.49892 10.6645 7.49875 10.0013C7.49858 9.33804 7.76188 8.70193 8.23072 8.23286C8.69957 7.76378 9.33554 7.50017 9.99875 7.5C10.662 7.49983 11.2981 7.76313 11.7671 8.23197C12.2362 8.70082 12.4998 9.33679 12.5 10Z"
+                                            fill="black" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M1.46437 4.52461C2.27562 3.90211 3.37687 3.77961 5.30187 3.75586L6.13312 2.43086C6.3583 2.07058 6.67158 1.77363 7.04339 1.56804C7.4152 1.36245 7.83326 1.25501 8.25812 1.25586H11.7331C12.5956 1.25586 13.3956 1.69961 13.8581 2.43086L14.6894 3.75586C16.6144 3.78086 17.7144 3.90211 18.5269 4.52461C18.7877 4.72545 19.0185 4.95628 19.2194 5.21711C19.9944 6.22711 19.9944 7.69211 19.9944 10.6296C19.9944 13.5671 19.9944 15.0296 19.2194 16.0421C19.0185 16.3029 18.7877 16.5338 18.5269 16.7346C17.5169 17.5096 16.0519 17.5096 13.1144 17.5096H6.86437C3.92687 17.5096 2.46437 17.5096 1.45187 16.7346C1.19176 16.535 0.958944 16.3022 0.759375 16.0421C-0.015625 15.0321 -0.015625 13.5671 -0.015625 10.6296C-0.015625 7.69211 -0.015625 6.22961 0.759375 5.21711C0.960208 4.95628 1.19104 4.72545 1.45187 4.52461H1.46437ZM13.6269 4.41836C13.8519 4.77961 14.2456 5.00086 14.6719 5.00586C16.6594 5.03086 17.3344 5.18461 17.7719 5.51711C17.9469 5.65045 18.1006 5.8042 18.2331 5.97836C18.4256 6.22836 18.5769 6.59336 18.6606 7.34086C18.7481 8.11336 18.7494 9.12836 18.7494 10.6284C18.7494 12.1284 18.7481 13.1409 18.6606 13.9159C18.5769 14.6634 18.4256 15.0271 18.2331 15.2784C18.0998 15.4534 17.946 15.6071 17.7719 15.7396C17.5206 15.9321 17.1569 16.0834 16.4094 16.1671C15.6369 16.2546 14.6219 16.2559 13.1219 16.2559H6.87187C5.37187 16.2559 4.35937 16.2534 3.58437 16.1671C2.83687 16.0821 2.47312 15.9321 2.22187 15.7396C2.04856 15.6063 1.89349 15.4508 1.76062 15.2771C1.56812 15.0271 1.41688 14.6634 1.33312 13.9146C1.24563 13.1434 1.24437 12.1271 1.24437 10.6271C1.24437 9.12711 1.24563 8.11461 1.33312 7.33961C1.41688 6.59336 1.56812 6.22961 1.76062 5.97711C1.89396 5.80378 2.04771 5.65045 2.22187 5.51711C2.65437 5.18586 3.32812 5.02961 5.32187 5.00461C5.53133 5.00209 5.7368 4.94697 5.9194 4.84431C6.102 4.74166 6.25587 4.59476 6.36687 4.41711L7.19812 3.09211C7.31049 2.91233 7.46673 2.76408 7.65216 2.66131C7.83759 2.55854 8.04612 2.50461 8.25812 2.50461H11.7331C11.9451 2.50461 12.1537 2.55854 12.3391 2.66131C12.5245 2.76408 12.6808 2.91233 12.7931 3.09211L13.6244 4.41711L13.6269 4.41836Z"
+                                            fill="black" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_1653_1929">
+                                            <rect width="20" height="20" fill="white" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                <span class="text-xs text-black px-xs">Змінити фото</span>
+                            </div>
+                            <input type="file" class="hidden" accept="image/*">
+                        </label>
                     </div>
+                </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-content-primary mb-xs">Прізвище</label>
-                        <input type="text" [(ngModel)]="profileForm.lastName" name="lastName"
-                            class="w-full bg-portGore-50 px-sm py-xs border border-kimberly-300 rounded focus:ring-1 focus:ring-kimberly-500 focus:border-kimberly-500 outline-none transition-colors text-sm"
-                            style="height: 36px; width: 424px;" placeholder="Введіть прізвище">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-content-primary mb-xs">Телефон</label>
-                        <input type="tel" [(ngModel)]="profileForm.phone" name="phone"
-                            class="w-full bg-portGore-50 px-sm py-xs border border-kimberly-300 rounded focus:ring-1 focus:ring-kimberly-500 focus:border-kimberly-500 outline-none transition-colors text-sm"
-                            style="height: 36px; width: 424px;" placeholder="+380685428123">
-                    </div>
+                <div>
+                    <label class="block text-sm font-medium text-content-primary mb-xs">Ім'я</label>
+                    <input type="text" [(ngModel)]="profileForm.firstName" name="firstName"
+                        class="w-full bg-portGore-50 px-sm py-xs border border-kimberly-300 rounded focus:ring-1 focus:ring-kimberly-500 focus:border-kimberly-500 outline-none transition-colors text-sm"
+                        style="height: 36px;" placeholder="Введіть ім'я">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-content-primary mb-xs">Прізвище</label>
+                    <input type="text" [(ngModel)]="profileForm.lastName" name="lastName"
+                        class="w-full bg-portGore-50 px-sm py-xs border border-kimberly-300 rounded focus:ring-1 focus:ring-kimberly-500 focus:border-kimberly-500 outline-none transition-colors text-sm"
+                        style="height: 36px;" placeholder="Введіть прізвище">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-content-primary mb-xs">Телефон</label>
+                    <input type="tel" [(ngModel)]="profileForm.phone" name="phone"
+                        class="w-full bg-portGore-50 px-sm py-xs border border-kimberly-300 rounded focus:ring-1 focus:ring-kimberly-500 focus:border-kimberly-500 outline-none transition-colors text-sm"
+                        style="height: 36px;" placeholder="+380685428123">
+                </div>
 
 
-                    <div class="flex justify-end space-x-sm pt-sm">
-                        <button type="button" (click)="onCancel()"
-                            class="px-base py-xs border border-portGore-600 text-content-secondary rounded hover:bg-portGore-50 transition-colors font-medium text-sm"
-                            style="height: 36px; min-width: 100px;">
-                            Скасувати
-                        </button>
-                        <button type="submit" (click)="onSubmit()"
-                            class="px-base py-xs bg-portGore-600 text-white rounded hover:bg-portGore-700 transition-colors font-medium text-sm"
-                            style="height: 36px; min-width: 100px;">
-                            Зберегти
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="flex justify-end space-x-sm pt-xs">
+                    <button type="button" (click)="onCancel()"
+                        class="px-base py-xs border border-portGore-600 text-content-secondary rounded hover:bg-portGore-50 transition-colors font-medium text-sm"
+                        style="height: 36px; min-width: 100px;">
+                        Скасувати
+                    </button>
+                    <button type="submit" (click)="onSubmit()"
+                        class="px-base py-xs bg-portGore-600 text-white rounded hover:bg-portGore-700 transition-colors font-medium text-sm"
+                        style="height: 36px; min-width: 100px;">
+                        Зберегти
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
