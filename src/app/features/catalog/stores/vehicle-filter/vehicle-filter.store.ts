@@ -37,6 +37,7 @@ import { LiveVType } from '../../models/interfaces/vehicleProperties/LiveVType.i
 import { updateItemsStatusByIds } from '../../utils/UpdateItemsStatusByIds';
 
 type VehicleFilterState = {
+  year: {id: string, name: string} | undefined;
   lowerPrice: number | undefined;
   upperPrice: number | undefined;
   color: VehicleColor | undefined;
@@ -54,6 +55,7 @@ type VehicleFilterState = {
 };
 
 const initialFilterState: VehicleFilterState = {
+  year: undefined,
   paginationReset: true,
   color: undefined,
   lowerPrice: undefined,
@@ -85,6 +87,7 @@ export const VehicleFilterStore = signalStore(
         color: store.color(),
         upperPrice: store.upperPrice(),
         lowerPrice: store.lowerPrice(),
+        year: store.year(),
       };
     }),
     vehicleInfoArrayOptions: computed<VehicleInfoArrays>(() => {
@@ -133,6 +136,16 @@ export const VehicleFilterStore = signalStore(
       },
       setPropertyStateToDefault(propertyName: string): void {
         switch (propertyName) {
+          case FilterProperty.Year: {
+            patchState(store, { year: undefined });
+            vehicleStore.setVehicleSearchCriterias({
+              year: '',
+            });
+            this._updateQueryParams({
+              year: undefined,
+            });
+            break;
+          }
           case FilterProperty.Brand: {
             patchState(store, { brand: undefined });
             patchState(store, { brandFilterReset: true });
@@ -528,10 +541,9 @@ export const VehicleFilterStore = signalStore(
         patchState(store, { generalReload: true });
         store.loadPriceRange();
       },
-      updatePaginationReset(value: boolean)
-      {
-        patchState(store, {paginationReset: false});
-      }
+      updatePaginationReset(value: boolean) {
+        patchState(store, { paginationReset: false });
+      },
     })
   ),
   withHooks({
@@ -614,6 +626,12 @@ export const VehicleFilterStore = signalStore(
                   patchState(store, { highestPriceUrlInit: Number(value) });
                   patchState(store, { highestPricePlug: true });
                 }
+                break;
+              case 'year':
+                patchState(store, { year: {id: '0', name: value} });
+                vehicleStore.setVehicleSearchCriterias({
+                  year: store.year()?.name
+                });
                 break;
               case 'colorId':
                 const ourColor = store
