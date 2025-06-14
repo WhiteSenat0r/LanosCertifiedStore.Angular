@@ -1,8 +1,13 @@
 <form
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
-  class="bg-kimberly-50 rounded-xl p-[14px] mb-[48px]"
+  class="relative bg-kimberly-50 rounded-xl p-[14px] mb-[48px]"
 >
+  <div
+    [class]="loading() ? 'block' : 'hidden'"
+    class="absolute inset-0 bg-white opacity-50 z-10 flex flex-row justify-center items-center"
+  >
+  </div>
   <div class="flex flex-col gap-sm pb-[30px]">
     <div class="flex flex-row gap-[12px]">
       <app-icon-photo-camera [svgClass]="'size-[34px]'"></app-icon-photo-camera>
@@ -14,7 +19,10 @@
     >
   </div>
   <!--PHOTO UPLOADER-->
-  <app-photo-uploader formControlName="photos" [label]="'фотографії'"></app-photo-uploader>
+  <app-photo-uploader
+    formControlName="photos"
+    [label]="'фотографії'"
+  ></app-photo-uploader>
   <div class="flex flex-row justify-between items-center w-full pt-base">
     <button
       type="button"

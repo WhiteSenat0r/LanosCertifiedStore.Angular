@@ -7,14 +7,6 @@
     [class]="loading() ? 'block' : 'hidden'"
     class="absolute inset-0 bg-white opacity-50 z-10 flex flex-row justify-center items-center"
   >
-    <ngx-spinner
-      name="stepperFormSpinner"
-      bdColor="rgba(0, 0, 0, 0.0)"
-      size="default"
-      color="#1D1E49"
-      type="ball-clip-rotate"
-      [fullScreen]="false"
-    ></ngx-spinner>
   </div>
   @if(formStage() === AddProductStages.start){
   <app-start-step [startGroup]="form.controls.startInfo"></app-start-step>

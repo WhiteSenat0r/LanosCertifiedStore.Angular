@@ -1,0 +1,9 @@
+<div class="w-full h-fit flex flex-col gap-[36px]">
+  <app-start-step [startGroup]="form().controls.startInfo"></app-start-step>
+  <app-additional-step
+    [additionalGroup]="form().controls.additionalInfo"
+  ></app-additional-step>
+  <app-first-request-step
+    [firstRequestGroup]="form().controls.firstRequestInfo"
+  ></app-first-request-step>
+</div>

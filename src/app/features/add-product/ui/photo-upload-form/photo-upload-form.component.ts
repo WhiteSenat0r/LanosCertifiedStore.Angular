@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { fileCountValidator } from '../../../../shared/utils/fileCountValidator';
 
@@ -11,6 +11,9 @@ export class PhotoUploadFormComponent {
   form = new FormGroup({
     photos: new FormControl<File[] | null>(null, fileCountValidator(1, 5)),
   });
+
+  //Inputs
+  loading = input.required<boolean>();
 
   //Outputs
   uploadPhotos = output<File[]>();

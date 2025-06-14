@@ -6,14 +6,17 @@
       <!-- Icon -->
       <div
         class="p-[10px] w-fit rounded-full transition-colors"
-        [class]="stepperLoading() && getStepStatus(i) !== 'pending'  ? '!opacity-50' : ''"
+        [class]="
+          stepperLoading() && getStepStatus(i) !== 'pending'
+            ? '!opacity-50'
+            : ''
+        "
         [class.bg-portGore-300]="getStepStatus(i) === 'active'"
         [class.bg-portGore-100]="getStepStatus(i) !== 'active'"
       >
         <!-- Completed icon -->
         @if (getStepStatus(i) === 'completed') { @if(!stepperLoading()) {
         <app-icon-outline-check svgClass="size-[50px]"></app-icon-outline-check>
-
         } @else {
         <div
           class="relative w-[50px] h-[50px] flex flex-row justify-center items-center"
@@ -48,9 +51,24 @@
             [fullScreen]="false"
           ></ngx-spinner>
         </div>
-        }} @case ('camera') {
+        }}
+        <!--UPLOAD PHOTOS RELATED-->
+        @case ('camera') { @if(!uploadPhotosLoading()) {
         <app-icon-photo-camera svgClass="size-[50px]"></app-icon-photo-camera>
-        } } }
+        } @else {
+        <div
+          class="relative w-[50px] h-[50px] flex flex-row justify-center items-center"
+        >
+          <ngx-spinner
+            name="uploadPhotosFormSpinner"
+            bdColor="rgba(0, 0, 0, 0.0)"
+            size="default"
+            color="#1D1E49"
+            type="ball-clip-rotate"
+            [fullScreen]="false"
+          ></ngx-spinner>
+        </div>
+        } } } }
       </div>
 
       <!-- Description -->

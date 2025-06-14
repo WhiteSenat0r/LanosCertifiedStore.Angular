@@ -1,18 +1,11 @@
-import {
-  Component,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { VehicleColor } from '../../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
-import { LocationTown } from '../../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
-import { VehicleLookupService } from '../../../../../shared/services/vehicle-lookup.service';
+import { Subject, takeUntil } from 'rxjs';
 import { ApiResponse } from '../../../../../shared/models/interfaces/api/ApiResponse.interface';
 import { LocationRegion } from '../../../../../shared/models/interfaces/vehicle-properties/LocationRegion.interface';
-import { Subject, takeUntil } from 'rxjs';
+import { LocationTown } from '../../../../../shared/models/interfaces/vehicle-properties/LocationTown.interface';
+import { VehicleColor } from '../../../../../shared/models/interfaces/vehicle-properties/VehicleColor.interface';
+import { VehicleLookupService } from '../../../../../shared/services/vehicle-lookup.service';
 
 @Component({
   selector: 'app-first-request-step',
@@ -47,10 +40,12 @@ export class FirstRequestStepComponent implements OnInit, OnDestroy {
       .controls.region.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe((region) => {
         if (region) {
-          this.vehicleLookup.getLocationTowns(region.id).subscribe((response) => {
-            this.towns.set(response.items);
-            townControl.enable();
-          });
+          this.vehicleLookup
+            .getLocationTowns(region.id)
+            .subscribe((response) => {
+              this.towns.set(response.items);
+              townControl.enable();
+            });
         } else {
           this.towns.set(undefined);
           townControl.disable();

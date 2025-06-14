@@ -7,7 +7,7 @@ import { Vehicle } from '../../../shared/models/interfaces/vehicle-properties/Ve
 @Component({
   selector: 'app-carcard',
   templateUrl: './carcard.component.html',
-  styleUrl: './carcard.component.css'
+  styleUrl: './carcard.component.css',
 })
 export class CarcardComponent {
   @Input() vehicle: any;
@@ -20,12 +20,11 @@ export class CarcardComponent {
     private http: HttpClient,
     private keycloakService: KeycloakService,
     private router: Router
-  ) { }
+  ) {}
 
-   handleCardClick(vehicle: Vehicle) {
-    this.router.navigateByUrl(`/profile/${vehicle.id}`);
+  handleCardClick(vehicle: Vehicle) {
+    this.router.navigate(['/profile', vehicle.id]);
   }
-
 
   openDeleteModal(): void {
     this.showDeleteModal = true;
@@ -43,10 +42,13 @@ export class CarcardComponent {
   deleteVehicle(): void {
     const token = this.keycloakService.getAccessToken();
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
 
-    this.http.delete(`https://localhost:5001/api/vehicles/${this.vehicle.id}`, { headers })
+    this.http
+      .delete(`https://localhost:5001/api/vehicles/${this.vehicle.id}`, {
+        headers,
+      })
       .subscribe({
         next: () => {
           this.vehicleDeleted.emit(this.vehicle.id);
@@ -54,7 +56,7 @@ export class CarcardComponent {
         },
         error: (err) => {
           console.error('Failed to delete vehicle', err);
-        }
+        },
       });
   }
 

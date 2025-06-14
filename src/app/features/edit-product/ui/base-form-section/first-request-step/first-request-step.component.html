@@ -1,0 +1,78 @@
+<div [formGroup]="firstRequestGroup()">
+  <!--Step name + Step brief description-->
+  <div class="flex flex-col gap-sm pb-[24px] sm:pb-[30px]">
+    <div class="flex flex-row items-center gap-[12px]">
+      <app-icon-document-text
+        [svgClass]="'size-[34px]'"
+      ></app-icon-document-text>
+      <span class="capitalize text-h6 xs:text-h5 sm:text-h4 font-code"
+        >Додаткова інформація</span
+      >
+    </div>
+    <span class="text-sm text-portGore-800"
+      >Вкажіть додаткову інформацію про Ваш автомобіль</span
+    >
+  </div>
+  <div
+    class="flex flex-col sm:flex-row sm:gap-x-2xl w-full sm:gap-y-md gap-y-[20px]"
+  >
+    <!--First line-->
+    <div class="flex flex-col sm:gap-y-xl gap-y-[20px] w-full sm:w-2/3">
+      <div class="flex flex-col sm:flex-row sm:gap-x-2xl gap-y-[20px] w-full">
+        <!--Region-->
+        <app-autocomplete
+          class="w-full"
+          [label]="'Регіон'"
+          formControlName="region"
+          [options]="regions()"
+          [placeholder]="'Оберіть регіон...'"
+        ></app-autocomplete>
+        <!--Town-->
+        <app-autocomplete
+          class="w-full"
+          [label]="'Місто'"
+          formControlName="town"
+          [options]="towns()"
+          [placeholder]="'Оберіть місто...'"
+        ></app-autocomplete>
+      </div>
+
+      <!--Description-->
+
+      <app-textarea-default
+        class="w-full sm:block hidden"
+        [label]="'Основний текст оголошення'"
+        formControlName="description"
+        [placeholder]="'Додайте опис авто...'"
+      ></app-textarea-default>
+    </div>
+    <!--Second line-->
+    <div class="flex flex-col sm:gap-y-xl gap-y-[20px] w-full sm:w-1/3">
+      <!--Vehicle Color-->
+      <app-autocomplete
+        class="w-full"
+        [label]="'Колір'"
+        formControlName="color"
+        [options]="colors()"
+        [placeholder]="'Оберіть колір...'"
+      ></app-autocomplete>
+      <div class="flex flex-col gap-[16px] w-full">
+        <!--Price-->
+        <app-input-with-symbol
+          class="w-full"
+          [label]="'Ціна'"
+          formControlName="price"
+          [symbol]="'$'"
+          [placeholder]="'Введіть ціну...'"
+        ></app-input-with-symbol>
+      </div>
+
+      <app-textarea-default
+        class="w-full block sm:hidden"
+        [label]="'Основний текст оголошення'"
+        formControlName="description"
+        [placeholder]="'Додайте опис авто...'"
+      ></app-textarea-default>
+    </div>
+  </div>
+</div>

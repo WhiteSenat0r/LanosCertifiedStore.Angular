@@ -30,17 +30,24 @@ export class AddProductComponent {
   //Enums
   AddProductStages = AddProductStages;
   //State
-  formStage = signal<AddProductStages>(AddProductStages.start);
+  formStage = signal<AddProductStages>(AddProductStages.firstRequest);
   vehicleId = signal<string | undefined>(undefined);
   stepperFormLoading = signal<boolean>(false);
   photoUploaderLoading = signal<boolean>(false);
 
   //Effects
-  spinnerEffect = effect(() => {
+  stepperSpinnerEffect = effect(() => {
     if (this.stepperFormLoading()) {
       this.spinner.show('stepperFormSpinner');
     } else {
       this.spinner.hide('stepperFormSpinner');
+    }
+  });
+  uploadPhotosSpinnerEffect = effect(() => {
+    if (this.photoUploaderLoading()) {
+      this.spinner.show('uploadPhotosFormSpinner');
+    } else {
+      this.spinner.hide('uploadPhotosFormSpinner');
     }
   });
 
@@ -104,27 +111,42 @@ export class AddProductComponent {
     this.router.navigate(['/profile']);
   }
   handleUploadPhotos(photos: File[]) {
-    if (this.vehicleId()) {
-      const vehicleId = this.vehicleId() as string;
-      this.addProductService.uploadPhotos(vehicleId, photos).subscribe({
+    if (!this.vehicleId()) {
+      this.toastr.error('Відсутній ID авто', 'Помилка', { timeOut: 4000 });
+      this.router.navigate(['/profile']);
+      return;
+    }
+
+    this.photoUploaderLoading.set(true);
+    const vehicleId = this.vehicleId() as string;
+
+    this.addProductService
+      .uploadPhotos(vehicleId, photos)
+      .pipe(
+        delay(500), // затримка для UX (можеш прибрати або змінити)
+        catchError((err) =>
+          timer(2000).pipe(
+            tap(() => {
+              this.toastr.error('Не вдалося завантажити фото', 'Помилка', {
+                timeOut: 1000,
+              });
+            }),
+            switchMap(() => throwError(() => err))
+          )
+        ),
+        finalize(() => {
+          this.router.navigate(['/profile']);
+          this.photoUploaderLoading.set(false);
+        })
+      )
+      .subscribe({
         next: (response) => {
-          let message: string;
-          if ((photos.length = 1)) {
-            message = 'Фотографія завантажена!';
-          } else {
-            message = 'Фотографії завантажено!';
-          }
+          const message =
+            photos.length === 1
+              ? 'Фотографія завантажена!'
+              : 'Фотографії завантажено!';
           this.toastr.success(message, 'Успіх', { timeOut: 2000 });
         },
-        error: () => {
-          this.toastr.error('Не вдалося завантажити фото', 'Помилка', {
-            timeOut: 2000,
-          });
-        },
       });
-    } else {
-      this.toastr.error('Відсутній ID авто', 'Помилка', { timeOut: 4000 });
-    }
-    this.router.navigate(['/profile']);
   }
 }

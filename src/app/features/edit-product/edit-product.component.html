@@ -2,4 +2,11 @@
   <!--Information tip-->
   <app-info-title></app-info-title>
   <div class="pb-lg"></div>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="bg-kimberly-50 rounded-xl p-[14px] mb-[48px] relative"
+  >
+    <app-base-form-section [form]="form"></app-base-form-section>
+  </form>
 </div>

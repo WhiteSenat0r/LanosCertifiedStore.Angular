@@ -216,8 +216,6 @@ export const VehicleFilterStore = signalStore(
               region: undefined,
               town: undefined,
               color: undefined,
-              lowerPrice: undefined,
-              upperPrice: undefined,
               townFilterReset: true,
               regionFilterReset: true,
               modelFilterReset: true,
