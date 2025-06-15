@@ -7,6 +7,49 @@
     (ngSubmit)="onSubmit()"
     class="bg-kimberly-50 rounded-xl p-[14px] mb-[48px] relative"
   >
-    <app-base-form-section [form]="form"></app-base-form-section>
+    <div
+      [class]="loading() ? 'block' : 'hidden'"
+      class="absolute inset-0 bg-white opacity-50 z-10 flex flex-row justify-center items-center"
+    >
+      <ngx-spinner
+        name="editSpinnerForm"
+        bdColor="rgba(0, 0, 0, 0.0)"
+        size="medium"
+        color="#1D1E49"
+        type="ball-clip-rotate"
+        [fullScreen]="false"
+      ></ngx-spinner>
+    </div>
+    <div class="flex flex-col gap-[36px]">
+      <app-base-form-section
+        [form]="form.controls.stepper"
+      ></app-base-form-section>
+      <app-photo-upload-section
+        [form]="form.controls.photosUploader"
+      ></app-photo-upload-section>
+    </div>
+
+    <!--NAVIGATION BUTTONS-->
+    <div class="flex flex-row justify-between items-center w-full pt-base">
+      <button
+        type="button"
+        class="flex flex-row gap-[10px] bg-transparent border border-portGore-950 text-portGore-950 border- px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-redy-700 hover:text-kimberly-50 hover:border-transparent"
+        routerLink="/profile"
+      >
+        <app-icon-exit-photo-form
+          [svgClass]="'size-[24px]'"
+        ></app-icon-exit-photo-form>
+        <span class="hidden sm:block">Вийти</span>
+      </button>
+      <button
+        type="submit"
+        class="flex flex-row items-center gap-[4px] xs:gap-[10px] bg-portGore-950 text-kimberly-50 px-[10px] py-[6px] rounded-[6px] transition-all duration-300 hover:bg-portGore-700"
+      >
+        <span class="">Оновити оголошення</span>
+        <app-icon-outline-check
+          [svgClass]="'size-[24px]'"
+        ></app-icon-outline-check>
+      </button>
+    </div>
   </form>
 </div>

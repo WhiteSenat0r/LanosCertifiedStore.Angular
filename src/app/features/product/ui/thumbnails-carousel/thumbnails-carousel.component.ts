@@ -14,6 +14,7 @@ import { ExtendedVehicle } from '../../../../shared/models/classes/vehicle-prope
   styleUrl: './thumbnails-carousel.component.css',
 })
 export class ThumbnailsCarouselComponent implements OnChanges, OnDestroy {
+  vehicleWasLoaded = input.required<boolean>();
   vehicle = input.required<ExtendedVehicle>();
 
   private mainSplide?: Splide;
@@ -21,7 +22,7 @@ export class ThumbnailsCarouselComponent implements OnChanges, OnDestroy {
   currentSlide = 0;
 
   ngAfterViewInit() {
-    if (this.vehicle().images.length) {
+    if (this.vehicle().images.length > 1) {
       this.initSplides();
     }
   }

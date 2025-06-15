@@ -1,4 +1,4 @@
-import { SortDirection } from "../enums/SortDirection.enum";
+import { SortDirection } from '../enums/SortDirection.enum';
 
 export class VehicleSearchCriterias {
   typeId = '';

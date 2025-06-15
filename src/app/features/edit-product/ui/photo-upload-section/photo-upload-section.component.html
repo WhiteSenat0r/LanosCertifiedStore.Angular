@@ -1,1 +1,16 @@
-<p>photo-upload-section works!</p>
+<form [formGroup]="form()" class="relative bg-kimberly-50 rounded-xl">
+  <div class="flex flex-col gap-sm pb-[30px]">
+    <div class="flex flex-row gap-[12px]">
+      <app-icon-photo-camera [svgClass]="'size-[34px]'"></app-icon-photo-camera>
+      <span class="capitalize text-h4 font-code">Фотографії</span>
+    </div>
+    <span class="text-sm text-portGore-800"
+      >Завантажте фотографії Вашого авто(максимум 5 фото). Якісні фотографії
+      збільшують шанси швидкого продажу</span
+    >
+  </div>
+  <!--PHOTO UPLOADER-->
+  <app-photo-editor
+    formControlName="photos"
+  ></app-photo-editor>
+</form>

@@ -18,8 +18,8 @@ export class FirstRequestStepComponent implements OnInit, OnDestroy {
 
   firstRequestGroup = input.required<
     FormGroup<{
-      color: FormControl<VehicleColor | null>;
-      town: FormControl<LocationTown | null>;
+      color: FormControl<Partial<VehicleColor> | null>;
+      town: FormControl<Partial<LocationTown> | null>;
       region: FormControl<LocationRegion | null>;
       price: FormControl<number | null>;
       description: FormControl<string | null>;

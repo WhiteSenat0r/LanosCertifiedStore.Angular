@@ -30,6 +30,7 @@ export class ProductComponent {
   vehicle = signal<ExtendedVehicle>(new ExtendedVehicle());
   similarVehicles = signal<Vehicle[]>([]);
   models = signal<Model[]>([]);
+  vehicleWasLoaded = signal<boolean>(false);
 
   productId = signal<string | undefined>(undefined);
 
@@ -43,6 +44,7 @@ export class ProductComponent {
           .getVehicle(productId)
           .subscribe((vehicle: ExtendedVehicle) => {
             this.vehicle.set(vehicle);
+            this.vehicleWasLoaded.set(true);
             this.productService
               .getVehicles(this.vehicle().transmissionType)
               .subscribe((response: PaginatedResult<Vehicle>) => {
@@ -95,8 +97,9 @@ export class ProductComponent {
       .subscribe({
         next: (updatedVehicle: ExtendedVehicle) => {
           this.vehicle.update((currentVehicle) => {
-            currentVehicle.isPresentInWishlist = updatedVehicle.isPresentInWishlist
-            return currentVehicle
+            currentVehicle.isPresentInWishlist =
+              updatedVehicle.isPresentInWishlist;
+            return currentVehicle;
           });
         },
         error: (err) => {

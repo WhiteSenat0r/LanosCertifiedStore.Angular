@@ -19,6 +19,7 @@ import { IconMailPinComponent } from './icons/icon-mail-pin/icon-mail-pin.compon
 import { IconOutlineUserComponent } from './icons/icon-outline-user/icon-outline-user.component';
 import { IconPhoneComponent } from './icons/icon-phone/icon-phone.component';
 import { VehicleDetailsComponent } from './ui/product-details/vehicle-details/vehicle-details.component';
+import { ImageErrorDirective } from '../../shared/directives/image-error.directive';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { VehicleDetailsComponent } from './ui/product-details/vehicle-details/ve
     ProductRoutingModule,
     SvgIconDisplayComponent,
     IconBookmarkMainComponent,
+    ImageErrorDirective,
   ],
 })
 export class ProductModule {}
