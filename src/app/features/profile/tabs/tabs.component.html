@@ -46,6 +46,10 @@
     </div>
 </div>
 
+<div *ngIf="displayedVehicles.length === 0" class="text-center text-base text-gray-600 mt-lg">
+  {{ selectedTab === 'myOffers' ? 'У вас поки немає оголошень.' : 'У вас поки немає обраного.' }}
+</div>
+
 <div class="mt-md flex justify-center" *ngIf="displayedVehicles.length < vehicles.length">
     <button class="btn btn-outline border border-black rounded-lg py-sm px-lg flex items-center gap-sm"
         (click)="loadMore()">

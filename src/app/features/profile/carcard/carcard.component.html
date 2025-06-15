@@ -31,7 +31,7 @@
                 </button>
                 <button *ngIf="tabType === 'my'"
                     class="border border-black rounded bg-white flex items-center gap-[6px] p-[6px] lg:px-[12px] lg:py-[3px]"
-                    (click)="openDeleteModal()" title="Видалити">
+                    (click)="openDeleteModal($event)" title="Видалити">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20"
                         class="text-[#353888] lg:w-5 lg:h-5">
                         <path fill="currentColor"

@@ -136,10 +136,17 @@ export class TabsComponent implements OnInit {
   }
 
   onVehicleDeleted(vehicleId: string): void {
-    this.displayedVehicles = this.displayedVehicles.filter(vehicle => vehicle.id !== vehicleId);
-    // Сповіщаємо про видалення авто для оновлення статистики
-    this.statisticsService.notifyVehicleDeleted();
+  this.vehicles = this.vehicles.filter(v => v.id !== vehicleId);
+  this.updateDisplayedVehicles();
+  if (this.displayedVehicles.length === 0 && this.currentPage > 1) {
+    this.currentPage--;
+    this.updateDisplayedVehicles();
   }
+
+  // 4. Сповіщення для статистики
+  this.statisticsService.notifyVehicleDeleted();
+}
+
 
   onVehicleRemovedFromFavorites(vehicleId: string): void {
     this.vehicles = this.vehicles.filter(v => v.id !== vehicleId);
