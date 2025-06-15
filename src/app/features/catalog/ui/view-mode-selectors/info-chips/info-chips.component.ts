@@ -1,4 +1,11 @@
-import { Component, computed, effect, inject, input, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { VehicleInfoOptions } from '../../../models/interfaces/VehicleInfoOptions.interface';
 import { VehicleInfoArrays } from '../../../models/interfaces/VehicleInfoArrays.interface';
 import { VehicleFilterStore } from '../../../stores/vehicle-filter/vehicle-filter.store';
@@ -32,10 +39,10 @@ export class InfoChipsComponent {
     return Object.entries(data)
       .filter(([property, value]) => {
         if (property === 'lowerPrice') {
-          return value !== this.vehicleFilterStore.priceRange().lowest;
+          return value !== undefined &&  value !== this.vehicleFilterStore.priceRange().lowest;
         }
         if (property === 'upperPrice') {
-          return value !== this.vehicleFilterStore.priceRange().highest;
+          return value !== undefined &&  value !== this.vehicleFilterStore.priceRange().highest;
         }
         return value !== undefined;
       })

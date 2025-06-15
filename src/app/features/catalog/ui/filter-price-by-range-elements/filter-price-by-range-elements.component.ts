@@ -70,9 +70,6 @@ export class FilterPriceByRangeElementsComponent implements OnInit {
   onMinValueChangeEmitter = output<number>();
   onMaxValueChangeEmitter = output<number>();
 
-  onMinValueChangeInfoChipEmitter = output<number | undefined>();
-  onMaxValueChangeInfoChipEmitter = output<number | undefined>();
-
   private minValueChange$ = new Subject<number>();
   private maxValueChange$ = new Subject<number>();
   ngOnInit() {
@@ -80,14 +77,12 @@ export class FilterPriceByRangeElementsComponent implements OnInit {
       .pipe(debounceTime(700), distinctUntilChanged())
       .subscribe((value) => {
         this.onMinValueChangeEmitter.emit(value);
-        this.onMinValueChangeInfoChipEmitter.emit(value);
       });
 
     this.maxValueChange$
       .pipe(debounceTime(700), distinctUntilChanged())
       .subscribe((value) => {
         this.onMaxValueChangeEmitter.emit(value);
-        this.onMaxValueChangeInfoChipEmitter.emit(value);
       });
   }
 
