@@ -131,7 +131,7 @@ export class KeycloakService {
     // Відправляємо POST запит для logout
     this.http.post(logoutUrl, body.toString(), { headers }).subscribe({
       next: () => {
-        // Успішний logout, перенаправляємо на головну
+        this.clearStorage();
         this.router.navigate(['/']);
       },
       error: (error) => {

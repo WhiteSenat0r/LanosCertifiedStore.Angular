@@ -10,6 +10,14 @@ const routes: Routes = [
     data: { breadcrumb: { label: 'Профіль' } },
   },
   {
+    path: 'add-product',
+    loadChildren: () =>
+      import('../../features/add-product/add-product.module').then(
+        (m) => m.AddProductModule
+      ),
+    data: { breadcrumb: { label: 'Створення оголошення' } },
+  },
+  {
       path: ':id',
       title: 'Купити машину',
       loadChildren: () =>
@@ -24,14 +32,7 @@ const routes: Routes = [
       loadChildren: () =>
         import('../edit-product/edit-product.module').then((m) => m.EditProductModule),
       data: { breadcrumb: { label: 'Редагування оголошення' } },
-    },
-  {
-    path: ':id',
-    title: 'Редагування оголошення',
-    loadChildren: () =>
-      import('../edit-product/edit-product.module').then((m) => m.EditProductModule),
-    data: { breadcrumb: { label: 'Редагування оголошення' } },
-  },
+    }
 ];
 
 @NgModule({

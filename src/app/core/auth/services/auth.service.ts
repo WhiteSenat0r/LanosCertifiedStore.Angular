@@ -176,15 +176,16 @@ export class AuthService {
     );
   }
 
-  public logout(): void {
+  public logout(): void {//використати observ 
     this.setLoadingState(true);
 
     if (this.tokenRefreshTimeout) {
       clearTimeout(this.tokenRefreshTimeout);
     }
 
-    this.clearUserData();
     this.keycloakService.logout();
+    this.clearUserData();
+
   }
 
   private storeTokens(tokenResponse: TokenResponse): void {
@@ -245,7 +246,7 @@ export class AuthService {
     });
   }
 
-  private scheduleTokenRefresh(): void {
+  private scheduleTokenRefresh(): void {// переробити, не по часу а коли ми отримаємо 401
     if (this.tokenRefreshTimeout) {
       clearTimeout(this.tokenRefreshTimeout);
     }
@@ -264,17 +265,17 @@ export class AuthService {
   }
 
   private refreshToken(): void {
-    const refreshToken = localStorage.getItem('kc_refresh_token');
-    if (!refreshToken) {
+    const storedRefreshToken = localStorage.getItem('kc_refresh_token');
+    if (!storedRefreshToken) {
       this.clearUserData();
       return;
     }
 
-    this.keycloakService.refreshToken(refreshToken).subscribe({
-      next: (tokenResponse) => {
+    this.keycloakService.refreshToken(storedRefreshToken).subscribe({
+      next: (tokenResponse: TokenResponse) => {
         this.storeTokens(tokenResponse);
       },
-      error: (error) => {
+      error: (err: unknown) => {    
         this.clearUserData();
         this.setError('Не вдалося оновити токен. Увійдіть знову.');
       }

@@ -131,7 +131,7 @@ export class BannerComponent implements OnInit, OnDestroy {
       this.profileForm = {
         firstName: this.userProfile.firstName || '',
         lastName: this.userProfile.lastName || '',
-        phone: this.userProfile.phone || '',
+        phone: this.userProfile.phoneNumber || '',
         profilePhoto: null
       };
     }

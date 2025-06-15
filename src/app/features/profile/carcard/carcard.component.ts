@@ -35,7 +35,8 @@ export class CarcardComponent {
     this.router.navigate(['/profile', vehicle.id, 'edit']);
   }
 
-  openDeleteModal(): void {
+  openDeleteModal(event: Event): void {
+     event.stopPropagation(); 
     this.showDeleteModal = true;
   }
 
