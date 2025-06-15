@@ -212,23 +212,15 @@ export const VehicleFilterStore = signalStore(
             break;
           }
           case FilterProperty.LowerPrice: {
-            // patchState(store, { priceChanges: true });
-            // patchState(store, { lowerPrice: undefined });
-            // vehicleStore.setVehicleSearchCriterias({
-            //   lowerPriceLimit: 0,
-            // });
             break;
           }
           case FilterProperty.UpperPrice: {
-            // patchState(store, { priceChanges: true });
-            // patchState(store, { upperPrice: undefined });
-            // vehicleStore.setVehicleSearchCriterias({
-            //   upperPriceLimit: undefined,
-            // });
             break;
           }
           case FilterProperty.EraseAll: {
             patchState(store, {
+              year: undefined,
+
               brand: undefined,
               model: undefined,
               region: undefined,
@@ -258,6 +250,7 @@ export const VehicleFilterStore = signalStore(
             });
 
             vehicleStore.setVehicleSearchCriterias({
+              year: '',
               brandId: '',
               modelId: '',
               locationRegionId: '',
@@ -275,6 +268,7 @@ export const VehicleFilterStore = signalStore(
             });
 
             this._updateQueryParams({
+              year: undefined,
               brandId: undefined,
               modelId: undefined,
               brand: undefined,
