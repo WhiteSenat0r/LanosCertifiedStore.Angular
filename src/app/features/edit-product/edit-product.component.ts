@@ -277,7 +277,9 @@ export class EditProductComponent implements OnInit {
               color,
               region,
               town,
-              price: vehicle.prices?.[0]?.value ?? null,
+              price: vehicle.prices?.length
+                ? vehicle.prices[vehicle.prices.length - 1].value
+                : null,
               description: vehicle.description,
             },
           });

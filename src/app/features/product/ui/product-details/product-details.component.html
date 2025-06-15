@@ -7,12 +7,22 @@
         >{{ vehicle().brand }} {{ vehicle().model }}
         {{ vehicle().productionYear }}</span
       >
-      <span class="font-bold text-xl">{{ vehicle().prices[0].value }}$</span>
+      <span class="font-bold text-xl">
+        {{
+          vehicle().prices.length
+            ? vehicle().prices[vehicle().prices.length - 1].value
+            : ""
+        }}$</span
+      >
     </div>
     <button type="button" (click)="bookmarkButtonClick.emit()">
       <app-icon-bookmark-main
         innerClass="size-lg cursor-pointer transition-all"
-        [class]="vehicle().isPresentInWishlist ? 'text-redy-300 stroke-redy-500' : 'text-portGore-50 stroke-portGore-800'"
+        [class]="
+          vehicle().isPresentInWishlist
+            ? 'text-redy-300 stroke-redy-500'
+            : 'text-portGore-50 stroke-portGore-800'
+        "
       ></app-icon-bookmark-main>
     </button>
   </div>
