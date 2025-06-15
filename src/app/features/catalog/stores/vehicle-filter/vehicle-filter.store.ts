@@ -142,6 +142,7 @@ export const VehicleFilterStore = signalStore(
         this._updateQueryParams({ colorId: color.id });
       },
       setPropertyStateToDefault(propertyName: string): void {
+        let withoutTimeoutHolder = false;
         switch (propertyName) {
           case FilterProperty.Year: {
             patchState(store, { year: undefined });
@@ -212,9 +213,13 @@ export const VehicleFilterStore = signalStore(
             break;
           }
           case FilterProperty.LowerPrice: {
+            this.handleMinPriceChange(store.priceRange().lowest);
+            withoutTimeoutHolder = true;
             break;
           }
           case FilterProperty.UpperPrice: {
+            this.handleMaxPriceChange(store.priceRange().highest);
+            withoutTimeoutHolder = true;
             break;
           }
           case FilterProperty.EraseAll: {
@@ -289,12 +294,16 @@ export const VehicleFilterStore = signalStore(
             break;
           }
         }
-        setTimeout(() => {
-          this._updateQueryParams({
-            lowestPrice: undefined,
-            highestPrice: undefined,
+        if (!withoutTimeoutHolder) {
+          setTimeout(() => {
+            this._updateQueryParams({
+              lowestPrice: undefined,
+              highestPrice: undefined,
+            });
           });
-        });
+        } else {
+          withoutTimeoutHolder = false;
+        }
       },
       handleCallForBrandChangeState(brand: Brand) {
         if (brand.id !== store.brand()?.id) {
