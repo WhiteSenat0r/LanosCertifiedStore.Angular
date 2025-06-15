@@ -68,20 +68,8 @@ export class CatalogComponent {
 
   //** Change the page in pagination */
   handlePageChange(pageIndex: number) {
-    this.vehicleFilterStore.updatePaginationReset(false);
     this.vehicleStore.setVehicleSearchCriterias({ pageIndex });
     this.vehicleFilterStore.updateQueryParamsForPage(pageIndex);
-    this.vehicleStore.loadVehicles();
-  }
-  /** Updates the minimum price filter */
-  handleMinPriceChange(min: number) {
-    this.vehicleStore.setVehicleSearchCriterias({ lowerPriceLimit: min });
-    this.vehicleStore.loadVehicles();
-  }
-
-  /** Updates the maximum price filter */
-  handleMaxPriceChange(max: number) {
-    this.vehicleStore.setVehicleSearchCriterias({ upperPriceLimit: max });
     this.vehicleStore.loadVehicles();
   }
 

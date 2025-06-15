@@ -193,12 +193,14 @@ export class EditProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.markAllAsTouched();
-    if (
-      this.form.controls.stepper.controls.startInfo.controls.brand.value ===
-      null
-    ) {
-      this.form.controls.stepper.controls.startInfo.controls.model.disable();
-    }
+    this.form.controls.stepper.controls.startInfo.controls.model.disable();
+    this.form.controls.stepper.controls.startInfo.controls.brand.disable();
+    // if (
+    //   this.form.controls.stepper.controls.startInfo.controls.brand.value ===
+    //   null
+    // ) {
+    //   this.form.controls.stepper.controls.startInfo.controls.model.disable();
+    // }
     if (
       this.form.controls.stepper.controls.firstRequestInfo.controls.region
         .value === null

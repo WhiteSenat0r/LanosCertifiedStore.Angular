@@ -49,7 +49,6 @@ export class StartStepComponent implements OnInit, OnDestroy {
         if (brand) {
           this.vehicleLookup.getModels(brand.id).subscribe((response) => {
             this.models.set(response.items);
-            modelControl.enable();
           });
         } else {
           this.models.set(undefined);

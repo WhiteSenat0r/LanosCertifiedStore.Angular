@@ -35,36 +35,31 @@ import { LiveEngineType } from '../../models/interfaces/vehicleProperties/LiveEn
 import { LiveTransmissionType } from '../../models/interfaces/vehicleProperties/LiveTransmissionType.interface';
 import { LiveVType } from '../../models/interfaces/vehicleProperties/LiveVType.interface';
 import { updateItemsStatusByIds } from '../../utils/UpdateItemsStatusByIds';
+import { Location } from '@angular/common';
 
 type VehicleFilterState = {
-  year: {id: string, name: string} | undefined;
+  year: { id: string; name: string } | undefined;
   lowerPrice: number | undefined;
   upperPrice: number | undefined;
   color: VehicleColor | undefined;
   sortingType: SortDirection;
   generalReload: boolean;
-  highestPricePlug: boolean | null;
-  highestPriceUrlInit: number | undefined;
-  paginationReset: boolean;
-
-  //
-  sortingTypeChanging: boolean;
 
   //
   queryParamsSubscription: Subscription | null;
+
+  //
+  priceChanges: boolean;
 };
 
 const initialFilterState: VehicleFilterState = {
+  priceChanges: false,
   year: undefined,
-  paginationReset: true,
   color: undefined,
   lowerPrice: undefined,
   upperPrice: undefined,
   sortingType: SortDirection.AscPrice,
   generalReload: false,
-  highestPricePlug: false,
-  highestPriceUrlInit: undefined,
-  sortingTypeChanging: false,
   queryParamsSubscription: null,
 };
 
@@ -113,7 +108,8 @@ export const VehicleFilterStore = signalStore(
       store,
       vehicleStore = inject(VehicleStore),
       router = inject(Router),
-      route = inject(ActivatedRoute)
+      route = inject(ActivatedRoute),
+      location = inject(Location)
     ) => ({
       _updateQueryParams(params: Record<string, any>): void {
         router.navigate([], {
@@ -122,11 +118,22 @@ export const VehicleFilterStore = signalStore(
           queryParamsHandling: 'merge',
         });
       },
+      _silentUpdateQueryParams(params: Record<string, any>): void {
+        const url = router
+          .createUrlTree([], {
+            relativeTo: route,
+            queryParams: params,
+            queryParamsHandling: 'merge',
+          })
+          .toString();
+
+        location.replaceState(url);
+      },
       updateQueryParamsForPage(pageIndex: number) {
         if (pageIndex === 1) {
-          this._updateQueryParams({ page: undefined });
+          this._silentUpdateQueryParams({ page: undefined });
         } else {
-          this._updateQueryParams({ page: pageIndex });
+          this._silentUpdateQueryParams({ page: pageIndex });
         }
       },
       setColor(color: VehicleColor) {
@@ -205,21 +212,19 @@ export const VehicleFilterStore = signalStore(
             break;
           }
           case FilterProperty.LowerPrice: {
-            patchState(store, { lowerPrice: undefined });
-            vehicleStore.setVehicleSearchCriterias({
-              lowerPriceLimit: undefined,
-            });
-
-            this._updateQueryParams({ lowestPrice: undefined });
+            // patchState(store, { priceChanges: true });
+            // patchState(store, { lowerPrice: undefined });
+            // vehicleStore.setVehicleSearchCriterias({
+            //   lowerPriceLimit: 0,
+            // });
             break;
           }
           case FilterProperty.UpperPrice: {
-            patchState(store, { upperPrice: undefined });
-            vehicleStore.setVehicleSearchCriterias({
-              upperPriceLimit: undefined,
-            });
-
-            this._updateQueryParams({ highestPrice: undefined });
+            // patchState(store, { priceChanges: true });
+            // patchState(store, { upperPrice: undefined });
+            // vehicleStore.setVehicleSearchCriterias({
+            //   upperPriceLimit: undefined,
+            // });
             break;
           }
           case FilterProperty.EraseAll: {
@@ -360,12 +365,6 @@ export const VehicleFilterStore = signalStore(
           patchState(store, { regionFilterReset: false });
         }
       },
-      setLowerPrice(lowerPrice: number | undefined) {
-        patchState(store, { lowerPrice });
-      },
-      setUpperPrice(upperPrice: number | undefined) {
-        patchState(store, { upperPrice });
-      },
       handleCallForSortingTypeChange(chosenSorting: SortDirection) {
         patchState(store, { sortingType: chosenSorting });
 
@@ -375,10 +374,8 @@ export const VehicleFilterStore = signalStore(
             SortDirection[k as keyof typeof SortDirection] === chosenSorting
         );
         if (key) {
-          patchState(store, { sortingTypeChanging: true });
           this._updateQueryParams({ sortingType: key });
         }
-        vehicleStore.loadVehicles();
       },
       handleCheckboxChanged(event: {
         item:
@@ -452,6 +449,20 @@ export const VehicleFilterStore = signalStore(
         store.updateSearchCriteria('allVTypes', 'vTypeIds');
         patchState(store, { generalReload: true });
         store.loadPriceRange();
+      },
+      handleMinPriceChange(min: number) {
+        patchState(store, { priceChanges: true });
+        this._updateQueryParams({ lowestPrice: min });
+        patchState(store, { lowerPrice: min });
+        vehicleStore.setVehicleSearchCriterias({ lowerPriceLimit: min });
+        vehicleStore.loadVehicles();
+      },
+      handleMaxPriceChange(max: number) {
+        patchState(store, { priceChanges: true });
+        this._updateQueryParams({ highestPrice: max });
+        patchState(store, { upperPrice: max });
+        vehicleStore.setVehicleSearchCriterias({ upperPriceLimit: max });
+        vehicleStore.loadVehicles();
       },
       _addIdToQueryParam(param: string, id: string): void {
         const current = route.snapshot.queryParamMap.get(param);
@@ -541,9 +552,6 @@ export const VehicleFilterStore = signalStore(
         patchState(store, { generalReload: true });
         store.loadPriceRange();
       },
-      updatePaginationReset(value: boolean) {
-        patchState(store, { paginationReset: false });
-      },
     })
   ),
   withHooks({
@@ -553,44 +561,48 @@ export const VehicleFilterStore = signalStore(
       vehicleStore = inject(VehicleStore),
       catalogService = inject(CatalogService)
     ) {
+      let gotHighestOnInit: number = 0;
+      let highestPricePlug: boolean | null = null;
       // effect(() => {
       //   console.log(store.pageInitialization());
       // })
       effect(() => {
         if (store.priceRange()) {
           untracked(() => {
-            // to lowerPrice
-            patchState(store, { lowerPrice: store.priceRange().lowest });
-            vehicleStore.setVehicleSearchCriterias({
-              lowerPriceLimit: store.lowerPrice(),
-            });
-            // to upperPrice
-            if (!store.highestPricePlug()) {
-              patchState(store, { upperPrice: store.priceRange().highest });
-            } else {
-              if (
-                store.highestPriceUrlInit() !== undefined &&
-                Number(store.highestPriceUrlInit()) <
-                  store.priceRange().highest &&
-                Number(store.highestPriceUrlInit()) > store.priceRange().lowest
-              ) {
-                patchState(store, {
-                  upperPrice: Number(store.highestPriceUrlInit()),
-                });
+            if (!store.priceChanges()) {
+              // to lowerPrice
+              patchState(store, { lowerPrice: store.priceRange().lowest });
+              vehicleStore.setVehicleSearchCriterias({
+                lowerPriceLimit: store.lowerPrice(),
+              });
+              // to upperPrice
+              if (highestPricePlug === true) {
+                // Check on priceRange set boundaries
+                if (gotHighestOnInit > store.priceRange().highest) {
+                  patchState(store, { upperPrice: store.priceRange().highest });
+                } else if (gotHighestOnInit < store.priceRange().lowest) {
+                  patchState(store, { upperPrice: store.priceRange().lowest });
+                } else {
+                  patchState(store, { upperPrice: gotHighestOnInit });
+                }
+                //----------------
+
+                highestPricePlug = false;
               } else {
                 patchState(store, { upperPrice: store.priceRange().highest });
               }
-              patchState(store, { highestPricePlug: null });
-              patchState(store, { highestPriceUrlInit: undefined });
-            }
-            vehicleStore.setVehicleSearchCriterias({
-              upperPriceLimit: store.upperPrice(),
-            });
 
-            //other conditions
-            if (store.generalReload()) {
+              vehicleStore.setVehicleSearchCriterias({
+                upperPriceLimit: store.upperPrice(),
+              });
+              //other conditions
+              if (store.generalReload()) {
+                vehicleStore.loadVehicles();
+                patchState(store, { generalReload: false });
+              }
+            } else {
               vehicleStore.loadVehicles();
-              patchState(store, { generalReload: false });
+              patchState(store, { priceChanges: false });
             }
           });
         }
@@ -604,12 +616,8 @@ export const VehicleFilterStore = signalStore(
       await lastValueFrom(store.loadRegions());
       const queryParamsSubscription = route.queryParamMap.subscribe(
         async (params) => {
-          if (store.paginationReset()) {
-            vehicleStore.setVehicleSearchCriterias({ pageIndex: 1 });
-            store.updateQueryParamsForPage(1);
-          } else {
-            patchState(store, { paginationReset: true });
-          }
+          vehicleStore.setVehicleSearchCriterias({ pageIndex: 1 });
+          store.updateQueryParamsForPage(1);
           let brandFound: boolean = false;
           for (let i = 0; i < params.keys.length; i++) {
             const key = params.keys[i];
@@ -622,15 +630,15 @@ export const VehicleFilterStore = signalStore(
                 });
                 break;
               case 'highestPrice':
-                if (store.highestPricePlug() !== null) {
-                  patchState(store, { highestPriceUrlInit: Number(value) });
-                  patchState(store, { highestPricePlug: true });
+                if (highestPricePlug === null) {
+                  gotHighestOnInit = Number(value);
+                  highestPricePlug = true;
                 }
                 break;
               case 'year':
-                patchState(store, { year: {id: '0', name: value} });
+                patchState(store, { year: { id: '0', name: value } });
                 vehicleStore.setVehicleSearchCriterias({
-                  year: store.year()?.name
+                  year: store.year()?.name,
                 });
                 break;
               case 'colorId':
@@ -772,13 +780,11 @@ export const VehicleFilterStore = signalStore(
                 break;
             }
           }
-
-          if (store.sortingTypeChanging() === false) {
-            patchState(store, { generalReload: true });
-            store.loadPriceRange();
-          } else {
-            patchState(store, { sortingTypeChanging: false });
+          if (highestPricePlug === null) {
+            highestPricePlug = false;
           }
+          patchState(store, { generalReload: true });
+          store.loadPriceRange();
         }
       );
       // Save the subscription to the store for cleanup
