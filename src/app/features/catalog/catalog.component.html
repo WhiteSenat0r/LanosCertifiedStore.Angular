@@ -510,16 +510,13 @@
         this.vehicleStore.vehicles() &&
         this.vehicleStore.vehicles()!.length !== 0
       "
-      class="flex mt-xl mb-2xl justify-center"
+      class="relative flex mt-xl mb-2xl justify-center"
     >
       <app-pagination
-        [totalPages]="
-          vehicleStore.filteredTotalVehicleCount() /
-            vehicleStore.currentPageItemsQuantity() +
-          vehicleStore.addIncomplete()
-        "
+        [totalPages]="totalPages()"
         [currentPage]="vehicleStore.pageIndex()"
         (onPageChangeEvent)="handlePageChange($event)"
+        [loading]="this.vehicleStore.loading()"
       ></app-pagination>
     </div>
     @if(vehicleStore.loading() === false && vehicleStore.vehicles() &&

@@ -48,7 +48,11 @@ export class ProductComponent {
             this.productService
               .getVehicles(this.vehicle().transmissionType)
               .subscribe((response: PaginatedResult<Vehicle>) => {
-                this.similarVehicles.set(response.items);
+                const currentId = this.vehicle().id;
+                const filtered = response.items.filter(
+                  (v) => v.id !== currentId
+                );
+                this.similarVehicles.set(filtered);
               });
             this.productService
               .getModels(this.vehicle().brand)
@@ -75,6 +79,34 @@ export class ProductComponent {
   handleBrandClicked(brandName: string) {
     this.router.navigate(['/catalog'], {
       queryParams: { brand: brandName },
+    });
+  }
+  handlebookmarkButtonOnOtherVehiclesClick(productId: string) {
+    if (!productId) {
+      console.error('Vehicle id is undefined!');
+      return;
+    }
+
+    const vehicle = this.similarVehicles()?.find((v) => v.id === productId);
+    if (!vehicle) {
+      console.error('Vehicle is undefined!');
+      return;
+    }
+
+    const operation$ = iif(
+      () => !vehicle.isPresentInWishlist,
+      this.wishlistOperationsService.addVehicleToWishList(productId),
+      this.wishlistOperationsService.deleteVehicleFromWishList(productId)
+    );
+
+    operation$.subscribe({
+      next: () => {
+        // Оновлюємо локальний стан
+        vehicle.isPresentInWishlist = !vehicle.isPresentInWishlist;
+      },
+      error: (err) => {
+        console.error('Error while updating wishlist:', err);
+      },
     });
   }
   handleBookmarkButtonClick() {

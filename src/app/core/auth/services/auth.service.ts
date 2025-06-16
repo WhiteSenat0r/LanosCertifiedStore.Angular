@@ -12,7 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
 
-  private userProfileSignal = signal<UserProfile | null>(null);
+  public userProfileSignal = signal<UserProfile | null>(null);
   private isLoadingSignal = signal<boolean>(false);
   private errorSignal = signal<string | null>(null);
   private authStateSignal = signal<'authenticated' | 'unauthenticated' | 'loading'>('loading');

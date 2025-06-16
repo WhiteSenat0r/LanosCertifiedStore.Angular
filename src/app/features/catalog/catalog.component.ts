@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   ElementRef,
   HostListener,
@@ -24,6 +25,15 @@ import { DOCUMENT } from '@angular/common';
   providers: [VehicleStore, VehicleFilterStore],
 })
 export class CatalogComponent {
+  totalPages = computed(() => {
+    return (
+      Math.floor(
+        this.vehicleStore.filteredTotalVehicleCount() /
+          this.vehicleStore.currentPageItemsQuantity()
+      ) + this.vehicleStore.addIncomplete()
+    );
+  });
+
   // Injected stores
   readonly vehicleStore = inject(VehicleStore);
   readonly vehicleFilterStore = inject(VehicleFilterStore);

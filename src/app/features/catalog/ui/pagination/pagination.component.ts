@@ -16,8 +16,9 @@ import {
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.css',
 })
-export class PaginationComponent{
+export class PaginationComponent {
   // Inputs
+  loading = input.required<boolean>();
   currentPage = input.required<number>();
   totalPages = input.required<number>();
 
@@ -64,6 +65,8 @@ export class PaginationComponent{
         break;
       case 'next':
         if (this.currentPage() !== this.totalPages()) {
+          console.log('this current page = ' + this.currentPage());
+          console.log('this totalPages = ' + this.totalPages());
           this.onPageChangeEvent.emit(this.currentPage() + 1);
         }
         break;
