@@ -1,135 +1,390 @@
 <header class="bg-kimberly-50 shadow-lg h-[62px]">
-  <nav class="mx-sm lg:mx-auto lg:container flex flex-row justify-between items-center h-full gap-md">
-    <div routerLink="/" class="flex flex-row items-center gap-sm cursor-pointer">
+  <nav
+    class="mx-sm lg:mx-auto lg:container flex flex-row justify-between items-center h-full gap-md"
+  >
+    <div
+      routerLink="/"
+      class="flex flex-row items-center gap-sm cursor-pointer"
+    >
       <div class="w-[41px]">
-        <img src="assets/images/logo/logo-dark.png" alt="Dark version of Kolesko logo" class="h-[46px] inline-block" />
+        <img
+          src="assets/images/logo/logo-dark.png"
+          alt="Dark version of Kolesko logo"
+          class="h-[46px] inline-block"
+        />
       </div>
       <span class="text-h5 text-clip text-portGore-950 font-code">Kolesko</span>
     </div>
 
-   <div #searchContainer
-     class="w-full relative border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-visible hidden sm:flex items-center justify-start">
+    <div
+      #searchContainer
+      class="w-full relative border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-visible hidden sm:flex items-center justify-start"
+    >
+      <!-- Іконка лупи/закладки або хрестика -->
+      <div
+        class="relative group inline-block left-[-1px] cursor-pointer"
+        (click)="searchControl.value ? clearSearch() : null"
+      >
+        <kolesko-icon
+          name="figure-bookmark-type-blue"
+          class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500"
+          [width]="34"
+          [height]="28"
+        />
 
-     <!-- Іконка лупи/закладки або хрестика -->
-     <div class="relative group inline-block left-[-1px] cursor-pointer" (click)="searchControl.value ? clearSearch() : null">
-       <kolesko-icon name="figure-bookmark-type-blue"
-         class="text-portGore-700 transition-all duration-75 group-hover:text-portGore-500" [width]="34"
-         [height]="28" />
-       
-       <!-- Лупа коли немає тексту -->
-       <kolesko-icon *ngIf="!searchControl.value"
-         class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2"
-         name="search-short-stick" [size]="14" />
-       
-       <!-- Хрестик коли є текст -->
-       <div *ngIf="searchControl.value"
-         class="absolute top-1/2 text-white transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
-         style="font-size: 12px; line-height: 1;">
-         ✕
-       </div>
-     </div>
+        <!-- Лупа коли немає тексту -->
+        <kolesko-icon
+          *ngIf="!searchControl.value"
+          class="absolute top-1/2 text-portGore-700 transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2"
+          name="search-short-stick"
+          [size]="14"
+        />
 
-     <!-- Поле вводу -->
-     <input [formControl]="searchControl" 
-            class="bg-kimberly-50 focus:outline-none w-full px-2" 
-            placeholder="Пошук..." />
+        <!-- Хрестик коли є текст -->
+        <div
+          *ngIf="searchControl.value"
+          class="absolute top-1/2 text-white transition-all duration-75 group-hover:text-red-500 left-[44%] transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
+          style="font-size: 12px; line-height: 1"
+        >
+          ✕
+        </div>
+      </div>
 
-     <!-- Результати пошуку -->
-     <div *ngIf="showResults"
-       class="absolute top-full left-0 right-0 z-50 mt-1 bg-kimberly-50 border border-gray-200 rounded-md shadow-sm  mt-sm"
-       style="width: 100%; margin-left: 16px; margin-right: 16px; width: calc(100% - 32px);">
-       
-       <!-- Лоадер -->
-       <div *ngIf="isLoading" class="flex justify-center p-4">
-         <div class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-portGore-700"></div>
-       </div>
+      <!-- Поле вводу -->
+      <input
+        [formControl]="searchControl"
+        class="bg-kimberly-50 focus:outline-none w-full px-2"
+        placeholder="Пошук..."
+      />
 
-       <!-- Немає результатів -->
-       <div *ngIf="!isLoading && searchResults.length === 0" class="p-4 text-center text-gray-600">
-         Немає результатів за вашим запитом
-       </div>
+      <!-- Результати пошуку -->
+      <div
+        *ngIf="showResults"
+        class="absolute top-full left-0 right-0 z-50 mt-1 bg-kimberly-50 border border-gray-200 rounded-md shadow-sm mt-sm"
+        style="
+          width: 100%;
+          margin-left: 16px;
+          margin-right: 16px;
+          width: calc(100% - 32px);
+        "
+      >
+        <!-- Лоадер -->
+        <div *ngIf="isLoading" class="flex justify-center p-4">
+          <div
+            class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-portGore-700"
+          ></div>
+        </div>
 
-       <!-- Список результатів з скролом -->
-       <div *ngIf="!isLoading && searchResults.length > 0" 
-            class="overflow-y-auto custom-scrollbar" 
-            style="padding: 12px; padding-right: 8px; max-height: 320px;">
-         
-         <div *ngFor="let vehicle of searchResults"
-           class="flex items-center hover:bg-portGore-50 cursor-pointer transition-colors duration-200 border border-gray-100 rounded-md mb-2 last:mb-0"
-           style="padding: 8px;" 
-           (click)="navigateToVehicle(vehicle.id)">
+        <!-- Немає результатів -->
+        <div
+          *ngIf="!isLoading && searchResults.length === 0"
+          class="p-4 text-center text-gray-600"
+        >
+          Немає результатів за вашим запитом
+        </div>
 
-           <!-- Зображення машини -->
-           <div class="flex-shrink-0" style="margin-right: 12px;">
-             <img [src]="vehicle.mainImageUrl" 
-                  [alt]="vehicle.fullName"
-                  class="w-[110px] h-[70px] object-cover rounded-md border border-gray-200">
-           </div>
+        <!-- Список результатів з скролом -->
+        <div
+          *ngIf="!isLoading && searchResults.length > 0"
+          class="overflow-y-auto custom-scrollbar"
+          style="padding: 12px; padding-right: 8px; max-height: 320px"
+        >
+          <div
+            *ngFor="let vehicle of searchResults"
+            class="flex items-center hover:bg-portGore-50 cursor-pointer transition-colors duration-200 border border-gray-100 rounded-md mb-2 last:mb-0"
+            style="padding: 8px"
+            (click)="navigateToVehicle(vehicle.id)"
+          >
+            <!-- Зображення машини -->
+            <div class="flex-shrink-0" style="margin-right: 12px">
+              <img
+                [src]="vehicle.mainImageUrl"
+                [alt]="vehicle.fullName"
+                class="w-[110px] h-[70px] object-cover rounded-md border border-gray-200"
+              />
+            </div>
 
-           <!-- Інформація про машину -->
-           <div class="flex-grow">
-             <div class="font-medium text-portGore-900 text-sm mb-1">
-               {{ vehicle.fullName }}
-             </div>
-             <div class="text-portGore-700 text-sm font-medium">
-               {{ vehicle.price | currency:'USD':'symbol':'1.0-0' }}
-             </div>
-           </div>
-         </div>
+            <!-- Інформація про машину -->
+            <div class="flex-grow">
+              <div class="font-medium text-portGore-900 text-sm mb-1">
+                {{ vehicle.fullName }}
+              </div>
+              <div class="text-portGore-700 text-sm font-medium">
+                {{ vehicle.price | currency : "USD" : "symbol" : "1.0-0" }}
+              </div>
+            </div>
+          </div>
 
-         <!-- Кнопка "Переглянути ще" -->
-         <div *ngIf="!showingAll && allSearchResults.length > 3"
-           class="text-center py-sm cursor-pointer text-portGore-700 hover:text-portGore-900 hover:bg-portGore-50 border-t border-gray-100 transition-colors duration-200 rounded-b-md"
-           (click)="loadMoreResults()">
-           <span class="text-sm font-medium">Переглянути ще</span>
-         </div>
-       </div>
-     </div>
-   </div>
+          <!-- Кнопка "Переглянути ще" -->
+          <div
+            *ngIf="!showingAll && allSearchResults.length > 3"
+            class="text-center py-sm cursor-pointer text-portGore-700 hover:text-portGore-900 hover:bg-portGore-50 border-t border-gray-100 transition-colors duration-200 rounded-b-md"
+            (click)="loadMoreResults()"
+          >
+            <span class="text-sm font-medium">Переглянути ще</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div
       routerLink="/profile/add-product"
-      class="pr-[2px] xl:w-4/12 lg:w-5/12 border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden lg:flex items-center justify-center hover:bg-portGore-50 hover:cursor-pointer transition ease-in">
+      class="pr-[2px] xl:w-4/12 lg:w-5/12 border-2 border-portGore-950 rounded h-[28px] gap-xs overflow-hidden hidden lg:flex items-center justify-center hover:bg-portGore-50 hover:cursor-pointer transition ease-in"
+    >
       <kolesko-icon name="outline-plus"></kolesko-icon>
-      <span class="inline-block text-nowrap text-portGore-950 text-lg">Продати машину</span>
+      <span class="inline-block text-nowrap text-portGore-950 text-lg"
+        >Продати машину</span
+      >
     </div>
 
     <div class="hidden sm:flex flex-row gap-[12px] items-center">
-      <kolesko-icon name="bookmark-main" class="cursor-pointer text-portGore-700" [width]="34" [height]="28">
+      <kolesko-icon
+        name="bookmark-main"
+        [class]="
+          userProfileComputed() ? 'text-portGore-700' : 'text-kimberly-500'
+        "
+        class="cursor-pointer"
+        [width]="34"
+        [height]="28"
+      >
       </kolesko-icon>
 
       <div #userMenu class="relative">
-        <div class="flex flex-row items-center">
-          <a [routerLink]="['/profile']">
-            <kolesko-icon class="text-portGore-700 cursor-pointer" name="profile-main" [size]="36">
-            </kolesko-icon></a>
+        <div
+          class="flex flex-row items-center"
+          (click)="toggleUserMenu($event)"
+        >
+          <a>
+            <kolesko-icon
+              [class]="
+                userProfileComputed()
+                  ? 'text-portGore-700'
+                  : 'text-kimberly-500'
+              "
+              class="cursor-pointer"
+              name="profile-main"
+              [size]="36"
+            >
+            </kolesko-icon
+          ></a>
 
-          <kolesko-icon class="text-portGore-700 cursor-pointer" name="arrow-down-main" [width]="22" [height]="20"
-            (click)="toggleUserMenu($event)">
+          <kolesko-icon
+            [class]="
+              userProfileComputed() ? 'text-portGore-700' : 'text-kimberly-500'
+            "
+            class="cursor-pointer"
+            name="arrow-down-main"
+            [width]="22"
+            [height]="20"
+          >
           </kolesko-icon>
         </div>
 
-        <div *ngIf="showUserMenu"
-          class="absolute right-0 z-50 mt-3 w-28 min-w-[112px] rounded-lg shadow-xl bg-white border border-snuff-200">
-          <div class="py-2">
-            <div class="flex flex-col space-y-1">
-              <a (click)="login()"
-                class="flex items-center justify-center w-full h-[36px] text-base font-medium text-black hover:bg-snuff-100 hover:text-portGore-600 transition-colors duration-200 rounded-md cursor-pointer">
-                Увійти
-              </a>
+        <div
+          *ngIf="showUserMenu"
+          class="absolute right-0 z-[50] mt-[4px] min-w-[112px] rounded-lg shadow-lg bg-kimberly-50 border border-kimberly-950"
+        >
+          <div class="px-[18px] pt-[18px] pb-[12px] cursor-pointer">
+            @if(userProfileComputed()) {
+            <div class="flex flex-row gap-sm items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.0"
+                viewBox="0 0 512.000000 512.000000"
+                preserveAspectRatio="xMidYMid meet"
+                class="size-[48px] text-portGore-700"
+              >
+                <g
+                  transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                  fill="currentColor"
+                  stroke="none"
+                >
+                  <path
+                    d="M2330 4869 c-1025 -104 -1862 -874 -2049 -1884 -111 -596 10 -1192 343 -1700 40 -60 79 -117 87 -125 8 -8 46 -54 86 -101 303 -360 732 -627 1198 -744 310 -78 635 -91 945 -39 551 93 1041 375 1402 808 116 139 173 221 251 364 363 658 381 1451 46 2137 -419 860 -1355 1381 -2309 1284z m461 -578 c289 -75 530 -279 648 -548 57 -131 75 -221 75 -383 1 -158 -17 -251 -72 -375 -100 -229 -292 -419 -517 -513 -250 -104 -545 -93 -789 30 -115 57 -160 91 -256 187 -129 129 -212 277 -257 457 -27 107 -24 334 6 444 44 167 117 300 230 421 142 154 324 254 536 295 96 19 296 11 396 -15z m114 -2235 c291 -45 510 -114 770 -243 268 -133 635 -412 635 -484 0 -32 -27 -76 -52 -83 -45 -12 -58 -5 -148 75 -363 320 -772 509 -1245 575 -161 22 -450 22 -610 0 -475 -67 -882 -255 -1245 -575 -89 -79 -113 -91 -155 -75 -19 8 -45 55 -45 83 0 28 46 78 159 173 176 147 431 302 646 391 211 88 504 158 755 181 92 8 438 -4 535 -18z"
+                  />
+                  <path
+                    d="M2455 4149 c-330 -50 -580 -273 -666 -594 -29 -110 -29 -278 0 -390 96 -361 400 -597 771 -597 447 0 792 345 792 792 0 315 -172 588 -455 720 -126 60 -314 89 -442 69z"
+                  />
+                </g>
+              </svg>
+              <div class="flex flex-col w-fit">
+                <span class="text-nowrap">{{
+                  userProfileComputed()?.firstName +
+                    " " +
+                    userProfileComputed()?.lastName
+                }}</span>
+                <span>
+                  {{ userProfileComputed()?.email }}
+                </span>
+              </div>
+            </div>
+            }
 
-              <div class="border-t border-gray-200 my-1"></div>
+            <div
+              class="flex flex-row justify-between w-full items-center mt-[20px]"
+            >
+              <div
+                class="relative group flex flex-row gap-sm w-full items-center"
+                (click)="handleGoToProfilePage()"
+              >
+                <span class="group-hover:underline">Перейти в кабінет </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 17 30"
+                  class="size-[10px] text-portGore-950"
+                  fill="none"
+                >
+                  <path
+                    d="M1 1.5L16 15L1 28.5"
+                    stroke="currentColor"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
 
-              <a (click)="logout()"
-                class="flex items-center justify-center w-full h-[36px] text-base font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-200 rounded-md cursor-pointer">
-                Вийти
-              </a>
+              <span
+                (click)="logout()"
+                class="underline-offset-4 transition-all duration-75 text-redy-600 hover:text-redy-950"
+                >Вийти</span
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <kolesko-icon class="sm:hidden" name="more" [size]="36"></kolesko-icon>
+    <div
+      #moreButtonRef
+      (click)="showHeaderModalClick()"
+      class="sm:hidden cursor-pointer"
+    >
+      <kolesko-icon name="more" [size]="36"></kolesko-icon>
+    </div>
   </nav>
 </header>
+
+<!--MODAL ELEMENT-->
+<div
+  [class]="showModal() ? 'w-full  sm:hidden' : 'w-[0px] sm:hidden'"
+  class="fixed top-0 left-0 h-[100vh] z-[60]"
+>
+  <div
+    [class]="showModal() ? 'opacity-70' : 'opacity-0'"
+    class="absolute inset-0 bg-gray-500"
+  ></div>
+  <aside
+    #headerModalAside
+    [class]="showModal() ? 'w-[288px]' : 'w-[0px] '"
+    class="absolute top-0 right-0 w-[288px] h-full bg-kimberly-50 overflow-y-hidden flex flex-col pl-[16px] pt-[16px] pb-[0px] pr-[8px]"
+  >
+    <div #exitHeaderModalButton class="ml-auto">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="size-[24px]"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+    <div class="flex flex-col gap-base">
+      @if(userProfileComputed()) {
+      <div class="flex flex-row gap-sm items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.0"
+          viewBox="0 0 512.000000 512.000000"
+          preserveAspectRatio="xMidYMid meet"
+          class="size-[48px] text-portGore-700"
+        >
+          <g
+            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+            fill="currentColor"
+            stroke="none"
+          >
+            <path
+              d="M2330 4869 c-1025 -104 -1862 -874 -2049 -1884 -111 -596 10 -1192 343 -1700 40 -60 79 -117 87 -125 8 -8 46 -54 86 -101 303 -360 732 -627 1198 -744 310 -78 635 -91 945 -39 551 93 1041 375 1402 808 116 139 173 221 251 364 363 658 381 1451 46 2137 -419 860 -1355 1381 -2309 1284z m461 -578 c289 -75 530 -279 648 -548 57 -131 75 -221 75 -383 1 -158 -17 -251 -72 -375 -100 -229 -292 -419 -517 -513 -250 -104 -545 -93 -789 30 -115 57 -160 91 -256 187 -129 129 -212 277 -257 457 -27 107 -24 334 6 444 44 167 117 300 230 421 142 154 324 254 536 295 96 19 296 11 396 -15z m114 -2235 c291 -45 510 -114 770 -243 268 -133 635 -412 635 -484 0 -32 -27 -76 -52 -83 -45 -12 -58 -5 -148 75 -363 320 -772 509 -1245 575 -161 22 -450 22 -610 0 -475 -67 -882 -255 -1245 -575 -89 -79 -113 -91 -155 -75 -19 8 -45 55 -45 83 0 28 46 78 159 173 176 147 431 302 646 391 211 88 504 158 755 181 92 8 438 -4 535 -18z"
+            />
+            <path
+              d="M2455 4149 c-330 -50 -580 -273 -666 -594 -29 -110 -29 -278 0 -390 96 -361 400 -597 771 -597 447 0 792 345 792 792 0 315 -172 588 -455 720 -126 60 -314 89 -442 69z"
+            />
+          </g>
+        </svg>
+        <div class="flex flex-col w-fit">
+          <span class="text-nowrap">{{
+            userProfileComputed()?.firstName +
+              " " +
+              userProfileComputed()?.lastName
+          }}</span>
+          <span>
+            {{ userProfileComputed()?.email }}
+          </span>
+        </div>
+      </div>
+      } @else {
+      <div class="flex flex-row gap-sm items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.0"
+          viewBox="0 0 512.000000 512.000000"
+          preserveAspectRatio="xMidYMid meet"
+          class="size-[64px] text-kimberly-500"
+        >
+          <g
+            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+            fill="currentColor"
+            stroke="none"
+          >
+            <path
+              d="M2330 4869 c-1025 -104 -1862 -874 -2049 -1884 -111 -596 10 -1192 343 -1700 40 -60 79 -117 87 -125 8 -8 46 -54 86 -101 303 -360 732 -627 1198 -744 310 -78 635 -91 945 -39 551 93 1041 375 1402 808 116 139 173 221 251 364 363 658 381 1451 46 2137 -419 860 -1355 1381 -2309 1284z m461 -578 c289 -75 530 -279 648 -548 57 -131 75 -221 75 -383 1 -158 -17 -251 -72 -375 -100 -229 -292 -419 -517 -513 -250 -104 -545 -93 -789 30 -115 57 -160 91 -256 187 -129 129 -212 277 -257 457 -27 107 -24 334 6 444 44 167 117 300 230 421 142 154 324 254 536 295 96 19 296 11 396 -15z m114 -2235 c291 -45 510 -114 770 -243 268 -133 635 -412 635 -484 0 -32 -27 -76 -52 -83 -45 -12 -58 -5 -148 75 -363 320 -772 509 -1245 575 -161 22 -450 22 -610 0 -475 -67 -882 -255 -1245 -575 -89 -79 -113 -91 -155 -75 -19 8 -45 55 -45 83 0 28 46 78 159 173 176 147 431 302 646 391 211 88 504 158 755 181 92 8 438 -4 535 -18z"
+            />
+            <path
+              d="M2455 4149 c-330 -50 -580 -273 -666 -594 -29 -110 -29 -278 0 -390 96 -361 400 -597 771 -597 447 0 792 345 792 792 0 315 -172 588 -455 720 -126 60 -314 89 -442 69z"
+            />
+          </g>
+        </svg>
+        <span
+          (click)="login()"
+          class="text-black font-medium text-lg cursor-pointer"
+          >Увійти</span
+        >
+      </div>
+      }
+
+      <div
+        routerLink="/profile/add-product"
+        class="py-[11px] border-2 border-portGore-950 rounded-lg flex gap-xs overflow-hidden items-center justify-center hover:bg-kimberly-500 hover:bg-opacity-25 hover:cursor-pointer transition ease-in"
+        #addProductButton
+        (click)="this.showModal.set(false)"
+      >
+        <kolesko-icon name="outline-plus"></kolesko-icon>
+        <span class="inline-block text-nowrap text-portGore-950 text-lg"
+          >Продати машину</span
+        >
+      </div>
+    </div>
+    <div class="min-h-[1px] w-full bg-kimberly-500 my-[16px] opacity-25"></div>
+    <!--POPULAR BRANDS-->
+    <div class="flex flex-col gap-sm">
+      <span class="text-lg font-medium">Популярні бренди</span>
+      <div class="flex flex-col gap-xs">
+        @for (brand of popularBrands(); track $index) {
+        <div
+          (click)="this.showModal.set(false)"
+          class="cursor-pointer"
+          (click)="handlePopularBrandClick(brand)"
+        >
+          {{ brand.name }}
+        </div>
+        }
+      </div>
+    </div>
+  </aside>
+</div>

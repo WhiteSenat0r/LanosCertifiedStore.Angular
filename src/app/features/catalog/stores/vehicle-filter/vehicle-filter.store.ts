@@ -46,6 +46,9 @@ type VehicleFilterState = {
   generalReload: boolean;
 
   //
+  withoutPriceReload: boolean;
+
+  //
   queryParamsSubscription: Subscription | null;
 
   //
@@ -61,6 +64,7 @@ const initialFilterState: VehicleFilterState = {
   sortingType: SortDirection.AscPrice,
   generalReload: false,
   queryParamsSubscription: null,
+  withoutPriceReload: false,
 };
 
 const priceRangeInitialized$ = new Subject<void>();
@@ -377,6 +381,7 @@ export const VehicleFilterStore = signalStore(
             SortDirection[k as keyof typeof SortDirection] === chosenSorting
         );
         if (key) {
+          patchState(store, { withoutPriceReload: true });
           this._updateQueryParams({ sortingType: key });
         }
       },
@@ -786,8 +791,14 @@ export const VehicleFilterStore = signalStore(
           if (highestPricePlug === null) {
             highestPricePlug = false;
           }
-          patchState(store, { generalReload: true });
-          store.loadPriceRange();
+
+          if (store.withoutPriceReload() === false) {
+            patchState(store, { generalReload: true });
+            store.loadPriceRange();
+          } else {
+            vehicleStore.loadVehicles();
+            patchState(store, { withoutPriceReload: false });
+          }
         }
       );
       // Save the subscription to the store for cleanup

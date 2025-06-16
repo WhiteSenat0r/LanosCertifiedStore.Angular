@@ -16,6 +16,7 @@ import Splide from '@splidejs/splide';
   styleUrl: './similar-products-carousel.component.css',
 })
 export class SimilarProductsCarouselComponent implements OnChanges {
+  bookmarkButtonOnOtherVehiclesClick = output<string>();
   @Input({ required: true }) vehicles: Vehicle[] = [];
 
   private otherProductsSplide?: Splide;
@@ -45,7 +46,7 @@ export class SimilarProductsCarouselComponent implements OnChanges {
       arrows: false,
       drag: false,
       speed: 2500,
-      easing: "ease",
+      easing: 'ease',
       breakpoints: {
         1280: {
           perPage: 3,

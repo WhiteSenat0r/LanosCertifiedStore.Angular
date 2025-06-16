@@ -1,5 +1,9 @@
 @if(totalPages() !== 0) {
-<div class="flex flex-row gap-[12px]">
+<div class="relative flex flex-row gap-[12px]">
+  <div
+    *ngIf="loading()"
+    class="absolute inset-0 opacity-50 z-50 bg-kimberly-50"
+  ></div>
   <!--PREVIOUS BUTTON-->
   <button
     [disabled]="this.currentPage() === 1"

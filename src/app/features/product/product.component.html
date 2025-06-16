@@ -28,6 +28,7 @@
     <app-similar-products-carousel
       [vehicles]="similarVehicles()"
       (goToVehiclePage)="handleGoToVehiclePage($event)"
+      (bookmarkButtonOnOtherVehiclesClick)="handlebookmarkButtonOnOtherVehiclesClick($event)"
     ></app-similar-products-carousel>
   </div>
   <!--OTHER MODELS OF BRAND-->

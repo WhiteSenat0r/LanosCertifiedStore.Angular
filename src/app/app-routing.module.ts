@@ -3,6 +3,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { NotFoundComponent } from './core/ui/not-found/not-found.component';
 import { AuthCallbackComponent } from './core/auth/component/auth-callback.component';
+import { AuthGuard } from './core/auth/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -21,6 +22,8 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () =>
       import('./features/profile/profile.module').then((m) => m.ProfileModule),
+    //GUARD FOR UNAUTHORIZED USER
+    canActivate: [AuthGuard],
     data: { breadcrumb: { label: 'Профіль' } },
   },
   {

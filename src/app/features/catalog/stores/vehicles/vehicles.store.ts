@@ -41,7 +41,9 @@ export const VehicleStore = signalStore(
       catalogService
         .getVehicles(vehicleSearchCriterias)
         .pipe(
-          tap(() => patchState(store, { loading: true })),
+          tap(() => {
+            patchState(store, { loading: true });
+          }),
           delay(500),
           finalize(() => patchState(store, { loading: false }))
         )
@@ -60,25 +62,28 @@ export const VehicleStore = signalStore(
     },
     loadVehicleCount() {
       const vehicleSearchCriterias = store.vehicleSearchCriterias();
-      catalogService.getVehicleCountSummary(vehicleSearchCriterias).subscribe({
-        next: (response: VehicleCountSummary) => {
-          patchState(store, {
-            filteredTotalVehicleCount: response.filteredItemsCount,
-          });
-          if (store.filteredTotalVehicleCount() % 10 !== 0) {
+      catalogService
+        .getVehicleCountSummary(vehicleSearchCriterias)
+        .pipe(delay(500))
+        .subscribe({
+          next: (response: VehicleCountSummary) => {
             patchState(store, {
-              addIncomplete: 1,
+              filteredTotalVehicleCount: response.filteredItemsCount,
             });
-          } else {
-            patchState(store, {
-              addIncomplete: 0,
-            });
-          }
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+            if (store.filteredTotalVehicleCount() % 10 !== 0) {
+              patchState(store, {
+                addIncomplete: 1,
+              });
+            } else {
+              patchState(store, {
+                addIncomplete: 0,
+              });
+            }
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
     },
     setVehicleSearchCriterias(
       updatedCriteria: Partial<VehicleSearchCriterias>

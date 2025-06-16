@@ -6,12 +6,12 @@ const routes: Routes = [
   { path: '', title: 'Каталог', component: CatalogComponent },
   {
     path: ':id',
-    title: 'Купити машину',
+    title: 'Купити машинку',
     loadChildren: () =>
       import('../product/product.module').then(
         (m) => m.ProductModule
       ),
-    data: { breadcrumb: { label: 'Машина' } },
+    data: { breadcrumb: { label: 'Машинка' } },
   },
 ];
 

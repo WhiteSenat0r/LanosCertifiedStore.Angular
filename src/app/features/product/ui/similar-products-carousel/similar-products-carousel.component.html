@@ -1,7 +1,9 @@
 @if(vehicles) {
 <div class="relative w-full rounded !overflow-clip">
   <!--Arrows-->
-  <div class="flex flex-row justify-between absolute h-full top-[5%] right-0 z-50">
+  <div
+    class="flex flex-row justify-between absolute h-full top-[5%] right-0 z-50"
+  >
     <!-- <button
       class="hidden size-xl absolute left-[6px] bg-transparent justify-center items-center scale-110"
     >
@@ -12,7 +14,7 @@
     </button> -->
     <button
       (click)="nextSlide()"
-      class="size-xl absolute right-[0px] h-[90%] bg-transparent flex justify-center items-center  scale-110 hover:scale-125 transition-all duration-300 hover:-translate-x-[6px]"
+      class="size-xl absolute right-[0px] h-[90%] bg-transparent flex justify-center items-center scale-110 hover:scale-125 transition-all duration-300 hover:-translate-x-[6px]"
     >
       <kolesko-icon
         name="outline-chevron-right"
@@ -117,11 +119,15 @@
                 class="cursor-pointer inline-block p-xs text-transparent stroke-portGore-700 transition-all duration-200 hover:text-portGore-500"
                 [size]="24"
               ></kolesko-icon>
-              <kolesko-icon
-                name="bookmark-c"
-                class="cursor-pointer inline-block p-xs text-portGore-500 transition-all duration-200 hover:text-portGore-700"
-                [size]="24"
-              ></kolesko-icon>
+              <app-icon-bookmark-main
+                (click)="bookmarkButtonOnOtherVehiclesClick.emit(vehicle.id); $event.stopPropagation()"
+                innerClass="size-[28px] cursor-pointer transition-all"
+                [class]="
+                  vehicle.isPresentInWishlist
+                    ? 'text-redy-300 stroke-redy-500'
+                    : 'text-portGore-50 stroke-portGore-800'
+                "
+              ></app-icon-bookmark-main>
             </div>
           </div>
         </li>
