@@ -67,7 +67,8 @@ export class VehicleDataViewComponent {
         vehicle.isPresentInWishlist = !vehicle.isPresentInWishlist;
       },
       error: (err) => {
-        console.error('Error while updating wishlist:', err);
+        // вже оброблено, тож Angular вдруге не логне
+        console.debug('Помилка wishlist', err);
       },
     });
   }

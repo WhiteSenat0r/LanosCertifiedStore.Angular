@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  readonly toastr = inject(ToastrService);
   constructor(private authService: AuthService) {}
 
   intercept(
@@ -18,14 +21,30 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
 
-      // console.log('[AuthInterceptor]', request.method, request.url, '→ token:', token);
+    // console.log('[AuthInterceptor]', request.method, request.url, '→ token:', token);
 
     if (token) {
       const authRequest = this.addAuthorizationHeader(request, token);
       return next.handle(authRequest);
     }
 
-    return next.handle(request);
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // Покажемо повідомлення
+          this.toastr.error(
+            'Ви не авторизувалися',
+            'Помилка'
+          );
+
+          // ❗ Погашаємо помилку, щоб вона не пішла в компонент
+          return EMPTY;
+        }
+
+        // Для інших помилок — проброс
+        return throwError(() => error);
+      })
+    );
   }
 
   /**
