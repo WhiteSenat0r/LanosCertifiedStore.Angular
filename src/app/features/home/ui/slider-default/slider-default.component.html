@@ -10,7 +10,7 @@
     <div class="splide" id="default-slider">
       <div class="splide__track">
         <ul class="splide__list">
-          @for(vehicle of vehicles; track vehicle.id) {
+          @for(vehicle of vehicles.slice(0, 12); track vehicle.id) {
           <li
             #splide_slide_element
             class="splide__slide group cursor-pointer"
@@ -189,7 +189,7 @@
   <div
     class="relative z-50 md:hidden custom-pagination flex justify-center gap-[14px] sm:gap-base mt-[28px]"
   >
-    @for(vehicle of vehicles; track vehicle.id; let i = $index) {
+    @for(vehicle of vehicles.slice(0, 12); track vehicle.id; let i = $index) {
     <button
       (click)="goToSlide(i)"
       [ngClass]="{ active: currentSlide === i }"
