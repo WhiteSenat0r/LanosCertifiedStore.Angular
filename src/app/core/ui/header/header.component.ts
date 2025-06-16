@@ -134,27 +134,35 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  private handleAuthCallback(): void {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    const state = urlParams.get('state');
+ private handleAuthCallback(): void {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+  const state = urlParams.get('state');
 
-    if (code && state) {
-      this.authService.handleAuthCallback(code, state).subscribe({
-        next: (success) => {
-          if (success) {
-            const returnUrl = localStorage.getItem('returnUrl') || '/';
-            localStorage.removeItem('returnUrl');
+  if (code && state) {
+    this.authService.handleAuthCallback(code, state).subscribe({
+      next: (success) => {
+        if (success) {
+          const returnUrl = localStorage.getItem('returnUrl') || '/';
+          localStorage.removeItem('returnUrl');
 
-            this.router.navigate([returnUrl], { replaceUrl: true });
-          }
-        },
-        error: (error) => {
-          console.error('Error handling auth callback:', error);
-        },
-      });
-    }
+          // Парсимо returnUrl, щоб коректно відновити шлях і queryParams
+          const url = new URL(returnUrl, window.location.origin);
+          const path = url.pathname;
+          const queryParams: any = {};
+          url.searchParams.forEach((value, key) => {
+            queryParams[key] = value;
+          });
+
+          this.router.navigate([path], { queryParams, replaceUrl: true });
+        }
+      },
+      error: (error) => {
+        console.error('Error handling auth callback:', error);
+      },
+    });
   }
+}
 
   handleGoToProfilePage() {
     this.showUserMenu = false;

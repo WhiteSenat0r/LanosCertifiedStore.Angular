@@ -387,11 +387,11 @@ export const VehicleFilterStore = signalStore(
       },
       handleCheckboxChanged(event: {
         item:
-          | LiveBodyType
-          | LiveEngineType
-          | LiveDrivetrainType
-          | LiveVType
-          | LiveTransmissionType;
+        | LiveBodyType
+        | LiveEngineType
+        | LiveDrivetrainType
+        | LiveVType
+        | LiveTransmissionType;
         filterType: string;
       }) {
         const { item, filterType } = event;
@@ -428,7 +428,7 @@ export const VehicleFilterStore = signalStore(
         if (item.status === true) {
           // Встановлюємо статус true, якщо він ще не true
           const updated = (store as any)
-            [stateKey]()
+          [stateKey]()
             .map((i: any) =>
               i.id === item.id && i.status !== true ? { ...i, status: true } : i
             );
@@ -438,7 +438,7 @@ export const VehicleFilterStore = signalStore(
           this._addIdToQueryParam(queryParam, item.id);
         } else {
           // Встановлюємо статус false
-          const updated = (store as any)().map((i: any) =>
+          const updated = (store as any)[stateKey]().map((i: any) =>
             i.id === item.id ? { ...i, status: false } : i
           );
           patchState(store, { [stateKey]: updated });
