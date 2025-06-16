@@ -223,7 +223,7 @@ export class HeaderComponent implements OnInit {
 
   navigateToVehicle(vehicleId: string): void {
     const currentUrl = this.router.url;
-    this.router.navigate([currentUrl, vehicleId]);
+    this.router.navigate(['/catalog', vehicleId]);
     this.showResults = false;
     this.searchControl.setValue('', { emitEvent: false });
   }
