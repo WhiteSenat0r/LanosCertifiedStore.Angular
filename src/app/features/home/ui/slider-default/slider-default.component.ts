@@ -38,7 +38,7 @@ export class SliderDefaultComponent implements OnChanges, OnDestroy {
     }
   }
   @Input() vehicles: Vehicle[] = [];
-  spinnerIsLoading = input.required<boolean>()
+  spinnerIsLoading = input.required<boolean>();
   vehicleCardClick = output<Vehicle>();
 
   splide?: Splide;

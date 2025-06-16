@@ -294,7 +294,10 @@
         />
       </svg>
     </div>
-    <div class="flex flex-col gap-base">
+    <div
+      [class]="userProfileComputed() ? '' : 'gap-base'"
+      class="flex flex-col"
+    >
       @if(userProfileComputed()) {
       <div class="flex flex-row gap-sm items-center">
         <svg
@@ -327,6 +330,38 @@
             {{ userProfileComputed()?.email }}
           </span>
         </div>
+      </div>
+      <div
+        class="flex flex-row justify-between w-full items-center mt-[8px] mb-[16px]"
+      >
+        <div
+          class="relative group flex flex-row gap-sm w-full items-center"
+          (click)="handleGoToProfilePage()"
+          (click)="this.showModal.set(false)"
+        >
+          <span class="group-hover:underline">Перейти в кабінет </span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 17 30"
+            class="size-[10px] text-portGore-950"
+            fill="none"
+          >
+            <path
+              d="M1 1.5L16 15L1 28.5"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+
+        <span
+          (click)="this.showModal.set(false)"
+          (click)="logout()"
+          class="underline-offset-4 transition-all duration-75 text-redy-600 hover:text-redy-950"
+          >Вийти</span
+        >
       </div>
       } @else {
       <div class="flex flex-row gap-sm items-center">

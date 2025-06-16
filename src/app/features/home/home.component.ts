@@ -150,7 +150,7 @@ export class HomeComponent implements OnInit {
 
   handleClickedBodyTypeEvent(bodyType: BodyType) {
     if (bodyType.id !== '0') {
-      this.getVehicles(undefined, bodyType.id);
+      this.getVehicles(10, bodyType.id);
     } else {
       this.getVehicles();
     }
