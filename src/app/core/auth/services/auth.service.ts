@@ -275,7 +275,7 @@ export class AuthService {
       next: (tokenResponse: TokenResponse) => {
         this.storeTokens(tokenResponse);
       },
-      error: (err: unknown) => {    
+      error: (err: unknown) => {
         this.clearUserData();
         this.setError('Не вдалося оновити токен. Увійдіть знову.');
       }

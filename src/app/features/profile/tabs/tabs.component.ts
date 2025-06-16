@@ -49,7 +49,6 @@ export class TabsComponent implements OnInit {
       this.keycloakService.login();
     }
   }
-
   loadUserProfile(): void {
     const token = this.keycloakService.getAccessToken();
     const headers = new HttpHeaders({
@@ -136,22 +135,19 @@ export class TabsComponent implements OnInit {
   }
 
   onVehicleDeleted(vehicleId: string): void {
-  this.vehicles = this.vehicles.filter(v => v.id !== vehicleId);
-  this.updateDisplayedVehicles();
-  if (this.displayedVehicles.length === 0 && this.currentPage > 1) {
-    this.currentPage--;
+    this.vehicles = this.vehicles.filter(v => v.id !== vehicleId);
     this.updateDisplayedVehicles();
+    if (this.displayedVehicles.length === 0 && this.currentPage > 1) {
+      this.currentPage--;
+      this.updateDisplayedVehicles();
+    }
+    this.statisticsService.notifyVehicleDeleted();
   }
-
-  // 4. Сповіщення для статистики
-  this.statisticsService.notifyVehicleDeleted();
-}
 
 
   onVehicleRemovedFromFavorites(vehicleId: string): void {
     this.vehicles = this.vehicles.filter(v => v.id !== vehicleId);
     this.updateDisplayedVehicles();
-    // Сповіщаємо про оновлення wishlist для оновлення статистики
     this.statisticsService.notifyWishlistUpdated();
   }
 }
